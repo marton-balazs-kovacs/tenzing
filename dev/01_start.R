@@ -9,12 +9,12 @@
 ## Add information about the package that will contain your app
 
 golem::fill_desc(
-  pkg_name = "tenzing", # The Name of the package containing the App 
-  pkg_title = "PKG_TITLE", # The Title of the package containing the App 
-  pkg_description = "PKG_DESC.", # The Description of the package containing the App 
-  author_first_name = "AUTHOR_FIRST", # Your First Name
-  author_last_name = "AUTHOR_LAST",  # Your Last Name
-  author_email = "AUTHOR@MAIL.COM",      # Your Email
+  pkg_name = "tenzing",
+  pkg_title = "Shiny App That Handles Contributorship Information",
+  pkg_description = "The package constains a modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.", 
+  author_first_name = "Marton",
+  author_last_name = "Kovacs",
+  author_email = "maron.balazs.kovacs@gmail.com",
   repo_url = NULL # The (optional) URL of the GitHub Repo
 )     
 
@@ -26,18 +26,18 @@ golem::set_golem_options()
 ## 
 ## If you want to use the MIT licence, README, code of conduct, lifecycle badge, and news
 
-usethis::use_mit_license( name = "Golem User" )  # You can set another licence here
+usethis::use_mit_license( name = "Marton Kovacs" )  # You can set another licence here
 usethis::use_readme_rmd( open = FALSE )
-usethis::use_code_of_conduct()
+# usethis::use_code_of_conduct()
 usethis::use_lifecycle_badge( "Experimental" )
 
-usethis::use_news_md( open = FALSE )
+# usethis::use_news_md( open = FALSE )
 usethis::use_git()
 
 ## 1.3 - Add a data-raw folder
 ## 
 ## If you have data in your package
-usethis::use_data_raw( name = "my_dataset", open = FALSE ) # Change "my_dataset"
+usethis::use_data_raw( name = "credit_taxonomy", open = FALSE )
 
 ## 1.4 - Init Tests
 ## 

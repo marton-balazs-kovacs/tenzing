@@ -1,0 +1,23 @@
+---
+title: ""
+output: html_document
+---
+
+### How to use the application?
+
+#### Creating the table with the contributorship infromation
+* Copy the template spreadsheet in your Google Drive
+* You can find the template spreadsheet [here](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing)
+* Fill out the template spreadsheet with the contributorship information
+
+#### Uploading the table to the app
+* Download the filled out template to your computer in a .csv, .tsv or .xlsx format
++ If you use .xlsx format the contributorship information should be on the first sheet
+* Find the template on your computer with the "Browse" button
+* Click on "Load table" to load the data to the app
++ If you want to take a look at the uploaded table click "Show table"
+
+#### Generate outputs
+* After the table is loaded you can generate two types of outputs:
++ Generate a human-readable report of the contributions with the "Generate author contributions text"
++ Generate the contributors affiliation page information for the manuscript with the "Generate author list with footnoted affiliations" button

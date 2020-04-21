@@ -6,13 +6,31 @@
 # 2. All along your project
 
 ## 2.1 Add modules
-## 
-golem::add_module( name = "my_first_module" ) # Name of the module
-golem::add_module( name = "my_other_module" ) # Name of the module
+
+golem::add_module( name = "read_spreadsheet" )
+golem::add_module( name = "show_spreadsheet" )
+golem::add_module( name = "human_readable_report" )
+golem::add_module( name = "xml_report" )
+golem::add_module( name = "about_modal" )
+golem::add_module( name = "contribs_affiliation_page" )
 
 ## 2.2 Add dependencies
 
-usethis::use_package( "thinkr" ) # To call each time you need a new package
+usethis::use_package( "shiny" )
+usethis::use_package( "DT" )
+usethis::use_package( "dplyr" )
+usethis::use_package( "shinyjs" )
+usethis::use_package( "shinyalert" )
+usethis::use_package( "xml2" )
+usethis::use_package( "readr" )
+usethis::use_package( "shinyBS" )
+usethis::use_package( "tidyr" )
+usethis::use_package( "stringr" )
+usethis::use_package( "purrr" )
+usethis::use_package( "tibble" )
+usethis::use_package( "waiter" )
+usethis::use_package( "vroom" )
+usethis::use_dev_package( "shinybulma" )
 
 ## 2.3 Add tests
 

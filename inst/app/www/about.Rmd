@@ -1,0 +1,19 @@
+---
+title: ""
+output: html_document
+---
+
+### About contributorship
+
+CRediT (Contributor Roles Taxonomy) is high-level taxonomy, including 14 roles, that can be used to represent the roles typically played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
+
+Find out more about CRediT [here](https://www.casrai.org/credit.html)
+
+
+### Contributors
+- Alex Holcombe
+- Balazs Aczel
+- Marton Kovacs
+
+### Organizations recommending the app
+- [Collabra](https://www.collabra.org/)
