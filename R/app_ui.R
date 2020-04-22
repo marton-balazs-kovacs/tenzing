@@ -36,7 +36,7 @@ app_ui <- function() {
                ),
         column(6,
                wellPanel(
-                   includeMarkdown("inst/app/www/introduction.rmd"),
+                   includeMarkdown("inst/app/www/introduction.Rmd"),
                    style = "background-color: #ffec9b; box-shadow: none; border: none;")),
         column(1)
         )

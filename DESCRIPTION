@@ -25,7 +25,8 @@ Imports:
     tibble,
     waiter,
     vroom,
-    pkgload
+    pkgload,
+    shinyWidgets
 RoxygenNote: 7.0.0
 Suggests: 
     testthat,
