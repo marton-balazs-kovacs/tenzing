@@ -30,6 +30,8 @@ usethis::use_package( "purrr" )
 usethis::use_package( "tibble" )
 usethis::use_package( "waiter" )
 usethis::use_package( "vroom" )
+usethis::use_package( "readxl" )
+
 
 ## 2.3 Add tests
 
