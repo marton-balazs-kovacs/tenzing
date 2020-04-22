@@ -16,7 +16,15 @@
 mod_contribs_affiliation_page_ui <- function(id){
 
   tagList(
-    downloadButton(NS(id, "report"), "Generate author list with footnoted affiliations")
+    shinyWidgets::downloadBttn(
+      NS(id, "report"),
+      label = "Generate author list with footnoted affiliations",
+      style = "bordered",
+      color = "primary",
+      size = "md",
+      block = TRUE,
+      no_outline = TRUE
+    )
   )
 }
     
@@ -26,12 +34,12 @@ mod_contribs_affiliation_page_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_contribs_affiliation_page_server <- function(id, input_data, submit){
+mod_contribs_affiliation_page_server <- function(id, input_data, uploaded){
   
   moduleServer(id, function(input, output, session) {
     # Disable download button if the gs is not printed
     observe({
-      if(submit() && !is.null(input_data())){
+      if(!is.null(uploaded())){
         shinyjs::enable("report")
       } else{
         shinyjs::disable("report")

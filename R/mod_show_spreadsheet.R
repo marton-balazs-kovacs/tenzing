@@ -16,13 +16,11 @@
 mod_show_spreadsheet_ui <- function(id) {
 
   tagList(
-    fixedPanel(
       shinyWidgets::actionBttn(inputId = NS(id, "show_data"),
                                label = "Show table",
-                               style = "minimal",
+                               style = "bordered",
                                color = "primary",
-                               size = "md"),
-      bottom = "5%", right = "2%", width = "auto")
+                               size = "md")
   )
 }
     
@@ -32,10 +30,18 @@ mod_show_spreadsheet_ui <- function(id) {
 #' @export
 #' @keywords internal
     
-mod_show_spreadsheet_server <- function(id, input_data) {
+mod_show_spreadsheet_server <- function(id, input_data, uploaded) {
   stopifnot(is.reactive(input_data))
   
   moduleServer(id, function(input, output, session) {
+    # Disable download button if the gs is not printed
+    observe({
+      if(!is.null(uploaded())){
+        shinyjs::enable("show_data")
+      } else{
+        shinyjs::disable("show_data")
+      }
+    })
     
     # Clean data for table output
     table_data <- reactive({
@@ -66,7 +72,7 @@ mod_show_spreadsheet_server <- function(id, input_data) {
         pageLength = 5,
         initComplete = htmlwidgets::JS(
           "function(settings, json) {",
-          "$(this.api().table().header()).css({'background-color': '#86afff', 'color': '#fff'});",
+          "$(this.api().table().header()).css({'background-color': '#ffec9b', 'color': '#D45F68'});",
           "}"),
         columnDefs = list(
           list(

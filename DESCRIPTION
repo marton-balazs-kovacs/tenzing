@@ -2,7 +2,7 @@ Package: tenzing
 Title: Shiny App That Handles Contributorship Information
 Version: 0.0.0.9000
 Authors@R: person('Marton', 'Kovacs', email = 'maron.balazs.kovacs@gmail.com', role = c('cre', 'aut'))
-Description: The package constains a modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.
+Description: A modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -17,6 +17,11 @@ Imports:
     shinybulma (>= 0.0.1)
 RoxygenNote: 7.0.0
 Suggests: 
-    testthat
-Remotes:  
+    testthat,
+    knitr,
+    rmarkdown
+Remotes: 
     RinteRface/shinybulma
+URL: https://github.com/marton-balazs-kovacs/tenzing
+BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
+VignetteBuilder: knitr

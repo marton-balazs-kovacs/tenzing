@@ -16,29 +16,18 @@ knitr::opts_chunk$set(
 # tenzing
 
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of tenzing is to ...
+The goal of tenzing is to create an easy to use shiny app, that enables researchers to create reports about the contribution of each team member on a project.
+
 
 ## Installation
 
-You can install the released version of tenzing from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("tenzing")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+tenzing is not available on CRAN.
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("marton-balazs-kovacs/tenzing")
-```
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-# library(tenzing)
-## basic example code
 ```

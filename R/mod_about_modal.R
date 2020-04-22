@@ -19,10 +19,10 @@ mod_about_modal_ui <- function(id){
     fixedPanel(
       shinyWidgets::actionBttn(inputId = NS(id, "open_about"),
                                label = "About",
-                               style = "minimal",
+                               style = "bordered",
                                color = "primary",
                                size = "md"),
-      bottom = "5%", left = "2%", width = "auto")
+      bottom = "2%", right = "9%", width = "auto")
   )
 }
     

@@ -7,7 +7,7 @@
 \usage{
 mod_contribs_affiliation_page_ui(id)
 
-mod_contribs_affiliation_page_server(id, input_data, submit)
+mod_contribs_affiliation_page_server(id, input_data, uploaded)
 }
 \arguments{
 \item{id}{shiny id}

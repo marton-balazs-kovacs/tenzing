@@ -16,7 +16,15 @@
 mod_human_readable_report_ui <- function(id){
 
   tagList(
-    downloadButton(NS(id, "report"), "Generate author contributions text")
+    shinyWidgets::downloadBttn(
+      NS(id, "report"),
+      label = "Generate author contributions text",
+      style = "bordered",
+      color = "primary",
+      size = "md",
+      block = TRUE,
+      no_outline = TRUE
+    )
   )
 }
     
@@ -26,13 +34,13 @@ mod_human_readable_report_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_human_readable_report_server <- function(id, input_data, submit){
+mod_human_readable_report_server <- function(id, input_data, uploaded){
   
   moduleServer(id, function(input, output, session) {
     
-    # Disable download button if the gs is not printed
+    # Disable download button if the table is not read
     observe({
-      if(submit() && !is.null(input_data())){
+      if(!is.null(uploaded())){
         shinyjs::enable("report")
       } else{
         shinyjs::disable("report")

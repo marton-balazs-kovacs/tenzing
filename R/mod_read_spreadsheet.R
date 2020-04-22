@@ -21,8 +21,7 @@ mod_read_spreadsheet_ui <- function(id){
                 '.csv',
                 '.tsv',
                 '.xlsx'),
-              multiple = FALSE),
-    actionButton(NS(id, "submit"), "Load data")
+              multiple = FALSE)
   )
 }
     
@@ -39,7 +38,7 @@ mod_read_spreadsheet_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     
     # Reading tabedata from locale
-    table_data <- eventReactive(input$submit, {
+    table_data <- eventReactive(input$file, {
       
       # File input requirement
       req(input$file)
@@ -67,7 +66,7 @@ mod_read_spreadsheet_server <- function(id) {
     
     return(list(
       data = table_data,
-      submit = reactive(input$submit)
+      uploaded = reactive(input$file)
       ))
   })
 }

@@ -11,11 +11,11 @@
 golem::fill_desc(
   pkg_name = "tenzing",
   pkg_title = "Shiny App That Handles Contributorship Information",
-  pkg_description = "The package constains a modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.", 
+  pkg_description = "A modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.", 
   author_first_name = "Marton",
   author_last_name = "Kovacs",
   author_email = "maron.balazs.kovacs@gmail.com",
-  repo_url = NULL # The (optional) URL of the GitHub Repo
+  repo_url = "https://github.com/marton-balazs-kovacs/tenzing"
 )     
 
 ## Use this desc to set {golem} options

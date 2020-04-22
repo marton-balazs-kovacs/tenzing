@@ -7,7 +7,7 @@ output: html_document
 
 #### Creating the table with the contributorship infromation
 * Copy the template spreadsheet in your Google Drive
-* You can find the template spreadsheet [here](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing)
+* You can find the template spreadsheet [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing)
 * Fill out the template spreadsheet with the contributorship information
 
 #### Uploading the table to the app

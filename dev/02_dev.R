@@ -20,7 +20,6 @@ usethis::use_package( "shiny" )
 usethis::use_package( "DT" )
 usethis::use_package( "dplyr" )
 usethis::use_package( "shinyjs" )
-usethis::use_package( "shinyalert" )
 usethis::use_package( "xml2" )
 usethis::use_package( "readr" )
 usethis::use_package( "shinyBS" )
@@ -30,7 +29,6 @@ usethis::use_package( "purrr" )
 usethis::use_package( "tibble" )
 usethis::use_package( "waiter" )
 usethis::use_package( "vroom" )
-usethis::use_dev_package( "shinybulma" )
 
 ## 2.3 Add tests
 

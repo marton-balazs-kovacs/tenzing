@@ -7,7 +7,7 @@
 \usage{
 mod_show_spreadsheet_ui(id)
 
-mod_show_spreadsheet_server(id, input_data)
+mod_show_spreadsheet_server(id, input_data, uploaded)
 }
 \arguments{
 \item{id}{shiny id}
