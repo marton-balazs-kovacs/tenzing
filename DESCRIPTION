@@ -24,7 +24,8 @@ Imports:
     purrr,
     tibble,
     waiter,
-    vroom
+    vroom,
+    pkgload
 RoxygenNote: 7.0.0
 Suggests: 
     testthat,
