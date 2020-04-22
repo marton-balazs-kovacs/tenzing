@@ -1,4 +1,4 @@
 library(testthat)
-library(tenzingr)
+library(tenzing)
 
-test_check("tenzingr")
+test_check("tenzing")
