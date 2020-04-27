@@ -1,0 +1,35 @@
+.btn-primary {
+  color: #326F5E;
+  border-color: #326F5E;
+  background: Transparent no-repeat;
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+}
+
+.btn-primary:hover {
+  color: #7ec4ad;
+  border-color: #7ec4ad;
+  background-color: #C4E4D9;
+}
+
+.btn-primary:focus {
+  border-color: #193B30;
+  background-color: #2A5D4F;
+  outline: none;
+}
+
+.btn-primary:visited {
+  color: #326F5E;
+  border-color: #326F5E;
+  background: Transparent no-repeat;
+}
+
+.btn-primary:active {
+  border-color: #224C40;
+  background-color: #3A806D !important;
+}
+
+#show_spreadsheet_ui_1-show_data[disabled] {
+  pointer-events: none
+}
