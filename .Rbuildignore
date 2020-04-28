@@ -9,3 +9,4 @@ $run_dev.*
 ^doc$
 ^Meta$
 ^app\.R$
+^CODE_OF_CONDUCT\.md$

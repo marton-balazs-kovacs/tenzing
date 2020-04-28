@@ -16,7 +16,9 @@
 mod_xml_report_ui <- function(id){
 
   tagList(
-    downloadButton(NS(id, "report"), "Generate XML file (for publisher use)")
+    downloadButton(NS(id, "report"),
+                   label = "Generate XML file (for publisher use)",
+                   class = "btn btn-primary")
   )
 }
     
@@ -26,12 +28,13 @@ mod_xml_report_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_xml_report_server <- function(id, input_data, submit){
+mod_xml_report_server <- function(id, input_data, uploaded){
   
   moduleServer(id, function(input, output, session) {
-    # Disable download button if the gs is not printed
+   
+     # Disable download button if the gs is not printed
     observe({
-      if(submit() && !is.null(input_data())){
+      if(!is.null(uploaded())){
         shinyjs::enable("report")
       } else{
         shinyjs::disable("report")

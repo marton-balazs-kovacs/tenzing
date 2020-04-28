@@ -16,15 +16,10 @@
 mod_human_readable_report_ui <- function(id){
 
   tagList(
-    shinyWidgets::downloadBttn(
+    downloadButton(
       NS(id, "report"),
       label = "Generate author contributions text",
-      style = "bordered",
-      color = "primary",
-      size = "md",
-      block = TRUE,
-      no_outline = TRUE
-    )
+      class = "btn btn-primary")
   )
 }
     

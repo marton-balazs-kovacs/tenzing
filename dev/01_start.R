@@ -28,10 +28,10 @@ golem::set_golem_options()
 
 usethis::use_mit_license( name = "Marton Kovacs" )  # You can set another licence here
 usethis::use_readme_rmd( open = FALSE )
-# usethis::use_code_of_conduct()
+usethis::use_code_of_conduct()
 usethis::use_lifecycle_badge( "Experimental" )
 
-# usethis::use_news_md( open = FALSE )
+usethis::use_news_md( open = FALSE )
 usethis::use_git()
 
 ## 1.3 - Add a data-raw folder
@@ -52,8 +52,8 @@ golem::use_recommended_deps()
 ## 1.6 Add various tools
 
 # If you want to change the favicon (default is golem's one)
-golem::remove_favicon()
-golem::use_favicon() # path = "path/to/ico". Can be an online file. 
+# golem::remove_favicon()
+# golem::use_favicon() # path = "path/to/ico". Can be an online file. 
 
 # Add helper functions 
 golem::use_utils_ui()
@@ -62,4 +62,3 @@ golem::use_utils_server()
 # You're now set! 
 # go to dev/02_dev.R
 rstudioapi::navigateToFile( "dev/02_dev.R" )
-

@@ -16,13 +16,11 @@
 mod_about_modal_ui <- function(id){
   
   tagList(
-    fixedPanel(
       shinyWidgets::actionBttn(inputId = NS(id, "open_about"),
                                label = "About",
                                style = "bordered",
                                color = "primary",
-                               size = "md"),
-      bottom = "2%", right = "9%", width = "auto")
+                               size = "md")
   )
 }
     
@@ -38,7 +36,7 @@ mod_about_modal_server <- function(id){
       
       modalDialog(
         easyClose = TRUE,
-        footer = modalButton("Close Modal"),
+        footer = modalButton("Close"),
         includeMarkdown("inst/app/www/about.Rmd"))
     }
     

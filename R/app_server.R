@@ -17,6 +17,9 @@ app_server <- function(input, output,session) {
   # Generate the first page with contributors affiliation
   mod_contribs_affiliation_page_server("contribs_affiliation_page_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
   
+  # Generate JATS XML report
+  mod_xml_report_server("xml_report_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  
   # Hide on launch waiter screen
   waiter::waiter_hide()
 }

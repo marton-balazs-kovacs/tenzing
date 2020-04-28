@@ -16,11 +16,9 @@
 mod_show_spreadsheet_ui <- function(id) {
 
   tagList(
-      shinyWidgets::actionBttn(inputId = NS(id, "show_data"),
-                               label = "Show table",
-                               style = "bordered",
-                               color = "primary",
-                               size = "md")
+      actionButton(inputId = NS(id, "show_data"),
+                   label = "Show infosheet",
+                   class = "btn btn-primary")
   )
 }
     

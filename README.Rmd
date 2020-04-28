@@ -19,8 +19,15 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of tenzing is to create an easy to use shiny app, that enables researchers to create reports about the contribution of each team member on a project.
+Tenzing is an easy to use shiny app, that enables researchers to create reports about the contribution of each team member on a project using CRediT.
 
+## Features
+
+Currently tenzing enables contributors to:
+* read all the necesarry contributorship information from one file (.csv, .tsv or .xlsx)
+* 
+*
+*
 
 ## Installation
 
@@ -31,3 +38,17 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
+
+## Usage
+
+You can run the app locally from your own computer by running the following code:
+
+``` r
+tenzing::run_app()
+```
+
+## Contribution
+
+Please note that the 'tenzing' project is released with a
+  [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+  By contributing to this project, you agree to abide by its terms.

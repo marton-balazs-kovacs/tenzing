@@ -16,7 +16,8 @@
 mod_read_spreadsheet_ui <- function(id){
   
   tagList(
-    fileInput(NS(id, "file"), label = 'Choose file to upload',
+    fileInput(NS(id, "file"),
+              label = NULL,
               accept = c(
                 '.csv',
                 '.tsv',
