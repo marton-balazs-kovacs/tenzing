@@ -15,8 +15,14 @@ CRediT.
 
 ## Features
 
-Currently tenzing enables contributors to: \* read all the necesarry
-contributorship information from one file (.csv, .tsv or .xlsx) \* * *
+Currently tenzing enables contributors to:
+
+  - read all the necesarry contributorship information from one file
+    (.csv, .tsv or .xlsx)
+  - create a report of the contributions
+  - create the contributors affiliation page information for the
+    manuscript
+  - create a JATS XML containing the contributions
 
 ## Installation
 
