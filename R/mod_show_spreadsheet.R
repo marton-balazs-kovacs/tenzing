@@ -16,11 +16,14 @@
 mod_show_spreadsheet_ui <- function(id) {
 
   tagList(
+    div(id = "dwnbutton4",
       actionButton(inputId = NS(id, "show_data"),
                    label = "Show infosheet",
-                   class = "btn btn-primary")
-  )
-}
+                   class = "btn btn-primary",
+                   disabled = "disabled")
+      )
+    )
+  }
     
 # Module Server
     
@@ -36,8 +39,10 @@ mod_show_spreadsheet_server <- function(id, input_data, uploaded) {
     observe({
       if(!is.null(uploaded())){
         shinyjs::enable("show_data")
+        shinyjs::runjs("$('#dwnbutton4').removeAttr('title');")
       } else{
         shinyjs::disable("show_data")
+        shinyjs::runjs("$('#dwnbutton4').attr('title', 'Please upload the infosheet');")
       }
     })
     

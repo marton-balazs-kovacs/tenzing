@@ -16,12 +16,15 @@
 mod_contribs_affiliation_page_ui <- function(id){
 
   tagList(
-    downloadButton(
-      NS(id, "report"),
-      label = "Generate author list with affiliations",
-      class = "btn btn-primary")
-  )
-}
+    div(id = "dwnbutton2",
+        downloadButton(
+          NS(id, "report"),
+          label = "Generate author list with affiliations",
+          class = "btn btn-primary",
+          disabled = "disabled")
+        )
+    )
+  }
     
 # Module Server
     
@@ -37,8 +40,10 @@ mod_contribs_affiliation_page_server <- function(id, input_data, uploaded){
     observe({
       if(!is.null(uploaded())){
         shinyjs::enable("report")
+        shinyjs::runjs("$('#dwnbutton2').removeAttr('title');")
       } else{
         shinyjs::disable("report")
+        shinyjs::runjs("$('#dwnbutton2').attr('title', 'Please upload the infosheet');")
       }
     })
     

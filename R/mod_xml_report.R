@@ -16,11 +16,14 @@
 mod_xml_report_ui <- function(id){
 
   tagList(
-    downloadButton(NS(id, "report"),
-                   label = "Generate XML file (for publisher use)",
-                   class = "btn btn-primary")
-  )
-}
+    div(id = "dwnbutton3",
+        downloadButton(NS(id, "report"),
+                       label = "Generate XML file (for publisher use)",
+                       class = "btn btn-primary",
+                       disabled = "disabled")
+        )
+    )
+  }
     
 # Module Server
     
@@ -36,8 +39,10 @@ mod_xml_report_server <- function(id, input_data, uploaded){
     observe({
       if(!is.null(uploaded())){
         shinyjs::enable("report")
+        shinyjs::runjs("$('#dwnbutton3').removeAttr('title');")
       } else{
         shinyjs::disable("report")
+        shinyjs::runjs("$('#dwnbutton3').attr('title', 'Please upload the infosheet');")
       }
     })
     

@@ -16,12 +16,15 @@
 mod_human_readable_report_ui <- function(id){
 
   tagList(
-    downloadButton(
-      NS(id, "report"),
-      label = "Generate author contributions text",
-      class = "btn btn-primary")
-  )
-}
+    div(id = "dwnbutton1",
+        downloadButton(
+          NS(id, "report"),
+          label = "Generate author contributions text",
+          class = "btn btn-primary",
+          disabled = "disabled")
+        )
+    )
+  }
     
 # Module Server
     
@@ -37,8 +40,10 @@ mod_human_readable_report_server <- function(id, input_data, uploaded){
     observe({
       if(!is.null(uploaded())){
         shinyjs::enable("report")
+        shinyjs::runjs("$('#dwnbutton1').removeAttr('title');")
       } else{
         shinyjs::disable("report")
+        shinyjs::runjs("$('#dwnbutton1').attr('title', 'Please upload the infosheet');")
       }
     })
     
