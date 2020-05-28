@@ -130,13 +130,50 @@ mod_show_yaml_server <- function(id, input_data, uploaded) {
       tempReportRender
     })
     
+    # Add clipboard buttons
+    output$yaml_clip <- renderUI({
+      rclipboard::rclipButton("yaml_clip_btn", "Copy YAML to clipboard", author_yaml(), icon("clipboard"), modal = TRUE)
+    })
+    
+    ## Workaround for execution within RStudio version < 1.2
+    observeEvent(input$yaml_clip_btn, clipr::write_clip(author_yaml()))
+    
+    # Generate YAML file
+    output$report <- downloadHandler(
+      
+      # Set filename
+      filename = function() {
+        paste("machine_readable_report_", Sys.Date(), ".yml", sep = "")
+      },
+      
+      # Set content of the file
+      content = function(file) {
+        yaml::write_yaml(author_yaml(), file)}
+    )
+    
     # Build modal
     modal <- function() {
       
       modalDialog(
+        rclipboard::rclipboardSetup(),
+        # div(
+        #   style = "float:right; margin-top: 15px; margin-right: 15px;",
+        #   uiOutput(session$ns("yaml_clip"))
+        # ),
+        includeHTML(yaml_path()),
         easyClose = TRUE,
-        footer = modalButton("Close"),
-        includeHTML(yaml_path()))
+        footer = tagList(
+          div(
+            style = "display: inline-block",
+            uiOutput(session$ns("yaml_clip"))
+          ),
+          downloadButton(
+            NS(id, "report"),
+            label = "Download YAML file",
+          ), 
+          modalButton("Close")
+        )
+      )
     }
     
     observeEvent(input$show_yaml, {
