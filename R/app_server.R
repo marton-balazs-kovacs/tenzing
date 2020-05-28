@@ -20,6 +20,9 @@ app_server <- function(input, output,session) {
   # Generate JATS XML report
   mod_xml_report_server("xml_report_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
   
+  # Show papaja YAML in viewer window
+  mod_show_yaml_server("show_yaml_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  
   # Hide on launch waiter screen
   waiter::waiter_hide()
 }
