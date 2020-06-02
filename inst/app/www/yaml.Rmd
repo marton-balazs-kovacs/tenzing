@@ -1,0 +1,26 @@
+---
+title: "&nbsp;"
+output:
+  html_document:
+    self_contained: false
+---
+
+### `papaja` YAML
+
+<!-- * * * -->
+
+`papaja` is an R package that provides document formats to produce complete APA manuscripts from R Markdown in PDF- and DOCX-format.
+The package also provides helper functions that facilitate reporting statistics, tables, and plots. [Find out more about `papaja`](https://github.com/crsh/papaja).
+
+You can copy the YAML code below and paste it into the YAML front matter of a `papaja`-R Markdown file to populate the author metadata.
+`papaja` will automatically add the contributorship information to the author note.
+
+```{r, include = FALSE}
+library("knitr")
+```
+
+~~~yaml
+```{r echo = FALSE, results = "asis"}
+cat(author_yaml())
+```
+~~~
