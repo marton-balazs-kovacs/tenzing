@@ -55,19 +55,23 @@ mod_read_spreadsheet_server <- function(id) {
                            validate("Invalid file; Please upload a .csv, a .tsv or an .xlsx file."))
       
       # Delete empty rows
-      table_data <-
-        table_data %>% 
-        tibble::as_tibble() %>%
-        dplyr::filter_at(
-          dplyr::vars(Firstname, `Middle name`, Surname),
-          dplyr::any_vars(!is.na(.)))
+      # table_data <-
+      #   table_data %>% 
+      #   tibble::as_tibble() %>%
+      #   dplyr::filter_at(
+      #     dplyr::vars(Firstname, `Middle name`, Surname),
+      #     dplyr::any_vars(!is.na(.)))
       
       return(table_data)
       })
     
+    # Alert modal if infosheet is incomplete
+    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$file), table_data = table_data)
+    
+    # Return modul output
     return(list(
       data = table_data,
-      uploaded = reactive(input$file)
+      valid_infosheet = reactive(input$file)
       ))
   })
 }

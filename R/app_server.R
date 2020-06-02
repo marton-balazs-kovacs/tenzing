@@ -9,16 +9,16 @@ app_server <- function(input, output,session) {
   read_out <- mod_read_spreadsheet_server("read_spreadsheet_ui_1")
   
   # Show the spreadsheet in viewer window
-  mod_show_spreadsheet_server("show_spreadsheet_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  mod_show_spreadsheet_server("show_spreadsheet_ui_1", input_data = read_out$data, valid_infosheet = read_out$valid_infosheet)
   
   # Generate a human readable report
-  mod_human_readable_report_server("human_readable_report_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  mod_human_readable_report_server("human_readable_report_ui_1", input_data = read_out$data, valid_infosheet = read_out$valid_infosheet)
   
   # Generate the first page with contributors affiliation
-  mod_contribs_affiliation_page_server("contribs_affiliation_page_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  mod_contribs_affiliation_page_server("contribs_affiliation_page_ui_1", input_data = read_out$data, valid_infosheet = read_out$valid_infosheet)
   
   # Generate JATS XML report
-  mod_xml_report_server("xml_report_ui_1", input_data = read_out$data, uploaded = read_out$uploaded)
+  mod_xml_report_server("xml_report_ui_1", input_data = read_out$data, valid_infosheet = read_out$valid_infosheet)
   
   # Hide on launch waiter screen
   waiter::waiter_hide()

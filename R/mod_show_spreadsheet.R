@@ -31,13 +31,13 @@ mod_show_spreadsheet_ui <- function(id) {
 #' @export
 #' @keywords internal
     
-mod_show_spreadsheet_server <- function(id, input_data, uploaded) {
+mod_show_spreadsheet_server <- function(id, input_data, valid_infosheet) {
   stopifnot(is.reactive(input_data))
   
   moduleServer(id, function(input, output, session) {
     # Disable download button if the gs is not printed
     observe({
-      if(!is.null(uploaded())){
+      if(!is.null(valid_infosheet())){
         shinyjs::enable("show_data")
         shinyjs::runjs("$('#dwnbutton4').removeAttr('title');")
       } else{
@@ -101,7 +101,7 @@ mod_show_spreadsheet_server <- function(id, input_data, uploaded) {
       modalDialog(
         easyClose = TRUE,
         DT::dataTableOutput(NS(id, "table")),
-        footer = modalButton("Close Modal"),
+        footer = modalButton("Close"),
         size = "l")
     }
     

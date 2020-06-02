@@ -32,13 +32,13 @@ mod_contribs_affiliation_page_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_contribs_affiliation_page_server <- function(id, input_data, uploaded){
+mod_contribs_affiliation_page_server <- function(id, input_data, valid_infosheet){
   
   moduleServer(id, function(input, output, session) {
 
     # Disable download button if the gs is not printed
     observe({
-      if(!is.null(uploaded())){
+      if(!is.null(valid_infosheet())){
         shinyjs::enable("report")
         shinyjs::runjs("$('#dwnbutton2').removeAttr('title');")
       } else{
