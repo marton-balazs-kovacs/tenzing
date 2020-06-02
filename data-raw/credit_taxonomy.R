@@ -28,4 +28,4 @@ credit_taxonomy <-
                          "https://dictionary.casrai.org/Contributor_Roles/Writing_original_draft",
                          "https://dictionary.casrai.org/Contributor_Roles/Writing_review_editing"))
 
-usethis::use_data(credit_taxonomy, overwrite = TRUE)
+usethis::use_data(credit_taxonomy, overwrite = TRUE, internal = TRUE)

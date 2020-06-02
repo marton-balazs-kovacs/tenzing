@@ -32,7 +32,9 @@ Imports:
     shinyWidgets,
     readxl,
     yaml,
-    rclipboard
+    rclipboard,
+    magrittr
+
 RoxygenNote: 7.0.0
 Suggests: 
     testthat,
