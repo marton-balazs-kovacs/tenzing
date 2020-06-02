@@ -17,9 +17,12 @@
 mod_show_yaml_ui <- function(id) {
   
   tagList(
+    div(id = "dwnbutton4",
     actionButton(inputId = NS(id, "show_yaml"),
                  label = HTML("Show <code>papaja</code> YAML"),
-                 class = "btn btn-primary")
+                 class = "btn btn-primary",
+                 disabled = "disabled")
+    )
   )
 }
 
@@ -29,16 +32,18 @@ mod_show_yaml_ui <- function(id) {
 #' @export
 #' @keywords internal
 
-mod_show_yaml_server <- function(id, input_data, uploaded) {
+mod_show_yaml_server <- function(id, input_data, valid_infosheet) {
   stopifnot(is.reactive(input_data))
-  
+
   moduleServer(id, function(input, output, session) {
     # Disable download button if the gs is not printed
     observe({
-      if(!is.null(uploaded())){
+      if(!is.null(valid_infosheet())){
         shinyjs::enable("show_yaml")
+        shinyjs::runjs("$('#dwnbutton4').removeAttr('title');")
       } else{
         shinyjs::disable("show_yaml")
+        shinyjs::runjs("$('#dwnbutton4').attr('title', 'Please upload the infosheet');")
       }
     })
     
@@ -67,7 +72,7 @@ mod_show_yaml_server <- function(id, input_data, uploaded) {
       contrib_data$role <- I(
         list(
           names(
-            select(contrib_data, -c(name, corresponding, email))
+            dplyr::select(contrib_data, -c(name, corresponding, email))
           )
         )
       )
@@ -75,7 +80,7 @@ mod_show_yaml_server <- function(id, input_data, uploaded) {
       contrib_data$role_logical <- I(
         lapply(
           split(
-            select(contrib_data, -c(name, corresponding, email, role)),
+            dplyr::select(contrib_data, -c(name, corresponding, email, role)),
             contrib_data$name
           ),
           unlist
@@ -169,7 +174,7 @@ mod_show_yaml_server <- function(id, input_data, uploaded) {
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download YAML file",
+            label = "Download YAML file"
           ), 
           modalButton("Close")
         )

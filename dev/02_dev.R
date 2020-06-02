@@ -32,6 +32,9 @@ usethis::use_package("tibble")
 usethis::use_package("waiter")
 usethis::use_package("vroom")
 usethis::use_package("readxl")
+usethis::use_package("magrittr")
+usethis::use_package("yaml")
+usethis::use_package("rclipboard")
 usethis::use_pipe()
 
 ## 2.3 Add tests
