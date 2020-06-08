@@ -1,28 +1,18 @@
 ---
 title: "Author Contributions"
-output: html_document
+output: 
+  html_document:
+    self_contained: false
+  word_document: default
+params:
+  human_readable_data: NA
 ---
 
 ```{r, include = FALSE}
 library(knitr)
 ```
 
-```{r, include = TRUE, echo = FALSE, results = 'asis'}
-# Based on: https://stackoverflow.com/questions/36674824/use-loop-to-generate-section-of-text-in-rmarkdown
-
-# Create a template for each section of the CRediT taxonomy
-template <- "**%s:** %s.
-
-"
-
-# Iterate through each statement of the taxonomy and print the name of the authors who participated in it
-for(i in seq(nrow(human_readable_data()))){
-  
-  # Read in one row
-  current <- human_readable_data()[i, ]
-  
-  # Paste and print the corresponding statement and names
-  cat(sprintf(template, current$`CRediT Taxonomy`, current$Names))
-  
-}
+```{r echo = FALSE, results = 'asis'}
+cat(params$human_readable_data)
 ```
+

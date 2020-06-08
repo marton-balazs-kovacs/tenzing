@@ -16,12 +16,11 @@
 mod_human_readable_report_ui <- function(id){
 
   tagList(
-    div(id = "dwnbutton1",
-        downloadButton(
-          NS(id, "report"),
-          label = "Generate author contributions text",
-          class = "btn btn-primary",
-          disabled = "disabled")
+    div(class = "out-btn",
+        actionButton(
+          NS(id, "show_report"),
+          label = "Show author contributions text",
+          class = "btn btn-primary")
         )
     )
   }
@@ -32,25 +31,14 @@ mod_human_readable_report_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_human_readable_report_server <- function(id, input_data, valid_infosheet){
+mod_human_readable_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
-    
-    # Disable download button if the table is not read
-    observe({
-      if(!is.null(valid_infosheet())){
-        shinyjs::enable("report")
-        shinyjs::runjs("$('#dwnbutton1').removeAttr('title');")
-      } else{
-        shinyjs::disable("report")
-        shinyjs::runjs("$('#dwnbutton1').attr('title', 'Please upload the infosheet');")
-      }
-    })
+    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Restructure dataframe for the human readable output
-    human_readable_data <- reactive(
-      
-      input_data() %>% 
+    human_readable_data <- reactive({
+        input_data() %>% 
         dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
                               paste(Firstname, Surname),
                               paste(Firstname, `Middle name`, Surname))) %>% 
@@ -58,35 +46,93 @@ mod_human_readable_report_server <- function(id, input_data, valid_infosheet){
                       dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>%  
         tidyr::gather(key = "CRediT Taxonomy", value = "Included", -Name) %>% 
         dplyr::filter(Included == TRUE) %>% 
-        dplyr::select(-Included) %>% 
+        dplyr::select(-Included) %>%
         dplyr::group_by(`CRediT Taxonomy`) %>% 
-        dplyr::summarise(Names = stringr::str_c(Name, collapse = ", "))
+        dplyr::summarise(Names = stringr::str_c(Name, collapse = ", ")) %>% 
+        dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
+        dplyr::summarise(out = stringr::str_c(out, collapse = "  \n")) %>%
+        dplyr::pull(out)
+    })
+    
+    # Set up parameters to pass to Rmd document
+    params <- reactive({
+      list(human_readable_data = human_readable_data())
+    })
+    
+    report_path <- reactive({
+      file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
+      file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
+      tempReportRender <- tempfile(fileext = ".html")
       
-    )
+      callr::r(
+        render_report,
+        list(input = file_path, output = tempReportRender, format = "html_document", params = params())
+      )
+      
+      tempReportRender
+    })
     
     # Render output Rmd
     output$report <- downloadHandler(
       
       filename = function() {
-        paste("human_readable_report_", Sys.Date(), ".html", sep="")
+        paste0("human_readable_report_", Sys.Date(), ".doc")
       },
       content = function(file) {
         
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed)
-        tempReport <- file.path("inst/app/www/", "human_readable_report.Rmd")
-        file.copy("human_readable_report.Rmd", tempReport, overwrite = TRUE)
-        
-        # Set up parameters to pass to Rmd document
-        params <- list(param_1 = human_readable_data())
+        file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
+        file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
         # from the code in this app).
-        rmarkdown::render(tempReport, output_file = file, params = params)
+        callr::r(
+          render_report,
+          list(input = file_path, output = file, format = "word_document", params = params())
+        )
       }
     )
+    
+    to_clip <- reactive({
+      human_readable_data()
+    })
+    
+    # Add clipboard buttons
+    output$clip <- renderUI({
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+    })
+    
+    ## Workaround for execution within RStudio version < 1.2
+    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
+    
+    # Build modal
+    modal <- function() {
+      modalDialog(
+        rclipboard::rclipboardSetup(),
+        includeHTML(report_path()),
+        easyClose = TRUE,
+        footer = tagList(
+          div(
+            style = "display: inline-block",
+            uiOutput(session$ns("clip"))
+          ),
+          downloadButton(
+            NS(id, "report"),
+            label = "Download file"
+          ),
+          modalButton("Close")
+        )
+      )
+    }
+    
+    observeEvent(input$show_report, {
+      waitress$notify()
+      showModal(modal())
+      waitress$close()
+    })
   })
 }
     

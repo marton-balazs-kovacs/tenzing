@@ -14,13 +14,11 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 mod_show_spreadsheet_ui <- function(id) {
-
   tagList(
-    div(id = "dwnbutton4",
+    div(class = "out-btn",
       actionButton(inputId = NS(id, "show_data"),
                    label = "Show infosheet",
-                   class = "btn btn-primary",
-                   disabled = "disabled")
+                   class = "btn btn-primary")
       )
     )
   }
@@ -31,24 +29,14 @@ mod_show_spreadsheet_ui <- function(id) {
 #' @export
 #' @keywords internal
     
-mod_show_spreadsheet_server <- function(id, input_data, valid_infosheet) {
+mod_show_spreadsheet_server <- function(id, input_data) {
   stopifnot(is.reactive(input_data))
   
   moduleServer(id, function(input, output, session) {
-    # Disable download button if the gs is not printed
-    observe({
-      if(!is.null(valid_infosheet())){
-        shinyjs::enable("show_data")
-        shinyjs::runjs("$('#dwnbutton4').removeAttr('title');")
-      } else{
-        shinyjs::disable("show_data")
-        shinyjs::runjs("$('#dwnbutton4').attr('title', 'Please upload the infosheet');")
-      }
-    })
+    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Clean data for table output
     table_data <- reactive({
-      
       # Table data validation
       req(input_data())
       
@@ -63,12 +51,10 @@ mod_show_spreadsheet_server <- function(id, input_data, valid_infosheet) {
       table_data <- 
         input_data() %>% 
         dplyr::left_join(., credit_all_empty_col, by = c("Firstname", "Middle name", "Surname"))
-      
     })
     
     # Rendering datatable
     output$table <- DT::renderDataTable({
-      
       DT::datatable(table_data(), rownames = FALSE, options = list(
         scrollX = TRUE,
         lengthMenu = c(5,10),
@@ -106,7 +92,10 @@ mod_show_spreadsheet_server <- function(id, input_data, valid_infosheet) {
     }
     
     observeEvent(input$show_data, {
-      showModal(modal())})
+      waitress$notify()
+      showModal(modal())
+      waitress$close()
+      })
     
   })
 }

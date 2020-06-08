@@ -7,7 +7,7 @@
 \usage{
 mod_xml_report_ui(id)
 
-mod_xml_report_server(id, input_data, valid_infosheet)
+mod_xml_report_server(id, input_data)
 }
 \arguments{
 \item{id}{shiny id}

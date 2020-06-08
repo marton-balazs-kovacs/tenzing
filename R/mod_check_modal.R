@@ -37,42 +37,38 @@ mod_check_modal_server <- function(id, activate, table_data){
       }
     })
     
-    # Render output text
-    output$check <- renderText({
-      if (all(check_result()$type == "error")) {
-        paste0("<p style=\"color:#D45F68\">", check_result()$message, "</p>")
-      } else if (all(check_result()$type == "success")) {
-        paste0("<p style=\"color:#b2dcce\">", "The infosheet is valid!", "</p>")
-      } else if (all(check_result()$type %in% c("warning", "success"))) {
-        check_warning <- dplyr::filter(check_result(), type == "warning")
-        paste0("<p style=\"color:#ffec9b\">", check_warning$message, "</p>")
-      } else {
-        check_warning <- dplyr::filter(check_result(), type == "warning")
-        check_error <- dplyr::filter(check_result(), type == "error")
-        paste0("<p style=\"color:#D45F68\">", check_error$message, "</p>",
-               "<p style=\"color:#ffec9b\">", check_warning$message, "</p>")
-      }
-    })
-    
-    # Build modal
-    modal <- function() {
-      modalDialog(
-        h1("Validating the infosheet"),
-        htmlOutput(ns("check")),
-        easyClose = TRUE,
-        footer = modalButton("Close"),
-        size = "m")
-    }
-    
     # Activate modal
     observeEvent(activate(), {
-      showModal(modal())})
-    })
-  
-  # Create return output
-  
-  # Pass output
-
+      if (all(check_result()$type == "error")) {
+       golem::invoke_js("error_alert",
+                        list(error = check_result()$message,
+                             warning = ""))
+        } else if (all(check_result()$type == "success")) {
+          golem::invoke_js("success_alert", "")
+          } else if (all(check_result()$type %in% c("warning", "success"))) {
+            check_warning <- dplyr::filter(check_result(), type == "warning")
+            golem::invoke_js("warning_alert", check_warning$message)
+            } else {
+              check_warning <- dplyr::filter(check_result(), type == "warning")
+              check_error <- dplyr::filter(check_result(), type == "error")
+              golem::invoke_js("error_alert",
+                               list(error = check_error$message,
+                                    warning = check_warning$message))
+              }
+      })
+    
+    # Create output
+    valid_infosheet <- reactive({
+      if (all(check_result()$type %in% c("warning", "success"))) {
+        TRUE
+        } else {
+          NULL
+          }
+      })
+    
+    # Pass output
+    return(valid_infosheet)
+  })
 }
     
 ## To be copied in the UI

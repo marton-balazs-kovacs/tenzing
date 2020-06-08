@@ -7,7 +7,7 @@
 \usage{
 mod_human_readable_report_ui(id)
 
-mod_human_readable_report_server(id, input_data, valid_infosheet)
+mod_human_readable_report_server(id, input_data)
 }
 \arguments{
 \item{id}{shiny id}

@@ -37,10 +37,8 @@ mod_read_spreadsheet_server <- function(id) {
   options(shiny.maxRequestSize = 9*1024^2)
   
   moduleServer(id, function(input, output, session) {
-    
     # Reading tabedata from locale
     table_data <- eventReactive(input$file, {
-      
       # File input requirement
       req(input$file)
       
@@ -54,24 +52,26 @@ mod_read_spreadsheet_server <- function(id) {
                            xlsx = readxl::read_xlsx(input$file$datapath, sheet = 1),
                            validate("Invalid file; Please upload a .csv, a .tsv or an .xlsx file."))
       
-      # Delete empty rows
-      # table_data <-
-      #   table_data %>% 
-      #   tibble::as_tibble() %>%
-      #   dplyr::filter_at(
-      #     dplyr::vars(Firstname, `Middle name`, Surname),
-      #     dplyr::any_vars(!is.na(.)))
-      
       return(table_data)
       })
     
     # Alert modal if infosheet is incomplete
     valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$file), table_data = table_data)
     
+    # Delete empty rows
+    table_data_clean <- eventReactive(valid_infosheet, {
+      table_data() %>%
+      tibble::as_tibble() %>%
+      dplyr::filter_at(
+        dplyr::vars(Firstname, `Middle name`, Surname),
+        dplyr::any_vars(!is.na(.)))
+    })
+    
     # Return modul output
     return(list(
-      data = table_data,
-      valid_infosheet = reactive(input$file)
+      data = table_data_clean,
+      valid_infosheet = valid_infosheet,
+      uploaded = reactive(input$file)
       ))
   })
 }

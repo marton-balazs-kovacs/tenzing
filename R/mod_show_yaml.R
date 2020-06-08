@@ -17,11 +17,10 @@
 mod_show_yaml_ui <- function(id) {
   
   tagList(
-    div(id = "dwnbutton4",
+    div(class = "out-btn",
     actionButton(inputId = NS(id, "show_yaml"),
                  label = HTML("Show <code>papaja</code> YAML"),
-                 class = "btn btn-primary",
-                 disabled = "disabled")
+                 class = "btn btn-primary")
     )
   )
 }
@@ -32,20 +31,11 @@ mod_show_yaml_ui <- function(id) {
 #' @export
 #' @keywords internal
 
-mod_show_yaml_server <- function(id, input_data, valid_infosheet) {
+mod_show_yaml_server <- function(id, input_data) {
   stopifnot(is.reactive(input_data))
 
   moduleServer(id, function(input, output, session) {
-    # Disable download button if the gs is not printed
-    observe({
-      if(!is.null(valid_infosheet())){
-        shinyjs::enable("show_yaml")
-        shinyjs::runjs("$('#dwnbutton4').removeAttr('title');")
-      } else{
-        shinyjs::disable("show_yaml")
-        shinyjs::runjs("$('#dwnbutton4').attr('title', 'Please upload the infosheet');")
-      }
-    })
+    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Clean data for table output
     author_yaml <- reactive({
@@ -182,7 +172,10 @@ mod_show_yaml_server <- function(id, input_data, valid_infosheet) {
     }
     
     observeEvent(input$show_yaml, {
-      showModal(modal())})
+      waitress$notify()
+      showModal(modal())
+      waitress$close()
+      })
     
   })
 }

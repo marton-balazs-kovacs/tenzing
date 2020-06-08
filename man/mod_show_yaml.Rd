@@ -7,7 +7,7 @@
 \usage{
 mod_show_yaml_ui(id)
 
-mod_show_yaml_server(id, input_data, valid_infosheet)
+mod_show_yaml_server(id, input_data)
 }
 \arguments{
 \item{id}{shiny id}

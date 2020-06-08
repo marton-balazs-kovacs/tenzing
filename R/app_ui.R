@@ -19,6 +19,7 @@ app_ui <- function() {
                  tags$p("First copy and then fill out this ", style = "display: inline;"),
                  tags$a(href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                         "infosheet template",
+                        target="_blank",
                         style = "display: inline;"),
                  style = "background-color: #b2dcce; box-shadow: none; border: none; margin-bottom: 15px;"),
                wellPanel(
@@ -49,6 +50,7 @@ app_ui <- function() {
     
     # Enabling waiter js functions
     waiter::use_waiter(include_js = FALSE),
+    waiter::use_waitress(color = "#D45F68"),
     
     # Add waiter load on start
     waiter::waiter_show_on_load(html =  tagList(
@@ -67,25 +69,10 @@ golem_add_external_resources <- function(){
   tags$head(
     golem::activate_js(),
     golem::favicon(),
-    # Add here all the external resources
-    # If you have a custom.css in the inst/app/www
-    # Or for example, you can add shinyalert::useShinyalert() here
-    # tags$link(rel="stylesheet", type="text/css", href="www/bootstrap.min.css"),
-    # Enabling shiny js functions
-    shinyjs::useShinyjs(),
+    # Add sweetalert2 JS library
+    tags$script(src = "https://cdn.jsdelivr.net/npm/sweetalert2@9.14.0/dist/sweetalert2.all.min.js"),
     tags$link(rel = "stylesheet", type = "text/css", href = "www/custom.css"),
-    tags$style(".progress-bar{background-color:#7ec4ad;}"),
-    tags$style(".form-control:focus {
-      border-color: #7ec4ad;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(84, 200, 155, 1);
-    }"),
-    tags$style("#about_modal_ui_1-open_about{color: #D45F68; border-color: #D45F68;}"),
-    tags$style(".form-control{border-color: #7ec4ad;}"),
-    tags$style(".form-control[readonly]{background-color: #F8FCFB;}"),
-    tags$style(HTML("a {color: #326F5E}")),
-    tags$style(HTML("a:hover {color: #7ec4ad}")),
-    tags$style(".btn:focus{outline: none !important;}"),
-    tags$style(".form-group{margin-bottom: 0px !important;}"),
-    tags$style(".well{padding: 17px;}")
+    tags$script(src = "www/sweet_alert.js"),
+    tags$script(src = "www/tooltip.js")
   )
 }

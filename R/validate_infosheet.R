@@ -28,6 +28,13 @@ validate_infosheet <- function(infosheet) {
   }
   
   check_cols(infosheet)
+  # Delete empty rows ---------------------------
+  infosheet_clean <-
+    infosheet %>%
+    tibble::as_tibble() %>%
+    dplyr::filter_at(
+      dplyr::vars(Firstname, `Middle name`, Surname),
+      dplyr::any_vars(!is.na(.)))
 
   # Check author names ---------------------------
   check_missing_surname <- function(x) {
@@ -68,7 +75,6 @@ validate_infosheet <- function(infosheet) {
       )
     }
   }
-
   # Check for same names
   check_duplicate_names <- function(x) {
     duplicate <- 
@@ -238,17 +244,16 @@ validate_infosheet <- function(infosheet) {
   
   # Return output ---------------------------
   list(
-    # missing_cols = check_cols(infosheet),
-    missing_surname = check_missing_surname(infosheet),
-    missing_firstname = check_missing_firstname(infosheet),
-    duplicate_names = check_duplicate_names(infosheet),
-    duplicate_initials = check_duplicate_initials(infosheet),
-    missing_order = check_missing_order(infosheet),
-    duplicate_order = check_duplicate_order(infosheet),
-    missing_affiliation = check_affiliation(infosheet),
-    missing_corresponding = check_missing_corresponding(infosheet),
-    missing_email = check_missing_email(infosheet),
-    missing_credit = check_credit(infosheet)
+    missing_surname = check_missing_surname(infosheet_clean),
+    missing_firstname = check_missing_firstname(infosheet_clean),
+    duplicate_names = check_duplicate_names(infosheet_clean),
+    duplicate_initials = check_duplicate_initials(infosheet_clean),
+    missing_order = check_missing_order(infosheet_clean),
+    duplicate_order = check_duplicate_order(infosheet_clean),
+    missing_affiliation = check_affiliation(infosheet_clean),
+    missing_corresponding = check_missing_corresponding(infosheet_clean),
+    missing_email = check_missing_email(infosheet_clean),
+    missing_credit = check_credit(infosheet_clean)
   )
   }
 
