@@ -38,7 +38,7 @@ Imports:
     yaml,
     rclipboard,
     magrittr
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0
 Suggests: 
     testthat,
     knitr,
