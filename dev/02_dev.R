@@ -20,11 +20,8 @@ golem::add_module(name = "check_modal")
 usethis::use_package("shiny")
 usethis::use_package("DT")
 usethis::use_package("dplyr")
-usethis::use_package("shinyjs")
-usethis::use_package("shinyWidgets")
 usethis::use_package("xml2")
 usethis::use_package("readr")
-usethis::use_package("shinyBS")
 usethis::use_package("tidyr")
 usethis::use_package("stringr")
 usethis::use_package("purrr")
@@ -32,6 +29,9 @@ usethis::use_package("tibble")
 usethis::use_package("waiter")
 usethis::use_package("vroom")
 usethis::use_package("readxl")
+usethis::use_package("magrittr")
+usethis::use_package("yaml")
+usethis::use_package("rclipboard")
 usethis::use_pipe()
 
 ## 2.3 Add tests
@@ -45,7 +45,9 @@ golem::browser_button()
 ## 2.5 Add external files
 
 golem::add_js_file("script")
-golem::add_js_handler("handlers")
+golem::add_js_handler("sweetalert")
+golem::add_js_handler("add_tooltip")
+golem::add_js_handler("remove_tooltip")
 golem::add_css_file("custom")
 
 # 3. Documentation

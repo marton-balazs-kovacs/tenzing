@@ -21,3 +21,4 @@ output: html_document
   - A human-readable report of the contributions with the "Author Contributions text"
   - The contributors affiliation page information for the manuscript with the "Annotated author list with affiliations"
   - JATS XML containing the contributions with the “XML (for publishers only)
+  - `papaja` compatible YAML code of the contributor roles

@@ -16,12 +16,11 @@
 mod_contribs_affiliation_page_ui <- function(id){
 
   tagList(
-    div(id = "dwnbutton2",
-        downloadButton(
-          NS(id, "report"),
-          label = "Generate author list with affiliations",
-          class = "btn btn-primary",
-          disabled = "disabled")
+    div(class = "out-btn",
+        actionButton(
+          NS(id, "show_report"),
+          label = "Show author list with affiliations",
+          class = "btn btn-primary")
         )
     )
   }
@@ -32,24 +31,14 @@ mod_contribs_affiliation_page_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_contribs_affiliation_page_server <- function(id, input_data, valid_infosheet){
+mod_contribs_affiliation_page_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
 
-    # Disable download button if the gs is not printed
-    observe({
-      if(!is.null(valid_infosheet())){
-        shinyjs::enable("report")
-        shinyjs::runjs("$('#dwnbutton2').removeAttr('title');")
-      } else{
-        shinyjs::disable("report")
-        shinyjs::runjs("$('#dwnbutton2').attr('title', 'Please upload the infosheet');")
-      }
-    })
-    
     # Restructure dataframe for the contributors affiliation output
     contrib_affil_data <- reactive(
-      
       input_data() %>% 
         dplyr::mutate(`Middle name` = dplyr::if_else(is.na(`Middle name`),
                                        NA_character_,
@@ -65,48 +54,126 @@ mod_contribs_affiliation_page_server <- function(id, input_data, valid_infosheet
     )
     
     # Modify data for printing contributor information
-    contrib_data <- reactive(
-      
-      contrib_affil_data() %>% 
+    contrib_data <- reactive({
+      data <- 
+        contrib_affil_data() %>% 
         dplyr::select(-affiliation) %>% 
         tidyr::spread(key = affiliation_type, value = affiliation_no)
       
-    )
+      # Based on: https://stackoverflow.com/questions/36674824/use-loop-to-generate-section-of-text-in-rmarkdown
+      # Add contributors and their affiliation id two the C-style formatted tempaltes
+      paste_contrib_data <- function(a, b, c){
+        if(is.na(c)){
+          sprintf("%s^%d^", a, b)
+        } else{
+          sprintf("%s^%d,%d^", a, b, c)
+        }
+      }
+      
+      # Iterate through each contributor and add them to the templates
+      contrib_print <-
+        data %>% 
+        dplyr::transmute(contrib = purrr::pmap_chr(.l = list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                   .f = paste_contrib_data)) %>% 
+        dplyr::pull(contrib)
+      
+      # Paste and print the corresponding statement and names
+      stringr::str_c(contrib_print, collapse = ", ")
+    })
     
     # Modify data for printing the affiliations
-    affil_data <- reactive(
-      
-      contrib_affil_data() %>% 
+    affil_data <- reactive({
+      affil_print <- contrib_affil_data() %>% 
         dplyr::select(affiliation_no, affiliation) %>% 
         tidyr::drop_na(affiliation) %>% 
-        dplyr::distinct(affiliation, .keep_all = TRUE)
+        dplyr::distinct(affiliation, .keep_all = TRUE) %>% 
+        # Iterate through each affiliation and add them to the C-style template
+        dplyr::transmute(affil = purrr::map2_chr(affiliation_no, affiliation,
+                                                 ~ sprintf("^%d^%s", .x, .y))) %>% 
+        dplyr::pull(affil)
       
-    )
+      # Paste and print the affiliations and the corresponding numbers
+      stringr::str_c(affil_print, collapse = ", ")
+    })
+    
+    # Set up parameters to pass to Rmd document
+    params <- reactive({
+      list(contrib_data = contrib_data(),
+           affil_data = affil_data())
+    })
+    
+    report_path <- reactive({
+      file_path <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
+      file.copy("contribs_affiliation.Rmd", file_path, overwrite = TRUE)
+      tempReportRender <- tempfile(fileext = ".html")
+
+      callr::r(
+        render_report,
+        list(input = file_path, output = tempReportRender, format = "html_document", params = params())
+      )
+      
+      tempReportRender
+    })
     
     # Render output Rmd
     output$report <- downloadHandler(
-      
       filename = function() {
-        paste("contributors_affiliation_", Sys.Date(), ".html", sep="")
+        paste0("contributors_affiliation_", Sys.Date(), ".doc")
       },
       content = function(file) {
-        
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed)
-        tempReport <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
-        file.copy("contribs_affiliation.Rmd", tempReport, overwrite = TRUE)
-        
-        # Set up parameters to pass to Rmd document
-        params <- list(param_1 = contrib_data(),
-                       param_2 = affil_data())
-        
+        file_path <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
+        file.copy("contribs_affiliation.Rmd", file_path, overwrite = TRUE)
+
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
         # from the code in this app).
-        rmarkdown::render(tempReport, output_file = file, params = params)
+        callr::r(
+          render_report,
+          list(input = file_path, output = file, format = "word_document", params = params())
+        )
       }
     )
+    
+    to_clip <- reactive({
+      paste(contrib_data(), affil_data(), sep = "/n")
+    })
+    
+    # Add clipboard buttons
+    output$clip <- renderUI({
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+    })
+    
+    ## Workaround for execution within RStudio version < 1.2
+    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
+    
+    # Build modal
+    modal <- function() {
+      modalDialog(
+        rclipboard::rclipboardSetup(),
+        includeHTML(report_path()),
+        easyClose = TRUE,
+        footer = tagList(
+          div(
+            style = "display: inline-block",
+            uiOutput(session$ns("clip"))
+          ),
+          downloadButton(
+            NS(id, "report"),
+            label = "Download file"
+          ),
+          modalButton("Close")
+        )
+      )
+    }
+    
+    observeEvent(input$show_report, {
+      waitress$notify()
+      showModal(modal())
+      waitress$close()
+      })
   })
 }
     

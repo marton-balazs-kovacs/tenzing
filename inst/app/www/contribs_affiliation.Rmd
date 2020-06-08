@@ -1,6 +1,12 @@
 ---
 title: "Contributors affiliations"
-output: html_document
+output: 
+  html_document:
+    self_contained: false
+  word_document: default
+params:
+  contrib_data: NA
+  affil_data: NA
 ---
 
 <style type="text/css">
@@ -21,38 +27,11 @@ library(knitr)
 <center>
 
 ```{r, include = TRUE, echo = FALSE, results = 'asis'}
-# Based on: https://stackoverflow.com/questions/36674824/use-loop-to-generate-section-of-text-in-rmarkdown
-
-# Add contributors and their affiliation id two the C-style formatted tempaltes
-paste_contrib_data <- function(a, b, c){
-  if(is.na(c)){
-    sprintf("%s^%d^", a, b)
-    } else{
-      sprintf("%s^%d,%d^", a, b, c)
-    }
-  }
-
-# Iterate through each contributor and add them to the templates
-contrib_print <-
-  contrib_data() %>% 
-  dplyr::transmute(contrib = purrr::pmap_chr(.l = list(Names, `Primary affiliation`, `Secondary affiliation`),
-                                      .f = paste_contrib_data)) %>% 
-  dplyr::pull(contrib)
-
-# Paste and print the corresponding statement and names
-cat(stringr::str_c(contrib_print, collapse = ", "))
+cat(params$contrib_data)
 ```
 
 ```{r, include = TRUE, echo = FALSE, results = 'asis'}
-# Iterate through each affiliation and add them to the C-style template
-affil_print <- 
-  affil_data() %>% 
-  dplyr::transmute(affil = purrr::map2_chr(affiliation_no, affiliation,
-                                    ~ sprintf("^%d^%s", .x, .y))) %>% 
-  dplyr::pull(affil)
-
-# Paste and print the affiliations and the corresponding numbers
-cat(stringr::str_c(affil_print, collapse = ", "))
+cat(params$affil_data)
 ```
 
 </center>

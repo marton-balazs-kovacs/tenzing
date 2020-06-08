@@ -16,11 +16,10 @@
 mod_xml_report_ui <- function(id){
 
   tagList(
-    div(id = "dwnbutton3",
-        downloadButton(NS(id, "report"),
-                       label = "Generate XML file (for publisher use)",
-                       class = "btn btn-primary",
-                       disabled = "disabled")
+    div(class = "out-btn",
+        actionButton(NS(id, "show_report"),
+                       label = "Show XML file (for publisher use)",
+                       class = "btn btn-primary")
         )
     )
   }
@@ -31,24 +30,13 @@ mod_xml_report_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_xml_report_server <- function(id, input_data, valid_infosheet){
+mod_xml_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
-   
-     # Disable download button if the gs is not printed
-    observe({
-      if(!is.null(valid_infosheet())){
-        shinyjs::enable("report")
-        shinyjs::runjs("$('#dwnbutton3').removeAttr('title');")
-      } else{
-        shinyjs::disable("report")
-        shinyjs::runjs("$('#dwnbutton3').attr('title', 'Please upload the infosheet');")
-      }
-    })
+    # waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Prepare the spreadsheet data
     contrib_data <- reactive(
-      
       input_data() %>%
         dplyr::mutate(`Given-names` = dplyr::if_else(is.na(`Middle name`),
                                        Firstname,
@@ -66,7 +54,6 @@ mod_xml_report_server <- function(id, input_data, valid_infosheet){
     
     # Create a new xml document
     contrib_group <- reactive({
-      
       temp <- xml2::xml_new_root(.value = "contrib-group")
       
       # Create a function with the srtucture of the JATS 1.2 DTD specifications (eLife) for the affiliation, author and contribution information
@@ -116,25 +103,58 @@ mod_xml_report_server <- function(id, input_data, valid_infosheet){
         # Add the contributor node to the contributor group node
         temp %>%
           xml2::xml_add_child(contributor_node)
-        
       }
       
       return(temp)
-      
     })
     
+    # # Create preview
+    output$xml_path <- renderText({as.character(contrib_group())})
+  
     # Render output Rmd
     output$report <- downloadHandler(
-      
       # Set filename
       filename = function() {
         paste("machine_readable_report_", Sys.Date(), ".xml", sep = "")
       },
-      
       # Set content of the file
       content = function(file) {
         xml2::write_xml(contrib_group(), file, options = "format")}
       )
+    
+    # Add clipboard buttons
+    output$clip <- renderUI({
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", contrib_group(), icon("clipboard"), modal = TRUE)
+    })
+    
+    ## Workaround for execution within RStudio version < 1.2
+    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
+    
+    # Build modal
+    modal <- function() {
+      modalDialog(
+        rclipboard::rclipboardSetup(),
+        textOutput(NS(id, "xml_path")),
+        easyClose = TRUE,
+        footer = tagList(
+          div(
+            style = "display: inline-block",
+            uiOutput(session$ns("clip"))
+          ),
+          downloadButton(
+            NS(id, "report"),
+            label = "Download file"
+          ),
+          modalButton("Close")
+        )
+      )
+    }
+    
+    observeEvent(input$show_report, {
+      # waitress$notify()
+      showModal(modal())
+      # waitress$close()
+      })
     })
 }
     

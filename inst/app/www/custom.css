@@ -14,6 +14,12 @@
   background-color: #C4E4D9;
 }
 
+.btn-primary[disabled]:hover {
+  color: #7ec4ad;
+  border-color: #7ec4ad;
+  background-color: #C4E4D9;
+}
+
 .btn-primary:focus {
   border-color: #193B30;
   background-color: #2A5D4F;
@@ -31,6 +37,64 @@
   background-color: #3A806D !important;
 }
 
-#show_spreadsheet_ui_1-show_data[disabled] {
-  pointer-events: none
+.swal2-icon.swal2-info {
+  border-color: #ffec9b !important;
+  color: #FFDD4F !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: #D5ECE4 !important;
+}
+
+.swal2-icon.swal2-success {
+  color: #D5ECE4 !important;
+}
+
+.swal2-icon.swal2-error {
+  color: #D45F68 !important;
+}
+
+.swal2-content {
+  text-align: center !important;
+}
+
+.progress-bar{
+  background-color: #7ec4ad;
+}
+
+.form-control:focus {
+  border-color: #7ec4ad;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(84, 200, 155, 1);
+}
+
+#about_modal_ui_1-open_about {
+  color: #D45F68; border-color: #D45F68;
+}
+
+.form-control{
+  border-color: #7ec4ad;
+}
+
+.form-control[readonly] {
+  background-color: #F8FCFB;
+}
+
+a {
+  color: #1A3A31;
+}
+
+a:hover {
+  color: #7ec4ad;
+}
+
+.btn:focus{
+  outline: none !important;
+}
+
+.form-group{
+  margin-bottom: 0px !important;
+}
+
+.well{
+  padding: 17px;
 }
