@@ -1,3 +1,35 @@
+#title {
+  color: #D45F68;
+  font-weight: 700;
+  display: inline;
+}
+
+#sub-title {
+  color: #b2dcce;
+  font-weight: 500;
+  display: inline;
+}
+
+.main-steps-panel {
+  background-color: #b2dcce;
+  box-shadow: none;
+  border: none;
+  margin-bottom: 15px;
+}
+
+.main-steps-title {
+  font-weight: 500;
+  line-height: 1.1;
+  margin-top: 0;
+  color: #D45F68;
+}
+
+#intro-panel {
+  background-color: #ffec9b;
+  box-shadow: none;
+  border: none;  
+}
+
 .btn-primary {
   color: #326F5E;
   border-color: #326F5E;

@@ -34,31 +34,20 @@ mod_human_readable_report_ui <- function(id){
 mod_human_readable_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    # Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Restructure dataframe for the human readable output
-    human_readable_data <- reactive({
-        input_data() %>% 
-        dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
-                              paste(Firstname, Surname),
-                              paste(Firstname, `Middle name`, Surname))) %>% 
-        dplyr::select(Name,
-                      dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>%  
-        tidyr::gather(key = "CRediT Taxonomy", value = "Included", -Name) %>% 
-        dplyr::filter(Included == TRUE) %>% 
-        dplyr::select(-Included) %>%
-        dplyr::group_by(`CRediT Taxonomy`) %>% 
-        dplyr::summarise(Names = stringr::str_c(Name, collapse = ", ")) %>% 
-        dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
-        dplyr::summarise(out = stringr::str_c(out, collapse = "  \n")) %>%
-        dplyr::pull(out)
+    to_print <- reactive({
+      roles_readable_print(infosheet = input_data())
     })
     
     # Set up parameters to pass to Rmd document
     params <- reactive({
-      list(human_readable_data = human_readable_data())
+      list(human_readable = to_print())
     })
     
+    # Render preview
     report_path <- reactive({
       file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
       file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
@@ -96,8 +85,9 @@ mod_human_readable_report_server <- function(id, input_data){
       }
     )
     
+    # Set up output text to clip
     to_clip <- reactive({
-      human_readable_data()
+      to_print()
     })
     
     # Add clipboard buttons
@@ -108,7 +98,7 @@ mod_human_readable_report_server <- function(id, input_data){
     ## Workaround for execution within RStudio version < 1.2
     observeEvent(input$clip_btn, clipr::write_clip(report_path()))
     
-    # Build modal
+    # Build preview modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
@@ -128,6 +118,7 @@ mod_human_readable_report_server <- function(id, input_data){
       )
     }
     
+    # Show preview modal with loading bar
     observeEvent(input$show_report, {
       waitress$notify()
       showModal(modal())

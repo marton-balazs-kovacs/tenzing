@@ -1,15 +1,14 @@
 $( document ).ready(function() {
-  Shiny.addCustomMessageHandler('success_alert', function(message) {
+  function success_alert() {
     Swal.fire({
       icon: 'success',
       title: '<font style="color:#b2dcce;"> The infosheet is valid! </font> ',      
-      html: message,
       timer: 2000,
       timerProgressBar: true,
       showCancelButton: false,
       showConfirmButton: false
     });
-  });
+  }
   
   Shiny.addCustomMessageHandler('error_alert', function(message) {
     Swal.fire({

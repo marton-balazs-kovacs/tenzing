@@ -37,22 +37,12 @@ mod_read_spreadsheet_server <- function(id) {
   options(shiny.maxRequestSize = 9*1024^2)
   
   moduleServer(id, function(input, output, session) {
-    # Reading tabedata from locale
+    # Reading infosheet from local
     table_data <- eventReactive(input$file, {
       # File input requirement
       req(input$file)
       
-      # Read file extension
-      ext <- tools::file_ext(input$file$name)
-      
-      # Read data based on the extension
-      table_data <- switch(ext,
-                           csv = vroom::vroom(input$file$datapath, delim = ","),
-                           tsv = vroom::vroom(input$file$datapath, delim = "\t"),
-                           xlsx = readxl::read_xlsx(input$file$datapath, sheet = 1),
-                           validate("Invalid file; Please upload a .csv, a .tsv or an .xlsx file."))
-      
-      return(table_data)
+      read_infosheet(infosheet_path = input$file$datapath)
       })
     
     # Alert modal if infosheet is incomplete
@@ -67,7 +57,7 @@ mod_read_spreadsheet_server <- function(id) {
         dplyr::any_vars(!is.na(.)))
     })
     
-    # Return modul output
+    # Return module output
     return(list(
       data = table_data_clean,
       valid_infosheet = valid_infosheet,

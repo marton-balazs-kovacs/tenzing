@@ -1,7 +1,5 @@
 # Building a Prod-Ready, Robust Shiny Application.
-# 
 # Each step is optional. 
-# 
 
 # 2. All along your project
 
@@ -24,6 +22,7 @@ usethis::use_package("xml2")
 usethis::use_package("readr")
 usethis::use_package("tidyr")
 usethis::use_package("stringr")
+usethis::use_package("shinyWidgets")
 usethis::use_package("purrr")
 usethis::use_package("tibble")
 usethis::use_package("waiter")
@@ -53,7 +52,8 @@ golem::add_css_file("custom")
 # 3. Documentation
 
 ## 3.1 Vignette
-usethis::use_vignette("tenzing")
+usethis::use_vignette("app_use")
+usethis::use_vignette("local_use")
 devtools::build_vignettes()
 
 ## 3.2 Code coverage

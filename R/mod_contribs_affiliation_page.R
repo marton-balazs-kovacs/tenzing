@@ -38,68 +38,15 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
 
     # Restructure dataframe for the contributors affiliation output
-    contrib_affil_data <- reactive(
-      input_data() %>% 
-        dplyr::mutate(`Middle name` = dplyr::if_else(is.na(`Middle name`),
-                                       NA_character_,
-                                       paste0(stringr::str_sub(`Middle name`, 1, 1), ".")),
-               Names = dplyr::if_else(is.na(`Middle name`),
-                               paste(Firstname, Surname),
-                               paste(Firstname, `Middle name`, Surname))) %>% 
-        dplyr::select(`Order in publication`, Names, `Primary affiliation`, `Secondary affiliation`) %>%
-        tidyr::gather(key = "affiliation_type", value = "affiliation", -Names, -`Order in publication`) %>% 
-        dplyr::arrange(`Order in publication`) %>% 
-        dplyr::mutate(affiliation_no = dplyr::case_when(!is.na(affiliation) ~ dplyr::group_indices(., factor(affiliation, levels = unique(affiliation))),
-                                          is.na(affiliation) ~ NA_integer_))
-    )
-    
-    # Modify data for printing contributor information
-    contrib_data <- reactive({
-      data <- 
-        contrib_affil_data() %>% 
-        dplyr::select(-affiliation) %>% 
-        tidyr::spread(key = affiliation_type, value = affiliation_no)
-      
-      # Based on: https://stackoverflow.com/questions/36674824/use-loop-to-generate-section-of-text-in-rmarkdown
-      # Add contributors and their affiliation id two the C-style formatted tempaltes
-      paste_contrib_data <- function(a, b, c){
-        if(is.na(c)){
-          sprintf("%s^%d^", a, b)
-        } else{
-          sprintf("%s^%d,%d^", a, b, c)
-        }
-      }
-      
-      # Iterate through each contributor and add them to the templates
-      contrib_print <-
-        data %>% 
-        dplyr::transmute(contrib = purrr::pmap_chr(.l = list(Names, `Primary affiliation`, `Secondary affiliation`),
-                                                   .f = paste_contrib_data)) %>% 
-        dplyr::pull(contrib)
-      
-      # Paste and print the corresponding statement and names
-      stringr::str_c(contrib_print, collapse = ", ")
-    })
-    
-    # Modify data for printing the affiliations
-    affil_data <- reactive({
-      affil_print <- contrib_affil_data() %>% 
-        dplyr::select(affiliation_no, affiliation) %>% 
-        tidyr::drop_na(affiliation) %>% 
-        dplyr::distinct(affiliation, .keep_all = TRUE) %>% 
-        # Iterate through each affiliation and add them to the C-style template
-        dplyr::transmute(affil = purrr::map2_chr(affiliation_no, affiliation,
-                                                 ~ sprintf("^%d^%s", .x, .y))) %>% 
-        dplyr::pull(affil)
-      
-      # Paste and print the affiliations and the corresponding numbers
-      stringr::str_c(affil_print, collapse = ", ")
+    to_print <- reactive({
+      contrib_affil_print(infosheet = input_data())
     })
     
     # Set up parameters to pass to Rmd document
     params <- reactive({
-      list(contrib_data = contrib_data(),
-           affil_data = affil_data())
+      list(
+        contrib_data = to_print()$contrib,
+        affil_data = to_print()$affil)
     })
     
     report_path <- reactive({
@@ -138,7 +85,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     )
     
     to_clip <- reactive({
-      paste(contrib_data(), affil_data(), sep = "/n")
+      paste(to_print()$contrib, to_print()$affil, sep = "/n")
     })
     
     # Add clipboard buttons

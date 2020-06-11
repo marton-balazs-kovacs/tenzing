@@ -10,7 +10,13 @@ Authors@R:
            family = "Aust",
            role = "ctb",
            email = "frederik.aust@uni-koeln.de",
-           comment = c(ORCID = "0000-0003-4900-788X")))
+           comment = c(ORCID = "0000-0003-4900-788X")),
+    person(given = "Alex", 
+           family = "Holcombe",
+           role = "ctb"),
+    person(given = "Balazs", 
+           family = "Aczel",
+           role = "ctb"))
 Description: A modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -37,7 +43,8 @@ Imports:
     readxl,
     yaml,
     rclipboard,
-    magrittr
+    magrittr,
+    shinyWidgets
 RoxygenNote: 7.1.0
 Suggests: 
     testthat,

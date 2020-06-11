@@ -5,50 +5,51 @@ app_ui <- function() {
     golem_add_external_resources(),
     
     fluidPage(
+      # Title
       fluidRow(
         column(11, offset = 1,
                tags$div(
-                 h2("Tenzing", style = "color: #D45F68; font-weight: 700; display: inline;"),
-                 h4("Documenting contributorship with CRediT", style = "color: #b2dcce; font-weight: 500; display: inline;"),
+                 h2(id = "title", "Tenzing"),
+                 h4(id = "sub-title", "Documenting contributorship with CRediT"),
                style = "margin-bottom: 10px; margin-top: 10px;"))),
       # Body
       fluidRow(
         column(4, offset = 1,
                wellPanel(
-                 h3("1. Create your infosheet", style = "font-weight: 500; line-height: 1.1; margin-top: 0; color: #D45F68;"),
+                 class = "main-steps-panel",
+                 h3("1. Create your infosheet", class = "main-steps-title"),
                  tags$p("First copy and then fill out this ", style = "display: inline;"),
                  tags$a(href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                         "infosheet template",
                         target="_blank",
-                        style = "display: inline;"),
-                 style = "background-color: #b2dcce; box-shadow: none; border: none; margin-bottom: 15px;"),
+                        style = "display: inline;")),
                wellPanel(
-                 h3("2. Upload your infosheet", style = "font-weight: 500; line-height: 1.1; margin-top: 0; color: #D45F68;"),
+                 class = "main-steps-panel",
+                 h3("2. Upload your infosheet", class = "main-steps-title"),
                  mod_read_spreadsheet_ui("read_spreadsheet_ui_1"),
-                 mod_show_spreadsheet_ui("show_spreadsheet_ui_1"),
-                 style = "background-color: #b2dcce; box-shadow: none; border: none; margin-bottom: 15px;"),
+                 mod_show_spreadsheet_ui("show_spreadsheet_ui_1")),
                wellPanel(
-                 h3("3. Download the output", style = "font-weight: 500; line-height: 1.1; margin-top: 0;  color: #D45F68;"),
+                 class = "main-steps-panel",
+                 h3("3. Download the output", class = "main-steps-title"),
                  mod_human_readable_report_ui("human_readable_report_ui_1"),
                  mod_contribs_affiliation_page_ui("contribs_affiliation_page_ui_1"),
                  mod_xml_report_ui("xml_report_ui_1"),
-                 mod_show_yaml_ui("show_yaml_ui_1"),
-                 style = "background-color: #b2dcce; box-shadow: none; border: none; margin-bottom: 15px;"
-                 )
+                 mod_show_yaml_ui("show_yaml_ui_1"))
                ),
         column(6,
                wellPanel(
-                   includeMarkdown("inst/app/www/introduction.Rmd"),
-                   br(),
-                   fluidRow(
-                     mod_about_modal_ui("about_modal_ui_1"),
-                     align = "right"),
-                   style = "background-color: #ffec9b; box-shadow: none; border: none;")),
+                 id = "intro-panel",
+                 includeMarkdown(app_sys("app/www/introduction.Rmd")),
+                 br(),
+                 fluidRow(
+                   align = "right",
+                   mod_about_modal_ui("about_modal_ui_1")))
+               ),
         column(1)
         )
       ),
     
-    # Enabling waiter js functions
+    # Enabling waiter JS functions
     waiter::use_waiter(include_js = FALSE),
     waiter::use_waitress(color = "#D45F68"),
     
@@ -71,7 +72,9 @@ golem_add_external_resources <- function(){
     golem::favicon(),
     # Add sweetalert2 JS library
     tags$script(src = "https://cdn.jsdelivr.net/npm/sweetalert2@9.14.0/dist/sweetalert2.all.min.js"),
+    # Add custom css stylesheet
     tags$link(rel = "stylesheet", type = "text/css", href = "www/custom.css"),
+    # Add custom JS functions
     tags$script(src = "www/sweet_alert.js"),
     tags$script(src = "www/tooltip.js")
   )

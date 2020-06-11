@@ -1,0 +1,96 @@
+---
+title: "Using tenzing as a shiny app"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{app_use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The `tenzing` package can be used as a shiny application. If you are fine with using the `tenzing` app deployed on shinyapps.io you can open the app with the following link: [https://martonbalazskovacs.shinyapps.io/tenzing/](https://martonbalazskovacs.shinyapps.io/tenzing/). When you first open the app it might take a few seconds for the page to load depending on the speed of your internet connection.
+
+However, if you want to you can run the app locally from your computer.
+In order to run the app locally you first have to open R and install the `tenzing` pacakge with the following code:
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/tenzing")
+```
+
+After the installation finishes you can launch the app.
+
+```{r, eval = FALSE}
+tenzing::run_app()
+```
+
+# Overview of the app
+
+When you open the app the instructions on how to use it are on the left yellow panel. The three green panels on the right-side of the app guide you through the process of generating the contributorship information with the CRediT taxonomy.
+
+```{r}
+knitr::include_graphics('./tenzing_on_open.png')
+```
+
+# Create your infosheet
+
+In order to generate the output without errors you should upload all your credit information in a table that is based on our infosheet template that is linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing
+). The template is created as a Google spreadsheet, you can easily make your own copy of it in your Google Drive by _File -> Make a copy_. The big advantage of using the Google spreadsheet format is that you can share it with your collaborators so they can provide their own contributorship information. We also suggest to you to create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet template can be modified and updated as the project progress.
+
+```{r}
+knitr::include_graphics('./infosheet.png')
+```
+
+__Note:__ There are a few things that must be provided in order to generate the output. The firstname and surname columns must be filled out for each author, at least one affiliation must be provided. Please write the full name in the columns and do not use initials even for the middle name, the app abbreviates it for you. The order of publication column must be filled for each author with a unique value.
+
+You can add as many contributors as you want to. Also, if you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at [https://casrai.org/credit/](https://casrai.org/credit/).
+
+# Upload your infosheet
+
+The second step is to upload your infosheet to the app. Download the filled out infosheet with _File -> Download_. The app can receive three formats: csv, tsv or xlsx. So choose one of them, but be aware that if you upload an xlsx file to the app only the first sheet will matter.
+
+```{r}
+knitr::include_graphics('./tenzing_error.png')
+```
+
+On upload the app checks the validity of your infosheet by comparing it to the infosheet tempalate. The check can have three results: success, warning or error. If the check is a success you have move on to the next step. The warning and the error are accompanied by meaningful messages that help you find the problem in your infosheet. Warnings usually do not affects the generated outputs so you can ignore them. However, they can highlight possible duplication in your infosheet by looking for duplicate names. In case of an error, the app does not enable the output generating buttons until you fix the error.
+
+If you want to take a look at your uploaded infosheet you can do that by clicking _"Show infosheet"_. In this interactive viewer you can search or filter the contributors by any column if needed.
+
+# Download the output
+
+In the third step you can choose between generating four different outputs. By clicking on each output option you will first see a preview of the generated output in a different window. The loading of this window might take a few seconds depending on the number of contributors that you have. After the preview has loaded yoou can decide whether you want to download the file on a doc format or you want to copy-paste it into your cutting board.
+
+You can choose between the following output options:
+
+## create a human readable report of the contributions
+
+```{r, echo = FALSE}
+knitr::include_graphics('./human_readable_output.png')
+```
+
+## Create the contributors' affiliation page
+
+```{r, echo = FALSE}
+knitr::include_graphics('./contrib_affil_output.png')
+```
+
+## Create a JATS formatted XML document containing the contributors information
+
+```{r, echo = FALSE}
+knitr::include_graphics('./xml_output.png')
+```
+
+## Create a YAML document containing the contributors informtation
+
+This output can be incorporated into manuscript created with the `papaja` package.
+
+```{r, echo = FALSE}
+knitr::include_graphics('./yaml_output.png')
+```

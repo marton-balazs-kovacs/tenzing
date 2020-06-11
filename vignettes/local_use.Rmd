@@ -1,0 +1,103 @@
+---
+title: "Using tenzing as a package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{local_use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+If you do not want to use the tenzing app, you can use the package from R to achieve the same outputs.
+
+# Setup
+
+First, you have to install the package.
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+ devtools::install_github("marton-balazs-kovacs/tenzing")
+```
+
+Second you have to load the package.
+
+```{r, message = FALSE, warning = FALSE}
+library(tenzing)
+```
+
+# Create your infosheet
+
+You can copy the Google spreadsheet and fill out the copy with your contributorship information. However, you can use the template built in the application as a dataset. To get more information on the infosheet tempalte use the `?tenzing::infosheet_template` command.
+
+You can write the template to your root folder as an xlsx file for easy edit.
+
+```{r}
+# install.packages("writexl")
+writexl::write_xlsx(infosheet_template, "my_infosheet.xlsx")
+```
+
+# Load your infosheet
+
+You can load the infosheet into R with the `tenzing::read_infosheet` function. This function accepts files with csv, tsv and xlsx extensions.
+As an example we will use the built in infosheet template.
+
+```{r, eval = FALSE}
+my_infosheet <- read_infosheet(infosheet_path = "full_path_to_my_infosheet_with_extension")
+```
+
+After loading your infosheet you have to check its validity.
+
+```{r}
+check_result <- validate_infosheet(infosheet = infosheet_template)
+```
+
+The validation function checks your infosheet by 10 statements. You can learn more about these checks by running the following code `?tenzing::infosheet_template`.
+
+The check can have three results: _success_, _warning_ or _error_. You can investigate what was the output of each of the 10 checks.
+
+```{r}
+purrr::map(check_result, "type")
+```
+
+If any of them is an _error_ than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your infosheet accordingly.
+
+```{r}
+purrr::map(check_result, "message")
+```
+
+# Generate output
+
+If your infosheet is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.
+
+## create a human readable report of the contributions
+
+```{r}
+print_roles_readable(infosheet = infosheet_template)
+```
+
+## Create the contributors' affiliation page
+
+```{r}
+print_contrib_affil(infosheet = infosheet_template)
+```
+
+## Create a JATS formatted XML document containing the contributors information
+
+```{r}
+print_xml(infosheet = infosheet_template)
+```
+
+## Create a YAML document containing the contributors informtation
+
+This output can be incorporated into manuscript created with the `papaja` package.
+
+```{r}
+print_yaml(infosheet = infosheet_template)
+```
+
