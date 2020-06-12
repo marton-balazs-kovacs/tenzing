@@ -182,7 +182,7 @@ validate_infosheet <- function(infosheet) {
     } else {
       list(
         type = "success",
-        message = "There is no missing value in the order of publication."
+        message = "There are no missing values in the order of publication."
       )
     }
   }
@@ -201,7 +201,7 @@ validate_infosheet <- function(infosheet) {
       } else {
         list(
           type = "success",
-          message = "There is no duplicated order number in the infosheet."
+          message = "There are no duplicated order numbers in the infosheet."
         )
       }
     }
@@ -225,7 +225,7 @@ validate_infosheet <- function(infosheet) {
       } else {
         list(
           type = "success",
-          message = "There is no missing affiliation in the infosheet."
+          message = "There are no missing affiliations in the infosheet."
         )
       }
     }
@@ -235,11 +235,11 @@ validate_infosheet <- function(infosheet) {
     if (any(x$`Corresponding author?`)) {
       list(
         type = "success",
-        message = "There is at least one author added as corresponding author.")
+        message = "There is at least one author indicated as corresponding author.")
       } else {
         list(
           type = "warning",
-          message = "There is no author added as corresponding author.")
+          message = "There is no indication of a corresponding author.")
       }
     }
     
@@ -271,7 +271,7 @@ validate_infosheet <- function(infosheet) {
     if (nrow(missing) != 0) {
       list(
         type = "warning",
-        message = glue::glue("There is no credit taxonomy checked for the following row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
+        message = glue::glue("There is no CRediT taxonomy checked for the following row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
       } else {
         list(
           type = "success",
