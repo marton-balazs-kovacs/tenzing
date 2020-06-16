@@ -134,7 +134,9 @@ mod_xml_report_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        textOutput(NS(id, "xml_path")),
+        h3("JATS XML"),
+        p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML.", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
+        verbatimTextOutput(NS(id, "xml_path")),
         easyClose = TRUE,
         footer = tagList(
           div(
