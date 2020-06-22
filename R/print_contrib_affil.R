@@ -4,14 +4,15 @@
 #' an infosheet validated with the \code{\link{validate_infosheet}} function. The 
 #' infosheet must be based on the \code{\link{infosheet_template}}.
 #' 
+#' @export
+#' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
 #'   validation is handled inside of the app separately, the function can
 #'   break with non-informative errors if running locally without first
 #'   validating it.
 #'   
-#' @family \code{\link{print_contrib_affil}}, \code{\link{print_roles_readable}},
-#'   \code{\link{print_xml}}, \code{\link{print_yaml}}
+#' @family output functions
 #'
 #' @param infosheet validated infosheet
 #' 

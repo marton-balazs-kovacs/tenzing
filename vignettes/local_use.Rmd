@@ -33,14 +33,16 @@ library(tenzing)
 
 # Create your infosheet
 
-You can copy the Google spreadsheet and fill out the copy with your contributorship information. However, you can use the template built in the application as a dataset. To get more information on the infosheet tempalte use the `?tenzing::infosheet_template` command.
-
-You can write the template to your root folder as an xlsx file for easy edit.
+The infosheet template is built in the package, as well as uploaded to the [net](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). If you choose to fill out the template with your credit information locally, you can write the infosheet template as an xlsx file to your working directory from the package with the following code:
 
 ```{r}
 # install.packages("writexl")
 writexl::write_xlsx(infosheet_template, "my_infosheet.xlsx")
 ```
+
+To get more information on the infosheet tempalte use the `?tenzing::infosheet_template` command.
+
+_Note: This produces the same result as downloading the infosheet template from the link provided before._
 
 # Load your infosheet
 

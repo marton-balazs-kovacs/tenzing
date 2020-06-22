@@ -1,0 +1,18 @@
+reference:
+- title: Shiny App
+  desc: Functions to use the shiny app
+- contents: 
+  - run_app
+- title: Infosheet
+  desc: Functions to load and test your infosheet
+- contents:
+  - infosheet_template
+  - read_infosheet
+  - validate_infosheet
+- title: Generate Output
+- desc: Functions to generate outputs
+- contents:
+  - print_contrib_affil
+  - print_roles_readable
+  - print_xml
+  - print_yaml

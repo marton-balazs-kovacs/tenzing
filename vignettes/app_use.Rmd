@@ -33,16 +33,15 @@ tenzing::run_app()
 
 When you open the app, you'll see instructions in the left yellow panel to guide you through the process of providing the input to generate the app's output: contributorship information using the CRediT taxonomy, in various formats.
 
-```{r}
+```{r, echo = FALSE}
 knitr::include_graphics('./tenzing_on_open.png')
 ```
 
 # Create your infosheet
 
-Enter all your credit information in a copy of the infosheet template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing
-). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet can be updated as the project progresses.
+Enter all your credit information in a copy of the infosheet template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet can be updated as the project progresses.
 
-```{r}
+```{r, echo = FALSE}
 knitr::include_graphics('./infosheet.png')
 ```
 
@@ -54,7 +53,7 @@ If you hover your mouse over the CRediT taxonomy column names in the Google spre
 
 Before uploading your infosheet to the app, first download it to your computer if you haven't already. Use _File -> Download_. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).
 
-```{r}
+```{r, echo = FALSE}
 knitr::include_graphics('./tenzing_error.png')
 ```
 
@@ -68,7 +67,7 @@ By clicking on each of the four output options you will see a preview of the gen
 
 Below are the output options:
 
-## create a human readable report of the contributions
+## Create a human readable report of the contributions
 
 ```{r, echo = FALSE}
 knitr::include_graphics('./human_readable_output.png')

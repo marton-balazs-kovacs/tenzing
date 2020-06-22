@@ -1,11 +1,12 @@
 Package: tenzing
-Title: Shiny App That Handles Contributorship Information
+Title: Handling Contributorship Information
 Version: 0.0.0.9000
 Authors@R:
-  c(person(given = 'Marton',
-           family = 'Kovacs',
-           role = c('cre', 'aut'),
-           email = 'maron.balazs.kovacs@gmail.com'),
+  c(person(given = "Marton",
+           family = "Kovacs",
+           role = c("cre", "aut"),
+           email = "maron.balazs.kovacs@gmail.com",
+           comment = c(ORCID = "0000-0002-8142-8492")),
     person(given = "Frederik", 
            family = "Aust",
            role = "ctb",
@@ -17,7 +18,7 @@ Authors@R:
     person(given = "Balazs", 
            family = "Aczel",
            role = "ctb"))
-Description: A modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.
+Description: A modularized shiny app that read contributorship information from a local source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

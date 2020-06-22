@@ -41,7 +41,7 @@ Tenzing can be used either via the web app or via R.
 
 ### Using the web app
 
-You can use the app at (https://martonbalazskovacs.shinyapps.io/tenzing/)[https://martonbalazskovacs.shinyapps.io/tenzing/].
+You can use the app at [https://martonbalazskovacs.shinyapps.io/tenzing/](https://martonbalazskovacs.shinyapps.io/tenzing/).
 
 You can alternatively run the app locally on your own computer by following these instructions:
 
@@ -58,11 +58,11 @@ Running the app.
 tenzing::run_app()
 ```
 
-You can read more on how to use the `tenzing` app HERE.
+You can read more on how to use the `tenzing` app in `vignette("app_use")`.
 
 ### Using the pacakge
 
-You can read more on how to use the `tenzing` package to create reports from R HERE.
+You can read more on how to use the `tenzing` package to create reports from R in `vignette("local_use")`.
 
 ## Contribution
 

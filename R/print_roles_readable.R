@@ -5,21 +5,20 @@
 #' the \code{\link{validate_infosheet}} function. The infosheet must be based on the
 #' \code{\link{infosheet_template}}.
 #' 
-#' #' @section Warning:
+#' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
 #'   validation is handled inside of the app separately, the function can
 #'   break with non-informative errors if running locally without first
 #'   validating it.
 #'   
-#' @family \code{\link{print_contrib_affil}}, \code{\link{print_roles_readable}},
-#'   \code{\link{print_xml}}, \code{\link{print_yaml}}
+#' @family output functions
 #'
 #' @param infosheet validated infosheet
 #' 
-#' #' @return The function returns a character vector of the CRediT roles
+#' @return The function returns a character vector of the CRediT roles
 #'   with the contributors listed for each role they partake in. The returned
 #'   text is rmarkdown formatted.
-#' 
+#' @export
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_roles_readable(infosheet = infosheet_template)

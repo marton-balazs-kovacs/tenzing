@@ -3,6 +3,8 @@
 #' Then function reads the infosheet given the path if the
 #' file is a csv, tsv or an xlsx.
 #' 
+#' @export
+#' 
 #' @section Warning:
 #' If the file is an xlsx the function only reads the first sheet.
 #' 

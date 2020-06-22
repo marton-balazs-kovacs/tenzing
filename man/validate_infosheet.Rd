@@ -19,7 +19,7 @@ The function returns a list for each checked statement. Each list contains
 This function validates the infosheet provided to it by checking whether the
 provided infosheet is compatible with the \code{\link{infosheet_template}}. The function
 early escapes only if the provided infosheet is not a dataframe or the variable
-names are not the same as in the infosheet tempalte.
+names are not the same as in the infosheet template.
 }
 \section{The function checks the following statements}{
 

@@ -10,3 +10,6 @@ $run_dev.*
 ^Meta$
 ^app\.R$
 ^CODE_OF_CONDUCT\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

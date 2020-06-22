@@ -3,7 +3,7 @@
 #' This function validates the infosheet provided to it by checking whether the
 #' provided infosheet is compatible with the \code{\link{infosheet_template}}. The function
 #' early escapes only if the provided infosheet is not a dataframe or the variable
-#' names are not the same as in the infosheet tempalte.
+#' names are not the same as in the infosheet template.
 #' 
 #' @section The function checks the following statements:
 #' \itemize{
@@ -28,7 +28,7 @@
 #'   a \code{type} vector that stores whether the statement passed the check "success"
 #'   or failed "warning" or "error", and a \code{message} vector that contains information
 #'   about the nature of the check.
-#'   
+#' @export 
 #' @examples
 #' check_result <- validate_infosheet(infosheet = infosheet_template)
 #' # Show the results of the checks
