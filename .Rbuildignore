@@ -14,3 +14,4 @@ $run_dev.*
 ^docs$
 ^pkgdown$
 ^\.github$
+^codecov\.yml$

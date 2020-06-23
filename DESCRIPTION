@@ -50,7 +50,8 @@ RoxygenNote: 7.1.0
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 URL: https://github.com/marton-balazs-kovacs/tenzing
 BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
 VignetteBuilder: knitr

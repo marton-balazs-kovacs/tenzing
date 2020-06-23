@@ -35,7 +35,7 @@ library(tenzing)
 
 The infosheet template is built in the package, as well as uploaded to the [net](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). If you choose to fill out the template with your credit information locally, you can write the infosheet template as an xlsx file to your working directory from the package with the following code:
 
-```{r}
+```{r, eval = FALSE}
 # install.packages("writexl")
 writexl::write_xlsx(infosheet_template, "my_infosheet.xlsx")
 ```
