@@ -46,14 +46,11 @@ mod_check_modal_server <- function(id, activate, table_data){
         } else if (all(check_result()$type == "success")) {
           golem::invoke_js("success_alert", "")
           } else if (all(check_result()$type %in% c("warning", "success"))) {
-            check_warning <- dplyr::filter(check_result(), type == "warning")
-            golem::invoke_js("warning_alert", check_warning$message)
+            golem::invoke_js("warning_alert", unnamed_message(check_result(), "warning"))
             } else {
-              check_warning <- dplyr::filter(check_result(), type == "warning")
-              check_error <- dplyr::filter(check_result(), type == "error")
               golem::invoke_js("error_alert",
-                               list(error = check_error$message,
-                                    warning = check_warning$message))
+                               list(error = unnamed_message(check_result(), "error"),
+                                    warning = unnamed_message(check_result(), "warning")))
               }
       })
     
