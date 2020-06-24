@@ -112,11 +112,15 @@
 }
 
 a {
-  color: #1A3A31;
+  color: #D45F68 !important;
 }
 
 a:hover {
-  color: #7ec4ad;
+  color: #B6313B !important;
+}
+
+.download-report{
+  color: #333 !important;
 }
 
 .btn:focus{
