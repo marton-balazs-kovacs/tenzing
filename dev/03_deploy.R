@@ -8,9 +8,11 @@ rhub::check_for_cran()
 # 5. Deployment elements
 
 ## 5.1 If you want to deploy on RStudio related platforms
-golem::add_rstudioconnect_file()
+# golem::add_rstudioconnect_file()
 golem::add_shinyappsio_file()
-golem::add_shinyserver_file()
+#  Ignore generate rsconnect folder
+usethis::use_build_ignore("rsconnect/", escape = FALSE)
+# golem::add_shinyserver_file()
 
 ## 5.2 If you want to deploy via a generic Dockerfile
 golem::add_dockerfile()
