@@ -39,7 +39,7 @@ mod_human_readable_report_server <- function(id, input_data){
     
     # Restructure dataframe for the human readable output
     to_print <- reactive({
-      roles_readable_print(infosheet = input_data())
+      print_roles_readable(infosheet = input_data())
     })
     
     # Set up parameters to pass to Rmd document
@@ -111,7 +111,8 @@ mod_human_readable_report_server <- function(id, input_data){
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download file"
+            label = "Download file",
+            class = "download-report"
           ),
           modalButton("Close")
         )

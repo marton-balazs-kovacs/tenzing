@@ -104,7 +104,8 @@ mod_show_yaml_server <- function(id, input_data) {
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download YAML file"
+            label = "Download YAML file",
+            class = "download-report"
           ), 
           modalButton("Close")
         )

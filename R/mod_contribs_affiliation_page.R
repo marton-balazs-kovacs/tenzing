@@ -39,7 +39,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
 
     # Restructure dataframe for the contributors affiliation output
     to_print <- reactive({
-      contrib_affil_print(infosheet = input_data())
+      print_contrib_affil(infosheet = input_data())
     })
     
     # Set up parameters to pass to Rmd document
@@ -109,7 +109,8 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download file"
+            label = "Download file",
+            class = "download-report"
           ),
           modalButton("Close")
         )

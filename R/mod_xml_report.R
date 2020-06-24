@@ -37,7 +37,7 @@ mod_xml_report_server <- function(id, input_data){
     
     # Prepare the spreadsheet data
     to_print <- reactive({
-      xml_print(infosheet = input_data())
+      print_xml(infosheet = input_data())
     })
     
     # # Create preview
@@ -77,7 +77,8 @@ mod_xml_report_server <- function(id, input_data){
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download file"
+            label = "Download file",
+            class = "download-report"
           ),
           modalButton("Close")
         )
