@@ -1,5 +1,3 @@
-library(magrittr)
-
 template_url <- "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing"
 
 safe_gs_url <- purrr::safely(googlesheets::gs_url)

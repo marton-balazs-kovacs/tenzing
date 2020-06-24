@@ -69,7 +69,7 @@ golem_add_external_resources <- function(){
  
   tags$head(
     golem::activate_js(),
-    golem::favicon(),
+    # golem::favicon(),
     # Add sweetalert2 JS library
     tags$script(src = "https://cdn.jsdelivr.net/npm/sweetalert2@9.14.0/dist/sweetalert2.all.min.js"),
     # Add custom css stylesheet

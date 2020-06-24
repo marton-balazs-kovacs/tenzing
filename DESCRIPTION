@@ -27,10 +27,8 @@ Imports:
     golem,
     htmltools,
     processx,
-    attempt,
     DT,
     glue,
-    shinyjs,
     dplyr,
     xml2,
     readr,
@@ -45,7 +43,11 @@ Imports:
     yaml,
     rclipboard,
     magrittr,
-    shinyWidgets
+    shinyWidgets,
+    config,
+    callr,
+    clipr,
+    htmlwidgets
 RoxygenNote: 7.1.0
 Suggests: 
     testthat,
