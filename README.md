@@ -71,7 +71,7 @@ tenzing::run_app()
 You can read more on how to use the `tenzing` app in
 `vignette("app_use")`.
 
-### Using the pacakge
+### Using the package
 
 You can read more on how to use the `tenzing` package to create reports
 from R in `vignette("local_use")`.
