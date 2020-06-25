@@ -42,7 +42,7 @@ validate_infosheet <- function(infosheet) {
   # Check necessary variable names ---------------------------
   check_cols <- function(x) {
     col_match <- tibble::tibble(
-      cols = colnames(infosheet_template),
+      cols = colnames(x),
       check = tibble::has_name(x, cols))
 
     if (!all(col_match$check)) {
