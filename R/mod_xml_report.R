@@ -43,10 +43,19 @@ mod_xml_report_server <- function(id, input_data){
       # Create output
       print_xml(infosheet = input_data())
     })
-    
+
     ## Create preview
-    output$tenzing_xml <- renderText({as.character(to_print())})
-  
+    output$jats_xml <- renderUI({
+      tagList(
+        tagAppendAttributes(
+          tags$code(as.character(to_print())),
+          class = "language-xml"
+        ),
+        tags$script("Prism.highlightAll()")
+      )
+    })
+    
+    
     # Render output Rmd
     output$report <- downloadHandler(
       # Set filename
@@ -73,8 +82,8 @@ mod_xml_report_server <- function(id, input_data){
         rclipboard::rclipboardSetup(),
         h3("JATS XML"),
         hr(),
-        p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML.", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
-        verbatimTextOutput(NS(id, "tenzing_xml")),
+        p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
+        uiOutput(NS(id, "jats_xml"), container = pre),
         easyClose = TRUE,
         footer = tagList(
           div(

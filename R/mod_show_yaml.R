@@ -46,7 +46,15 @@ mod_show_yaml_server <- function(id, input_data) {
     })
     
     ## Create preview
-    output$tenzing_yaml <- renderText({as.character(author_yaml())})
+    output$papaja_yaml <- renderUI({
+      tagList(
+        tagAppendAttributes(
+          tags$code(author_yaml()),
+          class = "language-yaml"
+        ),
+        tags$script("Prism.highlightAll()")
+      )
+    })
     
     # Generate YAML file
     output$report <- downloadHandler(
@@ -81,7 +89,7 @@ mod_show_yaml_server <- function(id, input_data) {
         p(
           "You can copy the YAML code below and paste it into the YAML front matter of a ", HTML("<code>papaja</code>"), "-R Markdown file to populate the author metadata. ", HTML("<code>papaja</code>"), " will automatically add the contributorship information to the author note."
         ),
-        verbatimTextOutput(NS(id, "tenzing_yaml")),
+        uiOutput(NS(id, "papaja_yaml"), container = pre),
         easyClose = TRUE,
         footer = tagList(
           div(
