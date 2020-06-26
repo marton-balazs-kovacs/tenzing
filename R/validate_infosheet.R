@@ -53,17 +53,7 @@ validate_infosheet <- function(infosheet) {
         dplyr::filter(check == FALSE)
       
       stop(glue::glue("Missing column(s): ", glue::glue_collapse(missing$cols, sep = ", ", last = " and ")))
-      # list(
-      #   type = "error",
-      #   message = glue::glue("Missing column(s): ", glue::glue_collapse(missing$cols, sep = ", ", last = " and "))
-      # )
       }
-    # else {
-    #     list(
-    #       type = "success",
-    #       message = "There are no missing columns in the infosheet."
-    #     )
-    #   }
   }
   
   check_cols(infosheet)
@@ -137,7 +127,7 @@ validate_infosheet <- function(infosheet) {
         type = "success",
         message = "There are no duplicate names in the infosheet."
       )
-    }
+      }
     }
   # Check for same initials, issue a warning that we will use surname to differentiate
   check_duplicate_initials <- function(x) {
@@ -282,7 +272,7 @@ validate_infosheet <- function(infosheet) {
     }
   
   # Return output ---------------------------
-  list(
+  res <- list(
     missing_surname = check_missing_surname(infosheet_clean),
     missing_firstname = check_missing_firstname(infosheet_clean),
     duplicate_names = check_duplicate_names(infosheet_clean),
@@ -291,8 +281,16 @@ validate_infosheet <- function(infosheet) {
     duplicate_order = check_duplicate_order(infosheet_clean),
     missing_affiliation = check_affiliation(infosheet_clean),
     missing_corresponding = check_missing_corresponding(infosheet_clean),
-    missing_email = check_missing_email(infosheet_clean),
     missing_credit = check_credit(infosheet_clean)
     )
+    
+    if(res$missing_corresponding$type == "success") {
+      res <- c(
+        res,
+        list(missing_email = check_missing_email(infosheet_clean))
+      )
+    }
+    
+    return(res)
   }
 
