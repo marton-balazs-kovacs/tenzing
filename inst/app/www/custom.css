@@ -119,8 +119,14 @@ a:hover {
   color: #B6313B !important;
 }
 
-.download-report{
+.download-report {
   color: #333 !important;
+}
+
+.download-report:hover {
+  color: #333 !important;
+  background-color: #e6e6e6 !important;
+  border-color: #adadad !important;
 }
 
 .btn:focus{
