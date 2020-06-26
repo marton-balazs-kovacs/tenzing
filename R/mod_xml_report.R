@@ -35,13 +35,17 @@ mod_xml_report_server <- function(id, input_data){
   moduleServer(id, function(input, output, session) {
     # waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    # Prepare the spreadsheet data
+    # Create XML
     to_print <- reactive({
+      # Table data validation
+      req(input_data())
+
+      # Create output
       print_xml(infosheet = input_data())
     })
     
-    # # Create preview
-    output$xml_path <- renderText({as.character(to_print())})
+    ## Create preview
+    output$tenzing_xml <- renderText({as.character(to_print())})
   
     # Render output Rmd
     output$report <- downloadHandler(
@@ -49,10 +53,11 @@ mod_xml_report_server <- function(id, input_data){
       filename = function() {
         paste("machine_readable_report_", Sys.Date(), ".xml", sep = "")
       },
+      
       # Set content of the file
       content = function(file) {
         xml2::write_xml(to_print(), file, options = "format")}
-      )
+    )
     
     # Add clipboard buttons
     output$clip <- renderUI({
@@ -67,8 +72,9 @@ mod_xml_report_server <- function(id, input_data){
       modalDialog(
         rclipboard::rclipboardSetup(),
         h3("JATS XML"),
+        hr(),
         p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML.", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
-        verbatimTextOutput(NS(id, "xml_path")),
+        verbatimTextOutput(NS(id, "tenzing_xml")),
         easyClose = TRUE,
         footer = tagList(
           div(
