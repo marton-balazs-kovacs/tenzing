@@ -33,8 +33,6 @@ mod_xml_report_ui <- function(id){
 mod_xml_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
-    # waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
-    
     # Create XML
     to_print <- reactive({
       # Table data validation
@@ -101,9 +99,7 @@ mod_xml_report_server <- function(id, input_data){
     }
     
     observeEvent(input$show_report, {
-      # waitress$notify()
       showModal(modal())
-      # waitress$close()
       })
     })
 }
