@@ -22,8 +22,9 @@
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_roles_readable(infosheet = infosheet_template)
-print_roles_readable <-  function(infosheet) {
-  infosheet %>% 
+print_roles_readable <-  function(infosheet, output_format = "rmd") {
+  res <-
+    infosheet %>% 
     dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
                                         paste(Firstname, Surname),
                                         paste(Firstname, `Middle name`, Surname))) %>% 
@@ -33,8 +34,22 @@ print_roles_readable <-  function(infosheet) {
     dplyr::filter(Included == TRUE) %>% 
     dplyr::select(-Included) %>%
     dplyr::group_by(`CRediT Taxonomy`) %>% 
-    dplyr::summarise(Names = stringr::str_c(Name, collapse = ", ")) %>% 
-    dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
-    dplyr::summarise(out = stringr::str_c(out, collapse = "  \n")) %>%
-    dplyr::pull(out)
+    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "))
+  
+  if (output_format == 'rmd') {
+    res %>% 
+      dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
+      dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n")) %>% 
+      dplyr::pull(out)
+  } else if (output_format == "html") {
+    res %>% 
+      dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}.")) %>% 
+      dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>")) %>% 
+      dplyr::pull(out)
+  } else if (output_format == "raw") {
+    res %>% 
+      dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}.")) %>% 
+      dplyr::summarise(out = glue::glue_collapse(out, sep = " ")) %>% 
+      dplyr::pull(out)
+  }
 }

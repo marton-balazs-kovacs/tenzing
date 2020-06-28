@@ -24,7 +24,7 @@
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_contrib_affil(infosheet = infosheet_template)
-print_contrib_affil <- function(infosheet) {
+print_contrib_affil <- function(infosheet, output_format = "rmd") {
   # Restructure dataframe for the contributors affiliation output
   contrib_affil_data <-
     infosheet %>% 
@@ -41,32 +41,75 @@ print_contrib_affil <- function(infosheet) {
                                                     is.na(affiliation) ~ NA_integer_))
   
   # Modify data for printing contributor information
-  contrib_print <- 
+  contrib_data <- 
     contrib_affil_data %>% 
     dplyr::select(-affiliation) %>% 
-    tidyr::spread(key = affiliation_type, value = affiliation_no) %>% 
-    dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
-                                               ~ dplyr::if_else(is.na(..3),
-                                                                glue::glue("{..1}^{..2}^"),
-                                                                glue::glue("{..1}^{..2},{..3}^")))) %>% 
-    dplyr::pull(contrib) %>% 
-    glue::glue_collapse(., sep = ", ")
+    tidyr::spread(key = affiliation_type, value = affiliation_no)
+  
+  if (output_format == "rmd") {
+    contrib_print <-
+      contrib_data %>% 
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}^{..2}^"),
+                                                                  glue::glue("{..1}^{..2},{..3}^")))) %>% 
+      dplyr::pull(contrib) %>% 
+      glue::glue_collapse(., sep = ", ")
+  } else if (output_format == "html") {
+    contrib_print <-
+      contrib_data %>%
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}<sup>{..2}</sup>"),
+                                                                  glue::glue("{..1}<sup>{..2},{..3}</sup>")))) %>% 
+      dplyr::pull(contrib) %>% 
+      glue::glue_collapse(., sep = ", ")
+  } else if (output_format == "raw") {
+    contrib_print <-
+      contrib_data %>% 
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}{..2}"),
+                                                                  glue::glue("{..1}{..2},{..3}")))) %>% 
+      dplyr::pull(contrib) %>% 
+      glue::glue_collapse(., sep = ", ")
+  }
   
   # Modify data for printing the affiliations
-  affil_print <- 
+  affil_data <- 
     contrib_affil_data %>% 
     dplyr::select(affiliation_no, affiliation) %>% 
     tidyr::drop_na(affiliation) %>% 
-    dplyr::distinct(affiliation, .keep_all = TRUE) %>% 
-    dplyr::transmute(affil = glue::glue("^{affiliation_no}^{affiliation}")) %>% 
-    dplyr::pull(affil) %>% 
-    glue::glue_collapse(., sep = ", ")
+    dplyr::distinct(affiliation, .keep_all = TRUE)
+  
+  if (output_format == "rmd") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("^{affiliation_no}^{affiliation}")) %>% 
+      dplyr::pull(affil) %>% 
+      glue::glue_collapse(., sep = ", ")
+  } else if (output_format == "html") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("<sup>{affiliation_no}</sup>{affiliation}")) %>% 
+      dplyr::pull(affil) %>% 
+      glue::glue_collapse(., sep = ", ")
+  } else if (output_format == "raw") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("{affiliation_no}{affiliation}")) %>% 
+      dplyr::pull(affil) %>% 
+      glue::glue_collapse(., sep = ", ")
+  }
   
   # Outputs
-  return(
-    list(
-      contrib = contrib_print,
-      affil = affil_print
-    )
-  )
+  if (output_format == "rmd") {
+    res <- paste0(contrib_print, "  \n   \n", affil_print)
+  } else if (output_format == "html") {
+    res <- paste0(contrib_print, "<br><br>", affil_print)
+  } else if (output_format == "raw") {
+    res <- paste(contrib_print, affil_print)
+    }
+  
+  return(res)
 }

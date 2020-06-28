@@ -5,8 +5,7 @@ output:
     self_contained: false
   word_document: default
 params:
-  contrib_data: NA
-  affil_data: NA
+  contrib_affil: NA
 ---
 
 <style type="text/css">
@@ -24,14 +23,6 @@ h1.title {
 library(knitr)
 ```
 
-<center>
-
 ```{r, include = TRUE, echo = FALSE, results = 'asis'}
-cat(params$contrib_data)
+cat(params$contrib_affil)
 ```
-
-```{r, include = TRUE, echo = FALSE, results = 'asis'}
-cat(params$affil_data)
-```
-
-</center>

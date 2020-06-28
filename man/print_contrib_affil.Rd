@@ -4,7 +4,7 @@
 \alias{print_contrib_affil}
 \title{Generate contributors' affiliations}
 \usage{
-print_contrib_affil(infosheet)
+print_contrib_affil(infosheet, output_format = "rmd")
 }
 \arguments{
 \item{infosheet}{validated infosheet}
