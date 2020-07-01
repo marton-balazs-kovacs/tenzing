@@ -4,21 +4,24 @@
 \alias{print_contrib_affil}
 \title{Generate contributors' affiliations}
 \usage{
-print_contrib_affil(infosheet, output_format = "rmd")
+print_contrib_affil(infosheet, text_format = "rmd")
 }
 \arguments{
 \item{infosheet}{validated infosheet}
+
+\item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
+"rmd" by default.}
 }
 \value{
-The output is a list containing the contributors' name in the
-  the order defined by the \code{Order in publication} column of the
-  infosheet in the \code{contrib} character vector, and the adherent
-  affiliations in the same order in the \code{affil} character vector.
+The output is string containing the contributors' name and
+  the corresponding affiliations in the the order defined by the
+  \code{Order in publication} column of the infosheet.
 }
 \description{
 The function generates rmarkdown formatted contributors' affiliation text from
 an infosheet validated with the \code{\link{validate_infosheet}} function. The 
-infosheet must be based on the \code{\link{infosheet_template}}.
+infosheet must be based on the \code{\link{infosheet_template}}. The function can
+return the output string as rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
 

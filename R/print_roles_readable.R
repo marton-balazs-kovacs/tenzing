@@ -3,7 +3,8 @@
 #' The function generates rmarkdown formatted text of the contributions according
 #' to the CRediT taxonomy. The output is generated from an infosheet validated with
 #' the \code{\link{validate_infosheet}} function. The infosheet must be based on the
-#' \code{\link{infosheet_template}}.
+#' \code{\link{infosheet_template}}. The function can return the output string as
+#' rmarkdown or html formatted text or without any formatting.
 #' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
@@ -14,16 +15,18 @@
 #' @family output functions
 #'
 #' @param infosheet validated infosheet
+#' @param text_format formatting of the returned string. Possible values: "rmd", "html", "raw".
+#'   "rmd" by default.
 #' 
-#' @return The function returns a character vector of the CRediT roles
-#'   with the contributors listed for each role they partake in. The returned
-#'   text is rmarkdown formatted.
+#' @return The function returns a string containing the CRediT roles
+#'   with the contributors listed for each role they partake in.
 #' @export
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_roles_readable(infosheet = infosheet_template)
-print_roles_readable <-  function(infosheet, output_format = "rmd") {
-  res <-
+print_roles_readable <-  function(infosheet, text_format = "rmd") {
+  # Restructure dataframe for the credit roles output ---------------------------
+  roles_data <-
     infosheet %>% 
     dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
                                         paste(Firstname, Surname),
@@ -32,24 +35,29 @@ print_roles_readable <-  function(infosheet, output_format = "rmd") {
                   dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>%  
     tidyr::gather(key = "CRediT Taxonomy", value = "Included", -Name) %>% 
     dplyr::filter(Included == TRUE) %>% 
-    dplyr::select(-Included) %>%
+    dplyr::select(-Included) %>% 
     dplyr::group_by(`CRediT Taxonomy`) %>% 
     dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "))
   
-  if (output_format == 'rmd') {
-    res %>% 
+  # Format output string according to the text_format argument ---------------------------
+  if (text_format == 'rmd') {
+    res <-
+      roles_data %>% 
       dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n")) %>% 
-      dplyr::pull(out)
-  } else if (output_format == "html") {
-    res %>% 
-      dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>")) %>% 
-      dplyr::pull(out)
-  } else if (output_format == "raw") {
-    res %>% 
-      dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = " ")) %>% 
-      dplyr::pull(out)
-  }
+      dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n"))
+    } else if (text_format == "html") {
+      res <-
+        roles_data %>% 
+        dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}.")) %>% 
+        dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>"))
+      } else if (text_format == "raw") {
+        res <-
+          roles_data %>% 
+          dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}.")) %>% 
+          dplyr::summarise(out = glue::glue_collapse(out, sep = " "))
+        }
+  
+  res %>% 
+    dplyr::pull(out)
 }
+

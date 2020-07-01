@@ -37,7 +37,7 @@ mod_human_readable_report_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_roles_readable(infosheet = input_data(), output_format = "html")
+      print_roles_readable(infosheet = input_data(), text_format = "html")
     })
     
     ## Build preview modal
@@ -72,7 +72,7 @@ mod_human_readable_report_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      print_roles_readable(infosheet = input_data(), output_format = "rmd")
+      print_roles_readable(infosheet = input_data())
     })
     
     ## Set up parameters to pass to Rmd document
@@ -106,7 +106,7 @@ mod_human_readable_report_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_roles_readable(infosheet = input_data(), output_format = "raw")
+      print_roles_readable(infosheet = input_data(), text_format = "raw")
     })
     
     ## Add clipboard buttons

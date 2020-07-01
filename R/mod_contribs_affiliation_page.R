@@ -38,7 +38,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_contrib_affil(infosheet = input_data(), output_format = "html")
+      print_contrib_affil(infosheet = input_data(), text_format = "html")
     })
     
     ## Build modal
@@ -108,7 +108,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_contrib_affil(infosheet = input_data(), output_format = "raw")
+      print_contrib_affil(infosheet = input_data(), text_format = "raw")
     })
     
     ## Add clipboard buttons
