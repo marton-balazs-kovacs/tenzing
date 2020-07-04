@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tenzing
+# tenzing <a href='https://marton-balazs-kovacs.github.io/tenzing/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -17,10 +17,9 @@ CRediT, for insertion into their manuscripts and for publishers to
 potentially incorporate into article metadata.
 
 [CRediT](https://www.casrai.org/credit.html) (Contributor Roles
-Taxonomy) is a high-level taxonomy of 14 roles designed to represent the
-roles typically played by contributors to scientific scholarly output.
-The roles indicate each contributor’s contributions to a scholarly
-project.
+Taxonomy) is a taxonomy of 14 categories of contributions to scientific
+scholarly output. Each researcher can indicate which category they
+contributed to in a scholarly project.
 
 The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
 one of the two individuals who reached the summit of Mount Everest for
@@ -78,8 +77,9 @@ from R in `vignette("local_use")`.
 
 ## Contribution
 
-We would like tenzing to be make any contributorship-related task easy
-for researchers, so we are open to new ideas and feature requests.
+We are open to new ideas and feature requests. We think Tenzing has the
+potential to make additional contributorship-related tasks easy for
+researchers.
 
 Please note that the ‘tenzing’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,

@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tenzing
+# tenzing <a href='https://marton-balazs-kovacs.github.io/tenzing/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)

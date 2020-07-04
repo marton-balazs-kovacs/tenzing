@@ -55,7 +55,7 @@ app_ui <- function() {
     
     # Add waiter load on start
     waiter::waiter_show_on_load(html =  tagList(
-      waiter::spin_4(),
+      tags$img(src = "www/favicon.png", height = "250px"),
       h4("The app is loading...")), color = "#D45F68")
   )
 }
@@ -69,7 +69,7 @@ golem_add_external_resources <- function(){
  
   tags$head(
     golem::activate_js(),
-    # golem::favicon(),
+    golem::favicon(ext = "png"),
     # Add sweetalert2 JS library
     tags$script(src = "https://cdn.jsdelivr.net/npm/sweetalert2@9.14.0/dist/sweetalert2.all.min.js"),
     # Add custom css stylesheet
