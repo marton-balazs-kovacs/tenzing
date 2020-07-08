@@ -41,8 +41,6 @@ validate_infosheet <- function(infosheet) {
   
   # Check necessary variable names ---------------------------
   check_cols <- function(x) {
-    data("infosheet_template", envir = environment(), package = "tenzing")
-
     col_match <- tibble::tibble(
       cols = colnames(infosheet_template),
       check = tibble::has_name(x, cols))
