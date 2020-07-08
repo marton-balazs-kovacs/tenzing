@@ -29,6 +29,7 @@ print_yaml <- function(infosheet) {
     na.omit()
   
   contrib_data <- infosheet %>%
+    abbreviate_middle_names_df() %>%
     dplyr::rename(
       order = `Order in publication`
       , email = `Email address`
