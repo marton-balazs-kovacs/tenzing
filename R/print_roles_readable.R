@@ -28,6 +28,7 @@ print_roles_readable <-  function(infosheet, text_format = "rmd") {
   # Restructure dataframe for the credit roles output ---------------------------
   roles_data <-
     infosheet %>% 
+    abbreviate_middle_names_df() %>%
     dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
                                         paste(Firstname, Surname),
                                         paste(Firstname, `Middle name`, Surname))) %>% 
