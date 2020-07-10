@@ -27,11 +27,9 @@
 print_contrib_affil <- function(infosheet, text_format = "rmd") {
   # Restructure dataframe for the contributors affiliation output ---------------------------
   contrib_affil_data <-
-    infosheet %>% 
-    dplyr::mutate(`Middle name` = dplyr::if_else(is.na(`Middle name`),
-                                                 NA_character_,
-                                                 paste0(stringr::str_sub(`Middle name`, 1, 1), ".")),
-                  Names = dplyr::if_else(is.na(`Middle name`),
+    infosheet %>%
+    abbreviate_middle_names_df() %>%
+    dplyr::mutate(Names = dplyr::if_else(is.na(`Middle name`),
                                          paste(Firstname, Surname),
                                          paste(Firstname, `Middle name`, Surname))) %>% 
     dplyr::select(`Order in publication`, Names, `Primary affiliation`, `Secondary affiliation`) %>%

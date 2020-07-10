@@ -26,6 +26,7 @@ print_xml <-  function(infosheet) {
   # Prepare the infosheet data
   contrib_data <- 
     infosheet %>%
+      abbreviate_middle_names_df() %>%
       dplyr::mutate(`Given-names` = dplyr::if_else(is.na(`Middle name`),
                                                    Firstname,
                                                    paste(Firstname, `Middle name`))) %>% 
