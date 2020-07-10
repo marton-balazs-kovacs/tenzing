@@ -27,6 +27,7 @@ abbreviate_middle_names <- function(x) {
 
 abbreviate_middle_names_df <- function(x) {
     x %>%
+    dplyr::mutate(`Middle name` = as.character(`Middle name`)) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(
         `Middle name` = dplyr::if_else(

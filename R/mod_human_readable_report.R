@@ -44,6 +44,8 @@ mod_human_readable_report_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
+        h3("Author contributions"),
+        hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(

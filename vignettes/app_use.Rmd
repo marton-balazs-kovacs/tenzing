@@ -33,7 +33,7 @@ tenzing::run_app()
 
 When you open the app, you'll see instructions in the left yellow panel to guide you through the process of providing the input to generate the app's output: contributorship information using the CRediT taxonomy, in various formats.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./tenzing_on_open.png')
 ```
 
@@ -41,11 +41,11 @@ knitr::include_graphics('./tenzing_on_open.png')
 
 Enter all your credit information in a copy of the infosheet template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet can be updated as the project progresses.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./infosheet.png')
 ```
 
-__Note:__ Required fields in the infosheet are, for each author, the firstname and surname columns and at least one affiliation must be provided. Please write the full name in the columns and do not use initials even for the middle name, as the app will abbreviate it for you. The order of authors column must be filled for each author with a unique value.You can add as many contributors as you like. 
+__Note:__ Required fields in the infosheet are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like. 
 
 If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at [https://casrai.org/credit/](https://casrai.org/credit/).
 
@@ -53,7 +53,7 @@ If you hover your mouse over the CRediT taxonomy column names in the Google spre
 
 Before uploading your infosheet to the app, first download it to your computer if you haven't already. Use _File -> Download_. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./tenzing_error.png')
 ```
 
@@ -69,19 +69,19 @@ Below are the output options:
 
 ## Create a human readable report of the contributions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./human_readable_output.png')
 ```
 
 ## Create the contributors' affiliation page
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./contrib_affil_output.png')
 ```
 
 ## Create a JATS formatted XML document containing the contributors information
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./xml_output.png')
 ```
 
@@ -89,6 +89,6 @@ knitr::include_graphics('./xml_output.png')
 
 This output can be incorporated into manuscript created with the `papaja` package.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./yaml_output.png')
 ```

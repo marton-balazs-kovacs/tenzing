@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tenzing <a href='https://marton-balazs-kovacs.github.io/tenzing/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# tenzing <a href='https://marton-balazs-kovacs.github.io/tenzing/'><img src='man/figures/logo.png' align="right" height="200" /></a>
 
 <!-- badges: start -->
 

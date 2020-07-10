@@ -30,12 +30,3 @@ drop_nulls <- function(x){
 # typing reactiveValues is too long
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
-
-# Return messages as unnamed vector for js handler
-
-unnamed_message <- function(x, y) {
-  x %>% 
-    dplyr::filter(type == y) %>% 
-    dplyr::pull(message) %>% 
-    glue::glue_collapse(., sep = "<br>")
-}
