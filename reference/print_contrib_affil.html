@@ -8,6 +8,13 @@
 
 <title>Generate contributors' affiliations — print_contrib_affil • tenzing</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -42,7 +49,9 @@
 <meta property="og:title" content="Generate contributors' affiliations — print_contrib_affil" />
 <meta property="og:description" content="The function generates rmarkdown formatted contributors' affiliation text from
 an infosheet validated with the validate_infosheet function. The 
-infosheet must be based on the infosheet_template." />
+infosheet must be based on the infosheet_template. The function can
+return the output string as rmarkdown or html formatted text or without any formatting." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -133,10 +142,11 @@ infosheet must be based on the infosheet_template." />
     <div class="ref-description">
     <p>The function generates rmarkdown formatted contributors' affiliation text from
 an infosheet validated with the <code>validate_infosheet</code> function. The 
-infosheet must be based on the <code>infosheet_template</code>.</p>
+infosheet must be based on the <code>infosheet_template</code>. The function can
+return the output string as rmarkdown or html formatted text or without any formatting.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>print_contrib_affil</span>(<span class='kw'>infosheet</span>)</pre>
+    <pre class="usage"><span class='fu'>print_contrib_affil</span>(<span class='kw'>infosheet</span>, text_format = <span class='st'>"rmd"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,14 +155,18 @@ infosheet must be based on the <code>infosheet_template</code>.</p>
       <th>infosheet</th>
       <td><p>validated infosheet</p></td>
     </tr>
+    <tr>
+      <th>text_format</th>
+      <td><p>formatting of the returned string. Possible values: "rmd", "html", "raw".
+"rmd" by default.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The output is a list containing the contributors' name in the
-  the order defined by the <code>Order in publication</code> column of the
-  infosheet in the <code>contrib</code> character vector, and the adherent
-  affiliations in the same order in the <code>affil</code> character vector.</p>
+    <p>The output is string containing the contributors' name and
+  the corresponding affiliations in the the order defined by the
+  <code>Order in publication</code> column of the infosheet.</p>
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
@@ -248,12 +262,7 @@ infosheet must be based on the <code>infosheet_template</code>.</p>
 #&gt; $missing_email$message
 #&gt; There is no email address provided for the corresponding author(s): 2
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_contrib_affil</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; $contrib
-#&gt; Alex Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^
-#&gt; 
-#&gt; $affil
-#&gt; ^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary
-#&gt; </div></pre>
+#&gt; </div><div class='input'><span class='fu'>print_contrib_affil</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "Alex Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
