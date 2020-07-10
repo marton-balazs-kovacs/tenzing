@@ -1,5 +1,5 @@
 Package: tenzing
-Title: Handling Contributorship Information
+Title: Documenting contributions to scientific scholarly output with CRediT
 Version: 0.0.0.9000
 Authors@R:
   c(person(given = "Marton",
@@ -18,7 +18,7 @@ Authors@R:
     person(given = "Balazs", 
            family = "Aczel",
            role = "ctb"))
-Description: A modularized shiny app that read contributorship information from a local source and produces human and machine-readable summaries.
+Description: A modularized shiny app that reads contributorship information from a local source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
