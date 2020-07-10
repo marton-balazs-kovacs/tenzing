@@ -4,21 +4,24 @@
 \alias{print_roles_readable}
 \title{Generate human readable report of the contributions}
 \usage{
-print_roles_readable(infosheet)
+print_roles_readable(infosheet, text_format = "rmd")
 }
 \arguments{
 \item{infosheet}{validated infosheet}
+
+\item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
+"rmd" by default.}
 }
 \value{
-The function returns a character vector of the CRediT roles
-  with the contributors listed for each role they partake in. The returned
-  text is rmarkdown formatted.
+The function returns a string containing the CRediT roles
+  with the contributors listed for each role they partake in.
 }
 \description{
 The function generates rmarkdown formatted text of the contributions according
 to the CRediT taxonomy. The output is generated from an infosheet validated with
 the \code{\link{validate_infosheet}} function. The infosheet must be based on the
-\code{\link{infosheet_template}}.
+\code{\link{infosheet_template}}. The function can return the output string as
+rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
 

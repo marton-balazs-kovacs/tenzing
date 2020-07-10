@@ -34,75 +34,17 @@ mod_human_readable_report_ui <- function(id){
 mod_human_readable_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
-    # Set up loading bar
-    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
-    
-    # Restructure dataframe for the human readable output
-    to_print <- reactive({
-      print_roles_readable(infosheet = input_data())
+    # Preview ---------------------------
+    ## Render preview
+    output$preview <- renderText({
+      print_roles_readable(infosheet = input_data(), text_format = "html")
     })
     
-    # Set up parameters to pass to Rmd document
-    params <- reactive({
-      list(human_readable = to_print())
-    })
-    
-    # Render preview
-    report_path <- reactive({
-      file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
-      file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
-      tempReportRender <- tempfile(fileext = ".html")
-      
-      callr::r(
-        render_report,
-        list(input = file_path, output = tempReportRender, format = "html_document", params = params())
-      )
-      
-      tempReportRender
-    })
-    
-    # Render output Rmd
-    output$report <- downloadHandler(
-      
-      filename = function() {
-        paste0("human_readable_report_", Sys.Date(), ".doc")
-      },
-      content = function(file) {
-        
-        # Copy the report file to a temporary directory before processing it, in
-        # case we don't have write permissions to the current working dir (which
-        # can happen when deployed)
-        file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
-        file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
-        
-        # Knit the document, passing in the `params` list, and eval it in a
-        # child of the global environment (this isolates the code in the document
-        # from the code in this app).
-        callr::r(
-          render_report,
-          list(input = file_path, output = file, format = "word_document", params = params())
-        )
-      }
-    )
-    
-    # Set up output text to clip
-    to_clip <- reactive({
-      to_print()
-    })
-    
-    # Add clipboard buttons
-    output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
-    })
-    
-    ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
-    
-    # Build preview modal
+    ## Build preview modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        includeHTML(report_path()),
+        htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(
           div(
@@ -119,12 +61,61 @@ mod_human_readable_report_server <- function(id, input_data){
       )
     }
     
-    # Show preview modal with loading bar
+    ## Show preview modal
     observeEvent(input$show_report, {
-      waitress$notify()
       showModal(modal())
-      waitress$close()
     })
+    
+    # Download ---------------------------
+    ## Set up loading bar
+    waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
+    
+    ## Restructure dataframe for the human readable output
+    to_download <- reactive({
+      print_roles_readable(infosheet = input_data())
+    })
+    
+    ## Set up parameters to pass to Rmd document
+    params <- reactive({
+      list(human_readable = to_download())
+    })
+  
+    ## Render output Rmd
+    output$report <- downloadHandler(
+      # Set filename
+      filename = function() {
+        paste0("human_readable_report_", Sys.Date(), ".doc")
+      },
+      # Set content of the file
+      content = function(file) {
+        # Start progress bar
+        waitress$notify()
+        # Copy the report file to a temporary directory before processing it
+        file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
+        file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
+        # Knit the document
+        callr::r(
+          render_report,
+          list(input = file_path, output = file, format = "word_document", params = params())
+        )
+        # Stop progress bar
+        waitress$close()
+      }
+    )
+    
+    # Clip ---------------------------
+    ## Set up output text to clip
+    to_clip <- reactive({
+      print_roles_readable(infosheet = input_data(), text_format = "raw")
+    })
+    
+    ## Add clipboard buttons
+    output$clip <- renderUI({
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+    })
+    
+    ## Workaround for execution within RStudio version < 1.2
+    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
   })
 }
     

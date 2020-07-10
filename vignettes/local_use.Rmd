@@ -77,6 +77,8 @@ purrr::map(check_result, "message")
 
 If your infosheet is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.
 
+For the human readable report and the contributors' affiliation page the output text will be rmarkdown formatted by default. However, by setting the `text_format` argument to `"html"` the output can be HTML formatted as well, or by setting the argument to `"raw"`, the output string will not be formatted at all.
+
 ## create a human readable report of the contributions
 
 ```{r}
