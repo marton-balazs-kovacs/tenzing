@@ -3,13 +3,6 @@ app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-
-    tags$head(
-      tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"),
-      tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js"),
-      tags$link(rel = "stylesheet", type = "text/css",
-                href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css")
-    ),
     
     fluidPage(
       # Title
@@ -62,7 +55,7 @@ app_ui <- function() {
     
     # Add waiter load on start
     waiter::waiter_show_on_load(html =  tagList(
-      waiter::spin_4(),
+      tags$img(src = "www/favicon.png", height = "250px"),
       h4("The app is loading...")), color = "#D45F68")
   )
 }
@@ -76,13 +69,17 @@ golem_add_external_resources <- function(){
  
   tags$head(
     golem::activate_js(),
-    # golem::favicon(),
+    golem::favicon(ext = "png"),
     # Add sweetalert2 JS library
     tags$script(src = "https://cdn.jsdelivr.net/npm/sweetalert2@9.14.0/dist/sweetalert2.all.min.js"),
     # Add custom css stylesheet
     tags$link(rel = "stylesheet", type = "text/css", href = "www/custom.css"),
     # Add custom JS functions
     tags$script(src = "www/sweet_alert.js"),
-    tags$script(src = "www/tooltip.js")
+    tags$script(src = "www/tooltip.js"),
+    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"),
+    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js"),
+    tags$link(rel = "stylesheet", type = "text/css",
+              href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css")
   )
 }

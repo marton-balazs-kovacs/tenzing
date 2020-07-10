@@ -34,8 +34,6 @@ mod_show_yaml_ui <- function(id) {
 mod_show_yaml_server <- function(id, input_data) {
 
   moduleServer(id, function(input, output, session) {
-    # waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
-    
     # Create YAML
     author_yaml <- reactive({
       # Table data validation
@@ -107,9 +105,7 @@ mod_show_yaml_server <- function(id, input_data) {
     }
     
     observeEvent(input$show_yaml, {
-      # waitress$notify()
       showModal(modal())
-      # waitress$close()
       })
     
   })

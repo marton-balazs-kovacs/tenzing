@@ -2,9 +2,8 @@
 #' 
 #' The function generates rmarkdown formatted contributors' affiliation text from
 #' an infosheet validated with the \code{\link{validate_infosheet}} function. The 
-#' infosheet must be based on the \code{\link{infosheet_template}}.
-#' 
-#' @export
+#' infosheet must be based on the \code{\link{infosheet_template}}. The function can
+#' return the output string as rmarkdown or html formatted text or without any formatting.
 #' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
@@ -15,17 +14,18 @@
 #' @family output functions
 #'
 #' @param infosheet validated infosheet
+#' @param text_format formatting of the returned string. Possible values: "rmd", "html", "raw".
+#'   "rmd" by default.
 #' 
-#' @return The output is a list containing the contributors' name in the
-#'   the order defined by the \code{Order in publication} column of the
-#'   infosheet in the \code{contrib} character vector, and the adherent
-#'   affiliations in the same order in the \code{affil} character vector.
-#' 
+#' @return The output is string containing the contributors' name and
+#'   the corresponding affiliations in the the order defined by the
+#'   \code{Order in publication} column of the infosheet.
+#' @export
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_contrib_affil(infosheet = infosheet_template)
-print_contrib_affil <- function(infosheet) {
-  # Restructure dataframe for the contributors affiliation output
+print_contrib_affil <- function(infosheet, text_format = "rmd") {
+  # Restructure dataframe for the contributors affiliation output ---------------------------
   contrib_affil_data <-
     infosheet %>% 
     dplyr::mutate(`Middle name` = dplyr::if_else(is.na(`Middle name`),
@@ -40,33 +40,78 @@ print_contrib_affil <- function(infosheet) {
     dplyr::mutate(affiliation_no = dplyr::case_when(!is.na(affiliation) ~ suppressWarnings(dplyr::group_indices(., factor(affiliation, levels = unique(affiliation)))),
                                                     is.na(affiliation) ~ NA_integer_))
   
-  # Modify data for printing contributor information
-  contrib_print <- 
+  # Modify data for printing contributor information ---------------------------
+  contrib_data <- 
     contrib_affil_data %>% 
     dplyr::select(-affiliation) %>% 
-    tidyr::spread(key = affiliation_type, value = affiliation_no) %>% 
-    dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
-                                               ~ dplyr::if_else(is.na(..3),
-                                                                glue::glue("{..1}^{..2}^"),
-                                                                glue::glue("{..1}^{..2},{..3}^")))) %>% 
+    tidyr::spread(key = affiliation_type, value = affiliation_no)
+  
+  ## Format output string according to the text_format argument
+  if (text_format == "rmd") {
+    contrib_print <-
+      contrib_data %>% 
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}^{..2}^"),
+                                                                  glue::glue("{..1}^{..2},{..3}^"))))
+  } else if (text_format == "html") {
+    contrib_print <-
+      contrib_data %>%
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}<sup>{..2}</sup>"),
+                                                                  glue::glue("{..1}<sup>{..2},{..3}</sup>"))))
+  } else if (text_format == "raw") {
+    contrib_print <-
+      contrib_data %>% 
+      dplyr::transmute(contrib = purrr::pmap_chr(list(Names, `Primary affiliation`, `Secondary affiliation`),
+                                                 ~ dplyr::if_else(is.na(..3),
+                                                                  glue::glue("{..1}{..2}"),
+                                                                  glue::glue("{..1}{..2},{..3}"))))
+  }
+  
+  ## Collapse contributor names to one string
+  contrib_print <-
+    contrib_print %>%
     dplyr::pull(contrib) %>% 
     glue::glue_collapse(., sep = ", ")
   
-  # Modify data for printing the affiliations
-  affil_print <- 
+  # Modify data for printing the affiliations ---------------------------
+  affil_data <- 
     contrib_affil_data %>% 
     dplyr::select(affiliation_no, affiliation) %>% 
     tidyr::drop_na(affiliation) %>% 
-    dplyr::distinct(affiliation, .keep_all = TRUE) %>% 
-    dplyr::transmute(affil = glue::glue("^{affiliation_no}^{affiliation}")) %>% 
+    dplyr::distinct(affiliation, .keep_all = TRUE)
+  
+  ## Format output string according to the text_format argument
+  if (text_format == "rmd") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("^{affiliation_no}^{affiliation}"))
+  } else if (text_format == "html") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("<sup>{affiliation_no}</sup>{affiliation}"))
+  } else if (text_format == "raw") {
+    affil_print <-
+      affil_data %>% 
+      dplyr::transmute(affil = glue::glue("{affiliation_no}{affiliation}"))
+  }
+  
+  ## Collapse affiliations to one string
+  affil_print <-
+    affil_print %>%
     dplyr::pull(affil) %>% 
     glue::glue_collapse(., sep = ", ")
   
-  # Outputs
-  return(
-    list(
-      contrib = contrib_print,
-      affil = affil_print
-    )
-  )
+  # Bind contributor and affiliation information ---------------------------
+  if (text_format == "rmd") {
+    res <- paste0(contrib_print, "  \n   \n", affil_print)
+  } else if (text_format == "html") {
+    res <- paste0(contrib_print, "<br><br>", affil_print)
+  } else if (text_format == "raw") {
+    res <- paste(contrib_print, affil_print)
+    }
+  
+  return(res)
 }
