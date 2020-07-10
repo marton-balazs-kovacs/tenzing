@@ -16,5 +16,5 @@ Returns a character vector with one element.
 Abbreviates multiple words to first letters
 }
 \examples{
-abbreviate_middle_names("Franz Jude Wayne")
+tenzing:::abbreviate_middle_names("Franz Jude Wayne")
 }

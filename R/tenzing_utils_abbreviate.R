@@ -7,7 +7,7 @@
 #' @return Returns a character vector with one element.
 #'
 #' @examples
-#' abbreviate_middle_names("Franz Jude Wayne")
+#' tenzing:::abbreviate_middle_names("Franz Jude Wayne")
 
 abbreviate <- function(x) {
     x <- x[x != ""]
