@@ -6,6 +6,10 @@
 \usage{
 run_app(...)
 }
+\arguments{
+\item{...}{Allows user to pass global arguments to the app on runtime}
+}
 \description{
-Run the Shiny Application
+This function allows users to run the application
+locally from their computer.
 }

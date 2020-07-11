@@ -45,7 +45,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Contributors’ affiliation page"),
+        h3("Contributors' affiliation page"),
         hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,

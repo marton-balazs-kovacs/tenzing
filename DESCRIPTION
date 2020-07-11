@@ -57,3 +57,5 @@ Suggests:
 URL: https://github.com/marton-balazs-kovacs/tenzing
 BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
