@@ -7,8 +7,6 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Codecov test
-coverage](https://codecov.io/gh/marton-balazs-kovacs/tenzing/branch/master/graph/badge.svg)](https://codecov.io/gh/marton-balazs-kovacs/tenzing?branch=master)
 <!-- badges: end -->
 
 Tenzing, an easy-to-use web-based app, allows researchers to generate
