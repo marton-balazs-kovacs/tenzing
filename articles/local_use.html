@@ -164,10 +164,10 @@
 <span class="co">#&gt; [1] "success"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_credit</span>
-<span class="co">#&gt; [1] "success"</span>
+<span class="co">#&gt; [1] "warning"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_email</span>
-<span class="co">#&gt; [1] "warning"</span>
+<span class="co">#&gt; [1] "success"</span>
 </pre></div>
 <p>If any of them is an <em>error</em> than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your infosheet accordingly.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
@@ -197,10 +197,10 @@
 <span class="co">#&gt; [1] "There is at least one author indicated as corresponding author."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_credit</span>
-<span class="co">#&gt; [1] "All authors have at least one CRediT statement checked."</span>
+<span class="co">#&gt; There is no CRediT taxonomy checked for the following row number(s): 4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_email</span>
-<span class="co">#&gt; There is no email address provided for the corresponding author(s): 2</span>
+<span class="co">#&gt; [1] "There are email addresses provided for all corresponding authors."</span>
 </pre></div>
 </div>
 <div id="generate-output" class="section level1">
@@ -213,16 +213,16 @@
 <a href="#create-a-human-readable-report-of-the-contributions" class="anchor"></a>create a human readable report of the contributions</h2>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="../reference/print_roles_readable.html">print_roles_readable</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; **Conceptualization:** Alex Holcombe and Balazs Aczel.  </span>
-<span class="co">#&gt; **Data Curation:** Marton Kovacs.  </span>
-<span class="co">#&gt; **Funding Acquisition:** Balazs Aczel.  </span>
+<span class="co">#&gt; **Conceptualization:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Funding Acquisition:** Marton Kovacs and Balazs Aczel.  </span>
 <span class="co">#&gt; **Investigation:** Balazs Aczel.  </span>
-<span class="co">#&gt; **Software:** Alex Holcombe.  </span>
-<span class="co">#&gt; **Supervision:** Alex Holcombe.  </span>
-<span class="co">#&gt; **Validation:** Alex Holcombe.  </span>
-<span class="co">#&gt; **Visualization:** Balazs Aczel.  </span>
-<span class="co">#&gt; **Writing - Original Draft Preparation:** Alex Holcombe.  </span>
-<span class="co">#&gt; **Writing - Review &amp; Editing:** Alex Holcombe.</span>
+<span class="co">#&gt; **Methodology:** Balazs Aczel.  </span>
+<span class="co">#&gt; **Project Administration:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Software:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Supervision:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Validation:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Writing - Original Draft Preparation:** Alex O. Holcombe.  </span>
+<span class="co">#&gt; **Writing - Review &amp; Editing:** Alex O. Holcombe.</span>
 </pre></div>
 </div>
 <div id="create-the-contributors-affiliation-page" class="section level2">
@@ -230,7 +230,7 @@
 <a href="#create-the-contributors-affiliation-page" class="anchor"></a>Create the contributors’ affiliation page</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="../reference/print_contrib_affil.html">print_contrib_affil</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; [1] "Alex Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary"</span>
+<span class="co">#&gt; [1] "Alex O. Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^, Frederik Aust^3^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary, ^3^University of Cologne"</span>
 </pre></div>
 </div>
 <div id="create-a-jats-formatted-xml-document-containing-the-contributors-information" class="section level2">
@@ -241,7 +241,7 @@
 <span class="co">#&gt; {xml_document}</span>
 <span class="co">#&gt; &lt;contrib-group&gt;</span>
 <span class="co">#&gt; [1] &lt;contrib&gt;\n  &lt;name surname="Aczel" given-names="Balazs"/&gt;\n  &lt;role vocab= ...</span>
-<span class="co">#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex"/&gt;\n  &lt;role vocab ...</span>
+<span class="co">#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex O."/&gt;\n  &lt;role vo ...</span>
 <span class="co">#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</span>
 </pre></div>
 </div>
@@ -251,7 +251,7 @@
 <p>This output can be incorporated into manuscript created with the <code>papaja</code> package.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="../reference/print_yaml.html">print_yaml</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; [1] "author:\n  - name: Alex Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Data Curation\n    corresponding: yes\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Conceptualization\n      - Funding Acquisition\n      - Investigation\n      - Visualization\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n"</span>
+<span class="co">#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project Administration\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Funding Acquisition\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Funding Acquisition\n      - Investigation\n      - Methodology\n  - name: Frederik Aust\n    affiliation: '3'\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne\n"</span>
 </pre></div>
 </div>
 </div>

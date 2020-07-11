@@ -242,20 +242,20 @@ The infosheet must be based on the <code>infosheet_template</code>.</p>
 #&gt; 
 #&gt; $missing_credit
 #&gt; $missing_credit$type
-#&gt; [1] "success"
+#&gt; [1] "warning"
 #&gt; 
 #&gt; $missing_credit$message
-#&gt; [1] "All authors have at least one CRediT statement checked."
+#&gt; There is no CRediT taxonomy checked for the following row number(s): 4
 #&gt; 
 #&gt; 
 #&gt; $missing_email
 #&gt; $missing_email$type
-#&gt; [1] "warning"
+#&gt; [1] "success"
 #&gt; 
 #&gt; $missing_email$message
-#&gt; There is no email address provided for the corresponding author(s): 2
+#&gt; [1] "There are email addresses provided for all corresponding authors."
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_yaml</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "author:\n  - name: Alex Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Data Curation\n    corresponding: yes\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Conceptualization\n      - Funding Acquisition\n      - Investigation\n      - Visualization\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n"</div></pre>
+#&gt; </div><div class='input'><span class='fu'>print_yaml</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project Administration\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Funding Acquisition\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Funding Acquisition\n      - Investigation\n      - Methodology\n  - name: Frederik Aust\n    affiliation: '3'\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne\n"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

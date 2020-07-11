@@ -249,20 +249,20 @@ return the output string as rmarkdown or html formatted text or without any form
 #&gt; 
 #&gt; $missing_credit
 #&gt; $missing_credit$type
-#&gt; [1] "success"
+#&gt; [1] "warning"
 #&gt; 
 #&gt; $missing_credit$message
-#&gt; [1] "All authors have at least one CRediT statement checked."
+#&gt; There is no CRediT taxonomy checked for the following row number(s): 4
 #&gt; 
 #&gt; 
 #&gt; $missing_email
 #&gt; $missing_email$type
-#&gt; [1] "warning"
+#&gt; [1] "success"
 #&gt; 
 #&gt; $missing_email$message
-#&gt; There is no email address provided for the corresponding author(s): 2
+#&gt; [1] "There are email addresses provided for all corresponding authors."
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_contrib_affil</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "Alex Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary"</div></pre>
+#&gt; </div><div class='input'><span class='fu'>print_contrib_affil</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "Alex O. Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^, Frederik Aust^3^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary, ^3^University of Cologne"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
