@@ -20,8 +20,8 @@ bibentry(
   # volume = "73",
   # number = "1",
   # pages = "3-36",
-  # doi = "",
+  doi = "10.31222/osf.io/b6ywe",
   # url = "",
   textVersion = "Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). tenzing: A web app to document contributorship with CRediT.
-  MetaArXiv."
+  MetaArXiv. https://doi.org/10.31222/osf.io/b6ywe"
 )
