@@ -51,7 +51,14 @@ You can use the app at
 You can alternatively run the app locally on your own computer by
 following these instructions:
 
-Install the development version (tenzing is not available from CRAN)
+You may try to start the downlad and start the app directly in R with
+
+```r
+# install.packages ("shiny")
+shiny::runGitHub("marton-balazs-kovacs/tenzing")
+```
+
+Or install the development version (tenzing is not available from CRAN)
 from [GitHub](https://github.com/) with:
 
 ``` r
@@ -59,7 +66,7 @@ from [GitHub](https://github.com/) with:
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
 
-Running the app.
+Running the app with:
 
 ``` r
 tenzing::run_app()
