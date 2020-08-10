@@ -18,14 +18,14 @@ app_ui <- function() {
                wellPanel(
                  class = "main-steps-panel",
                  h3("1. Create your infosheet", class = "main-steps-title"),
-                 tags$p("First copy and then fill out this ", style = "display: inline;"),
+                 tags$p("1. Copy and fill out this ", style = "display: inline;"),
                  tags$a(href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                         "infosheet template",
                         target="_blank",
                         style = "display: inline;")),
                wellPanel(
                  class = "main-steps-panel",
-                 h3("2. Upload your infosheet", class = "main-steps-title"),
+                 h3("2. Upload your infosheet,", class = "main-steps-title"),
                  mod_read_spreadsheet_ui("read_spreadsheet_ui_1"),
                  mod_show_spreadsheet_ui("show_spreadsheet_ui_1")),
                wellPanel(

@@ -22,7 +22,14 @@ mod_read_spreadsheet_ui <- function(id){
                 '.csv',
                 '.tsv',
                 '.xlsx'),
-              multiple = FALSE)
+              multiple = FALSE),
+    h3("or give a sharing url of your googlesheet", class = "main-steps-title"),
+    textInput(NS(id, "url"),
+              label= NULL,
+              value = "", 
+              width = NULL, 
+              placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"
+    ),
   )
 }
     
@@ -43,7 +50,16 @@ mod_read_spreadsheet_server <- function(id) {
       req(input$file)
       
       read_infosheet(infosheet_path = input$file$datapath)
-      })
+      }, suspended = TRUE)
+    
+    
+    table_data <- eventReactive(input$url, {
+      # File input requirement
+      req(input$url)
+      googlesheets4::gs4_deauth()
+      googlesheets4::range_read(input$url, sheet = 1)
+    }, suspended = TRUE)
+    
     
     # Alert modal if infosheet is incomplete
     valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$file), table_data = table_data)
