@@ -22,7 +22,11 @@ app_ui <- function() {
                  tags$a(href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                         "infosheet template",
                         target="_blank",
-                        style = "display: inline;")),
+                        style = "display: inline;"),
+               actionButton("debug",
+                            label = "debug on R"),
+               ),
+        
                wellPanel(
                  class = "main-steps-panel",
                  h3("2. Upload your infosheet,", class = "main-steps-title"),
@@ -50,7 +54,7 @@ app_ui <- function() {
       ),
     
     # Enabling waiter JS functions
-    waiter::use_waiter(include_js = FALSE),
+    waiter::use_waiter(),
     waiter::use_waitress(color = "#D45F68"),
     
     # Add waiter load on start

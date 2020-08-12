@@ -1,6 +1,16 @@
 #' @import shiny
 app_server <- function(input, output,session) {
   
+  debug <- observeEvent(input$debug, {
+    # File input requirement
+    #req(input$url)
+    
+    browser()
+    #  googlesheets4::gs4_deauth()
+    #  googlesheets4::range_read(input$url, sheet = 1)
+    
+  })
+  
   # Show about modal
   mod_about_modal_server("about_modal_ui_1")
   

@@ -14,9 +14,9 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 mod_read_spreadsheet_ui <- function(id){
-  
+  ns <- NS(id)
   tagList(
-    fileInput(NS(id, "file"),
+    fileInput(ns("file"),
               label = NULL,
               accept = c(
                 '.csv',
@@ -24,12 +24,14 @@ mod_read_spreadsheet_ui <- function(id){
                 '.xlsx'),
               multiple = FALSE),
     h3("or give a sharing url of your googlesheet", class = "main-steps-title"),
-    textInput(NS(id, "url"),
+    textInput(ns("url"),
               label= NULL,
               value = "", 
               width = NULL, 
               placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"
     ),
+    actionButton(ns("submit"),
+                 label = "Submit url")
   )
 }
     
@@ -45,24 +47,42 @@ mod_read_spreadsheet_server <- function(id) {
   
   moduleServer(id, function(input, output, session) {
     # Reading infosheet from local
+    
+    inputchange <- observe({
+      inputchange <- c(input$file, input$url,1)
+    })
+    
     table_data <- eventReactive(input$file, {
       # File input requirement
       req(input$file)
-      
+
       read_infosheet(infosheet_path = input$file$datapath)
-      }, suspended = TRUE)
-    
+      })
+
     
     table_data <- eventReactive(input$url, {
       # File input requirement
-      req(input$url)
+      #req(input$url)
+      
+      #browser()
       googlesheets4::gs4_deauth()
       googlesheets4::range_read(input$url, sheet = 1)
-    }, suspended = TRUE)
+      
+    })
+    
+    table_data <- eventReactive(input$submit, {
+      # File input requirement
+      #req(input$url)
+      
+      browser()
+    #  googlesheets4::gs4_deauth()
+    #  googlesheets4::range_read(input$url, sheet = 1)
+      
+    })
     
     
     # Alert modal if infosheet is incomplete
-    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$file), table_data = table_data)
+    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(inputchange), table_data = table_data)
     
     # Delete empty rows
     table_data_clean <- eventReactive(valid_infosheet, {
@@ -77,7 +97,7 @@ mod_read_spreadsheet_server <- function(id) {
     return(list(
       data = table_data_clean,
       valid_infosheet = valid_infosheet,
-      uploaded = reactive(input$file)
+      uploaded = reactive(inputchange)
       ))
   })
 }
