@@ -12,12 +12,14 @@
 read_infosheet <- function(infosheet_path) {
   # Extract file extension
   ext <- tools::file_ext(infosheet_path)
+  if (grepl("https", infosheet_path)) ext ="web"
   
   # Read infosheet based on the extension
   infosheet <- switch(ext,
                        csv = vroom::vroom(infosheet_path, delim = ","),
                        tsv = vroom::vroom(infosheet_path, delim = "\t"),
                        xlsx = readxl::read_xlsx(infosheet_path, sheet = 1),
+                      web = googlesheets4::range_read(infosheet_path, sheet = 1),
                        stop("Invalid file; Please upload a .csv, a .tsv or a .xlsx file."))
   
   return(infosheet)

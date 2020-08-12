@@ -29,7 +29,7 @@ app_ui <- function() {
         
                wellPanel(
                  class = "main-steps-panel",
-                 h3("2. Upload your infosheet,", class = "main-steps-title"),
+                 h3("2. Load your infosheet:", class = "main-steps-title"),
                  mod_read_spreadsheet_ui("read_spreadsheet_ui_1"),
                  mod_show_spreadsheet_ui("show_spreadsheet_ui_1")),
                wellPanel(

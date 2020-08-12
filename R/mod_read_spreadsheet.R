@@ -16,6 +16,7 @@
 mod_read_spreadsheet_ui <- function(id){
   ns <- NS(id)
   tagList(
+    h5("Choose the spreadsheet on your computer", class = "main-steps-title"),
     fileInput(ns("file"),
               label = NULL,
               accept = c(
@@ -23,15 +24,18 @@ mod_read_spreadsheet_ui <- function(id){
                 '.tsv',
                 '.xlsx'),
               multiple = FALSE),
-    h3("or give a sharing url of your googlesheet", class = "main-steps-title"),
+    h5("or copy the url of a shared googlesheet,", class = "main-steps-title"),
     textInput(ns("url"),
               label= NULL,
               value = "", 
               width = NULL, 
               placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"
     ),
-    actionButton(ns("submit"),
-                 label = "Submit url")
+    h5("then upload the infosheet into tenzing:", class = "main-steps-title"),
+    div(class = "out-btn",
+        actionButton(inputId = ns("submit"),
+                     label = "Load and validate")
+    ),
   )
 }
     
@@ -48,41 +52,24 @@ mod_read_spreadsheet_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     # Reading infosheet from local
     
-    inputchange <- observe({
-      inputchange <- c(input$file, input$url,1)
-    })
-    
-    table_data <- eventReactive(input$file, {
-      # File input requirement
-      req(input$file)
-
-      read_infosheet(infosheet_path = input$file$datapath)
-      })
-
-    
-    table_data <- eventReactive(input$url, {
-      # File input requirement
-      #req(input$url)
-      
-      #browser()
-      googlesheets4::gs4_deauth()
-      googlesheets4::range_read(input$url, sheet = 1)
-      
-    })
     
     table_data <- eventReactive(input$submit, {
       # File input requirement
-      #req(input$url)
+      #req(input$file)
+      infosheet_path = ifelse(is.null(input$file),input$url,input$file$datapath)
       
-      browser()
-    #  googlesheets4::gs4_deauth()
-    #  googlesheets4::range_read(input$url, sheet = 1)
-      
-    })
+      googlesheets4::gs4_deauth()
+      read_infosheet(infosheet_path = infosheet_path)
+      })
+
+    
+    
     
     
     # Alert modal if infosheet is incomplete
-    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(inputchange), table_data = table_data)
+    #valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$file), table_data = table_data)
+    
+    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = reactive(input$submit), table_data = table_data)
     
     # Delete empty rows
     table_data_clean <- eventReactive(valid_infosheet, {
@@ -97,7 +84,7 @@ mod_read_spreadsheet_server <- function(id) {
     return(list(
       data = table_data_clean,
       valid_infosheet = valid_infosheet,
-      uploaded = reactive(inputchange)
+      uploaded = reactive(input$submit)
       ))
   })
 }
