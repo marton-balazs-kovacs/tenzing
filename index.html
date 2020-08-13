@@ -118,13 +118,18 @@
 <a href="#using-the-web-app" class="anchor"></a>Using the web app</h3>
 <p>You can use the app at <a href="https://martonbalazskovacs.shinyapps.io/tenzing/" class="uri">https://martonbalazskovacs.shinyapps.io/tenzing/</a>.</p>
 <p>You can alternatively run the app locally on your own computer by following these instructions:</p>
-<p>Install the development version (tenzing is not available from CRAN) from <a href="https://github.com/">GitHub</a> with:</p>
+<p>You may try to start the downlad and start the app directly in R with</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># install.packages ("shiny")</span>
+<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runUrl.html">runGitHub</a></span>(<span class="st">"marton-balazs-kovacs/tenzing"</span>)
+</pre></div>
+<p>Or install the development version (tenzing is not available from CRAN) from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="co"># install.packages("devtools")</span>
 <span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"marton-balazs-kovacs/tenzing"</span>)
 </pre></div>
-<p>Running the app.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<p>Running the app with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">tenzing</span>::<span class="fu"><a href="reference/run_app.html">run_app</a></span>()
 </pre></div>
 <p>You can read more on how to use the <code>tenzing</code> app in <code><a href="articles/app_use.html">vignette("app_use")</a></code>.</p>
