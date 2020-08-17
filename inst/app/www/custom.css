@@ -69,6 +69,55 @@
   background-color: #3A806D !important;
 }
 
+.upload-btn {
+  color: #326F5E;
+  padding: 3;
+  margin: 2;
+  border: none;
+  background: Transparent no-repeat;
+}
+
+.upload-btn:hover {
+  color: #7ec4ad;
+  background: Transparent no-repeat;
+  border: none;
+  padding: 3;
+  margin: 2;
+}
+
+.upload-btn:visited {
+  color: #D45F68;
+  border: none;
+  background: Transparent no-repeat;
+  padding: 3;
+  margin: 2;
+}
+
+.upload-btn:active {
+  border: none;
+  color: #122822;
+  background: Transparent no-repeat;
+  padding: 3;
+  margin: 2;
+}
+
+.upload-btn:active:hover {
+  border: none;
+  color: #122822;
+  background: Transparent no-repeat;
+  padding: 3;
+  margin: 2;
+}
+
+.upload-btn:focus {
+  border: none;
+  color: #D45F68;
+  background: Transparent no-repeat;
+  outline: none;
+  padding: 3;
+  margin: 2;
+}
+
 .swal2-icon.swal2-info {
   border-color: #ffec9b !important;
   color: #FFDD4F !important;
@@ -131,10 +180,6 @@ a:hover {
 
 .btn:focus{
   outline: none !important;
-}
-
-.form-group{
-  margin-bottom: 0px !important;
 }
 
 .well{
