@@ -12,7 +12,7 @@
 #'
 #' @keywords internal
 #' @export 
-#' @importFrom shiny NS tagList 
+#' @importFrom shiny NS tagList googlesheets4
 mod_read_spreadsheet_ui <- function(id){
 
   tagList(
