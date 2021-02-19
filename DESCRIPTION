@@ -49,7 +49,7 @@ Imports:
     clipr,
     htmlwidgets,
     googlesheets4
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     knitr,
