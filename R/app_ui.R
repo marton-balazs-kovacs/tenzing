@@ -36,7 +36,8 @@ app_ui <- function() {
                  mod_human_readable_report_ui("human_readable_report_ui_1"),
                  mod_contribs_affiliation_page_ui("contribs_affiliation_page_ui_1"),
                  mod_xml_report_ui("xml_report_ui_1"),
-                 mod_show_yaml_ui("show_yaml_ui_1")
+                 mod_show_yaml_ui("show_yaml_ui_1"),
+                 mod_grant_information_ui("grant_information")
                  )
                ),
         column(6,

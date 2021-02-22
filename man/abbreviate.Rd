@@ -4,7 +4,7 @@
 \alias{abbreviate}
 \title{Abbreviate middle names}
 \usage{
-abbreviate(string)
+abbreviate(string, collapse)
 }
 \arguments{
 \item{string}{Character. A character vector with the names}

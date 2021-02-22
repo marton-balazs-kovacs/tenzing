@@ -17,6 +17,8 @@
 #' @param infosheet validated infosheet
 #' @param text_format formatting of the returned string. Possible values: "rmd", "html", "raw".
 #'   "rmd" by default.
+#' @param initials Logical. If true initials will be included instead of full
+#'   names in the output
 #' 
 #' @return The function returns a string containing the CRediT roles
 #'   with the contributors listed for each role they partake in.
@@ -34,14 +36,14 @@ print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FAL
         as.character) %>% 
       add_initials() %>% 
       dplyr::rename(Name = abbrev_name)
-  } else {
-    roles_data <-
-      infosheet %>% 
-      abbreviate_middle_names_df() %>%
-      dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
-                                          paste(Firstname, Surname),
-                                          paste(Firstname, `Middle name`, Surname)))
-  }
+    } else {
+      roles_data <-
+        infosheet %>% 
+        abbreviate_middle_names_df() %>%
+        dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
+                                            paste(Firstname, Surname),
+                                            paste(Firstname, `Middle name`, Surname)))
+      }
   
   roles_data <- 
     roles_data %>% 

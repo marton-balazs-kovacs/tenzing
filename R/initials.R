@@ -12,9 +12,9 @@
 add_initials <- function(infosheet) {
   infosheet %>% 
     # If first name contains -, abbreviate both, else, abbreviate all separate names
-    dplyr::mutate(fir = abbreviate(Firstname),
-                  mid = abbreviate(`Middle name`),
-                  las = abbreviate(Surname),
+    dplyr::mutate(fir = abbreviate(Firstname, collapse = ""),
+                  mid = abbreviate(`Middle name`, collapse = ""),
+                  las = abbreviate(Surname, collapse = ""),
                   abbrev_name = stringr::str_glue("{fir}{mid}{las}", .na = "")) %>% 
     # Get duplicated abbreviations
     dplyr::add_count(abbrev_name, name = "dup_abr") %>% 
@@ -34,19 +34,21 @@ add_initials <- function(infosheet) {
 #'
 #' @examples
 #' tenzing:::abbreviate_middle_names("Franz Jude Wayne")
-abbreviate <- function(string) {
+abbreviate <- function(string, collapse) {
   string <- string[string != ""]
   if(length(string) > 0) {
     res <- 
       string %>% 
       # Separate the strings by keeping the hyphen
-      stringr::str_extract_all("\\w+|-") %>% 
+      stringr::str_extract_all("\\w+|-")  %>% 
       # Keep only the first letter
       purrr::map(stringr::str_sub, 1, 1) %>% 
       # Add dots after only letters not the hyphen
       purrr::map(stringr::str_replace, "(?<=^\\w)", ".") %>% 
       # Collapse them to one string
-      purrr::map_chr(stringr::str_c, collapse = "")
+      purrr::map_chr(stringr::str_c, collapse = collapse) %>% 
+      # Drop spaces around hyphens
+      stringr::str_replace_all("\\s+(?=\\p{Pd})|(?<=\\p{Pd})\\s+", "")
   } else {
     res <- NULL
   }
@@ -63,7 +65,7 @@ abbreviate_middle_names_df <- function(infosheet) {
       `Middle name` = dplyr::if_else(
         is.na(`Middle name`),
         NA_character_,
-        abbreviate(`Middle name`)
+        abbreviate(`Middle name`, collapse = " ")
       )
     ) %>%
     dplyr::ungroup()

@@ -1,50 +1,42 @@
-# Module UI
-  
-#' @title   mod_human_readable_report_ui and mod_human_readable_report_server
-#' @description  A shiny Module.
+#' grant_information UI Function
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
+#' @description A shiny Module.
 #'
-#' @rdname mod_human_readable_report
+#' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @keywords internal
-#' @export 
+#' @noRd 
+#'
 #' @importFrom shiny NS tagList 
-mod_human_readable_report_ui <- function(id){
+mod_grant_information_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show author contributions text",
+          label = "Show grant information",
           class = "btn btn-primary")
         )
-    )
-  }
+  )
+}
     
-# Module Server
-    
-#' @rdname mod_human_readable_report
-#' @export
-#' @keywords internal
-    
-mod_human_readable_report_server <- function(id, input_data){
+#' grant_information Server Function
+#'
+#' @noRd 
+mod_grant_information_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials)
+      print_grant(infosheet = input_data(), initials = input$initials)
     })
     
-    ## Build preview modal
+    ## Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Author contributions"),
+        h3("Grant information"),
         # Toggle between initials and full names
         shinyWidgets::prettyToggle(
           NS(id, "initials"),
@@ -79,29 +71,30 @@ mod_human_readable_report_server <- function(id, input_data){
     ## Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    ## Restructure dataframe for the human readable output
-    to_download <- reactive({
-      print_roles_readable(infosheet = input_data(), initials = input$initials)
+    ## Restructure dataframe for the output
+    to_download_and_clip <- reactive({
+      print_grant(infosheet = input_data(), initials = input$initials)
     })
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
-      list(human_readable = to_download())
+      list(grant_information = to_download_and_clip())
     })
-  
+    
     ## Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
-        paste0("human_readable_report_", Sys.Date(), ".doc")
+        paste0("grant_information_", Sys.Date(), ".doc")
       },
       # Set content of the file
       content = function(file) {
         # Start progress bar
         waitress$notify()
         # Copy the report file to a temporary directory before processing it
-        file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
-        file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
+        file_path <- file.path("inst/app/www/", "grant_information.Rmd")
+        file.copy("grant_information.Rmd", file_path, overwrite = TRUE)
+        
         # Knit the document
         callr::r(
           render_report,
@@ -113,24 +106,20 @@ mod_human_readable_report_server <- function(id, input_data){
     )
     
     # Clip ---------------------------
-    ## Set up output text to clip
-    to_clip <- reactive({
-      print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials)
-    })
-    
     ## Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_download_and_clip(), icon("clipboard"), modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
+    observeEvent(input$clip_btn, clipr::write_clip(to_download_and_clip()))
   })
+ 
 }
     
 ## To be copied in the UI
-# mod_human_readable_report_ui("human_readable_report_ui_1")
+# mod_grant_information_ui("grant_information")
     
 ## To be copied in the server
-# mod_human_readable_report_server("human_readable_report_ui_1")
+# mod_grant_information_server("grant_information")
  

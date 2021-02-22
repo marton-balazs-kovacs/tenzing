@@ -37,6 +37,9 @@ app_server <- function(input, output,session) {
   # Show papaja YAML in viewer window
   mod_show_yaml_server("show_yaml_ui_1", input_data = read_out$data)
   
+  # Show grant infromation in viewer window
+  mod_grant_information_server("grant_information", input_data = read_out$data)
+  
   # Hide on launch waiter screen
   waiter::waiter_hide()
 }

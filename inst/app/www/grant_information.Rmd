@@ -1,0 +1,18 @@
+---
+title: "Grant information"
+output: 
+  html_document:
+    self_contained: false
+  word_document: default
+params:
+  grant_information: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+```{r echo = FALSE, results = 'asis'}
+cat(params$grant_information)
+```
+

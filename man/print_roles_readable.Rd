@@ -11,6 +11,9 @@ print_roles_readable(infosheet, text_format = "rmd", initials = FALSE)
 
 \item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.}
+
+\item{initials}{Logical. If true initials will be included instead of full
+names in the output}
 }
 \value{
 The function returns a string containing the CRediT roles
@@ -38,6 +41,7 @@ print_roles_readable(infosheet = infosheet_template)
 \seealso{
 Other output functions: 
 \code{\link{print_contrib_affil}()},
+\code{\link{print_grant}()},
 \code{\link{print_xml}()},
 \code{\link{print_yaml}()}
 }

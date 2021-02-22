@@ -1,0 +1,53 @@
+#' Generate human readable report of the grant information
+#' 
+#' The functions generates a human readable text about the funding
+#' information of the contributors. The output is generated from an
+#' infosheet validated with the \code{\link{validate_infosheet}} function.
+#' The infosheet must be based on the \code{\link{infosheet_template}}.
+#' 
+#' @family output functions
+#' 
+#' @param infosheet validated infosheet
+#' @param initials Logical. If true initials will be included instead of full
+#'   names in the output
+#'   
+#' @return The function returns a string.
+#' @export
+print_grant <- function(infosheet, initials = FALSE) {
+  # Restructure dataframe ---------------------------
+  if (initials) {
+    grant_data <-
+      infosheet %>% 
+      dplyr::mutate_at(
+        dplyr::vars(Firstname, `Middle name`, Surname),
+        as.character) %>% 
+      add_initials() %>% 
+      dplyr::rename(Name = abbrev_name)
+    } else {
+      grant_data <-
+        infosheet %>% 
+        abbreviate_middle_names_df() %>%
+        dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
+                                            paste(Firstname, Surname),
+                                            paste(Firstname, `Middle name`, Surname)))
+    }
+  
+  grant_data <- 
+    grant_data %>% 
+    dplyr::select(Name, `Grant Information`) %>% 
+    dplyr::filter(!is.na(`Grant Information`) & `Grant Information` != "") %>% 
+    dplyr::group_by(`Grant Information`) %>% 
+    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "),
+                     n_names = dplyr::n())
+  
+  # Format output string ---------------------------
+  res <-
+    grant_data %>% 
+    dplyr::transmute(
+      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'were', 'was')} supported by the {`Grant Information`}")) %>% 
+    dplyr::summarise(out = glue::glue_collapse(out, sep = "; ")) %>% 
+    dplyr::mutate(out = stringr::str_c(out, "."))
+  
+  res %>% 
+    dplyr::pull(out)
+}

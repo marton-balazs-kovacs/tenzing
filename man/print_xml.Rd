@@ -35,6 +35,7 @@ print_xml(infosheet = infosheet_template)
 \seealso{
 Other output functions: 
 \code{\link{print_contrib_affil}()},
+\code{\link{print_grant}()},
 \code{\link{print_roles_readable}()},
 \code{\link{print_yaml}()}
 }

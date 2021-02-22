@@ -4,6 +4,7 @@
 # 2. All along your project
 ## Add functions
 usethis::use_r("initials")
+usethis::use_r("print_grant")
 
 ## 2.1 Add modules
 
@@ -14,6 +15,7 @@ golem::add_module(name = "xml_report")
 golem::add_module(name = "about_modal")
 golem::add_module(name = "contribs_affiliation_page")
 golem::add_module(name = "check_modal")
+golem::add_module(name = "grant_information")
 
 ## 2.2 Add dependencies
 
