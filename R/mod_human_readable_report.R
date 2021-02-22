@@ -37,7 +37,7 @@ mod_human_readable_report_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_roles_readable(infosheet = input_data(), text_format = "html")
+      print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials)
     })
     
     ## Build preview modal
@@ -45,6 +45,12 @@ mod_human_readable_report_server <- function(id, input_data){
       modalDialog(
         rclipboard::rclipboardSetup(),
         h3("Author contributions"),
+        shinyWidgets::prettyToggle(
+          NS(id, "initials"),
+          label_off = "Full name",
+          label_on = "Initials",
+          shape = "square",
+          outline = FALSE),
         hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
@@ -74,7 +80,7 @@ mod_human_readable_report_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      print_roles_readable(infosheet = input_data())
+      print_roles_readable(infosheet = input_data(), initials = input$initials)
     })
     
     ## Set up parameters to pass to Rmd document
@@ -108,7 +114,7 @@ mod_human_readable_report_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_roles_readable(infosheet = input_data(), text_format = "raw")
+      print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials)
     })
     
     ## Add clipboard buttons

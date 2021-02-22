@@ -24,14 +24,27 @@
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_roles_readable(infosheet = infosheet_template)
-print_roles_readable <-  function(infosheet, text_format = "rmd") {
+print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FALSE) {
   # Restructure dataframe for the credit roles output ---------------------------
-  roles_data <-
-    infosheet %>% 
-    abbreviate_middle_names_df() %>%
-    dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
-                                        paste(Firstname, Surname),
-                                        paste(Firstname, `Middle name`, Surname))) %>% 
+  if (initials) {
+    roles_data <-
+      infosheet %>% 
+      dplyr::mutate_at(
+        dplyr::vars(Firstname, `Middle name`, Surname),
+        as.character) %>% 
+      add_initials() %>% 
+      dplyr::rename(Name = abbrev_name)
+  } else {
+    roles_data <-
+      infosheet %>% 
+      abbreviate_middle_names_df() %>%
+      dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
+                                          paste(Firstname, Surname),
+                                          paste(Firstname, `Middle name`, Surname)))
+  }
+  
+  roles_data <- 
+    roles_data %>% 
     dplyr::select(Name,
                   dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>%  
     tidyr::gather(key = "CRediT Taxonomy", value = "Included", -Name) %>% 
@@ -44,17 +57,17 @@ print_roles_readable <-  function(infosheet, text_format = "rmd") {
   if (text_format == 'rmd') {
     res <-
       roles_data %>% 
-      dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}.")) %>% 
+      dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
       dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n"))
     } else if (text_format == "html") {
       res <-
         roles_data %>% 
-        dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}.")) %>% 
+        dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
         dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>"))
       } else if (text_format == "raw") {
         res <-
           roles_data %>% 
-          dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}.")) %>% 
+          dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
           dplyr::summarise(out = glue::glue_collapse(out, sep = " "))
         }
   

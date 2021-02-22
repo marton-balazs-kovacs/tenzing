@@ -26,3 +26,19 @@ read_infosheet <- function(infosheet_path) {
   
   return(infosheet)
 }
+
+#' Delete empty rows of the infosheet
+#' 
+#' The function deletes any additional rows where all
+#' of the name columns are empty.
+#' 
+#' @param infosheet the imported infosheet
+#' 
+#' @return sgllg
+clean_infosheet <- function(infosheet) {
+  infosheet %>%
+    tibble::as_tibble() %>%
+    dplyr::filter_at(
+      dplyr::vars(Firstname, `Middle name`, Surname),
+      dplyr::any_vars(!is.na(.)))
+}

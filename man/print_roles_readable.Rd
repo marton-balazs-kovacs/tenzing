@@ -4,7 +4,7 @@
 \alias{print_roles_readable}
 \title{Generate human readable report of the contributions}
 \usage{
-print_roles_readable(infosheet, text_format = "rmd")
+print_roles_readable(infosheet, text_format = "rmd", initials = FALSE)
 }
 \arguments{
 \item{infosheet}{validated infosheet}

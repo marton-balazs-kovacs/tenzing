@@ -2,6 +2,8 @@
 # Each step is optional. 
 
 # 2. All along your project
+## Add functions
+usethis::use_r("initials")
 
 ## 2.1 Add modules
 
