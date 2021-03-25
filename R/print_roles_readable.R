@@ -53,7 +53,7 @@ print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FAL
     dplyr::filter(Included == TRUE) %>% 
     dplyr::select(-Included) %>% 
     dplyr::group_by(`CRediT Taxonomy`) %>% 
-    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "))
+    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = ", and "))
   
   # Format output string according to the text_format argument ---------------------------
   if (text_format == 'rmd') {

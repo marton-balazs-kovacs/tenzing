@@ -13,7 +13,7 @@ app_server <- function(input, output,session) {
   golem::invoke_js("add_tooltip", ".out-btn")
   ## Logic for multiple uploads
   observeEvent(read_out$uploaded(), {
-    if(!is.null(read_out$valid_infosheet())){
+    if(!is.null(read_out$valid_infosheet())) {
       golem::invoke_js("reable", ".btn-primary")
       golem::invoke_js("remove_tooltip", ".out-btn")
     } else{
@@ -37,7 +37,19 @@ app_server <- function(input, output,session) {
   # Show papaja YAML in viewer window
   mod_show_yaml_server("show_yaml_ui_1", input_data = read_out$data)
   
-  # Show grant infromation in viewer window
+  # ## Disable logic if grant information is empty
+  observeEvent(read_out$uploaded(), {
+    if(!all(is.na(read_out$data()$`Grant Information`))) {
+      golem::invoke_js("reable", "#grant_information-show_report")
+      # TODO: add tooltip -> modify add_tooltip js function to pass message
+      #golem::invoke_js("remove_tooltip", ".out-btn")
+    } else{
+      golem::invoke_js("disable", "#grant_information-show_report")
+      #golem::invoke_js("add_tooltip", ".out-btn")
+    }
+  })
+  
+  # Show grant information in viewer window
   mod_grant_information_server("grant_information", input_data = read_out$data)
   
   # Hide on launch waiter screen
