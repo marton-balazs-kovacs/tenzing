@@ -185,3 +185,27 @@ a:hover {
 .well{
   padding: 17px;
 }
+
+/* toggle switch bar on mode */
+.material-switch>label:before {
+  background: #D45F68;
+  box-shadow: none;
+  opacity: .5;
+}
+
+/* toggle switch bar off mode */
+.material-switch>input[type=checkbox]:checked+label:before {
+  background: #D45F68;
+  opacity: .5;
+}
+
+/* toggle switch toggle on mode */
+.material-switch>label:after {
+  background: #7ec4ad;
+  box-shadow: none;
+}
+
+/* toggle switch toggle off mode */
+.material-switch>input[type=checkbox]:checked+label:after {
+  background: #7ec4ad;
+}

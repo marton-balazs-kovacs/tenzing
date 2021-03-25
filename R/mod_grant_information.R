@@ -38,12 +38,13 @@ mod_grant_information_server <- function(id, input_data){
         rclipboard::rclipboardSetup(),
         h3("Grant information"),
         # Toggle between initials and full names
-        shinyWidgets::prettyToggle(
-          NS(id, "initials"),
-          label_off = "Full name",
-          label_on = "Initials",
-          shape = "square",
-          outline = FALSE),
+        div(
+          shinyWidgets::materialSwitch(
+            NS(id, "initials"),
+            label = "Full names",
+            inline = TRUE),
+          span("Initials")
+        ),
         hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
