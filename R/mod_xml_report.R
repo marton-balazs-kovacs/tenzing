@@ -19,7 +19,7 @@ mod_xml_report_ui <- function(id){
     div(class = "out-btn",
         actionButton(NS(id, "show_report"),
                        label = "Show XML file (for publisher use)",
-                       class = "btn btn-primary")
+                       class = "btn btn-primary btn-validate")
         )
     )
   }

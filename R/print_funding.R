@@ -1,4 +1,4 @@
-#' Generate human readable report of the grant information
+#' Generate human readable report of the funding information
 #' 
 #' The functions generates a human readable text about the funding
 #' information of the contributors. The output is generated from an
@@ -13,10 +13,10 @@
 #'   
 #' @return The function returns a string.
 #' @export
-print_grant <- function(infosheet, initials = FALSE) {
+print_funding <- function(infosheet, initials = FALSE) {
   # Restructure dataframe ---------------------------
   if (initials) {
-    grant_data <-
+    funding_data <-
       infosheet %>% 
       dplyr::mutate_at(
         dplyr::vars(Firstname, `Middle name`, Surname),
@@ -24,7 +24,7 @@ print_grant <- function(infosheet, initials = FALSE) {
       add_initials() %>% 
       dplyr::rename(Name = abbrev_name)
     } else {
-      grant_data <-
+      funding_data <-
         infosheet %>% 
         abbreviate_middle_names_df() %>%
         dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
@@ -32,19 +32,19 @@ print_grant <- function(infosheet, initials = FALSE) {
                                             paste(Firstname, `Middle name`, Surname)))
     }
   
-  grant_data <- 
-    grant_data %>% 
-    dplyr::select(Name, `Grant Information`) %>% 
-    dplyr::filter(!is.na(`Grant Information`) & `Grant Information` != "") %>% 
-    dplyr::group_by(`Grant Information`) %>% 
+  funding_data <- 
+    funding_data %>% 
+    dplyr::select(Name, Funding) %>% 
+    dplyr::filter(!is.na(Funding) & Funding != "") %>% 
+    dplyr::group_by(Funding) %>% 
     dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "),
                      n_names = dplyr::n())
   
   # Format output string ---------------------------
   res <-
-    grant_data %>% 
+    funding_data %>% 
     dplyr::transmute(
-      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'were', 'was')} supported by the {`Grant Information`}")) %>% 
+      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'were', 'was')} supported by the {Funding}")) %>% 
     dplyr::summarise(out = glue::glue_collapse(out, sep = "; ")) %>% 
     dplyr::mutate(out = stringr::str_c(out, "."))
   

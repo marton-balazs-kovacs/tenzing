@@ -20,7 +20,7 @@ mod_contribs_affiliation_page_ui <- function(id){
         actionButton(
           NS(id, "show_report"),
           label = "Show author list with affiliations",
-          class = "btn btn-primary")
+          class = "btn btn-primary btn-validate")
         )
     )
   }

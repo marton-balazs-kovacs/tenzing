@@ -9,18 +9,59 @@ app_server <- function(input, output,session) {
   
   # Output generating button activation
   ## Disable button on start and add tooltip
-  golem::invoke_js("disable", ".btn-primary")
-  golem::invoke_js("add_tooltip", ".out-btn")
-  ## Logic for multiple uploads
+  ### Buttons that need a validated infosheet
+  golem::invoke_js("disable", ".btn-validate")
+  golem::invoke_js("add_tooltip",
+                   list(
+                     where = ".out-btn",
+                     message = "Please upload a valid infosheet"))
+  
+  ### Show spreadsheet button
+  # golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+  # golem::invoke_js("add_tooltip",
+  #                  list(
+  #                    where = "#show-btn",
+  #                    message = "Please upload an infosheet"))
+
+  ## Toggle logic for multiple uploads
   observeEvent(read_out$uploaded(), {
-    if(!is.null(read_out$valid_infosheet())) {
-      golem::invoke_js("reable", ".btn-primary")
+    ### Buttons that need a validated infosheet
+    if(read_out$valid_infosheet()) {
+      golem::invoke_js("reable", ".btn-validate")
       golem::invoke_js("remove_tooltip", ".out-btn")
-    } else{
-      golem::invoke_js("disable", ".btn-primary")
-      golem::invoke_js("add_tooltip", ".out-btn")
-    }
-  })
+      } else{
+        golem::invoke_js("disable", ".btn-validate")
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = ".out-btn",
+                           message = "Please upload a valid infosheet"))
+        }
+    
+    ## Show spreadsheet button
+    # if(is.null(read_out$data())) {
+    #   golem::invoke_js("reable", "#show_spreadsheet_ui_1-show_data")
+    #   golem::invoke_js("add_tooltip",
+    #                    list(
+    #                      where = "#show-btn",
+    #                      message = "Please upload an infosheet"))
+    # }
+    #   } else {
+        # golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+        # golem::invoke_js("remove_tooltip", "#show-btn")
+        # }
+    
+    ### Disable logic if funding information is empty
+    # if(!all(is.na(read_out$data()$Funding))) {
+    #   golem::invoke_js("reable", "#funding_information-show_report")
+    #   golem::invoke_js("remove_tooltip", "#funding-btn")
+    # } else{
+    #   golem::invoke_js("disable", "#funding_information-show_report")
+    #   golem::invoke_js("add_tooltip",
+    #                    list(
+    #                      where = "#funding-btn",
+    #                      message = "Funding information column is empty"))
+    # }
+    })
   
   # Show the spreadsheet in viewer window
   mod_show_spreadsheet_server("show_spreadsheet_ui_1", input_data = read_out$data)
@@ -37,20 +78,8 @@ app_server <- function(input, output,session) {
   # Show papaja YAML in viewer window
   mod_show_yaml_server("show_yaml_ui_1", input_data = read_out$data)
   
-  # ## Disable logic if grant information is empty
-  observeEvent(read_out$uploaded(), {
-    if(!all(is.na(read_out$data()$`Grant Information`))) {
-      golem::invoke_js("reable", "#grant_information-show_report")
-      # TODO: add tooltip -> modify add_tooltip js function to pass message
-      #golem::invoke_js("remove_tooltip", ".out-btn")
-    } else{
-      golem::invoke_js("disable", "#grant_information-show_report")
-      #golem::invoke_js("add_tooltip", ".out-btn")
-    }
-  })
-  
-  # Show grant information in viewer window
-  mod_grant_information_server("grant_information", input_data = read_out$data)
+  # Show funding information in viewer window
+  mod_funding_information_server("funding_information", input_data = read_out$data)
   
   # Hide on launch waiter screen
   waiter::waiter_hide()

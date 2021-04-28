@@ -20,7 +20,7 @@ mod_show_yaml_ui <- function(id) {
     div(class = "out-btn",
     actionButton(inputId = NS(id, "show_yaml"),
                  label = HTML("Show <code>papaja</code> YAML"),
-                 class = "btn btn-primary")
+                 class = "btn btn-primary btn-validate")
     )
   )
 }

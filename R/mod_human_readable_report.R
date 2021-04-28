@@ -20,7 +20,7 @@ mod_human_readable_report_ui <- function(id){
         actionButton(
           NS(id, "show_report"),
           label = "Show author contributions text",
-          class = "btn btn-primary")
+          class = "btn btn-primary btn-validate")
         )
     )
   }

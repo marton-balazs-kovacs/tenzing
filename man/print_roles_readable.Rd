@@ -41,7 +41,7 @@ print_roles_readable(infosheet = infosheet_template)
 \seealso{
 Other output functions: 
 \code{\link{print_contrib_affil}()},
-\code{\link{print_grant}()},
+\code{\link{print_funding}()},
 \code{\link{print_xml}()},
 \code{\link{print_yaml}()}
 }

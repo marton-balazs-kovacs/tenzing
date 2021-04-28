@@ -1,11 +1,11 @@
 ---
-title: "Grant information"
+title: "Funding information"
 output: 
   html_document:
     self_contained: false
   word_document: default
 params:
-  grant_information: NA
+  funding_information: NA
 ---
 
 ```{r, include = FALSE}
@@ -13,6 +13,6 @@ library(knitr)
 ```
 
 ```{r echo = FALSE, results = 'asis'}
-cat(params$grant_information)
+cat(params$funding_information)
 ```
 

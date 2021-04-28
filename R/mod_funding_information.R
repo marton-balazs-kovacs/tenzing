@@ -1,4 +1,4 @@
-#' grant_information UI Function
+#' funding_information UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,36 +7,36 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-mod_grant_information_ui <- function(id){
+mod_funding_information_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show grant information",
-          class = "btn btn-primary")
+          label = "Show funding information",
+          class = "btn btn-primary btn-validate")
         )
   )
 }
     
-#' grant_information Server Function
+#' funding_information Server Function
 #'
 #' @noRd 
-mod_grant_information_server <- function(id, input_data){
+mod_funding_information_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_grant(infosheet = input_data(), initials = input$initials)
+      print_funding(infosheet = input_data(), initials = input$initials)
     })
     
     ## Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Grant information"),
+        h3("Funding information"),
         # Toggle between initials and full names
         div(
           shinyWidgets::materialSwitch(
@@ -74,27 +74,27 @@ mod_grant_information_server <- function(id, input_data){
     
     ## Restructure dataframe for the output
     to_download_and_clip <- reactive({
-      print_grant(infosheet = input_data(), initials = input$initials)
+      print_funding(infosheet = input_data(), initials = input$initials)
     })
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
-      list(grant_information = to_download_and_clip())
+      list(funding_information = to_download_and_clip())
     })
     
     ## Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
-        paste0("grant_information_", Sys.Date(), ".doc")
+        paste0("funding_information_", Sys.Date(), ".doc")
       },
       # Set content of the file
       content = function(file) {
         # Start progress bar
         waitress$notify()
         # Copy the report file to a temporary directory before processing it
-        file_path <- file.path("inst/app/www/", "grant_information.Rmd")
-        file.copy("grant_information.Rmd", file_path, overwrite = TRUE)
+        file_path <- file.path("inst/app/www/", "funding_information.Rmd")
+        file.copy("funding_information.Rmd", file_path, overwrite = TRUE)
         
         # Knit the document
         callr::r(
@@ -119,8 +119,8 @@ mod_grant_information_server <- function(id, input_data){
 }
     
 ## To be copied in the UI
-# mod_grant_information_ui("grant_information")
+# mod_funding_information_ui("funding_information")
     
 ## To be copied in the server
-# mod_grant_information_server("grant_information")
+# mod_funding_information_server("funding_information")
  

@@ -59,7 +59,7 @@ mod_check_modal_server <- function(id, activate, table_data){
       if (all(check_result()$type %in% c("warning", "success"))) {
         TRUE
         } else {
-          NULL
+          FALSE
           }
       })
     

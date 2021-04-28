@@ -109,27 +109,28 @@ mod_read_spreadsheet_server <- function(id) {
     
     # Alert modal if infosheet is incomplete
     valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = activate, table_data = table_data)
-
+    
     # Delete empty rows
     table_data_clean <- eventReactive(activate(), {
-      if (valid_infosheet() == TRUE) {
-      table_data() %>%
-      tibble::as_tibble() %>%
-      dplyr::filter_at(
-        dplyr::vars(Firstname, `Middle name`, Surname),
-        dplyr::any_vars(!is.na(.)))
-      } else {
-        NULL
-      }
-    })
+      if (all(c("Firstname", "Middle name", "Surname") %in% colnames(table_data()))) {
+        table_data() %>%
+          tibble::as_tibble() %>%
+          dplyr::filter_at(
+            dplyr::vars(Firstname, `Middle name`, Surname),
+            dplyr::any_vars(!is.na(.)))
+        } else {
+          table_data()
+          }
+      })
     
     # Return module output
-    return(list(
-      data = table_data_clean,
-      valid_infosheet = valid_infosheet,
-      uploaded = activate
-      ))
-  })
+    return(
+      list(
+        data = table_data_clean,
+        valid_infosheet = valid_infosheet,
+        uploaded = activate
+        ))
+    })
 }
     
 ## To be copied in the UI
