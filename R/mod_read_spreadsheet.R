@@ -63,6 +63,7 @@ mod_read_spreadsheet_server <- function(id) {
   options(shiny.maxRequestSize = 9*1024^2)
   
   moduleServer(id, function(input, output, session) {
+    # Reading infosheet ---------------------------
     # Create one activate reactive from two buttons
     # If either of the buttons are pressed the reactive fires
     activate <- reactive(
@@ -104,12 +105,52 @@ mod_read_spreadsheet_server <- function(id) {
           }
       
       # Reading data
-      read_infosheet(infosheet_path = infosheet_path)
+      # The purrr::safely function catches the errors on read
+      # and returns a list
+      sf_read_infosheet <- purrr::safely(read_infosheet)
+      read_output <- sf_read_infosheet(infosheet_path = infosheet_path)
+      if (is.null(read_output$result)) {
+        golem::invoke_js("error_alert",
+                         list(error = read_output$error[["message"]],
+                              warning = ""))
+        return(NULL)
+      } else {
+        return(read_output$result)
+      }
       })
     
-    # Alert modal if infosheet is incomplete
-    valid_infosheet <- mod_check_modal_server("check_modal_ui_1", activate = activate, table_data = table_data)
+    golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+    golem::invoke_js("add_tooltip",
+                     list(
+                       where = "#show-btn",
+                       message = "Please upload a valid infosheet"))
     
+    observeEvent(activate(),{
+      ### Buttons that need a validated infosheet
+      if(!is.null(table_data())) {
+        golem::invoke_js("reable", "#show_spreadsheet_ui_1-show_data")
+        golem::invoke_js("remove_tooltip", "#show-btn")
+      } else{
+        golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = "#show-btn",
+                           message = "Please upload a valid infosheet"))
+      }
+    })
+    
+    # General validation of infosheet ---------------------------
+    # Alert modal to check infosheet validity
+    valid_infosheet <- reactive({
+    if (!is.null(table_data())) {
+      check_output <- mod_check_modal_server("check_modal_ui_1", activate = activate, table_data = table_data)
+      return(check_output())
+    } else {
+      return(FALSE)
+    }
+  })
+    
+    # Cleaning infosheet ---------------------------
     # Delete empty rows
     table_data_clean <- eventReactive(activate(), {
       if (all(c("Firstname", "Middle name", "Surname") %in% colnames(table_data()))) {
@@ -123,7 +164,7 @@ mod_read_spreadsheet_server <- function(id) {
           }
       })
     
-    # Return module output
+    # Return output ---------------------------
     return(
       list(
         data = table_data_clean,

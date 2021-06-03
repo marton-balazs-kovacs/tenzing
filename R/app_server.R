@@ -15,13 +15,6 @@ app_server <- function(input, output,session) {
                    list(
                      where = ".out-btn",
                      message = "Please upload a valid infosheet"))
-  
-  ### Show spreadsheet button
-  # golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
-  # golem::invoke_js("add_tooltip",
-  #                  list(
-  #                    where = "#show-btn",
-  #                    message = "Please upload an infosheet"))
 
   ## Toggle logic for multiple uploads
   observeEvent(read_out$uploaded(), {
@@ -36,34 +29,9 @@ app_server <- function(input, output,session) {
                            where = ".out-btn",
                            message = "Please upload a valid infosheet"))
         }
-    
-    ## Show spreadsheet button
-    # if(is.null(read_out$data())) {
-    #   golem::invoke_js("reable", "#show_spreadsheet_ui_1-show_data")
-    #   golem::invoke_js("add_tooltip",
-    #                    list(
-    #                      where = "#show-btn",
-    #                      message = "Please upload an infosheet"))
-    # }
-    #   } else {
-        # golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
-        # golem::invoke_js("remove_tooltip", "#show-btn")
-        # }
-    
-    ### Disable logic if funding information is empty
-    # if(!all(is.na(read_out$data()$Funding))) {
-    #   golem::invoke_js("reable", "#funding_information-show_report")
-    #   golem::invoke_js("remove_tooltip", "#funding-btn")
-    # } else{
-    #   golem::invoke_js("disable", "#funding_information-show_report")
-    #   golem::invoke_js("add_tooltip",
-    #                    list(
-    #                      where = "#funding-btn",
-    #                      message = "Funding information column is empty"))
-    # }
     })
   
-  # Show the spreadsheet in viewer window
+  # # Show the spreadsheet in viewer window
   mod_show_spreadsheet_server("show_spreadsheet_ui_1", input_data = read_out$data)
   
   # Show a human readable report in viewer window

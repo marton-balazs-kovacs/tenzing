@@ -15,10 +15,10 @@
 #' @importFrom shiny NS tagList 
 mod_show_spreadsheet_ui <- function(id) {
   tagList(
-    div(id = "out-btn",
+    div(id = "show-btn",
       actionButton(inputId = NS(id, "show_data"),
                    label = "Show infosheet",
-                   class = "btn btn-primary btn-validate")
+                   class = "btn btn-primary")
       )
     )
   }
@@ -33,6 +33,9 @@ mod_show_spreadsheet_server <- function(id, input_data) {
   stopifnot(is.reactive(input_data))
   
   moduleServer(id, function(input, output, session) {
+    # Needs to be added to run if called from another module
+    ns <- session$ns
+    
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
     # Clean data for table output
