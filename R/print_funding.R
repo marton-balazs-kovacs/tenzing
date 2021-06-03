@@ -14,6 +14,9 @@
 #' @return The function returns a string.
 #' @export
 print_funding <- function(infosheet, initials = FALSE) {
+  # Validate input ---------------------------
+  if (all(is.na(infosheet$Funding))) stop("There is no funding information provided for either of the contributors.")
+  
   # Restructure dataframe ---------------------------
   if (initials) {
     funding_data <-

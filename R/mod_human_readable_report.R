@@ -37,7 +37,11 @@ mod_human_readable_report_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials)
+      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+        "There are no CRediT roles checked for either of the contributors."
+        } else {
+          print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials)
+          }
     })
     
     ## Build preview modal
@@ -82,7 +86,11 @@ mod_human_readable_report_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      print_roles_readable(infosheet = input_data(), initials = input$initials)
+      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+        "There are no CRediT roles checked for either of the contributors."
+        } else {
+          print_roles_readable(infosheet = input_data(), initials = input$initials)
+      }
     })
     
     ## Set up parameters to pass to Rmd document
@@ -116,7 +124,11 @@ mod_human_readable_report_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials)
+      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+        "There are no CRediT roles checked for either of the contributors."
+        } else {
+          print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials)
+          }
     })
     
     ## Add clipboard buttons

@@ -27,6 +27,11 @@
 #' validate_infosheet(infosheet = infosheet_template)
 #' print_roles_readable(infosheet = infosheet_template)
 print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FALSE) {
+  # Validate input ---------------------------
+  if (all(infosheet[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+    stop("There are no CRediT roles checked for either of the contributors.")
+  } 
+  
   # Restructure dataframe for the credit roles output ---------------------------
   if (initials) {
     roles_data <-

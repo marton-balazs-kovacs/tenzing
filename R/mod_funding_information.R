@@ -29,7 +29,11 @@ mod_funding_information_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_funding(infosheet = input_data(), initials = input$initials)
+      if(all(is.na(input_data()[["Funding"]]))) {
+        "There is no funding information provided for either of the contributors."
+        } else {
+          print_funding(infosheet = input_data(), initials = input$initials)
+          }
     })
     
     ## Build modal
@@ -74,7 +78,11 @@ mod_funding_information_server <- function(id, input_data){
     
     ## Restructure dataframe for the output
     to_download_and_clip <- reactive({
-      print_funding(infosheet = input_data(), initials = input$initials)
+      if(all(is.na(input_data()[["Funding"]]))) {
+        "There is no funding information provided for either of the contributors."
+      } else {
+        print_funding(infosheet = input_data(), initials = input$initials)
+      }
     })
     
     ## Set up parameters to pass to Rmd document

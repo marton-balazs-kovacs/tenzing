@@ -18,7 +18,6 @@ app_server <- function(input, output,session) {
 
   ## Toggle logic for multiple uploads
   observeEvent(read_out$uploaded(), {
-    ### Buttons that need a validated infosheet
     if(read_out$valid_infosheet()) {
       golem::invoke_js("reable", ".btn-validate")
       golem::invoke_js("remove_tooltip", ".out-btn")
@@ -31,7 +30,7 @@ app_server <- function(input, output,session) {
         }
     })
   
-  # # Show the spreadsheet in viewer window
+  # Show the spreadsheet in viewer window
   mod_show_spreadsheet_server("show_spreadsheet_ui_1", input_data = read_out$data)
   
   # Show a human readable report in viewer window
