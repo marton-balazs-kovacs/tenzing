@@ -45,7 +45,7 @@ print_yaml <- function(infosheet) {
       )
     ) %>%
     dplyr::ungroup() %>% 
-    dplyr::select(-c(order, Firstname, `Middle name`, Surname), -dplyr::contains(" affiliation")) %>% 
+    dplyr::select(dplyr::pull(credit_taxonomy, `CRediT Taxonomy`), name, corresponding, email, affiliation) %>% 
     dplyr::filter(name != "") %>%
     dplyr::mutate(name = factor(name, levels = name)) # Ensure split retains order
   
