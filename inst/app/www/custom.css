@@ -70,7 +70,7 @@
 }
 
 .upload-btn {
-  color: #326F5E;
+  color: #D45F68;
   padding: 3;
   margin: 2;
   border: none;
@@ -78,7 +78,7 @@
 }
 
 .upload-btn:hover {
-  color: #7ec4ad;
+  color: #e59fa4;
   background: Transparent no-repeat;
   border: none;
   padding: 3;
@@ -86,7 +86,7 @@
 }
 
 .upload-btn:visited {
-  color: #D45F68;
+  color: #326F5E;
   border: none;
   background: Transparent no-repeat;
   padding: 3;
@@ -111,7 +111,7 @@
 
 .upload-btn:focus {
   border: none;
-  color: #D45F68;
+  color: #326F5E;
   background: Transparent no-repeat;
   outline: none;
   padding: 3;
