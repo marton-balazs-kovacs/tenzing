@@ -21,7 +21,7 @@
   font-weight: 500;
   line-height: 1.1;
   margin-top: 0;
-  color: #D45F68;
+  color: black;
 }
 
 #intro-panel {
@@ -70,52 +70,58 @@
 }
 
 .upload-btn {
-  color: #D45F68;
-  padding: 3;
-  margin: 2;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #326f5e;
   border: none;
   background: Transparent no-repeat;
 }
 
 .upload-btn:hover {
-  color: #e59fa4;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #4dab91;
   background: Transparent no-repeat;
   border: none;
-  padding: 3;
-  margin: 2;
 }
 
 .upload-btn:visited {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   color: #326F5E;
   border: none;
   background: Transparent no-repeat;
-  padding: 3;
-  margin: 2;
 }
 
 .upload-btn:active {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   border: none;
   color: #122822;
   background: Transparent no-repeat;
-  padding: 3;
-  margin: 2;
 }
 
 .upload-btn:active:hover {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   border: none;
   color: #122822;
   background: Transparent no-repeat;
-  padding: 3;
-  margin: 2;
 }
 
 .upload-btn:focus {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   border: none;
-  color: #326F5E;
+  color: #122822;
   background: Transparent no-repeat;
   outline: none;
-  padding: 3;
-  margin: 2;
 }
 
 .swal2-icon.swal2-info {
@@ -148,7 +154,8 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(84, 200, 155, 1);
 }
 
-#about_modal_ui_1-open_about {
+#about_modal-open_about {
+  margin-right: 10px;
   color: #D45F68; 
   border-color: #D45F68;
 }

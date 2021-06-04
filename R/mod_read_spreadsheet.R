@@ -16,7 +16,7 @@
 mod_read_spreadsheet_ui <- function(id){
 
   tagList(
-    h5("Choose the spreadsheet on your computer", class = "main-steps-title"),
+    h5("Choose the spreadsheet on your computer and click the upload button", class = "main-steps-title"),
     div(style = "width: 95%; display: inline-block;",
         fileInput(NS(id, "file"),
                   label = NULL,
@@ -33,7 +33,7 @@ mod_read_spreadsheet_ui <- function(id){
                      icon = icon("upload", lib = "font-awesome"),
                      class = "upload-btn")
         ),
-    h5("or paste the url of a shared googlesheet", class = "main-steps-title"),
+    h5("or paste the url of a shared googlesheet and click the upload button", class = "main-steps-title"),
     div(style = "width: 95%; display: inline-block;",
         textInput(NS(id, "url"),
                   label= NULL,
@@ -119,7 +119,7 @@ mod_read_spreadsheet_server <- function(id) {
       }
       })
     
-    golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+    golem::invoke_js("disable", "#show_spreadsheet-show_data")
     golem::invoke_js("add_tooltip",
                      list(
                        where = "#show-btn",
@@ -128,10 +128,10 @@ mod_read_spreadsheet_server <- function(id) {
     observeEvent(activate(),{
       ### Buttons that need a validated infosheet
       if(!is.null(table_data())) {
-        golem::invoke_js("reable", "#show_spreadsheet_ui_1-show_data")
+        golem::invoke_js("reable", "#show_spreadsheet-show_data")
         golem::invoke_js("remove_tooltip", "#show-btn")
       } else{
-        golem::invoke_js("disable", "#show_spreadsheet_ui_1-show_data")
+        golem::invoke_js("disable", "#show_spreadsheet-show_data")
         golem::invoke_js("add_tooltip",
                          list(
                            where = "#show-btn",
@@ -143,7 +143,7 @@ mod_read_spreadsheet_server <- function(id) {
     # Alert modal to check infosheet validity
     valid_infosheet <- reactive({
     if (!is.null(table_data())) {
-      check_output <- mod_check_modal_server("check_modal_ui_1", activate = activate, table_data = table_data)
+      check_output <- mod_check_modal_server("check_modal", activate = activate, table_data = table_data)
       return(check_output())
     } else {
       return(FALSE)
@@ -175,7 +175,7 @@ mod_read_spreadsheet_server <- function(id) {
 }
     
 ## To be copied in the UI
-# mod_read_spreadsheet_ui("read_spreadsheet_ui_1")
+# mod_read_spreadsheet_ui("read_spreadsheet")
     
 ## To be copied in the server
-# mod_read_spreadsheet_server("read_spreadsheet_ui_1")
+# mod_read_spreadsheet_server("read_spreadsheet")

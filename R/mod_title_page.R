@@ -1,6 +1,6 @@
 # Module UI
   
-#' @title   mod_contribs_affiliation_page_ui and mod_contribs_affiliation_page_server
+#' @title   mod_title_page_ui and mod_title_page_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -8,12 +8,12 @@
 #' @param output internal
 #' @param session internal
 #'
-#' @rdname mod_contribs_affiliation_page
+#' @rdname mod_title_page
 #'
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
-mod_contribs_affiliation_page_ui <- function(id){
+mod_title_page_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
@@ -31,14 +31,14 @@ mod_contribs_affiliation_page_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_contribs_affiliation_page_server <- function(id, input_data){
+mod_title_page_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_contrib_affil(infosheet = input_data(), text_format = "html")
+      print_title_page(infosheet = input_data(), text_format = "html")
     })
     
     ## Build modal
@@ -75,7 +75,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     
     ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
-      print_contrib_affil(infosheet = input_data())
+      print_title_page(infosheet = input_data())
     })
     
     ## Set up parameters to pass to Rmd document
@@ -110,7 +110,7 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_contrib_affil(infosheet = input_data(), text_format = "raw")
+      print_title_page(infosheet = input_data(), text_format = "raw")
     })
     
     ## Add clipboard buttons
@@ -124,8 +124,8 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
 }
     
 ## To be copied in the UI
-# mod_contribs_affiliation_page_ui("contribs_affiliation_page_ui_1")
+# mod_title_page_ui("title_page")
     
 ## To be copied in the server
-# mod_contribs_affiliation_page_server("contribs_affiliation_page_ui_1")
+# mod_title_page_server("title_page")
  

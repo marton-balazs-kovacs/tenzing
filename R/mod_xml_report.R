@@ -105,8 +105,8 @@ mod_xml_report_server <- function(id, input_data){
 }
     
 ## To be copied in the UI
-# mod_xml_report_ui("xml_report_ui_1")
+# mod_xml_report_ui("xml_report")
     
 ## To be copied in the server
-# mod_xml_report_server("xml_report_ui_1")
+# mod_xml_report_server("xml_report")
  

@@ -14,7 +14,16 @@ app_ui <- function() {
                style = "margin-bottom: 10px; margin-top: 10px;"))),
       # Body
       fluidRow(
-        column(4, offset = 1,
+        column(6, offset = 1,
+               wellPanel(
+                 id = "intro-panel",
+                 includeMarkdown(app_sys("app/www/introduction.Rmd")),
+                 br(),
+                 fluidRow(
+                   align = "right",
+                   mod_about_modal_ui("about_modal")))
+        ),
+        column(4,
                wellPanel(
                  class = "main-steps-panel",
                  h3("1. Create your infosheet", class = "main-steps-title"),
@@ -22,32 +31,24 @@ app_ui <- function() {
                  tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                         "infosheet template",
                         target="_blank",
-                        style = "display: inline;")
+                        style = "display: inline; color: #ffdf57")
                  ),
                wellPanel(
                  class = "main-steps-panel",
                  h3("2. Load your infosheet", class = "main-steps-title"),
-                 mod_read_spreadsheet_ui("read_spreadsheet_ui_1"),
-                 mod_show_spreadsheet_ui("show_spreadsheet_ui_1")
+                 mod_read_spreadsheet_ui("read_spreadsheet"),
+                 hr(style = "margin-top: 0px; margin-bottom: 15px; border-top: 1px solid #467d6e; width : 80%"),
+                 mod_show_spreadsheet_ui("show_spreadsheet")
                  ),
                wellPanel(
                  class = "main-steps-panel",
                  h3("3. Download the output", class = "main-steps-title"),
-                 mod_human_readable_report_ui("human_readable_report_ui_1"),
-                 mod_contribs_affiliation_page_ui("contribs_affiliation_page_ui_1"),
-                 mod_xml_report_ui("xml_report_ui_1"),
-                 mod_show_yaml_ui("show_yaml_ui_1"),
+                 mod_credit_roles_ui("credit_roles"),
+                 mod_title_page_ui("title_page"),
+                 mod_xml_report_ui("xml_report"),
+                 mod_show_yaml_ui("show_yaml"),
                  mod_funding_information_ui("funding_information")
                  )
-               ),
-        column(6,
-               wellPanel(
-                 id = "intro-panel",
-                 includeMarkdown(app_sys("app/www/introduction.Rmd")),
-                 br(),
-                 fluidRow(
-                   align = "right",
-                   mod_about_modal_ui("about_modal_ui_1")))
                ),
         column(1)
         )

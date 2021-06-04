@@ -17,6 +17,7 @@ The app is named after the Nepali-Indian sherpa Tenzing Norgay, who was one of t
 - Balazs Aczel
 - Marton Kovacs
 - Frederik Aust
+- Julien Colomb
 
 ### Organizations recommending the app
 [Collabra: Psychology](https://www.collabra.org/)

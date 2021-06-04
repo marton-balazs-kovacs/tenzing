@@ -23,8 +23,8 @@ The infosheet must be based on the \code{\link{infosheet_template}}.
 }
 \seealso{
 Other output functions: 
-\code{\link{print_contrib_affil}()},
-\code{\link{print_roles_readable}()},
+\code{\link{print_credit_roles}()},
+\code{\link{print_title_page}()},
 \code{\link{print_xml}()},
 \code{\link{print_yaml}()}
 }

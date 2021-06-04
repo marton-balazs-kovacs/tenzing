@@ -32,9 +32,9 @@ print_yaml(infosheet = infosheet_template)
 }
 \seealso{
 Other output functions: 
-\code{\link{print_contrib_affil}()},
+\code{\link{print_credit_roles}()},
 \code{\link{print_funding}()},
-\code{\link{print_roles_readable}()},
+\code{\link{print_title_page}()},
 \code{\link{print_xml}()}
 }
 \concept{output functions}

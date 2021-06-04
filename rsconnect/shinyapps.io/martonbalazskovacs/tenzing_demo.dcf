@@ -1,0 +1,12 @@
+name: tenzing_demo
+title: tenzing_demo
+username:
+account: martonbalazskovacs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4228905
+bundleId: 4678462
+url: https://martonbalazskovacs.shinyapps.io/tenzing_demo/
+when: 1622825384.43551
+asMultiple: FALSE
+asStatic: FALSE

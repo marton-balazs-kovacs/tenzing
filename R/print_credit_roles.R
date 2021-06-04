@@ -1,4 +1,4 @@
-#' Generate human readable report of the contributions
+#' Generate report of the contributions with CRedit
 #' 
 #' The function generates rmarkdown formatted text of the contributions according
 #' to the CRediT taxonomy. The output is generated from an infosheet validated with
@@ -27,8 +27,8 @@
 #' @export
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
-#' print_roles_readable(infosheet = infosheet_template)
-print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FALSE, order_by = "role") {
+#' print_credit_roles(infosheet = infosheet_template)
+print_credit_roles <-  function(infosheet, text_format = "rmd", initials = FALSE, order_by = "role") {
   # Validate input ---------------------------
   if (all(infosheet[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
     stop("There are no CRediT roles checked for either of the contributors.")

@@ -46,8 +46,8 @@ mod_about_modal_server <- function(id){
 }
     
 ## To be copied in the UI
-# mod_about_modal_ui("about_modal_ui_1")
+# mod_about_modal_ui("about_modal")
     
 ## To be copied in the server
-# mod_about_modal_server("about_modal_ui_1")
+# mod_about_modal_server("about_modal")
  

@@ -1,4 +1,4 @@
-#' Generate contributors' affiliations
+#' Generate title page
 #' 
 #' The function generates rmarkdown formatted contributors' affiliation text from
 #' an infosheet validated with the \code{\link{validate_infosheet}} function. The 
@@ -23,8 +23,8 @@
 #' @export
 #' @examples 
 #' validate_infosheet(infosheet = infosheet_template)
-#' print_contrib_affil(infosheet = infosheet_template)
-print_contrib_affil <- function(infosheet, text_format = "rmd") {
+#' print_title_page(infosheet = infosheet_template)
+print_title_page <- function(infosheet, text_format = "rmd") {
   # Validation ---------------------------
   ## Check if there are shared first authors
   shared_first <- nrow(infosheet[infosheet$`Order in publication` == 1, ]) > 1
@@ -33,14 +33,14 @@ print_contrib_affil <- function(infosheet, text_format = "rmd") {
   clean_names_infosheet <-
     infosheet %>%
     abbreviate_middle_names_df() %>%
-    dplyr::mutate(Names = dplyr::if_else(is.na(`Middle name`),
+    dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
                                          paste(Firstname, Surname),
                                          paste(Firstname, `Middle name`, Surname)))
   
   contrib_affil_data <-
     clean_names_infosheet %>% 
-    dplyr::select(`Order in publication`, Names, `Primary affiliation`, `Secondary affiliation`, `Email address`, `Corresponding author?`) %>%
-    tidyr::gather(key = "affiliation_type", value = "affiliation", -Names, -`Order in publication`, -`Email address`, -`Corresponding author?`) %>% 
+    dplyr::select(`Order in publication`, Name, `Primary affiliation`, `Secondary affiliation`, `Email address`, `Corresponding author?`) %>%
+    tidyr::gather(key = "affiliation_type", value = "affiliation", -Name, -`Order in publication`, -`Email address`, -`Corresponding author?`) %>% 
     dplyr::arrange(`Order in publication`) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(!is.na(affiliation) ~ suppressWarnings(dplyr::group_indices(., factor(affiliation, levels = unique(affiliation)))),
                                                     is.na(affiliation) ~ NA_integer_))
@@ -50,7 +50,7 @@ print_contrib_affil <- function(infosheet, text_format = "rmd") {
     contrib_affil_data %>% 
     dplyr::select(-affiliation) %>% 
     dplyr::mutate(affiliation_no = as.character(affiliation_no)) %>%
-    dplyr::group_by(`Order in publication`, Names) %>% 
+    dplyr::group_by(`Order in publication`, Name) %>% 
     dplyr::summarise(affiliation_no = stringr::str_c(na.omit(affiliation_no), collapse = ", ")) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(
       shared_first & `Order in publication` == 1 ~ paste0(affiliation_no, "*"),
@@ -58,9 +58,9 @@ print_contrib_affil <- function(infosheet, text_format = "rmd") {
     # Format output string according to the text_format argument
     dplyr::transmute(contrib = switch(
       text_format,
-      "rmd" = glue::glue("{Names}^{affiliation_no}^"),
-      "html" = glue::glue("{Names}<sup>{affiliation_no}</sup>"),
-      "raw" = glue::glue("{Names}{affiliation_no}"))) %>% 
+      "rmd" = glue::glue("{Name}^{affiliation_no}^"),
+      "html" = glue::glue("{Name}<sup>{affiliation_no}</sup>"),
+      "raw" = glue::glue("{Name}{affiliation_no}"))) %>% 
     # Collapse contributor names to one string
     dplyr::pull(contrib) %>% 
     glue::glue_collapse(., sep = ", ")
@@ -85,11 +85,11 @@ print_contrib_affil <- function(infosheet, text_format = "rmd") {
   if (shared_first) {
     annotation_print <-
       clean_names_infosheet %>% 
-      dplyr::select(`Order in publication`, Names, `Email address`, `Corresponding author?`) %>% 
+      dplyr::select(`Order in publication`, Name, `Email address`, `Corresponding author?`) %>% 
       dplyr::filter(`Order in publication` == 1) %>% 
-      dplyr::mutate(shared_author_names = glue_oxford_collapse(Names)) %>% 
+      dplyr::mutate(shared_author_names = glue_oxford_collapse(Name)) %>% 
       dplyr::filter(`Corresponding author?`) %>% 
-      glue::glue_data("*{shared_author_names} are shared first authors. The corresponding author is {Names}: {`Email address`}.")
+      glue::glue_data("*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}.")
   }
   
   # Bind contributor and affiliation information  ---------------------------

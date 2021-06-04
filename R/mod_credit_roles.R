@@ -1,6 +1,6 @@
 # Module UI
   
-#' @title   mod_human_readable_report_ui and mod_human_readable_report_server
+#' @title   mod_credit_roles_ui and mod_credit_roles_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -8,12 +8,12 @@
 #' @param output internal
 #' @param session internal
 #'
-#' @rdname mod_human_readable_report
+#' @rdname mod_credit_roles
 #'
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
-mod_human_readable_report_ui <- function(id){
+mod_credit_roles_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
@@ -31,7 +31,7 @@ mod_human_readable_report_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_human_readable_report_server <- function(id, input_data){
+mod_credit_roles_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     # Preview ---------------------------
@@ -40,7 +40,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials, order_by = order())
+          print_credit_roles(infosheet = input_data(), text_format = "html", initials = input$initials, order_by = order())
           }
     })
     
@@ -106,7 +106,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), initials = input$initials, order_by = order())
+          print_credit_roles(infosheet = input_data(), initials = input$initials, order_by = order())
       }
     })
     
@@ -144,7 +144,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials, order_by = order())
+          print_credit_roles(infosheet = input_data(), text_format = "raw", initials = input$initials, order_by = order())
           }
     })
     
@@ -159,8 +159,8 @@ mod_human_readable_report_server <- function(id, input_data){
 }
     
 ## To be copied in the UI
-# mod_human_readable_report_ui("human_readable_report_ui_1")
+# mod_credit_roles_ui("credit_roles")
     
 ## To be copied in the server
-# mod_human_readable_report_server("human_readable_report_ui_1")
+# mod_credit_roles_server("credit_roles")
  
