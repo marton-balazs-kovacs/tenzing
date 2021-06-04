@@ -175,12 +175,15 @@ validate_infosheet <- function(infosheet) {
   }
   ## Check if order has only unique values
   check_duplicate_order <- function(x) {
+    ## Check if there are shared first authors
+    shared_first <- nrow(infosheet[infosheet$`Order in publication` == 1, ]) > 1
+    
     duplicate <-
       x %>% 
       dplyr::count(`Order in publication`) %>% 
       dplyr::filter(n > 1)
     
-    if (nrow(duplicate) != 0) {
+    if (!shared_first & nrow(duplicate) != 0) {
       list(
         type = "error",
         message = glue::glue("The order number is duplicated for the following: ", glue::glue_collapse(duplicate$`Order in publication`, sep = ", ", last = " and "))

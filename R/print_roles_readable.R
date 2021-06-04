@@ -69,7 +69,7 @@ print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FAL
   roles_data <- 
     roles_data %>% 
     dplyr::group_by(`CRediT Taxonomy`) %>% 
-    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = ", and "))
+    dplyr::summarise(Names = glue_oxford_collapse(Name))
   
   # Format output string according to the text_format argument ---------------------------
   if (text_format == 'rmd') {
@@ -95,7 +95,7 @@ print_roles_readable <-  function(infosheet, text_format = "rmd", initials = FAL
     roles_data <- 
     roles_data %>% 
     dplyr::group_by(Name) %>% 
-    dplyr::summarise(Roles = glue::glue_collapse(`CRediT Taxonomy`, sep = ", ", last = ", and "))
+    dplyr::summarise(Roles = glue_oxford_collapse(`CRediT Taxonomy`))
   
   # Format output string according to the text_format argument ---------------------------
   if (text_format == 'rmd') {

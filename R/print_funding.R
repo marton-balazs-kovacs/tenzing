@@ -40,7 +40,7 @@ print_funding <- function(infosheet, initials = FALSE) {
     dplyr::select(Name, Funding) %>% 
     dplyr::filter(!is.na(Funding) & Funding != "") %>% 
     dplyr::group_by(Funding) %>% 
-    dplyr::summarise(Names = glue::glue_collapse(Name, sep = ", ", last = " and "),
+    dplyr::summarise(Names = glue_oxford_collapse(Name),
                      n_names = dplyr::n())
   
   # Format output string ---------------------------
