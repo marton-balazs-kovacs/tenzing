@@ -4,16 +4,24 @@
 \alias{print_roles_readable}
 \title{Generate human readable report of the contributions}
 \usage{
-print_roles_readable(infosheet, text_format = "rmd", initials = FALSE)
+print_roles_readable(
+  infosheet,
+  text_format = "rmd",
+  initials = FALSE,
+  order_by = "role"
+)
 }
 \arguments{
-\item{infosheet}{validated infosheet}
+\item{infosheet}{Tibble. Validated infosheet}
 
-\item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
+\item{text_format}{Character. Formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.}
 
 \item{initials}{Logical. If true initials will be included instead of full
 names in the output}
+
+\item{order_by}{Character. Whether the contributing authors listed for each role ("role"), or
+the roles are listed after the name of each author ("author").}
 }
 \value{
 The function returns a string containing the CRediT roles

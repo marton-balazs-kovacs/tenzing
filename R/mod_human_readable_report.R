@@ -40,7 +40,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials)
+          print_roles_readable(infosheet = input_data(), text_format = "html", initials = input$initials, order_by = order())
           }
     })
     
@@ -51,13 +51,25 @@ mod_human_readable_report_server <- function(id, input_data){
         h3("Author contributions"),
         # Toggle between initials and full names
         div(
-          shinyWidgets::materialSwitch(
-            NS(id, "initials"),
-            label = "Full names",
-            inline = TRUE),
-          span("Initials")
-        ),
-        hr(),
+          style = "display:inline-block; width:100%; padding-bottom:0px; margin-bottom:0px;",
+          div(
+            style = "display:inline-block; float:left;",
+            shinyWidgets::materialSwitch(
+              NS(id, "initials"),
+              label = "Full names",
+              inline = TRUE),
+            span("Initials")
+          ),
+          div(
+            style = "display:inline-block; float:right;",
+            shinyWidgets::materialSwitch(
+              NS(id, "order_by"),
+              label = "Author names",
+              inline = TRUE),
+            span("Roles")
+            )
+          ),
+        hr(style= "margin-top:5px; margin-bottom:10px;"),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(
@@ -80,6 +92,11 @@ mod_human_readable_report_server <- function(id, input_data){
       showModal(modal())
     })
     
+    ## Switch for order_by input
+    order <- reactive({
+      ifelse(input$order_by, "author", "role")
+    })
+    
     # Download ---------------------------
     ## Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
@@ -89,7 +106,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), initials = input$initials)
+          print_roles_readable(infosheet = input_data(), initials = input$initials, order_by = order())
       }
     })
     
@@ -127,7 +144,7 @@ mod_human_readable_report_server <- function(id, input_data){
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials)
+          print_roles_readable(infosheet = input_data(), text_format = "raw", initials = input$initials, order_by = order())
           }
     })
     
