@@ -69,54 +69,48 @@
   background-color: #3A806D !important;
 }
 
-.upload-btn {
+.show-btn {
   font-size: 18px;
-  display: flex;
   align-items: center;
   color: #326f5e;
   border: none;
   background: Transparent no-repeat;
 }
 
-.upload-btn:hover {
+.show-btn:hover {
   font-size: 18px;
-  display: flex;
   align-items: center;
   color: #4dab91;
   background: Transparent no-repeat;
   border: none;
 }
 
-.upload-btn:visited {
+.show-btn:visited {
   font-size: 18px;
-  display: flex;
   align-items: center;
   color: #326F5E;
   border: none;
   background: Transparent no-repeat;
 }
 
-.upload-btn:active {
+.show-btn:active {
   font-size: 18px;
-  display: flex;
   align-items: center;
   border: none;
   color: #122822;
   background: Transparent no-repeat;
 }
 
-.upload-btn:active:hover {
+.show-btn:active:hover {
   font-size: 18px;
-  display: flex;
   align-items: center;
   border: none;
   color: #122822;
   background: Transparent no-repeat;
 }
 
-.upload-btn:focus {
+.show-btn:focus {
   font-size: 18px;
-  display: flex;
   align-items: center;
   border: none;
   color: #122822;
@@ -216,4 +210,8 @@ a:hover {
 /* toggle switch toggle off mode */
 .material-switch>input[type=checkbox]:checked+label:after {
   background: #7ec4ad;
+}
+
+#read_spreadsheet-upload_file {
+  margin-bottom: 0 !important;
 }

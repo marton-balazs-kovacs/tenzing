@@ -15,10 +15,14 @@
 #' @importFrom shiny NS tagList 
 mod_show_spreadsheet_ui <- function(id) {
   tagList(
-    div(id = "show-btn",
+    div(
+      style = "display: block; text-align: right;",
+      title = "Click to upload from file",
+      id = "show-div",
       actionButton(inputId = NS(id, "show_data"),
-                   label = "Show infosheet",
-                   class = "btn btn-primary")
+                   label = NULL,
+                   icon = icon("eye", lib = "font-awesome"),
+                   class = "show-btn")
       )
     )
   }

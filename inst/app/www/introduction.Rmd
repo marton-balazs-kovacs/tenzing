@@ -11,12 +11,13 @@ output: html_document
 + You can share it with your collaborators to make the process faster
 
 #### 2. Upload your infosheet
-* Copy and paste the share URL of your spreadsheet then click on the upload button
-* Download the filled out infosheet to your computer in a .csv, .tsv or .xlsx format
-  - If you use .xlsx format the contributorship information should be on the first sheet
+* Use the share URL of your infosheet and click on the upload button or
+* Upload your infosheet in a .csv, .tsv or .xlsx format
+  - Download your filled out infosheet to your computer (if you use .xlsx format the contributorship information should be on the first sheet)
+  - Click the “Browse” button, locate your infosheet on your computer, and click the upload button
 * Click the "Browse" button and find your infosheet on your computer and once you loaded the file click the upload button
-  - If you want to take a look at the uploaded infosheet click "Show infosheet"
-
+  - To verify that your infosheet was imported correctly click “eye icon”
+  
 #### 3. Download the output
 * You can generate 5 types of outputs:
   - A human-readable report of the contributions with the "Author Contributions text"

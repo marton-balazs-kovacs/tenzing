@@ -17,39 +17,38 @@ mod_read_spreadsheet_ui <- function(id){
 
   tagList(
     h5("Choose the spreadsheet on your computer and click the upload button", class = "main-steps-title"),
-    div(style = "width: 95%; display: inline-block;",
-        fileInput(NS(id, "file"),
-                  label = NULL,
-                  accept = c(
-                    '.csv',
-                    '.tsv',
-                    '.xlsx'),
-                  multiple = FALSE)
+    fileInput(
+      NS(id, "file"),
+      label = NULL,
+      accept = c(
+        '.csv',
+        '.tsv',
+        '.xlsx'),
+      multiple = FALSE),
+    actionButton(
+      NS(id, "upload_file"),
+      label = list(
+        "Upload from file",
+        icon("fas fa-upload", lib = "font-awesome")
         ),
-    div(style = "width: 5%; display: inline-block; float: right;",
-        title = "Click to upload from file",
-        actionButton(NS(id, "upload_file"),
-                     label = NULL,
-                     icon = icon("upload", lib = "font-awesome"),
-                     class = "upload-btn")
+      class = "btn-primary"),
+    # hr(style = "margin-top: 15px; margin-bottom: 15px; border-top: 1px solid #467d6e; width : 80%"),
+    h3("OR", style = "font-weight: 500; line-height: 1.1; text-align: center; margin-top: 15px !important; margin-bottom: 15px !important;"),
+    h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-title"),
+    textInput(
+      NS(id, "url"),
+      label= NULL,
+      value = "", 
+      width = NULL, 
+      placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing"),
+    actionButton(
+      NS(id, "upload_url"),
+      label = list(
+        "Upload from url",
+        icon("fas fa-upload", lib = "font-awesome")
         ),
-    h5("or paste the url of a shared googlesheet and click the upload button", class = "main-steps-title"),
-    div(style = "width: 95%; display: inline-block;",
-        textInput(NS(id, "url"),
-                  label= NULL,
-                  value = "", 
-                  width = NULL, 
-                  placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing")
-        ),
-    div(style = "width: 5%; display: inline-block; float: right;",
-        title = "Click to upload from url",
-        actionButton(NS(id, "upload_url"),
-                     label = NULL,
-                     icon = icon("upload", lib = "font-awesome"),
-                     class = "upload-btn")
-        )
+      class = "btn-primary")
     )
-    
 }
     
 # Module Server
@@ -122,19 +121,19 @@ mod_read_spreadsheet_server <- function(id) {
     golem::invoke_js("disable", "#show_spreadsheet-show_data")
     golem::invoke_js("add_tooltip",
                      list(
-                       where = "#show-btn",
+                       where = "#show-div",
                        message = "Please upload a valid infosheet"))
     
     observeEvent(activate(),{
       ### Buttons that need a validated infosheet
       if(!is.null(table_data())) {
         golem::invoke_js("reable", "#show_spreadsheet-show_data")
-        golem::invoke_js("remove_tooltip", "#show-btn")
+        golem::invoke_js("remove_tooltip", "#show-div")
       } else{
         golem::invoke_js("disable", "#show_spreadsheet-show_data")
         golem::invoke_js("add_tooltip",
                          list(
-                           where = "#show-btn",
+                           where = "#show-div",
                            message = "Please upload a valid infosheet"))
       }
     })

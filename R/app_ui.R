@@ -37,7 +37,6 @@ app_ui <- function() {
                  class = "main-steps-panel",
                  h3("2. Load your infosheet", class = "main-steps-title"),
                  mod_read_spreadsheet_ui("read_spreadsheet"),
-                 hr(style = "margin-top: 0px; margin-bottom: 15px; border-top: 1px solid #467d6e; width : 80%"),
                  mod_show_spreadsheet_ui("show_spreadsheet")
                  ),
                wellPanel(

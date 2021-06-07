@@ -16,9 +16,9 @@ names in the output}
 The function returns a string.
 }
 \description{
-The functions generates a human readable text about the funding
-information of the contributors. The output is generated from an
-infosheet validated with the \code{\link{validate_infosheet}} function.
+The functions generates the funding information section of the manuscript.
+The output is generated from an infosheet validated with
+the \code{\link{validate_infosheet}} function.
 The infosheet must be based on the \code{\link{infosheet_template}}.
 }
 \seealso{
