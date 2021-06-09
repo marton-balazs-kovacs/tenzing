@@ -16,13 +16,16 @@
 mod_show_spreadsheet_ui <- function(id) {
   tagList(
     div(
-      style = "display: block; text-align: right;",
+      # style = "display: block; text-align: right;",
       title = "Click to upload from file",
       id = "show-div",
-      actionButton(inputId = NS(id, "show_data"),
-                   label = NULL,
-                   icon = icon("eye", lib = "font-awesome"),
-                   class = "show-btn")
+      actionButton(
+        NS(id, "show_data"),
+        label = list(
+          "Review infosheet",
+          icon("fas fa-eye", lib = "font-awesome")
+        ),
+        class = "btn-primary")
       )
     )
   }

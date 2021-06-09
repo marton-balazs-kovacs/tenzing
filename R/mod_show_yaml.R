@@ -19,7 +19,7 @@ mod_show_yaml_ui <- function(id) {
   tagList(
     div(class = "out-btn",
     actionButton(inputId = NS(id, "show_yaml"),
-                 label = HTML("Show <code>papaja</code> YAML"),
+                 label = HTML("Show <i>papaja</i> YAML"),
                  class = "btn btn-primary btn-validate")
     )
   )

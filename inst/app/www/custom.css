@@ -1,33 +1,144 @@
+/* navbar row background */
+.navbar-default {
+  background: none !important;
+  border: none !important;
+}
+
+/* navbar title from the side */
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+  margin-left: 10px;
+}
+
+/* navbar tabs from title */
+.navbar-nav {
+  margin-left: 30px;
+}
+
+/* tabs */
+.navbar-nav li a {
+  color: black !important;
+  font-weight: bold !important;
+  margin-left: 20px;
+  padding-bottom: 5px;
+  text-decoration:none
+}
+
+/* tabs on hover */
+.navbar-nav li a:hover {
+  color: #D45F68 !important;
+  background-color: white !important;
+  background-image: none !important;
+  border-bottom: 3px solid #D45F68;
+  margin-bottom: -2px;
+  padding-bottom: 5px;
+  text-decoration:none
+}
+
+/* active tabs */
+.navbar-nav > .active > a {
+  color: #D45F68 !important;
+  background-color: white !important;
+  background-image: none !important;
+  border-bottom: 3px solid #D45F68;
+  margin-bottom: -2px;
+  padding-bottom: 5px;
+  text-decoration:none
+}
+
+.navbar-nav > .active > a:hover {
+  border-bottom: 3px solid #D45F68;
+  text-decoration:none
+}
+
 #title {
   color: #D45F68;
   font-weight: 700;
   display: inline;
+  margin: 0;
 }
 
 #sub-title {
   color: #b2dcce;
   font-weight: 500;
   display: inline;
+  margin: 0;
+}
+
+#title-container {
+  margin: -11px auto;
+  padding: 0;
+}
+
+.main-steps-container {
+  display: block;
+  margin: 0 auto 10px;
+  width: 50%;
 }
 
 .main-steps-panel {
+  width: 90%;
   background-color: #b2dcce;
   box-shadow: none;
   border: none;
-  margin-bottom: 10px;
+  display: block;
+}
+
+.help-icon-container {
+  display: block;
+  float: right;
+  position: relative;
+  top: 15px;
+  right: 20px;
+}
+
+.help-icon {
+  color: #D45F68;
+  font-size: 2em;
+}
+
+.main-steps-title-container {
+  /*margin: 0 auto;
+  width: 40%;*/
+  display: block;
+}
+
+.main-steps-title-number {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-top: 0;
+  color: #ecd149 !important;
+  margin-left: -35px;
 }
 
 .main-steps-title {
-  font-weight: 500;
+  color: #D45F68 !important;
   line-height: 1.1;
+  display: inline-block;
+  margin-bottom: 5px;
   margin-top: 0;
-  color: black;
+}
+
+.main-steps-desc {
+  color: black !important;
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 0;
 }
 
 #intro-panel {
+  width: 60%;
+  margin: 0 auto;
   background-color: #ffec9b;
   box-shadow: none;
   border: none;  
+}
+
+#about-panel {
+  width: 60%;
+  margin: 0 auto;
+  background-color: #ffec9b;
+  box-shadow: none;
+  border: none;
 }
 
 .btn-primary {
@@ -37,7 +148,7 @@
   height: 40px;
   width: 100%;
   font-size: 20px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
 }
 
 .btn-primary:hover {
@@ -67,55 +178,6 @@
 .btn-primary:active {
   border-color: #224C40;
   background-color: #3A806D !important;
-}
-
-.show-btn {
-  font-size: 18px;
-  align-items: center;
-  color: #326f5e;
-  border: none;
-  background: Transparent no-repeat;
-}
-
-.show-btn:hover {
-  font-size: 18px;
-  align-items: center;
-  color: #4dab91;
-  background: Transparent no-repeat;
-  border: none;
-}
-
-.show-btn:visited {
-  font-size: 18px;
-  align-items: center;
-  color: #326F5E;
-  border: none;
-  background: Transparent no-repeat;
-}
-
-.show-btn:active {
-  font-size: 18px;
-  align-items: center;
-  border: none;
-  color: #122822;
-  background: Transparent no-repeat;
-}
-
-.show-btn:active:hover {
-  font-size: 18px;
-  align-items: center;
-  border: none;
-  color: #122822;
-  background: Transparent no-repeat;
-}
-
-.show-btn:focus {
-  font-size: 18px;
-  align-items: center;
-  border: none;
-  color: #122822;
-  background: Transparent no-repeat;
-  outline: none;
 }
 
 .swal2-icon.swal2-info {
@@ -164,10 +226,12 @@
 
 a {
   color: #D45F68 !important;
+  text-decoration: underline;
 }
 
 a:hover {
   color: #B6313B !important;
+  text-decoration: underline;
 }
 
 .download-report {
@@ -190,28 +254,113 @@ a:hover {
 
 /* toggle switch bar on mode */
 .material-switch>label:before {
-  background: #D45F68;
-  box-shadow: none;
-  opacity: .5;
+  background: #D45F68 !important;
+  box-shadow: none !important;
+  opacity: .5 !important;
 }
+
 
 /* toggle switch bar off mode */
 .material-switch>input[type=checkbox]:checked+label:before {
-  background: #D45F68;
-  opacity: .5;
+  background: #D45F68 !important;
+  opacity: .5 !important;
 }
 
 /* toggle switch toggle on mode */
 .material-switch>label:after {
-  background: #7ec4ad;
-  box-shadow: none;
+  background: #7ec4ad !important;
+  box-shadow: none !important;
 }
 
 /* toggle switch toggle off mode */
 .material-switch>input[type=checkbox]:checked+label:after {
-  background: #7ec4ad;
+  background: #7ec4ad !important;
 }
 
 #read_spreadsheet-upload_file {
   margin-bottom: 0 !important;
+  margin-top: -5px;
+}
+
+#show_spreadsheet-show_data {
+  margin-top: 10px;
+}
+
+/* 
+#read_spreadsheet-upload_url {
+  margin-bottom: 0 !important;
+  margin-top: 35px;
+}
+ */
+
+/* tabsetpanel tabpanel menu */
+.nav-tabs > li > a {
+  background-color: #b2dcce;
+  color: #326F5E !important;
+  border: 0;
+  padding-bottom: 5px;
+  text-decoration:none
+}
+
+.nav-tabs > li.active > a {
+  background-color: #b2dcce;
+  font-weight: bold;
+  color: #326F5E !important;
+  border: 0;
+  border-bottom: 3px solid #326F5E;
+  text-decoration:none
+}
+
+.nav-tabs > li.active > a:hover {
+  background-color: #b2dcce;
+  font-weight: bold;
+  color: #326F5E !important;
+  border: 0;
+  border-bottom: 3px solid #326F5E;
+  text-decoration:none
+}
+
+.nav-tabs > li.active > a:active {
+  background-color: #b2dcce;
+  font-weight: bold;
+  color: #326F5E !important;
+  border: 0;
+  border-bottom: 3px solid #326F5E;
+  text-decoration:none
+}
+
+.nav-tabs > li.active > a:focus {
+  background-color: #b2dcce;
+  font-weight: bold;
+  color: #326F5E !important;
+  border: 0;
+  border-bottom: 3px solid #326F5E;
+  text-decoration:none
+}
+
+.nav > li > a:hover {
+  background-color: transparent;
+  font-weight: bold;
+  border: none;
+  text-decoration:none
+}
+
+/*
+.nav > li > a:hover {
+  background-color: #b2dcce;
+  color: #326F5E !important;
+  font-weight: bold;
+  border: none;
+}
+*/
+
+/* Line under navtab */
+.nav-tabs {
+  border-bottom: none;
+  margin: -15px auto 15px;
+  text-decoration:none
+} 
+
+.btn-file {
+  border-color: #b2dcce !important;
 }

@@ -3,7 +3,7 @@ title: ""
 output: html_document
 ---
 
-### How to use the application
+### Instructions
 
 #### 1. Create your infosheet
 * Copy the infosheet template in your Google Drive _File -> Make a copy_

@@ -16,7 +16,11 @@
 mod_read_spreadsheet_ui <- function(id){
 
   tagList(
-    h5("Choose the spreadsheet on your computer and click the upload button", class = "main-steps-title"),
+    tabsetPanel(
+      type = "tabs",
+      tabPanel(
+        "Local file",
+    h5("Choose the spreadsheet on your computer and click the upload button", class = "main-steps-desc"),
     fileInput(
       NS(id, "file"),
       label = NULL,
@@ -31,10 +35,13 @@ mod_read_spreadsheet_ui <- function(id){
         "Upload from file",
         icon("fas fa-upload", lib = "font-awesome")
         ),
-      class = "btn-primary"),
+      class = "btn-primary")
+    ),
     # hr(style = "margin-top: 15px; margin-bottom: 15px; border-top: 1px solid #467d6e; width : 80%"),
-    h3("OR", style = "font-weight: 500; line-height: 1.1; text-align: center; margin-top: 15px !important; margin-bottom: 15px !important;"),
-    h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-title"),
+    # h3("OR", style = "font-weight: 500; line-height: 1.1; text-align: center; margin-top: 15px !important; margin-bottom: 15px !important;"),
+    tabPanel(
+      "URL",
+      h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-desc"),
     textInput(
       NS(id, "url"),
       label= NULL,
@@ -49,6 +56,8 @@ mod_read_spreadsheet_ui <- function(id){
         ),
       class = "btn-primary")
     )
+    )
+  )
 }
     
 # Module Server
@@ -118,23 +127,20 @@ mod_read_spreadsheet_server <- function(id) {
       }
       })
     
-    golem::invoke_js("disable", "#show_spreadsheet-show_data")
-    golem::invoke_js("add_tooltip",
-                     list(
-                       where = "#show-div",
-                       message = "Please upload a valid infosheet"))
+    golem::invoke_js("hideid", "show-div")
     
     observeEvent(activate(),{
       ### Buttons that need a validated infosheet
       if(!is.null(table_data())) {
         golem::invoke_js("reable", "#show_spreadsheet-show_data")
+        golem::invoke_js("showid", "show-div")
         golem::invoke_js("remove_tooltip", "#show-div")
       } else{
         golem::invoke_js("disable", "#show_spreadsheet-show_data")
         golem::invoke_js("add_tooltip",
                          list(
                            where = "#show-div",
-                           message = "Please upload a valid infosheet"))
+                           message = "Please upload an infosheet"))
       }
     })
     

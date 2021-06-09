@@ -5,8 +5,8 @@ account: martonbalazskovacs
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4228905
-bundleId: 4678988
+bundleId: 4697329
 url: https://martonbalazskovacs.shinyapps.io/tenzing_demo/
-when: 1622836735.96655
+when: 1623253666.31913
 asMultiple: FALSE
 asStatic: FALSE

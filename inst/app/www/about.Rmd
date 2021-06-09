@@ -11,15 +11,24 @@ The app is named after the Nepali-Indian sherpa Tenzing Norgay, who was one of t
 
 [Find out more](https://www.casrai.org/credit.html) about CRediT
 
-
 ### Contributors
+
+- Marton Kovacs
 - Alex Holcombe
 - Balazs Aczel
-- Marton Kovacs
 - Frederik Aust
 - Julien Colomb
 
+### Citation
+
+We recommend using this journal article citation when referring to tenzing:
+
+Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). Documenting contributions to scholarly articles using CRediT and tenzing. _Plos one, 15_(12), e0244611.
+
+You can find the introductory paper to tenzing [here](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611).
+
 ### Organizations recommending the app
+
 [Collabra: Psychology](https://www.collabra.org/)
 
 ### Questions and comments
