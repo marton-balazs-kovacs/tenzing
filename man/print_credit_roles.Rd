@@ -21,7 +21,7 @@ print_credit_roles(
 names in the output}
 
 \item{order_by}{Character. Whether the contributing authors listed for each role ("role"), or
-the roles are listed after the name of each author ("author").}
+the roles are listed after the name of each contributor ("contributor").}
 }
 \value{
 The function returns a string containing the CRediT roles
@@ -43,8 +43,9 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-validate_infosheet(infosheet = infosheet_template)
-print_credit_roles(infosheet = infosheet_template)
+example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+validate_infosheet(infosheet = example_infosheet)
+print_credit_roles(infosheet = example_infosheet)
 }
 \seealso{
 Other output functions: 

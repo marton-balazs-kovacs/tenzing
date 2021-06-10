@@ -20,8 +20,9 @@
 #'   listed for each CRediT role they partake in.
 #' @export
 #' @examples 
-#' validate_infosheet(infosheet = infosheet_template)
-#' print_xml(infosheet = infosheet_template)
+#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_infosheet(infosheet = example_infosheet)
+#' print_xml(infosheet = example_infosheet)
 print_xml <-  function(infosheet) {
   # Prepare the infosheet data
   contrib_data <- 

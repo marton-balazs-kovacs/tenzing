@@ -261,7 +261,7 @@ validate_infosheet <- function(infosheet) {
     if (nrow(missing) != 0) {
       list(
         type = "warning",
-        message = glue::glue("There is no CRediT taxonomy checked for the following row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
+        message = glue::glue("No CRediT categories are indicated for the row number(s) that follow, although tenzing will still provide other outputs: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
       } else {
         list(
           type = "success",

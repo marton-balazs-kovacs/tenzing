@@ -10,7 +10,7 @@ clean_infosheet(infosheet)
 \item{infosheet}{the imported infosheet}
 }
 \value{
-sgllg
+The function returns the infosheet without empty additional rows.
 }
 \description{
 The function deletes any additional rows where all

@@ -35,6 +35,7 @@ usethis::use_package("readxl")
 usethis::use_package("magrittr")
 usethis::use_package("yaml")
 usethis::use_package("rclipboard")
+usethis::use_package("markdown")
 usethis::use_pipe()
 
 ## 2.3 Add tests
@@ -65,6 +66,9 @@ devtools::build_vignettes()
 usethis::use_github()
 # usethis::use_travis()
 # usethis::use_appveyor()
+
+## News
+pkgdown::build_news()
 
 # You're now set! 
 # go to dev/03_deploy.R

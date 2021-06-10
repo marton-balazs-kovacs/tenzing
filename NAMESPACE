@@ -2,6 +2,7 @@
 
 export("%>%")
 export(add_initials)
+export(clean_infosheet)
 export(mod_about_modal_server)
 export(mod_about_modal_ui)
 export(mod_credit_roles_server)

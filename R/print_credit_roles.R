@@ -20,14 +20,15 @@
 #' @param initials Logical. If true initials will be included instead of full
 #'   names in the output
 #' @param order_by Character. Whether the contributing authors listed for each role ("role"), or
-#'   the roles are listed after the name of each author ("author").
+#'   the roles are listed after the name of each contributor ("contributor").
 #' 
 #' @return The function returns a string containing the CRediT roles
 #'   with the contributors listed for each role they partake in.
 #' @export
 #' @examples 
-#' validate_infosheet(infosheet = infosheet_template)
-#' print_credit_roles(infosheet = infosheet_template)
+#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_infosheet(infosheet = example_infosheet)
+#' print_credit_roles(infosheet = example_infosheet)
 print_credit_roles <-  function(infosheet, text_format = "rmd", initials = FALSE, order_by = "role") {
   # Validate input ---------------------------
   if (all(infosheet[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
@@ -90,7 +91,7 @@ print_credit_roles <-  function(infosheet, text_format = "rmd", initials = FALSE
         }
   
   # Ordered by authors ---------------------------
-  } else if (order_by == "author") {
+  } else if (order_by == "contributor") {
   # Restructure to fit the chosen order ---------------------------
     roles_data <- 
     roles_data %>% 

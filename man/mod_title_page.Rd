@@ -2,9 +2,12 @@
 % Please edit documentation in R/mod_title_page.R
 \name{mod_title_page_ui}
 \alias{mod_title_page_ui}
+\alias{mod_title_page_server}
 \title{mod_title_page_ui and mod_title_page_server}
 \usage{
 mod_title_page_ui(id)
+
+mod_title_page_server(id, input_data)
 }
 \arguments{
 \item{id}{shiny id}

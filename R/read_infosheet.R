@@ -33,8 +33,8 @@ read_infosheet <- function(infosheet_path) {
 #' of the name columns are empty.
 #' 
 #' @param infosheet the imported infosheet
-#' 
-#' @return sgllg
+#' @export
+#' @return The function returns the infosheet without empty additional rows.
 clean_infosheet <- function(infosheet) {
   infosheet %>%
     tibble::as_tibble() %>%

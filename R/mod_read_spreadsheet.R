@@ -74,6 +74,10 @@ mod_read_spreadsheet_server <- function(id) {
     # Reading infosheet ---------------------------
     # Create one activate reactive from two buttons
     # If either of the buttons are pressed the reactive fires
+    # TODO: This current solution is designed for to inputs on the
+    # same page. However, now that they are separated to two tabs
+    # the input should be triggered by which tab is open and one
+    # upload button should be enough.
     activate <- reactive(
       if (input$upload_url == 0 & input$upload_file == 0) {
         NULL
@@ -127,10 +131,11 @@ mod_read_spreadsheet_server <- function(id) {
       }
       })
     
+    # Hide show spreadsheet on start
     golem::invoke_js("hideid", "show-div")
     
+    # Control show spreadsheet button behaviour based on read
     observeEvent(activate(),{
-      ### Buttons that need a validated infosheet
       if(!is.null(table_data())) {
         golem::invoke_js("reable", "#show_spreadsheet-show_data")
         golem::invoke_js("showid", "show-div")

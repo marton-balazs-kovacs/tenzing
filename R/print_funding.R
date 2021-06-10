@@ -15,7 +15,7 @@
 #' @export
 print_funding <- function(infosheet, initials = FALSE) {
   # Validate input ---------------------------
-  if (all(is.na(infosheet$Funding))) stop("There is no funding information provided for either of the contributors.")
+  if (all(is.na(infosheet$Funding))) stop("There is no funding information provided for any of the contributors.")
   
   # Restructure dataframe ---------------------------
   if (initials) {
@@ -47,7 +47,7 @@ print_funding <- function(infosheet, initials = FALSE) {
   res <-
     funding_data %>% 
     dplyr::transmute(
-      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'were', 'was')} supported by the {Funding}")) %>% 
+      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'were', 'was')} supported by {Funding}")) %>% 
     dplyr::summarise(out = glue::glue_collapse(out, sep = "; ")) %>% 
     dplyr::mutate(out = stringr::str_c(out, "."))
   

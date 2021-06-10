@@ -27,7 +27,7 @@ mod_title_page_ui <- function(id){
     
 # Module Server
     
-#' @rdname mod_contribs_affiliation_page
+#' @rdname mod_title_page
 #' @export
 #' @keywords internal
     
@@ -75,7 +75,7 @@ mod_title_page_server <- function(id, input_data){
     
     ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
-      print_title_page(infosheet = input_data())
+      print_title_page(infosheet = input_data(), text_format = "rmd")
     })
     
     ## Set up parameters to pass to Rmd document

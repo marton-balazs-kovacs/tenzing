@@ -9,6 +9,7 @@ reference:
   - infosheet_template
   - read_infosheet
   - validate_infosheet
+  - clean_infosheet
 - title: Generate Output
 - desc: Functions to generate outputs
 - contents:
@@ -17,3 +18,7 @@ reference:
   - print_xml
   - print_yaml
   - print_funding
+  
+news:
+  cran_dates: false
+  one_page: false

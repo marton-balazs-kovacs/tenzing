@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -46,17 +47,24 @@ _Note: This produces the same result as downloading the infosheet template from 
 
 # Load your infosheet
 
-You can load the infosheet into R with the `tenzing::read_infosheet` function. This function accepts files with csv, tsv and xlsx extensions.
+You can load the infosheet into R with the `tenzing::read_infosheet` function. This function accepts files with csv, tsv, xlsx extensions, and the share URL of the Google spreadhseet.
 As an example we will use the built in infosheet template.
 
-```{r, eval = FALSE}
-my_infosheet <- read_infosheet(infosheet_path = "full_path_to_my_infosheet_with_extension")
+```{r}
+file_path <- system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE)
+my_infosheet <- read_infosheet(infosheet_path = file_path)
+```
+
+If the read infosheet still contains empty rows you can clean it with the `clean_infosheet` function.
+
+```{r}
+my_infosheet <- clean_infosheet(my_infosheet)
 ```
 
 After loading your infosheet you have to check its validity.
 
 ```{r}
-check_result <- validate_infosheet(infosheet = infosheet_template)
+check_result <- validate_infosheet(infosheet = my_infosheet)
 ```
 
 The validation function checks your infosheet by 10 statements. You can learn more about these checks by running the following code `?tenzing::infosheet_template`.
@@ -79,22 +87,24 @@ If your infosheet is validated you can move on to output generation. There are f
 
 For the human readable report and the contributors' affiliation page the output text will be rmarkdown formatted by default. However, by setting the `text_format` argument to `"html"` the output can be HTML formatted as well, or by setting the argument to `"raw"`, the output string will not be formatted at all.
 
-## create a human readable report of the contributions
+## create a human readable report of the contributions according to the CRediT taxonomy
+
+For this section it is possible to use initials by setting the `initials` argument `TRUE`. Also, if the `order_by` argument is set to `contributor` the function will list the contributions after the name of each researcher, instead of listing the appropriate names after each CRediT role.
 
 ```{r}
-print_roles_readable(infosheet = infosheet_template)
+print_credit_roles(infosheet = my_infosheet, initials = TRUE, order_by = "contributor")
 ```
 
 ## Create the contributors' affiliation page
 
 ```{r}
-print_contrib_affil(infosheet = infosheet_template)
+print_title_page(infosheet = my_infosheet)
 ```
 
 ## Create a JATS formatted XML document containing the contributors information
 
 ```{r}
-print_xml(infosheet = infosheet_template)
+print_xml(infosheet = my_infosheet)
 ```
 
 ## Create a YAML document containing the contributors informtation
@@ -102,6 +112,14 @@ print_xml(infosheet = infosheet_template)
 This output can be incorporated into manuscript created with the `papaja` package.
 
 ```{r}
-print_yaml(infosheet = infosheet_template)
+print_yaml(infosheet = my_infosheet)
+```
+
+## Create funding acknowledgements section
+
+For this section it is possible to use initials by setting the `initials` argument `TRUE`.
+
+```{r}
+print_funding(infosheet = my_infosheet, initials = TRUE)
 ```
 

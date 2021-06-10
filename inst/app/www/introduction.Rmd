@@ -12,6 +12,7 @@ output: html_document
 
 #### 2. Upload your infosheet
 * Use the share URL of your infosheet and click on the upload button or
+  - The share links shouls be made viewable
 * Upload your infosheet in a .csv, .tsv or .xlsx format
   - Download your filled out infosheet to your computer (if you use .xlsx format the contributorship information should be on the first sheet)
   - Click the “Browse” button, locate your infosheet on your computer, and click the upload button

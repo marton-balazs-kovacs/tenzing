@@ -29,11 +29,12 @@ add_initials <- function(infosheet) {
 #' Abbreviates multiple words to first letters
 #'
 #' @param string Character. A character vector with the names
+#' @param collapse Character. A string that will be used to separate names
 #'
 #' @return Returns a character vector with one element.
 #'
 #' @examples
-#' tenzing:::abbreviate_middle_names("Franz Jude Wayne")
+#' tenzing:::abbreviate("Franz Jude Wayne", collapse = "")
 abbreviate <- function(string, collapse) {
   string <- string[string != ""]
   if(length(string) > 0) {

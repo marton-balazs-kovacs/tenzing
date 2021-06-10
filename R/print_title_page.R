@@ -22,8 +22,9 @@
 #'   \code{Order in publication} column of the infosheet.
 #' @export
 #' @examples 
-#' validate_infosheet(infosheet = infosheet_template)
-#' print_title_page(infosheet = infosheet_template)
+#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_infosheet(infosheet = example_infosheet)
+#' print_title_page(infosheet = example_infosheet)
 print_title_page <- function(infosheet, text_format = "rmd") {
   # Validation ---------------------------
   ## Check if there are shared first authors
@@ -51,7 +52,7 @@ print_title_page <- function(infosheet, text_format = "rmd") {
     dplyr::select(-affiliation) %>% 
     dplyr::mutate(affiliation_no = as.character(affiliation_no)) %>%
     dplyr::group_by(`Order in publication`, Name) %>% 
-    dplyr::summarise(affiliation_no = stringr::str_c(na.omit(affiliation_no), collapse = ", ")) %>% 
+    dplyr::summarise(affiliation_no = stringr::str_c(na.omit(affiliation_no), collapse = ",")) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(
       shared_first & `Order in publication` == 1 ~ paste0(affiliation_no, "*"),
       TRUE ~ affiliation_no)) %>% 

@@ -2,9 +2,12 @@
 % Please edit documentation in R/mod_credit_roles.R
 \name{mod_credit_roles_ui}
 \alias{mod_credit_roles_ui}
+\alias{mod_credit_roles_server}
 \title{mod_credit_roles_ui and mod_credit_roles_server}
 \usage{
 mod_credit_roles_ui(id)
+
+mod_credit_roles_server(id, input_data)
 }
 \arguments{
 \item{id}{shiny id}

@@ -8,6 +8,8 @@ abbreviate(string, collapse)
 }
 \arguments{
 \item{string}{Character. A character vector with the names}
+
+\item{collapse}{Character. A string that will be used to separate names}
 }
 \value{
 Returns a character vector with one element.
@@ -16,5 +18,5 @@ Returns a character vector with one element.
 Abbreviates multiple words to first letters
 }
 \examples{
-tenzing:::abbreviate_middle_names("Franz Jude Wayne")
+tenzing:::abbreviate("Franz Jude Wayne", collapse = "")
 }

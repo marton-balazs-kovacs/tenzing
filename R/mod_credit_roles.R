@@ -27,7 +27,7 @@ mod_credit_roles_ui <- function(id){
     
 # Module Server
     
-#' @rdname mod_human_readable_report
+#' @rdname mod_credit_roles
 #' @export
 #' @keywords internal
     
@@ -64,7 +64,7 @@ mod_credit_roles_server <- function(id, input_data){
             style = "display:inline-block; float:right;",
             shinyWidgets::materialSwitch(
               NS(id, "order_by"),
-              label = "Author names",
+              label = "Contributor names",
               inline = TRUE),
             span("Roles")
             )
@@ -94,7 +94,7 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Switch for order_by input
     order <- reactive({
-      ifelse(input$order_by, "author", "role")
+      ifelse(input$order_by, "contributor", "role")
     })
     
     # Download ---------------------------
@@ -104,7 +104,7 @@ mod_credit_roles_server <- function(id, input_data){
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
       if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
-        "There are no CRediT roles checked for either of the contributors."
+        "There are no CRediT roles checked for any of the contributors."
         } else {
           print_credit_roles(infosheet = input_data(), initials = input$initials, order_by = order())
       }

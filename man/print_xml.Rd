@@ -29,8 +29,9 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-validate_infosheet(infosheet = infosheet_template)
-print_xml(infosheet = infosheet_template)
+example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+validate_infosheet(infosheet = example_infosheet)
+print_xml(infosheet = example_infosheet)
 }
 \seealso{
 Other output functions: 
