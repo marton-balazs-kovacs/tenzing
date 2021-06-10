@@ -10,8 +10,10 @@ read_infosheet(infosheet_path)
 \item{infosheet_path}{the full path to the file with extension}
 }
 \description{
-Then function reads the infosheet given the path if the
-file is a csv, tsv or an xlsx.
+This function reads the infosheet given the path if the
+file is a csv, tsv or an xlsx. The function can read
+googlesheets if share url is provided or local files if
+path to the local folder is provided.
 }
 \section{Warning}{
 

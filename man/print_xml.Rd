@@ -29,13 +29,15 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-validate_infosheet(infosheet = infosheet_template)
-print_xml(infosheet = infosheet_template)
+example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+validate_infosheet(infosheet = example_infosheet)
+print_xml(infosheet = example_infosheet)
 }
 \seealso{
 Other output functions: 
-\code{\link{print_contrib_affil}()},
-\code{\link{print_roles_readable}()},
+\code{\link{print_credit_roles}()},
+\code{\link{print_funding}()},
+\code{\link{print_title_page}()},
 \code{\link{print_yaml}()}
 }
 \concept{output functions}

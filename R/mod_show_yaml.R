@@ -19,8 +19,8 @@ mod_show_yaml_ui <- function(id) {
   tagList(
     div(class = "out-btn",
     actionButton(inputId = NS(id, "show_yaml"),
-                 label = HTML("Show <code>papaja</code> YAML"),
-                 class = "btn btn-primary")
+                 label = HTML("Show <i>papaja</i> YAML"),
+                 class = "btn btn-primary btn-validate")
     )
   )
 }
@@ -112,8 +112,8 @@ mod_show_yaml_server <- function(id, input_data) {
 }
 
 ## To be copied in the UI
-# mod_show_yaml_ui("show_yaml_ui_1")
+# mod_show_yaml_ui("show_yaml")
 
 ## To be copied in the server
-# mod_show_yaml_server("show_yaml_ui_1")
+# mod_show_yaml_server("show_yaml")
 

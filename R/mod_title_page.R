@@ -1,6 +1,6 @@
 # Module UI
   
-#' @title   mod_human_readable_report_ui and mod_human_readable_report_server
+#' @title   mod_title_page_ui and mod_title_page_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -8,43 +8,44 @@
 #' @param output internal
 #' @param session internal
 #'
-#' @rdname mod_human_readable_report
+#' @rdname mod_title_page
 #'
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
-mod_human_readable_report_ui <- function(id){
+mod_title_page_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show author contributions text",
-          class = "btn btn-primary")
+          label = "Show author list with affiliations",
+          class = "btn btn-primary btn-validate")
         )
     )
   }
     
 # Module Server
     
-#' @rdname mod_human_readable_report
+#' @rdname mod_title_page
 #' @export
 #' @keywords internal
     
-mod_human_readable_report_server <- function(id, input_data){
+mod_title_page_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_roles_readable(infosheet = input_data(), text_format = "html")
+      print_title_page(infosheet = input_data(), text_format = "html")
     })
     
-    ## Build preview modal
+    ## Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Author contributions"),
+        h3("Contributors' affiliation page"),
         hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
@@ -72,29 +73,30 @@ mod_human_readable_report_server <- function(id, input_data){
     ## Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    ## Restructure dataframe for the human readable output
+    ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
-      print_roles_readable(infosheet = input_data())
+      print_title_page(infosheet = input_data(), text_format = "rmd")
     })
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
-      list(human_readable = to_download())
+      list(contrib_affil = to_download())
     })
-  
+    
     ## Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
-        paste0("human_readable_report_", Sys.Date(), ".doc")
+        paste0("contributors_affiliation_", Sys.Date(), ".doc")
       },
       # Set content of the file
       content = function(file) {
         # Start progress bar
         waitress$notify()
         # Copy the report file to a temporary directory before processing it
-        file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
-        file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
+        file_path <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
+        file.copy("contribs_affiliation.Rmd", file_path, overwrite = TRUE)
+        
         # Knit the document
         callr::r(
           render_report,
@@ -108,7 +110,7 @@ mod_human_readable_report_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_roles_readable(infosheet = input_data(), text_format = "raw")
+      print_title_page(infosheet = input_data(), text_format = "raw")
     })
     
     ## Add clipboard buttons
@@ -122,8 +124,8 @@ mod_human_readable_report_server <- function(id, input_data){
 }
     
 ## To be copied in the UI
-# mod_human_readable_report_ui("human_readable_report_ui_1")
+# mod_title_page_ui("title_page")
     
 ## To be copied in the server
-# mod_human_readable_report_server("human_readable_report_ui_1")
+# mod_title_page_server("title_page")
  

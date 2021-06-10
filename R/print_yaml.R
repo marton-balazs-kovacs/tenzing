@@ -18,8 +18,9 @@
 #' @return The function returns a YAML document
 #' @export
 #' @examples 
-#' validate_infosheet(infosheet = infosheet_template)
-#' print_yaml(infosheet = infosheet_template)
+#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_infosheet(infosheet = example_infosheet)
+#' print_yaml(infosheet = example_infosheet)
 print_yaml <- function(infosheet) {
   # Restructure input data
   affiliation_data <- infosheet %>% 
@@ -45,7 +46,7 @@ print_yaml <- function(infosheet) {
       )
     ) %>%
     dplyr::ungroup() %>% 
-    dplyr::select(-c(order, Firstname, `Middle name`, Surname), -dplyr::contains(" affiliation")) %>% 
+    dplyr::select(dplyr::pull(credit_taxonomy, `CRediT Taxonomy`), name, corresponding, email, affiliation) %>% 
     dplyr::filter(name != "") %>%
     dplyr::mutate(name = factor(name, levels = name)) # Ensure split retains order
   

@@ -2,6 +2,7 @@
 # 
 # 4. Test my package
 
+devtools::check()
 devtools::test()
 rhub::check_for_cran()
 

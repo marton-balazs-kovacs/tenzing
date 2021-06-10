@@ -1,6 +1,6 @@
 Package: tenzing
 Title: Documenting Contributions to Scientific Scholarly Output with CRediT
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
   c(person(given = "Marton",
            family = "Kovacs",
@@ -47,8 +47,10 @@ Imports:
     config,
     callr,
     clipr,
-    htmlwidgets
-RoxygenNote: 7.1.0
+    htmlwidgets,
+    googlesheets4,
+    markdown
+RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     knitr,

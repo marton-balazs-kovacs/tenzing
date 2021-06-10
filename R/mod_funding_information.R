@@ -1,51 +1,54 @@
-# Module UI
-  
-#' @title   mod_contribs_affiliation_page_ui and mod_contribs_affiliation_page_server
-#' @description  A shiny Module.
+#' funding_information UI Function
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
+#' @description A shiny Module.
 #'
-#' @rdname mod_contribs_affiliation_page
+#' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @keywords internal
-#' @export 
+#' @noRd 
+#'
 #' @importFrom shiny NS tagList 
-mod_contribs_affiliation_page_ui <- function(id){
+mod_funding_information_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show author list with affiliations",
-          class = "btn btn-primary")
+          label = "Show funding information",
+          class = "btn btn-primary btn-validate")
         )
-    )
-  }
+  )
+}
     
-# Module Server
-    
-#' @rdname mod_contribs_affiliation_page
-#' @export
-#' @keywords internal
-    
-mod_contribs_affiliation_page_server <- function(id, input_data){
+#' funding_information Server Function
+#'
+#' @noRd 
+mod_funding_information_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_contrib_affil(infosheet = input_data(), text_format = "html")
+      if(all(is.na(input_data()[["Funding"]]))) {
+        "There is no funding information provided for either of the contributors."
+        } else {
+          print_funding(infosheet = input_data(), initials = input$initials)
+          }
     })
     
     ## Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Contributors' affiliation page"),
+        h3("Funding information"),
+        # Toggle between initials and full names
+        div(
+          shinyWidgets::materialSwitch(
+            NS(id, "initials"),
+            label = "Full names",
+            inline = TRUE),
+          span("Initials")
+        ),
         hr(),
         htmlOutput(NS(id, "preview")),
         easyClose = TRUE,
@@ -73,29 +76,33 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     ## Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    ## Restructure dataframe for the contributors affiliation output
-    to_download <- reactive({
-      print_contrib_affil(infosheet = input_data())
+    ## Restructure dataframe for the output
+    to_download_and_clip <- reactive({
+      if(all(is.na(input_data()[["Funding"]]))) {
+        "There is no funding information provided for either of the contributors."
+      } else {
+        print_funding(infosheet = input_data(), initials = input$initials)
+      }
     })
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
-      list(contrib_affil = to_download())
+      list(funding_information = to_download_and_clip())
     })
     
     ## Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
-        paste0("contributors_affiliation_", Sys.Date(), ".doc")
+        paste0("funding_information_", Sys.Date(), ".doc")
       },
       # Set content of the file
       content = function(file) {
         # Start progress bar
         waitress$notify()
         # Copy the report file to a temporary directory before processing it
-        file_path <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
-        file.copy("contribs_affiliation.Rmd", file_path, overwrite = TRUE)
+        file_path <- file.path("inst/app/www/", "funding_information.Rmd")
+        file.copy("funding_information.Rmd", file_path, overwrite = TRUE)
         
         # Knit the document
         callr::r(
@@ -108,24 +115,20 @@ mod_contribs_affiliation_page_server <- function(id, input_data){
     )
     
     # Clip ---------------------------
-    ## Set up output text to clip
-    to_clip <- reactive({
-      print_contrib_affil(infosheet = input_data(), text_format = "raw")
-    })
-    
     ## Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_download_and_clip(), icon("clipboard"), modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
+    observeEvent(input$clip_btn, clipr::write_clip(to_download_and_clip()))
   })
+ 
 }
     
 ## To be copied in the UI
-# mod_contribs_affiliation_page_ui("contribs_affiliation_page_ui_1")
+# mod_funding_information_ui("funding_information")
     
 ## To be copied in the server
-# mod_contribs_affiliation_page_server("contribs_affiliation_page_ui_1")
+# mod_funding_information_server("funding_information")
  

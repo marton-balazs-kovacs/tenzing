@@ -58,12 +58,7 @@ validate_infosheet <- function(infosheet) {
   
   check_cols(infosheet)
   # Delete empty rows ---------------------------
-  infosheet_clean <-
-    infosheet %>%
-    tibble::as_tibble() %>%
-    dplyr::filter_at(
-      dplyr::vars(Firstname, `Middle name`, Surname),
-      dplyr::any_vars(!is.na(.)))
+  infosheet_clean <- clean_infosheet(infosheet)
 
   # Check author names ---------------------------
   check_missing_surname <- function(x) {
@@ -180,12 +175,15 @@ validate_infosheet <- function(infosheet) {
   }
   ## Check if order has only unique values
   check_duplicate_order <- function(x) {
+    ## Check if there are shared first authors
+    shared_first <- nrow(infosheet[infosheet$`Order in publication` == 1, ]) > 1
+    
     duplicate <-
       x %>% 
       dplyr::count(`Order in publication`) %>% 
       dplyr::filter(n > 1)
     
-    if (nrow(duplicate) != 0) {
+    if (!shared_first & nrow(duplicate) != 0) {
       list(
         type = "error",
         message = glue::glue("The order number is duplicated for the following: ", glue::glue_collapse(duplicate$`Order in publication`, sep = ", ", last = " and "))
@@ -263,7 +261,7 @@ validate_infosheet <- function(infosheet) {
     if (nrow(missing) != 0) {
       list(
         type = "warning",
-        message = glue::glue("There is no CRediT taxonomy checked for the following row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
+        message = glue::glue("No CRediT categories are indicated for the row number(s) that follow, although tenzing will still provide other outputs: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
       } else {
         list(
           type = "success",
@@ -294,3 +292,40 @@ validate_infosheet <- function(infosheet) {
     return(res)
   }
 
+#' Check for same initials
+#' 
+#' This function checks the infosheet for duplicate initials, and
+#' issues a warning that the surnames will be used to differentiate
+#' between the users.
+#' 
+#' @param infosheet the imported infosheet
+#' 
+#' @return The function returns
+check_duplicate_initials <- function(infosheet) {
+  duplicate <-
+    infosheet %>% 
+    dplyr::mutate_at(
+      dplyr::vars(Firstname, `Middle name`, Surname),
+      list(~ as.character(stringr::str_trim(tolower(.), side = "both")))) %>% 
+    dplyr::mutate_at(dplyr::vars(Firstname, `Middle name`, Surname),
+                     ~ dplyr::if_else(is.na(.),
+                                      NA_character_,
+                                      paste0(stringr::str_sub(., 1, 1), "."))) %>% 
+    dplyr::mutate(Initials = dplyr::if_else(is.na(`Middle name`),
+                                            paste(Firstname, Surname),
+                                            paste(Firstname, `Middle name`, Surname))) %>% 
+    dplyr::count(Initials) %>% 
+    dplyr::filter(n > 1)
+  
+  if (nrow(duplicate) != 0) {
+    list(
+      type = "warning",
+      message = glue::glue("The infosheet has the following duplicate initials: ", glue::glue_collapse(toupper(duplicate$Initials), sep = ", ", last = " and "))
+    )
+  } else {
+    list(
+      type = "success",
+      message = "There are no duplicate initials in the infosheet."
+    )
+  }
+}

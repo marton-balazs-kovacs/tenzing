@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -51,11 +52,21 @@ If you hover your mouse over the CRediT taxonomy column names in the Google spre
 
 # Upload your infosheet
 
+You can load you infosheet to `tenzing` by either uploading a local file from your computer or pasting the share URL of the Google spreasheet.
+
+## Uploading a local file
+
 Before uploading your infosheet to the app, first download it to your computer if you haven't already. Use _File -> Download_. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./tenzing_error.png')
 ```
+
+## Loading infosheet by URL
+
+When you load your infosheet by using the share URL of the Google spreadsheet do not forget to use the "Anyone with the link" share option, so `tenzing` has permission to read your spreadsheet.
+
+## Validating the infosheet
 
 On upload the app checks the validity of your infosheet, with feedback to help you find any problems in your infosheet. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your infosheet. In case of an error, the app does not enable the output generating buttons until you fix the error.
 
@@ -67,13 +78,17 @@ By clicking on each of the four output options you will see a preview of the gen
 
 Below are the output options:
 
-## Create a human readable report of the contributions
+## Create a human readable report of the contributions according to CRediT
+
+You can choose to show the initials instead of full names by using the toggle switch. Also, you can list the contributions according to the CRediT roles or by the name of the contributor by using the other switch.
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./human_readable_output.png')
 ```
 
 ## Create the contributors' affiliation page
+
+`tenzing` allows multiple first authors. To include multiple first authors you should use 1 for each author in the infosheet's _Order in publication_ column. `tenzing` will automatically detect that multiple contributors are listed as first author and print an additional statement. In this statement, `tenzing` will include the name and email address of the corresponding author as well so do not forget to provide this information.
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./contrib_affil_output.png')
@@ -91,4 +106,12 @@ This output can be incorporated into manuscript created with the `papaja` packag
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./yaml_output.png')
+```
+
+## Create funding acknowledgements section
+
+This output lists each contributor and the name of the funding agency, or the specific grant as included in the _Funding_ column of the infosheet. You can choose to show the initials instead of full names by using the toggle switch.
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics('./funding_output.png')
 ```
