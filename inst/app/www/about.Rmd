@@ -17,7 +17,7 @@ Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb
 
 Please cite the following article when referring to tenzing:
 
-Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611). _Plos one, 15_(12), e0244611.
+Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://doi.org/10.1371/journal.pone.0244611). _Plos one, 15_(12), e0244611.
 
 ### Organizations recommending the app
 
