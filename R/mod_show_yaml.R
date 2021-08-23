@@ -40,7 +40,7 @@ mod_show_yaml_server <- function(id, input_data) {
       req(input_data())
       
       # Create output
-      print_yaml(infosheet = input_data())
+      print_yaml(contributors_table = input_data())
     })
     
     ## Create preview

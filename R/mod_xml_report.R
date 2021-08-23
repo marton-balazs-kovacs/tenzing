@@ -39,7 +39,7 @@ mod_xml_report_server <- function(id, input_data){
       req(input_data())
 
       # Create output
-      print_xml(infosheet = input_data())
+      print_xml(contributors_table = input_data())
     })
 
     ## Create preview
@@ -72,7 +72,7 @@ mod_xml_report_server <- function(id, input_data){
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
+    observeEvent(input$clip_btn, clipr::write_clip(to_print()))
     
     # Build modal
     modal <- function() {

@@ -4,10 +4,10 @@
 \alias{print_funding}
 \title{Generate human readable report of the funding information}
 \usage{
-print_funding(infosheet, initials = FALSE)
+print_funding(contributors_table, initials = FALSE)
 }
 \arguments{
-\item{infosheet}{validated infosheet}
+\item{contributors_table}{validated contributors_table}
 
 \item{initials}{Logical. If true initials will be included instead of full
 names in the output}
@@ -17,9 +17,17 @@ The function returns a string.
 }
 \description{
 The functions generates the funding information section of the manuscript.
-The output is generated from an infosheet validated with
-the \code{\link{validate_infosheet}} function.
-The infosheet must be based on the \code{\link{infosheet_template}}.
+The output is generated from an contributors_table validated with
+the \code{\link{validate_contributors_table}} function.
+The contributors_table must be based on the \code{\link{contributors_table_template}}.
+}
+\examples{
+example_contributors_table <- read_contributors_table(
+contributors_table = system.file("extdata",
+"contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+validate_contributors_table(contributors_table = example_contributors_table)
+print_funding(contributors_table = example_contributors_table, initials = FALSE)
+
 }
 \seealso{
 Other output functions: 

@@ -5,14 +5,14 @@
 \title{Generate report of the contributions with CRedit}
 \usage{
 print_credit_roles(
-  infosheet,
+  contributors_table,
   text_format = "rmd",
   initials = FALSE,
   order_by = "role"
 )
 }
 \arguments{
-\item{infosheet}{Tibble. Validated infosheet}
+\item{contributors_table}{Tibble. Validated contributors_table}
 
 \item{text_format}{Character. Formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.}
@@ -29,9 +29,9 @@ The function returns a string containing the CRediT roles
 }
 \description{
 The function generates rmarkdown formatted text of the contributions according
-to the CRediT taxonomy. The output is generated from an infosheet validated with
-the \code{\link{validate_infosheet}} function. The infosheet must be based on the
-\code{\link{infosheet_template}}. The function can return the output string as
+to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
+the \code{\link{validate_contributors_table}} function. The `contributors_table` must be based on the
+\code{\link{contributors_table_template}}. The function can return the output string as
 rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
@@ -43,9 +43,12 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
-validate_infosheet(infosheet = example_infosheet)
-print_credit_roles(infosheet = example_infosheet)
+example_contributors_table <- read_contributors_table(
+contributors_table = system.file("extdata",
+"contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+validate_contributors_table(contributors_table = example_contributors_table)
+print_credit_roles(contributors_table = example_contributors_table)
+
 }
 \seealso{
 Other output functions: 

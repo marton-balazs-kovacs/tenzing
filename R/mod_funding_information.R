@@ -32,7 +32,7 @@ mod_funding_information_server <- function(id, input_data){
       if(all(is.na(input_data()[["Funding"]]))) {
         "There is no funding information provided for either of the contributors."
         } else {
-          print_funding(infosheet = input_data(), initials = input$initials)
+          print_funding(contributors_table = input_data(), initials = input$initials)
           }
     })
     
@@ -81,7 +81,7 @@ mod_funding_information_server <- function(id, input_data){
       if(all(is.na(input_data()[["Funding"]]))) {
         "There is no funding information provided for either of the contributors."
       } else {
-        print_funding(infosheet = input_data(), initials = input$initials)
+        print_funding(contributors_table = input_data(), initials = input$initials)
       }
     })
     

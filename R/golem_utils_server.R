@@ -30,12 +30,3 @@ drop_nulls <- function(x){
 # typing reactiveValues is too long
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
-
-# The function is from the cli package: https://github.com/jonocarroll/cli/blob/2d3fbc4b41327df82df1102cdfc0a5c99822809b/R/inline.R
-glue_oxford_collapse <- function(x) {
-  if (length(x) >= 3) {
-    glue::glue_collapse(x, sep = ", ", last = ", and ")
-    } else {
-      glue::glue_collapse(x, sep = ", ", last = " and ")
-    }
-}

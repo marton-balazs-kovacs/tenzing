@@ -3,13 +3,13 @@ reference:
   desc: Functions to use the shiny app
 - contents: 
   - run_app
-- title: Infosheet
-  desc: Functions to load and test your infosheet
+- title: Contributors table
+  desc: Functions to load and test your contributors table
 - contents:
-  - infosheet_template
-  - read_infosheet
-  - validate_infosheet
-  - clean_infosheet
+  - contributors_table_template
+  - read_contributors_table
+  - validate_contributors_table
+  - clean_contributors_table
 - title: Generate Output
 - desc: Functions to generate outputs
 - contents:
@@ -18,7 +18,15 @@ reference:
   - print_xml
   - print_yaml
   - print_funding
-  
+- title: Initials
+- desc: Functions to turn full names into initials
+  - add_initials
+  - abbreviate
+  - abbreviate_middle_names_df
+- title: Rename
+- desc: Functions and datafiles that were renamed
+  - rename
+
 news:
   cran_dates: false
-  one_page: false
+  one_page: true

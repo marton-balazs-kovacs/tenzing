@@ -49,7 +49,10 @@ Imports:
     clipr,
     htmlwidgets,
     googlesheets4,
-    markdown
+    markdown,
+    lifecycle,
+    rlang,
+    stats
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,

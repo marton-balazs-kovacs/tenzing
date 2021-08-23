@@ -2,7 +2,7 @@
 % Please edit documentation in R/initials.R
 \name{abbreviate}
 \alias{abbreviate}
-\title{Abbreviate middle names}
+\title{Abbreviate names}
 \usage{
 abbreviate(string, collapse)
 }

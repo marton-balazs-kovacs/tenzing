@@ -2,19 +2,19 @@
 % Please edit documentation in R/initials.R
 \name{add_initials}
 \alias{add_initials}
-\title{Add initials to the infosheet}
+\title{Add initials to the contributors_table}
 \usage{
-add_initials(infosheet)
+add_initials(contributors_table)
 }
 \arguments{
-\item{infosheet}{the imported infosheet}
+\item{contributors_table}{the imported contributors_table}
 }
 \value{
-The function returns the infosheet with the initials in
+The function returns the contributors_table with the initials in
   an additional column
 }
 \description{
-This function adds the initials to the infosheet based on the Firstname,
+This function adds the initials to the contributors_table based on the Firstname,
 Middle name and Surname. The function uses whitespaces and hypens to
 detect the separate names. Also, the function is case sensitive.
 }

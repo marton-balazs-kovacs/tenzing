@@ -38,39 +38,41 @@ When you open the app, you'll see instructions in the left yellow panel to guide
 knitr::include_graphics('./tenzing_on_open.png')
 ```
 
-# Create your infosheet
+# Create your contributors table
 
-Enter all your credit information in a copy of the infosheet template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet can be updated as the project progresses.
+Enter all your credit information in a copy of the contributors table template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the contributors table template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The contributors table can be updated as the project progresses.
 
 ```{r, echo = FALSE, out.width = "100%"}
-knitr::include_graphics('./infosheet.png')
+knitr::include_graphics('./contributors_table.png')
 ```
 
-__Note:__ Required fields in the infosheet are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like. 
+__Note:__ Required fields in the contributors table are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like. 
 
-If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at [https://casrai.org/credit/](https://casrai.org/credit/).
+If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at [http://credit.niso.org/](http://credit.niso.org/).
 
-# Upload your infosheet
+# Upload your contributors table
 
-You can load you infosheet to `tenzing` by either uploading a local file from your computer or pasting the share URL of the Google spreasheet.
+You can load you contributors table to `tenzing` by either uploading a local file from your computer or pasting the share URL of the Google spreasheet.
 
 ## Uploading a local file
 
-Before uploading your infosheet to the app, first download it to your computer if you haven't already. Use _File -> Download_. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).
+Before uploading your contributors table to the app, first download it to your computer if you haven't already. Use _File -> Download_. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./tenzing_error.png')
 ```
 
-## Loading infosheet by URL
+Another possibility is to load your contributors table by providing the share URL of the spreadsheet to the app.
 
-When you load your infosheet by using the share URL of the Google spreadsheet do not forget to use the "Anyone with the link" share option, so `tenzing` has permission to read your spreadsheet.
+## Loading contributors table by URL
 
-## Validating the infosheet
+When you load your contributors table by using the share URL of the Google spreadsheet do not forget to use the "Anyone with the link" share option, so `tenzing` has permission to read your spreadsheet.
 
-On upload the app checks the validity of your infosheet, with feedback to help you find any problems in your infosheet. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your infosheet. In case of an error, the app does not enable the output generating buttons until you fix the error.
+## Validating the contributors table
 
-If you want to look at your uploaded infosheet you can do that by clicking _"Show infosheet"_, and if needed, search or filter the contributors by any column.
+On upload the app checks the validity of your contributors table, with feedback to help you find any problems in your contributors table. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your contributors table. In case of an error, the app does not enable the output generating buttons until you fix the error.
+
+If you want to look at your uploaded contributors table you can do that by clicking _"Review contributors table"_, and if needed, search or filter the contributors by any column.
 
 # Download the output
 
@@ -88,7 +90,7 @@ knitr::include_graphics('./human_readable_output.png')
 
 ## Create the contributors' affiliation page
 
-`tenzing` allows multiple first authors. To include multiple first authors you should use 1 for each author in the infosheet's _Order in publication_ column. `tenzing` will automatically detect that multiple contributors are listed as first author and print an additional statement. In this statement, `tenzing` will include the name and email address of the corresponding author as well so do not forget to provide this information.
+`tenzing` allows multiple first authors. To include multiple first authors you should use 1 for each author in the contributors table's _Order in publication_ column. `tenzing` will automatically detect that multiple contributors are listed as first author and print an additional statement. In this statement, `tenzing` will include the name and email address of the corresponding author as well so do not forget to provide this information.
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./contrib_affil_output.png')
@@ -110,7 +112,7 @@ knitr::include_graphics('./yaml_output.png')
 
 ## Create funding acknowledgements section
 
-This output lists each contributor and the name of the funding agency, or the specific grant as included in the _Funding_ column of the infosheet. You can choose to show the initials instead of full names by using the toggle switch.
+This output lists each contributor and the name of the funding agency, or the specific grant as included in the _Funding_ column of the contributors table. You can choose to show the initials instead of full names by using the toggle switch.
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./funding_output.png')

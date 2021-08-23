@@ -2,8 +2,8 @@
 #' 
 #' The function generates a YAML document containing the contributors information
 #' and contributions according to the CRediT taxonomy. The output is generated
-#' from an infosheet validated with the \code{\link{validate_infosheet}} function.
-#' The infosheet must be based on the \code{\link{infosheet_template}}.
+#' from an `contributors_table` validated with the \code{\link{validate_contributors_table}} function.
+#' The `contributors_table` must be based on the \code{\link{contributors_table_template}}.
 #' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
@@ -13,48 +13,57 @@
 #'   
 #' @family output functions
 #'
-#' @param infosheet validated infosheet
+#' @param contributors_table validated contributors_table
 #' 
 #' @return The function returns a YAML document
 #' @export
 #' @examples 
-#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_infosheet(infosheet = example_infosheet)
-#' print_yaml(infosheet = example_infosheet)
-print_yaml <- function(infosheet) {
+#' example_contributors_table <-
+#' read_contributors_table(
+#' contributors_table = system.file("extdata",
+#' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_contributors_table(contributors_table = example_contributors_table)
+#' print_yaml(contributors_table = example_contributors_table)
+#' 
+#' @importFrom rlang .data
+#' @importFrom stats na.omit
+print_yaml <- function(contributors_table) {
   # Restructure input data
-  affiliation_data <- infosheet %>% 
+  affiliation_data <- contributors_table %>% 
     dplyr::select(dplyr::contains("affiliation")) %>% 
     unlist() %>% 
     unique() %>% 
     na.omit()
   
-  contrib_data <- infosheet %>%
+  contrib_data <- contributors_table %>%
     abbreviate_middle_names_df() %>%
     dplyr::rename(
-      order = `Order in publication`
-      , email = `Email address`
-      , corresponding = `Corresponding author?`
+      order = .data$`Order in publication`,
+      email = .data$`Email address`,
+      corresponding = .data$`Corresponding author?`
     ) %>% 
-    dplyr::arrange(order) %>%
+    dplyr::arrange(.data$order) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
-      name = gsub("NA\\s*", "", paste(Firstname, `Middle name`, Surname))
-      , affiliation = paste(
-        which(affiliation_data %in% na.omit(c(`Primary affiliation`, `Secondary affiliation`)))
-        , collapse = ","
+      name = gsub("NA\\s*", "", paste(.data$Firstname, .data$`Middle name`, .data$Surname)),
+      affiliation = paste(
+        which(affiliation_data %in% na.omit(c(.data$`Primary affiliation`, .data$`Secondary affiliation`))),
+        collapse = ","
       )
     ) %>%
     dplyr::ungroup() %>% 
-    dplyr::select(dplyr::pull(credit_taxonomy, `CRediT Taxonomy`), name, corresponding, email, affiliation) %>% 
-    dplyr::filter(name != "") %>%
-    dplyr::mutate(name = factor(name, levels = name)) # Ensure split retains order
+    dplyr::select(
+      dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`),
+      .data$name, .data$corresponding, .data$email, .data$affiliation
+      ) %>% 
+    dplyr::filter(.data$name != "") %>%
+    dplyr::mutate(name = factor(.data$name, levels = .data$name)) # Ensure split retains order
   
   # Create list column of roles
   contrib_data$role <- I(
     list(
       names(
-        dplyr::select(contrib_data, -c(name, corresponding, email, affiliation))
+        dplyr::select(contrib_data, -c(.data$name, .data$corresponding, .data$email, .data$affiliation))
       )
     )
   )
@@ -62,7 +71,7 @@ print_yaml <- function(infosheet) {
   contrib_data$role_logical <- I(
     lapply(
       split(
-        dplyr::select(contrib_data, -c(name, corresponding, email, role, affiliation)),
+        dplyr::select(contrib_data, -c(.data$name, .data$corresponding, .data$email, .data$role, .data$affiliation)),
         contrib_data$name
       ),
       unlist
@@ -72,7 +81,13 @@ print_yaml <- function(infosheet) {
   contrib_data$role <- Map(`[`, contrib_data$role, contrib_data$role_logical)
   
   # Turn author information into a list (currently ignores affiliation information)
-  author <- dplyr::select(contrib_data, name, affiliation, role, corresponding, email)
+  author <- dplyr::select(
+    contrib_data,
+    .data$name,
+    .data$affiliation,
+    .data$role,
+    .data$corresponding,
+    .data$email)
   yaml <- list(author = as.list(split(author, author$name)))
   yaml$author <- lapply(yaml$author, as.list)
   yaml$author <- lapply(yaml$author, function(x) { x$role <- x$role[[1]]; x })
