@@ -1,9 +1,9 @@
 #' Generate report of the contributions with CRedit
 #' 
 #' The function generates rmarkdown formatted text of the contributions according
-#' to the CRediT taxonomy. The output is generated from an infosheet validated with
-#' the \code{\link{validate_infosheet}} function. The infosheet must be based on the
-#' \code{\link{infosheet_template}}. The function can return the output string as
+#' to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
+#' the \code{\link{validate_contributors_table}} function. The `contributors_table` must be based on the
+#' \code{\link{contributors_table_template}}. The function can return the output string as
 #' rmarkdown or html formatted text or without any formatting.
 #' 
 #' @section Warning:
@@ -14,7 +14,7 @@
 #'   
 #' @family output functions
 #'
-#' @param infosheet Tibble. Validated infosheet
+#' @param contributors_table Tibble. Validated contributors_table
 #' @param text_format Character. Formatting of the returned string. Possible values: "rmd", "html", "raw".
 #'   "rmd" by default.
 #' @param initials Logical. If true initials will be included instead of full
@@ -26,68 +26,72 @@
 #'   with the contributors listed for each role they partake in.
 #' @export
 #' @examples 
-#' example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_infosheet(infosheet = example_infosheet)
-#' print_credit_roles(infosheet = example_infosheet)
-print_credit_roles <-  function(infosheet, text_format = "rmd", initials = FALSE, order_by = "role") {
+#' example_contributors_table <- read_contributors_table(
+#' contributors_table = system.file("extdata",
+#' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+#' validate_contributors_table(contributors_table = example_contributors_table)
+#' print_credit_roles(contributors_table = example_contributors_table)
+#' 
+#' @importFrom rlang .data
+print_credit_roles <-  function(contributors_table, text_format = "rmd", initials = FALSE, order_by = "role") {
   # Validate input ---------------------------
-  if (all(infosheet[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+  if (all(contributors_table[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
     stop("There are no CRediT roles checked for either of the contributors.")
   } 
   
   # Adding initials ---------------------------
   if (initials) {
     roles_data <-
-      infosheet %>% 
+      contributors_table %>% 
       dplyr::mutate_at(
-        dplyr::vars(Firstname, `Middle name`, Surname),
+        dplyr::vars(.data$Firstname, .data$`Middle name`, .data$Surname),
         as.character) %>% 
       add_initials() %>% 
-      dplyr::rename(Name = abbrev_name) %>% 
-      dplyr::select(Name,
-                    dplyr::pull(credit_taxonomy, `CRediT Taxonomy`))
+      dplyr::rename(Name = .data$abbrev_name) %>% 
+      dplyr::select(.data$Name,
+                    dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`))
   } else {
     roles_data <-
-      infosheet %>% 
+      contributors_table %>% 
       abbreviate_middle_names_df() %>%
-      dplyr::mutate(Name = dplyr::if_else(is.na(`Middle name`),
-                                          paste(Firstname, Surname),
-                                          paste(Firstname, `Middle name`, Surname)))
+      dplyr::mutate(Name = dplyr::if_else(is.na(.data$`Middle name`),
+                                          paste(.data$Firstname, .data$Surname),
+                                          paste(.data$Firstname, .data$`Middle name`, .data$Surname)))
   }
   
   # Restructure dataframe for the credit roles output ---------------------------
   roles_data <-
     roles_data %>% 
-    dplyr::select(Name,
-                  dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>% 
-    tidyr::gather(key = "CRediT Taxonomy", value = "Included", -Name) %>% 
-    dplyr::filter(Included == TRUE) %>% 
-    dplyr::select(-Included)
+    dplyr::select(.data$Name,
+                  dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)) %>% 
+    tidyr::gather(key = "CRediT Taxonomy", value = "Included", -.data$Name) %>% 
+    dplyr::filter(.data$Included == TRUE) %>% 
+    dplyr::select(-.data$Included)
   
   # Ordered by roles ---------------------------
   if (order_by == "role") {
   # Restructure to fit the chosen order ---------------------------
   roles_data <- 
     roles_data %>% 
-    dplyr::group_by(`CRediT Taxonomy`) %>% 
-    dplyr::summarise(Names = glue_oxford_collapse(Name))
+    dplyr::group_by(.data$`CRediT Taxonomy`) %>% 
+    dplyr::summarise(Names = glue_oxford_collapse(.data$Name))
   
   # Format output string according to the text_format argument ---------------------------
   if (text_format == 'rmd') {
     res <-
       roles_data %>% 
       dplyr::transmute(out = glue::glue("**{`CRediT Taxonomy`}:** {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n"))
+      dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "  \n"))
     } else if (text_format == "html") {
       res <-
         roles_data %>% 
         dplyr::transmute(out = glue::glue("<b>{`CRediT Taxonomy`}:</b> {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
-        dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>"))
+        dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "<br>"))
       } else if (text_format == "raw") {
         res <-
           roles_data %>% 
           dplyr::transmute(out = glue::glue("{`CRediT Taxonomy`}: {Names}{dplyr::if_else(initials, '', '.')}")) %>% 
-          dplyr::summarise(out = glue::glue_collapse(out, sep = " "))
+          dplyr::summarise(out = glue::glue_collapse(.data$out, sep = " "))
         }
   
   # Ordered by authors ---------------------------
@@ -95,29 +99,29 @@ print_credit_roles <-  function(infosheet, text_format = "rmd", initials = FALSE
   # Restructure to fit the chosen order ---------------------------
     roles_data <- 
     roles_data %>% 
-    dplyr::group_by(Name) %>% 
-    dplyr::summarise(Roles = glue_oxford_collapse(`CRediT Taxonomy`))
+    dplyr::group_by(.data$Name) %>% 
+    dplyr::summarise(Roles = glue_oxford_collapse(.data$`CRediT Taxonomy`))
   
   # Format output string according to the text_format argument ---------------------------
   if (text_format == 'rmd') {
     res <-
       roles_data %>% 
       dplyr::transmute(out = glue::glue("**{Name}:** {Roles}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = "  \n"))
+      dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "  \n"))
   } else if (text_format == "html") {
     res <-
       roles_data %>% 
       dplyr::transmute(out = glue::glue("<b>{Name}:</b> {Roles}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = "<br>"))
+      dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "<br>"))
   } else if (text_format == "raw") {
     res <-
       roles_data %>% 
       dplyr::transmute(out = glue::glue("{Name}: {Roles}.")) %>% 
-      dplyr::summarise(out = glue::glue_collapse(out, sep = " "))
+      dplyr::summarise(out = glue::glue_collapse(.data$out, sep = " "))
   }
   }
   
   res %>% 
-    dplyr::pull(out)
+    dplyr::pull(.data$out)
 }
 

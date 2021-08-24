@@ -1,24 +1,21 @@
 #' @import shiny
 app_server <- function(input, output,session) {
-  # Show about modal
-  mod_about_modal_server("about_modal")
-  
-  # Read in the infosheet
+  # Read in the contributors_table
   ## Save the read data as a reactive object
   read_out <- mod_read_spreadsheet_server("read_spreadsheet")
   
   # Output generating button activation
   ## Disable button on start and add tooltip
-  ### Buttons that need a validated infosheet
+  ### Buttons that need a validated contributors_table
   golem::invoke_js("disable", ".btn-validate")
   golem::invoke_js("add_tooltip",
                    list(
                      where = ".out-btn",
-                     message = "Please upload a valid infosheet"))
+                     message = "Please upload a valid contributors_table"))
 
   ## Toggle logic for multiple uploads
-  observeEvent(read_out$uploaded(), {
-    if(read_out$valid_infosheet()) {
+  observeEvent(read_out$upload(), {
+    if(read_out$is_valid()) {
       golem::invoke_js("reable", ".btn-validate")
       golem::invoke_js("remove_tooltip", ".out-btn")
       } else{
@@ -26,7 +23,7 @@ app_server <- function(input, output,session) {
         golem::invoke_js("add_tooltip",
                          list(
                            where = ".out-btn",
-                           message = "Please upload a valid infosheet"))
+                           message = "Please upload a valid contributors_table"))
         }
     })
   

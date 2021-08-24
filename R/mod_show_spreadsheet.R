@@ -13,6 +13,7 @@
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
+#' @importFrom rlang .data
 mod_show_spreadsheet_ui <- function(id) {
   tagList(
     div(
@@ -22,7 +23,7 @@ mod_show_spreadsheet_ui <- function(id) {
       actionButton(
         NS(id, "show_data"),
         label = list(
-          "Review infosheet",
+          "Review contributors table",
           icon("fas fa-eye", lib = "font-awesome")
         ),
         class = "btn-primary")
@@ -44,7 +45,7 @@ mod_show_spreadsheet_server <- function(id, input_data) {
     ns <- session$ns
     
     # Validation ---------------------------
-    credit_check_cols <- c("Firstname", "Middle name", "Surname", dplyr::pull(credit_taxonomy, `CRediT Taxonomy`))
+    credit_check_cols <- c("Firstname", "Middle name", "Surname", dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`))
     
     # Clean data for table output
     table_data <- reactive({
@@ -55,10 +56,10 @@ mod_show_spreadsheet_server <- function(id, input_data) {
         # Sum of credit taxonomy activities that a contributor participated in
         credit_all_empty_col <- 
           input_data() %>% 
-          dplyr::select(Firstname, `Middle name`, Surname, dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)) %>%
-          tidyr::gather(key = "credit", value  = "present", -Firstname, -`Middle name`, -Surname) %>%
-          dplyr::group_by(Firstname, `Middle name`, Surname) %>% 
-          dplyr::summarise(credit_sum = sum(present))
+          dplyr::select(.data$Firstname, .data$`Middle name`, .data$Surname, dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)) %>%
+          tidyr::gather(key = "credit", value  = "present", -.data$Firstname, -.data$`Middle name`, -.data$Surname) %>%
+          dplyr::group_by(.data$Firstname, .data$`Middle name`, .data$Surname) %>% 
+          dplyr::summarise(credit_sum = sum(.data$present))
         
         table_data <- 
           input_data() %>% 
@@ -74,6 +75,8 @@ mod_show_spreadsheet_server <- function(id, input_data) {
       # Text in these columns will be condensed
       if (all(c("Primary affiliation", "Secondary affiliation", "Funding") %in% colnames(input_data()))) {
         condensed_cols <- which(colnames(table_data()) %in% c("Primary affiliation", "Secondary affiliation", "Funding")) - 1
+      } else {
+        condensed_cols <- NULL
       }
     
       table <-

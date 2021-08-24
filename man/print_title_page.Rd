@@ -4,10 +4,10 @@
 \alias{print_title_page}
 \title{Generate title page}
 \usage{
-print_title_page(infosheet, text_format = "rmd")
+print_title_page(contributors_table, text_format = "rmd")
 }
 \arguments{
-\item{infosheet}{validated infosheet}
+\item{contributors_table}{validated contributors_table}
 
 \item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.}
@@ -15,12 +15,12 @@ print_title_page(infosheet, text_format = "rmd")
 \value{
 The output is string containing the contributors' name and
   the corresponding affiliations in the the order defined by the
-  \code{Order in publication} column of the infosheet.
+  \code{Order in publication} column of the contributors_table.
 }
 \description{
 The function generates rmarkdown formatted contributors' affiliation text from
-an infosheet validated with the \code{\link{validate_infosheet}} function. The 
-infosheet must be based on the \code{\link{infosheet_template}}. The function can
+an contributors_table validated with the \code{\link{validate_contributors_table}} function. The 
+contributors_table must be based on the \code{\link{contributors_table_template}}. The function can
 return the output string as rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
@@ -32,9 +32,12 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
-validate_infosheet(infosheet = example_infosheet)
-print_title_page(infosheet = example_infosheet)
+example_contributors_table <- read_contributors_table(
+contributors_table = system.file("extdata",
+"contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+validate_contributors_table(contributors_table = example_contributors_table)
+print_title_page(contributors_table = example_contributors_table)
+
 }
 \seealso{
 Other output functions: 

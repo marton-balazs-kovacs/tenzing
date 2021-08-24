@@ -38,7 +38,7 @@ mod_title_page_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      print_title_page(infosheet = input_data(), text_format = "html")
+      print_title_page(contributors_table = input_data(), text_format = "html")
     })
     
     ## Build modal
@@ -75,7 +75,7 @@ mod_title_page_server <- function(id, input_data){
     
     ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
-      print_title_page(infosheet = input_data(), text_format = "rmd")
+      print_title_page(contributors_table = input_data(), text_format = "rmd")
     })
     
     ## Set up parameters to pass to Rmd document
@@ -110,7 +110,7 @@ mod_title_page_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_title_page(infosheet = input_data(), text_format = "raw")
+      print_title_page(contributors_table = input_data(), text_format = "raw")
     })
     
     ## Add clipboard buttons

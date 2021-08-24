@@ -1,4 +1,4 @@
-#' Template infosheet
+#' Template for the contributors table
 #' 
 #' Dataset that represents the data structure that the tenzing
 #' package functions require to run without error. The dataset
@@ -6,10 +6,10 @@
 #' provided in the shiny app.
 #' 
 #' @section Remark:
-#' Each row contains the contributorship information for
-#' one contributor. In the template there are 3 contributors
-#' added as an example but there is no limit to the number
-#' of contributors while using the package.
+#'   Each row contains the contributorship information for
+#'   one contributor. In the template there are 3 contributors
+#'   added as an example but there is no limit to the number
+#'   of contributors while using the package.
 #' 
 #' @format A dataframe with 3 rows and 22 variables:
 #' \describe{
@@ -39,4 +39,4 @@
 #'   \item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author}
 #'}
 #'@source \url{https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing}
-"infosheet_template"
+"contributors_table_template"

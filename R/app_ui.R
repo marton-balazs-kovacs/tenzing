@@ -25,11 +25,11 @@ app_ui <- function() {
                    class = "main-steps-title-container",
                    h1("1.",
                       class = "main-steps-title-number"),
-                   h3("Create your infosheet",
+                   h3("Create your contributors table",
                       class = "main-steps-title"),
                    div(
                      class = "help-icon-container",
-                     title = "Copy the infosheet template in Google Drive. Go to File -> Make a copy",
+                     title = "Copy the contributors table template in Google Drive. Go to File -> Make a copy",
                      icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
                      )
                    ),
@@ -38,7 +38,7 @@ app_ui <- function() {
                    tags$p("Duplicate and edit the ",
                           style = "display: inline; margin-bottom: 0;"),
                    tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
-                          "infosheet template",
+                          "contributors table template",
                           target="_blank",
                           style = "display: inline; color: #ffdf57; text-decoration: underline;")
                    )
@@ -50,11 +50,11 @@ app_ui <- function() {
                    class = "main-steps-title-container",
                    h1("2.",
                       class = "main-steps-title-number"),
-                   h3("Load your infosheet",
+                   h3("Load your contributors table",
                       class = "main-steps-title"),
                    div(
                      class = "help-icon-container",
-                     title = "Use the share URL of the filled out infosheet and click on the upload button. OR upload your infosheet in a .csv, .tsv or .xlsx format.",
+                     title = "Use the share URL of the filled out contributors table and click on the upload button. OR upload your contributors table in a .csv, .tsv or .xlsx format.",
                      icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
                      )
                    ),
@@ -75,7 +75,7 @@ app_ui <- function() {
                       class = "main-steps-title"),
                    div(
                      class = "help-icon-container",
-                     title = "You need a valid infosheet to generate the outputs. Once you have it, click on one of the output buttons to preview and download the output.",
+                     title = "You need a valid contributors table to generate the outputs. Once you have it, click on one of the output buttons to preview and download the output.",
                      icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
                      )
                    ),
@@ -145,6 +145,8 @@ golem_add_external_resources <- function(){
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js"),
     tags$link(rel = "stylesheet", type = "text/css",
-              href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css")
+              href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css"),
+    # Google analytics
+    includeHTML(app_sys("app/www/google_analytics.html"))
   )
 }

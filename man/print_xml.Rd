@@ -4,10 +4,10 @@
 \alias{print_xml}
 \title{Generate an XML document of the contributions}
 \usage{
-print_xml(infosheet)
+print_xml(contributors_table)
 }
 \arguments{
-\item{infosheet}{validated infosheet}
+\item{contributors_table}{validated contributors_table}
 }
 \value{
 The function returns an xml nodeset containing the contributors
@@ -17,8 +17,8 @@ The function returns an xml nodeset containing the contributors
 The function generates an XML nodeset that contains the contributors' name,
 affiliation, and their CRediT roles with a structure outlined in the
 JATS 1.2 DTD specifications (eLife). The output is generated from an 
-infosheet validated with the \code{\link{validate_infosheet}} function.
-The infosheet must be based on the \code{\link{infosheet_template}}.
+`contributors_table` validated with the \code{\link{validate_contributors_table}} function.
+The `contributors_table` must be based on the \code{\link{contributors_table_template}}.
 }
 \section{Warning}{
 
@@ -29,9 +29,12 @@ The function is primarily developed to be the part of a shiny app. As the
 }
 
 \examples{
-example_infosheet <- read_infosheet(infosheet = system.file("extdata", "infosheet_template_example.csv", package = "tenzing", mustWork = TRUE))
-validate_infosheet(infosheet = example_infosheet)
-print_xml(infosheet = example_infosheet)
+example_contributors_table <- read_contributors_table(
+contributors_table = system.file("extdata",
+"contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+validate_contributors_table(contributors_table = example_contributors_table)
+print_xml(contributors_table = example_contributors_table)
+
 }
 \seealso{
 Other output functions: 

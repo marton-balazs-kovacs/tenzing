@@ -15,6 +15,6 @@ unnamed_message(x, y)
 Returns a character vector with one element.
 }
 \description{
-The function filters the results of the validation of the infosheet template
+The function filters the results of the validation of the contributors_table template
 by type. Then the message elements are pulled and collapsed into one element.
 }

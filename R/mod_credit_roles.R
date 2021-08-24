@@ -37,10 +37,10 @@ mod_credit_roles_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderText({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_credit_roles(infosheet = input_data(), text_format = "html", initials = input$initials, order_by = order())
+          print_credit_roles(contributors_table = input_data(), text_format = "html", initials = input$initials, order_by = order())
           }
     })
     
@@ -103,10 +103,10 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for any of the contributors."
         } else {
-          print_credit_roles(infosheet = input_data(), initials = input$initials, order_by = order())
+          print_credit_roles(contributors_table = input_data(), initials = input$initials, order_by = order())
       }
     })
     
@@ -141,10 +141,10 @@ mod_credit_roles_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)] == FALSE)) {
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_credit_roles(infosheet = input_data(), text_format = "raw", initials = input$initials, order_by = order())
+          print_credit_roles(contributors_table = input_data(), text_format = "raw", initials = input$initials, order_by = order())
           }
     })
     

@@ -36,6 +36,10 @@ usethis::use_package("magrittr")
 usethis::use_package("yaml")
 usethis::use_package("rclipboard")
 usethis::use_package("markdown")
+usethis::use_package("lifecycle")
+usethis::use_package("rlang")
+usethis::use_package("stats")
+usethis::use_package("covr", "Suggests")
 usethis::use_pipe()
 
 ## 2.3 Add tests
