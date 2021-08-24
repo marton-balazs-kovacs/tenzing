@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -31,33 +32,44 @@ Second you have to load the package.
 library(tenzing)
 ```
 
-# Create your infosheet
+# Create your contributors table
 
-You can copy the Google spreadsheet and fill out the copy with your contributorship information. However, you can use the template built in the application as a dataset. To get more information on the infosheet tempalte use the `?tenzing::infosheet_template` command.
-
-You can write the template to your root folder as an xlsx file for easy edit.
-
-```{r}
-# install.packages("writexl")
-writexl::write_xlsx(infosheet_template, "my_infosheet.xlsx")
-```
-
-# Load your infosheet
-
-You can load the infosheet into R with the `tenzing::read_infosheet` function. This function accepts files with csv, tsv and xlsx extensions.
-As an example we will use the built in infosheet template.
+The contributors table template is built in the package, as well as uploaded to the [net](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). If you choose to fill out the template with your CRediT information locally, you can write your contributors table as an xlsx file to your working directory from the package with the following code:
 
 ```{r, eval = FALSE}
-my_infosheet <- read_infosheet(infosheet_path = "full_path_to_my_infosheet_with_extension")
+# install.packages("writexl")
+writexl::write_xlsx(contributors_table_template, "my_contributors_table.xlsx")
 ```
 
-After loading your infosheet you have to check its validity.
+To get more information on the contributors table template use the `?tenzing::contributors_table_template` command.
+
+_Note: This produces the same result as downloading the contributors table template from the link provided before._
+
+_Note: The contributors table template was changed since the first release, as some of the CRediT roles were not named properly in the template columns._
+
+# Load your contributors table
+
+You can load the contributors table into R with the `tenzing::read_contributors_table` function. This function accepts files with csv, tsv, xlsx extensions, and the share URL of the Google spreadhseet.
+As an example we will use the built in contributors table template.
 
 ```{r}
-check_result <- validate_infosheet(infosheet = infosheet_template)
+file_path <- system.file("extdata", "contributors_table_example.csv", package = "tenzing", mustWork = TRUE)
+my_contributors_table <- read_contributors_table(contributors_table_path = file_path)
 ```
 
-The validation function checks your infosheet by 10 statements. You can learn more about these checks by running the following code `?tenzing::infosheet_template`.
+If the read contributors table still contains empty rows you can clean it with the `clean_contributors_table` function.
+
+```{r}
+my_contributors_table <- clean_contributors_table(my_contributors_table)
+```
+
+After loading your contributors table you have to check its validity.
+
+```{r}
+check_result <- validate_contributors_table(contributors_table = my_contributors_table)
+```
+
+The validation function checks your contributors table by 10 statements. You can learn more about these checks by running the following code `?tenzing::contributors_table_template`.
 
 The check can have three results: _success_, _warning_ or _error_. You can investigate what was the output of each of the 10 checks.
 
@@ -65,7 +77,7 @@ The check can have three results: _success_, _warning_ or _error_. You can inves
 purrr::map(check_result, "type")
 ```
 
-If any of them is an _error_ than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your infosheet accordingly.
+If any of them is an _error_ than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your contributors table accordingly.
 
 ```{r}
 purrr::map(check_result, "message")
@@ -73,24 +85,28 @@ purrr::map(check_result, "message")
 
 # Generate output
 
-If your infosheet is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.
+If your contributors table is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.
 
-## create a human readable report of the contributions
+For the human readable report and the contributors' affiliation page the output text will be rmarkdown formatted by default. However, by setting the `text_format` argument to `"html"` the output can be HTML formatted as well, or by setting the argument to `"raw"`, the output string will not be formatted at all.
+
+## create a human readable report of the contributions according to the CRediT taxonomy
+
+For this section it is possible to use initials by setting the `initials` argument `TRUE`. Also, if the `order_by` argument is set to `contributor` the function will list the contributions after the name of each researcher, instead of listing the appropriate names after each CRediT role.
 
 ```{r}
-print_roles_readable(infosheet = infosheet_template)
+print_credit_roles(contributors_table = my_contributors_table, initials = TRUE, order_by = "contributor")
 ```
 
 ## Create the contributors' affiliation page
 
 ```{r}
-print_contrib_affil(infosheet = infosheet_template)
+print_title_page(contributors_table = my_contributors_table)
 ```
 
 ## Create a JATS formatted XML document containing the contributors information
 
 ```{r}
-print_xml(infosheet = infosheet_template)
+print_xml(contributors_table = my_contributors_table)
 ```
 
 ## Create a YAML document containing the contributors informtation
@@ -98,6 +114,14 @@ print_xml(infosheet = infosheet_template)
 This output can be incorporated into manuscript created with the `papaja` package.
 
 ```{r}
-print_yaml(infosheet = infosheet_template)
+print_yaml(contributors_table = my_contributors_table)
+```
+
+## Create funding acknowledgements section
+
+For this section it is possible to use initials by setting the `initials` argument `TRUE`.
+
+```{r}
+print_funding(contributors_table = my_contributors_table, initials = TRUE)
 ```
 

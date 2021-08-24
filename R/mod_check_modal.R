@@ -16,64 +16,55 @@ mod_check_modal_ui <- function(id){
 #' check_modal Server Function
 #'
 #' @noRd 
-mod_check_modal_server <- function(id, activate, table_data){
+mod_check_modal_server <- function(id, table_data){
   
   moduleServer(id, function(input, output, session) {
     # Needs to be added to run if called from another module
     ns <- session$ns
     
     # Run test codes
-    check_result <- eventReactive(activate(), {
-      sf_validate_infosheet <- purrr::safely(validate_infosheet)
-      valid <- sf_validate_infosheet(table_data())
+      sf_validate_contributors_table <- purrr::safely(validate_contributors_table)
+      valid <- sf_validate_contributors_table(table_data)
       if(!is.null(valid$error)) {
-        tibble::tibble(
+        check_result <- tibble::tibble(
           type = "error",
           message = as.character(valid$error["message"]))
       } else {
-        tibble::tibble(
+        check_result <- tibble::tibble(
           type = purrr::map_chr(valid$result, "type"),
           message = purrr::map_chr(valid$result, "message"))
       }
-    })
     
     # Activate modal
-    observeEvent(activate(), {
-      if (all(check_result()$type == "error")) {
+      if (all(check_result$type == "error")) {
        golem::invoke_js("error_alert",
-                        list(error = check_result()$message,
+                        list(error = check_result$message,
                              warning = ""))
-        } else if (all(check_result()$type == "success")) {
+        } else if (all(check_result$type == "success")) {
           golem::invoke_js("success_alert", "")
-          } else if (all(check_result()$type %in% c("warning", "success"))) {
-            check_warning <- dplyr::filter(check_result(), type == "warning")
-            golem::invoke_js("warning_alert", check_warning$message)
+          } else if (all(check_result$type %in% c("warning", "success"))) {
+            golem::invoke_js("warning_alert", unnamed_message(check_result, "warning"))
             } else {
-              check_warning <- dplyr::filter(check_result(), type == "warning")
-              check_error <- dplyr::filter(check_result(), type == "error")
               golem::invoke_js("error_alert",
-                               list(error = check_error$message,
-                                    warning = check_warning$message))
+                               list(error = unnamed_message(check_result, "error"),
+                                    warning = unnamed_message(check_result, "warning")))
               }
-      })
     
     # Create output
-    valid_infosheet <- reactive({
-      if (all(check_result()$type %in% c("warning", "success"))) {
-        TRUE
+      if (all(check_result$type %in% c("warning", "success"))) {
+        valid_contributors_table <- TRUE
         } else {
-          NULL
+          valid_contributors_table <-  FALSE
           }
-      })
     
     # Pass output
-    return(valid_infosheet)
+    return(valid_contributors_table)
   })
 }
     
 ## To be copied in the UI
-# mod_check_modal_ui("check_modal_ui_1")
+# mod_check_modal_ui("check_modal")
     
 ## To be copied in the server
-# mod_check_modal_server("check_modal_ui_1")
+# mod_check_modal_server("check_modal")
  

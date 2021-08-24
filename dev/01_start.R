@@ -31,7 +31,7 @@ usethis::use_readme_rmd( open = FALSE )
 usethis::use_code_of_conduct()
 usethis::use_lifecycle_badge( "Experimental" )
 
-usethis::use_news_md( open = FALSE )
+usethis::use_news_md( open = TRUE )
 usethis::use_git()
 
 ## 1.3 - Add a data-raw folder
@@ -39,6 +39,7 @@ usethis::use_git()
 ## If you have data in your package
 usethis::use_data_raw( name = "credit_taxonomy", open = FALSE )
 usethis::use_data_raw( name = "infosheet_template", open = FALSE )
+usethis::use_data_raw( name = "infosheet_template_example", open = TRUE )
 
 ## 1.4 - Init Tests
 ## 
@@ -54,7 +55,7 @@ golem::use_recommended_deps()
 
 # If you want to change the favicon (default is golem's one)
 # golem::remove_favicon()
-# golem::use_favicon() # path = "path/to/ico". Can be an online file. 
+# golem::use_favicon(path = "inst/app/www/favicon.png") # path = "path/to/ico". Can be an online file.
 
 # Add helper functions 
 golem::use_utils_ui()

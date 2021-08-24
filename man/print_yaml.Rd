@@ -4,10 +4,10 @@
 \alias{print_yaml}
 \title{Generate an YAML document of the contributions}
 \usage{
-print_yaml(infosheet)
+print_yaml(contributors_table)
 }
 \arguments{
-\item{infosheet}{validated infosheet}
+\item{contributors_table}{validated contributors_table}
 }
 \value{
 The function returns a YAML document
@@ -15,26 +15,31 @@ The function returns a YAML document
 \description{
 The function generates a YAML document containing the contributors information
 and contributions according to the CRediT taxonomy. The output is generated
-from an infosheet validated with the \code{\link{validate_infosheet}} function.
-The infosheet must be based on the \code{\link{infosheet_template}}.
+from an `contributors_table` validated with the \code{\link{validate_contributors_table}} function.
+The `contributors_table` must be based on the \code{\link{contributors_table_template}}.
 }
-\details{
-#' @section Warning:
+\section{Warning}{
+
 The function is primarily developed to be the part of a shiny app. As the
   validation is handled inside of the app separately, the function can
   break with non-informative errors if running locally without first
   validating it.
 }
+
 \examples{
-validate_infosheet(infosheet = infosheet_template)
-print_yaml(infosheet = infosheet_template)
+example_contributors_table <-
+read_contributors_table(
+contributors_table = system.file("extdata",
+"contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
+validate_contributors_table(contributors_table = example_contributors_table)
+print_yaml(contributors_table = example_contributors_table)
+
 }
 \seealso{
-Other \code{\link{print_contrib_affil}}, \code{\link{print_roles_readable}},
-  \code{\link{print_xml}}, \code{\link{print_yaml}}: 
-\code{\link{contrib_affil_print}()},
-\code{\link{roles_readable_print}()},
-\code{\link{xml_print}()}
+Other output functions: 
+\code{\link{print_credit_roles}()},
+\code{\link{print_funding}()},
+\code{\link{print_title_page}()},
+\code{\link{print_xml}()}
 }
-\concept{\code{\link{print_contrib_affil}}, \code{\link{print_roles_readable}},
-  \code{\link{print_xml}}, \code{\link{print_yaml}}}
+\concept{output functions}

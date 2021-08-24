@@ -1,6 +1,6 @@
 $( document ).ready(function() {
-  Shiny.addCustomMessageHandler('add_tooltip', function(what) {
-    $(what).attr('title', 'Please upload a valid infosheet');
+  Shiny.addCustomMessageHandler('add_tooltip', function(arg) {
+    $(arg.where).attr('title', arg.message);
   });
   
   Shiny.addCustomMessageHandler('remove_tooltip', function(where) {

@@ -1,11 +1,12 @@
 Package: tenzing
-Title: Shiny App That Handles Contributorship Information
-Version: 0.0.0.9000
+Title: Documenting Contributions to Scientific Scholarly Output with CRediT
+Version: 0.2.0
 Authors@R:
-  c(person(given = 'Marton',
-           family = 'Kovacs',
-           role = c('cre', 'aut'),
-           email = 'maron.balazs.kovacs@gmail.com'),
+  c(person(given = "Marton",
+           family = "Kovacs",
+           role = c("cre", "aut"),
+           email = "maron.balazs.kovacs@gmail.com",
+           comment = c(ORCID = "0000-0002-8142-8492")),
     person(given = "Frederik", 
            family = "Aust",
            role = "ctb",
@@ -17,7 +18,7 @@ Authors@R:
     person(given = "Balazs", 
            family = "Aczel",
            role = "ctb"))
-Description: A modularized shiny app that read contributorship information from either a local or online source and produces human and machine-readable summaries.
+Description: A modularized shiny app that reads contributorship information from a local source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -26,10 +27,8 @@ Imports:
     golem,
     htmltools,
     processx,
-    attempt,
     DT,
     glue,
-    shinyjs,
     dplyr,
     xml2,
     readr,
@@ -44,12 +43,24 @@ Imports:
     yaml,
     rclipboard,
     magrittr,
-    shinyWidgets
-RoxygenNote: 7.1.0
+    shinyWidgets,
+    config,
+    callr,
+    clipr,
+    htmlwidgets,
+    googlesheets4,
+    markdown,
+    lifecycle,
+    rlang,
+    stats
+RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 URL: https://github.com/marton-balazs-kovacs/tenzing
 BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

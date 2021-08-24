@@ -13,41 +13,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tenzing
+# tenzing <a href='https://marton-balazs-kovacs.github.io/tenzing/'><img src='man/figures/logo.png' align="right" height="200" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-Tenzing is an easy to use shiny app, that enables researchers to create reports about the contribution of each team member on a project using CRediT.
+Tenzing, an easy-to-use web-based app, allows researchers to generate reports about the contribution of each team member on a project using CRediT, for insertion into their manuscripts and for publishers to potentially incorporate into article metadata.
 
-CRediT (Contributor Roles Taxonomy) is high-level taxonomy, including 14 roles, that can be used to represent the roles typically played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
+[CRediT](https://www.casrai.org/credit.html) (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.
 
-The app is named after the Nepali-Indian sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, the achievement is less credited to him than to his partner, the New Zealand mountaineer Edmund Hillary.
-
-[Find out more](https://www.casrai.org/credit.html) about CRediT
+The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, he received less credit than his partner, the New Zealand mountaineer Edmund Hillary.
 
 ## Features
 
-Currently tenzing enables contributors to:
+Tenzing can:
 
 * read all the necessary contributorship information from one file (.csv, .tsv or .xlsx)
 * create a report of the contributions
-* create the contributors affiliation page information for the manuscript
-* create a JATS XML containing the contributions
-* create a YAML output that will automatically add the contributorship infomartion to `papaja`
+* create the contributors' affiliation information, designed for inclusion in the first page of a manuscript
+* create JATS XML with the contributions, suitable for publishers to include in metadata
+* create a YAML output that will automatically add the contributorship information to the `papaja`package used by some researchers to write APA-formatted manuscripts
 
 ## Usage
 
-You can generate the same output by using the tenzing app or by using the tenzing pacakge from R.
+Tenzing can be used either via the web app or via R.
 
-### Using the app
-You can use the deployed app at (https://martonbalazskovacs.shinyapps.io/tenzing/)[https://martonbalazskovacs.shinyapps.io/tenzing/].
+### Using the web app
 
-Or you can run the app locally from your own computer by following these instructions:
+You can use the app at [https://martonbalazskovacs.shinyapps.io/tenzing/](https://martonbalazskovacs.shinyapps.io/tenzing/).
 
-tenzing is not available on CRAN.
-You can install the development version from [GitHub](https://github.com/) with:
+You can alternatively run the app locally on your own computer by following these instructions:
+
+Install the development version (tenzing is not available from CRAN) from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -60,15 +58,15 @@ Running the app.
 tenzing::run_app()
 ```
 
-You can read more on how to use the tenzing app HERE.
+You can read more on how to use the `tenzing` app in `vignette("app_use")`.
 
-### Using the pacakge
+### Using the package
 
-You can read more on how to use the tenzing package to create reports from R HERE.
+You can read more on how to use the `tenzing` package to create reports from R in `vignette("local_use")`.
 
 ## Contribution
 
-We would like tenzing to be a package that makes any contributorship related task easy for researchers. Therefore, we are open to new ideas, feature requests are the possibility of integration with already existing platforms (such as `papaja`).
+We are open to new ideas and feature requests. We think Tenzing has the potential to make additional contributorship-related tasks easy for researchers.
 
 Please note that the 'tenzing' project is released with a
   [Contributor Code of Conduct](CODE_OF_CONDUCT.md).

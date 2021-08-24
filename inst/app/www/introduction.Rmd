@@ -3,22 +3,23 @@ title: ""
 output: html_document
 ---
 
-### How to use the application
-
-#### 1. Create your infosheet
-* Copy the infosheet template in your Google Drive _File -> Make a copy_
-* Fill out your copy of the infosheet
+#### 1. Create your contributors table
+* Copy the contributors table template in your Google Drive _File -> Make a copy_
+* Fill out your copy of the contributors table
 + You can share it with your collaborators to make the process faster
 
-#### 2. Upload your infosheet
-* Download the filled out infosheet to your computer in a .csv, .tsv or .xlsx format
-  - If you use .xlsx format the contributorship information should be on the first sheet
-* Click the "Browse" button and find your infosheet on your computer
-  - If you want to take a look at the uploaded infosheet click "Show infosheet"
-
+#### 2. Upload your contributors table
+* Use the share URL of your contributors table and click "Upload from URL" OR
+  - The share links should be made viewable
+* Upload your contributors table in a .csv, .tsv or .xlsx format
+  - Download your filled out contributors table to your computer (if you use .xlsx format the contributorship information should be on the first sheet)
+  - Click the “Browse” button, locate your contributors table on your computer, and click "Upload from local file"
+* To verify that your contributors table was imported correctly click “Review contributors table”
+  
 #### 3. Download the output
-* You can generate 3 types of outputs:
+* You can generate 5 types of outputs:
   - A human-readable report of the contributions with the "Author Contributions text"
   - The contributors affiliation page information for the manuscript with the "Annotated author list with affiliations"
   - JATS XML containing the contributions with the “XML (for publishers only)
   - `papaja` compatible YAML code of the contributor roles
+  - Funding information section of the manuscript

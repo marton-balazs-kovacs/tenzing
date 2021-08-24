@@ -2,6 +2,9 @@
 # Each step is optional. 
 
 # 2. All along your project
+## Add functions
+usethis::use_r("initials")
+usethis::use_r("print_grant")
 
 ## 2.1 Add modules
 
@@ -12,6 +15,7 @@ golem::add_module(name = "xml_report")
 golem::add_module(name = "about_modal")
 golem::add_module(name = "contribs_affiliation_page")
 golem::add_module(name = "check_modal")
+golem::add_module(name = "grant_information")
 
 ## 2.2 Add dependencies
 
@@ -31,6 +35,11 @@ usethis::use_package("readxl")
 usethis::use_package("magrittr")
 usethis::use_package("yaml")
 usethis::use_package("rclipboard")
+usethis::use_package("markdown")
+usethis::use_package("lifecycle")
+usethis::use_package("rlang")
+usethis::use_package("stats")
+usethis::use_package("covr", "Suggests")
 usethis::use_pipe()
 
 ## 2.3 Add tests
@@ -59,8 +68,11 @@ devtools::build_vignettes()
 ## 3.2 Code coverage
 ## You'll need GitHub there
 usethis::use_github()
-usethis::use_travis()
-usethis::use_appveyor()
+# usethis::use_travis()
+# usethis::use_appveyor()
+
+## News
+pkgdown::build_news()
 
 # You're now set! 
 # go to dev/03_deploy.R

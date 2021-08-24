@@ -9,4 +9,6 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
-tenzing::run_app()
+tenzing::run_app(
+  # display.mode = "showcase"
+  )

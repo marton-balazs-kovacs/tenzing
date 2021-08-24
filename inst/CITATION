@@ -1,0 +1,27 @@
+citHeader("To cite tenzing the software, use Kovacs et al. (2020); for the introductory paper cite Holcombe et al. (2020).")
+
+bibentry(
+  bibtype = "misc",
+  title = "{tenzing}: {D}ocumenting contributions to scientific scholarly output with {CRediT}",
+  author = "Marton Kovacs and  Fredrik Aust and Alex O. Holcombe and Balazs Aczel",
+  year = "2020",
+  note = "R package version 0.1.0",
+  url = "https://github.com/marton-balazs-kovacs/tenzing",
+  textVersion = "Kovacs, M., Aust, F., Holcombe, A. O., & Aczel, B. (2020). tenzing: Documenting contributions to scientific scholarly output with CRediT.
+  R package version 0.1.0. Retrieved from https://github.com/marton-balazs-kovacs/tenzing"
+)
+
+bibentry(
+  bibtype = "article",
+  title = "{tenzing}: {A} web app to document contributorship with {CRediT}",
+  journal = "MetaArXiv",
+  author = "Alex O. Holcombe and Marton Kovacs and Fredrik Aust and Balazs Aczel",
+  year = "2020",
+  # volume = "73",
+  # number = "1",
+  # pages = "3-36",
+  doi = "10.31222/osf.io/b6ywe",
+  # url = "",
+  textVersion = "Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). tenzing: A web app to document contributorship with CRediT.
+  MetaArXiv. https://doi.org/10.31222/osf.io/b6ywe"
+)

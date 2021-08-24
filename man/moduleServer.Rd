@@ -6,6 +6,11 @@
 \usage{
 moduleServer(id, module)
 }
+\arguments{
+\item{id}{Unique character id of the module}
+
+\item{module}{Name of the module server function}
+}
 \description{
 The function dodge the explicit usage of \code{callModule} on
 the server side. This style will be the default for \code{shiny}

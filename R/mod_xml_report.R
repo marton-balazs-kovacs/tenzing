@@ -19,7 +19,7 @@ mod_xml_report_ui <- function(id){
     div(class = "out-btn",
         actionButton(NS(id, "show_report"),
                        label = "Show XML file (for publisher use)",
-                       class = "btn btn-primary")
+                       class = "btn btn-primary btn-validate")
         )
     )
   }
@@ -33,26 +33,38 @@ mod_xml_report_ui <- function(id){
 mod_xml_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
-    # waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
-    
-    # Prepare the spreadsheet data
+    # Create XML
     to_print <- reactive({
-      xml_print(infosheet = input_data())
+      # Table data validation
+      req(input_data())
+
+      # Create output
+      print_xml(contributors_table = input_data())
+    })
+
+    ## Create preview
+    output$jats_xml <- renderUI({
+      tagList(
+        tagAppendAttributes(
+          tags$code(as.character(to_print())),
+          class = "language-xml"
+        ),
+        tags$script("Prism.highlightAll()")
+      )
     })
     
-    # # Create preview
-    output$xml_path <- renderText({as.character(to_print())})
-  
+    
     # Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
         paste("machine_readable_report_", Sys.Date(), ".xml", sep = "")
       },
+      
       # Set content of the file
       content = function(file) {
         xml2::write_xml(to_print(), file, options = "format")}
-      )
+    )
     
     # Add clipboard buttons
     output$clip <- renderUI({
@@ -60,13 +72,16 @@ mod_xml_report_server <- function(id, input_data){
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(report_path()))
+    observeEvent(input$clip_btn, clipr::write_clip(to_print()))
     
     # Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        textOutput(NS(id, "xml_path")),
+        h3("JATS XML"),
+        hr(),
+        p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
+        uiOutput(NS(id, "jats_xml"), container = pre),
         easyClose = TRUE,
         footer = tagList(
           div(
@@ -75,7 +90,8 @@ mod_xml_report_server <- function(id, input_data){
           ),
           downloadButton(
             NS(id, "report"),
-            label = "Download file"
+            label = "Download file",
+            class = "download-report"
           ),
           modalButton("Close")
         )
@@ -83,16 +99,14 @@ mod_xml_report_server <- function(id, input_data){
     }
     
     observeEvent(input$show_report, {
-      # waitress$notify()
       showModal(modal())
-      # waitress$close()
       })
     })
 }
     
 ## To be copied in the UI
-# mod_xml_report_ui("xml_report_ui_1")
+# mod_xml_report_ui("xml_report")
     
 ## To be copied in the server
-# mod_xml_report_server("xml_report_ui_1")
+# mod_xml_report_server("xml_report")
  
