@@ -15,5 +15,5 @@ table formatted according the JATS 1.2 DTD specifications.
 }
 \description{
 This function generates an XML document from the preformatted
-`contributors_table`.
+\code{contributors_table}.
 }

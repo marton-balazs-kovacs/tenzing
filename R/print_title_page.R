@@ -1,8 +1,8 @@
 #' Generate title page
 #' 
 #' The function generates rmarkdown formatted contributors' affiliation text from
-#' an contributors_table validated with the \code{\link{validate_contributors_table}} function. The 
-#' contributors_table must be based on the \code{\link{contributors_table_template}}. The function can
+#' an contributors_table validated with the [validate_contributors_table()] function. The 
+#' contributors_table must be based on the [contributors_table_template()]. The function can
 #' return the output string as rmarkdown or html formatted text or without any formatting.
 #' 
 #' @section Warning:
@@ -19,7 +19,7 @@
 #' 
 #' @return The output is string containing the contributors' name and
 #'   the corresponding affiliations in the the order defined by the
-#'   \code{Order in publication} column of the contributors_table.
+#'   `Order in publication` column of the contributors_table.
 #' @export
 #' @examples 
 #' example_contributors_table <- read_contributors_table(

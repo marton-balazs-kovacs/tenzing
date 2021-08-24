@@ -14,8 +14,8 @@ The function returns a dataframe with abbreviated middle
 names.
 }
 \description{
-The function calls the \code{\link{abbreviate}} function to
-abbreviate middle names in the `Middle name` variable in a
+The function calls the \code{\link[=abbreviate]{abbreviate()}} function to
+abbreviate middle names in the \verb{Middle name} variable in a
 dataframe if they are present. The function requires a valid
-`contributors_table` as an input to work.
+\code{contributors_table} as an input to work.
 }

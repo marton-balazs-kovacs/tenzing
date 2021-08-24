@@ -11,21 +11,21 @@ print_xml(contributors_table)
 }
 \value{
 The function returns an xml nodeset containing the contributors
-  listed for each CRediT role they partake in.
+listed for each CRediT role they partake in.
 }
 \description{
 The function generates an XML nodeset that contains the contributors' name,
 affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the \code{\link{validate_contributors_table}} function.
-The `contributors_table` must be based on the \code{\link{contributors_table_template}}.
+JATS 1.2 DTD specifications (eLife). The output is generated from an
+\code{contributors_table} validated with the \code{\link[=validate_contributors_table]{validate_contributors_table()}} function.
+The \code{contributors_table} must be based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
 }
 \section{Warning}{
 
 The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.
 }
 
 \examples{

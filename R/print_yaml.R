@@ -2,8 +2,8 @@
 #' 
 #' The function generates a YAML document containing the contributors information
 #' and contributions according to the CRediT taxonomy. The output is generated
-#' from an `contributors_table` validated with the \code{\link{validate_contributors_table}} function.
-#' The `contributors_table` must be based on the \code{\link{contributors_table_template}}.
+#' from an `contributors_table` validated with the [validate_contributors_table()] function.
+#' The `contributors_table` must be based on the [contributors_table_template()].
 #' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the

@@ -19,18 +19,19 @@ print_roles_readable(infosheet = deprecated())
 print_contrib_affil(infosheet = deprecated())
 }
 \description{
-`r lifecycle::badge('deprecated')`
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-In `tenzing 0.2.0` we renamed the `infosheet` to `contributors_table`
+In \verb{tenzing 0.2.0} we renamed the \code{infosheet} to \code{contributors_table}
 in all functions, arguments, and documentation as the new name
 better conveys the content and functionality of the table. We also
 renamed some other functions as well because of the same reason.
-
-* `validate_infosheet` -> `validate_contributors_table`
-* `read_infosheet` -> `read_contributors_table`
-* `infosheet_template` -> `contributors_table_template`
-* `clean_infosheet` -> `clean_contributors_table`
-* `print_roles_readable` -> `print_credit_roles`
-* `print_contrib_affil` -> `print_title_page`
+\itemize{
+\item \code{validate_infosheet} -> \code{validate_contributors_table}
+\item \code{read_infosheet} -> \code{read_contributors_table}
+\item \code{infosheet_template} -> \code{contributors_table_template}
+\item \code{clean_infosheet} -> \code{clean_contributors_table}
+\item \code{print_roles_readable} -> \code{print_credit_roles}
+\item \code{print_contrib_affil} -> \code{print_title_page}
+}
 }
 \keyword{internal}

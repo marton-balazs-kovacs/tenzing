@@ -11,7 +11,7 @@ add_initials(contributors_table)
 }
 \value{
 The function returns the contributors_table with the initials in
-  an additional column
+an additional column
 }
 \description{
 This function adds the initials to the contributors_table based on the Firstname,

@@ -38,5 +38,5 @@
 #'   \item{ORCID iD}{character, ORCID iD of the contributor}
 #'   \item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author}
 #'}
-#'@source \url{https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing}
+#'@source <https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing>
 "contributors_table_template"

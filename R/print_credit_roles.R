@@ -2,8 +2,8 @@
 #' 
 #' The function generates rmarkdown formatted text of the contributions according
 #' to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
-#' the \code{\link{validate_contributors_table}} function. The `contributors_table` must be based on the
-#' \code{\link{contributors_table_template}}. The function can return the output string as
+#' the [validate_contributors_table()] function. The `contributors_table` must be based on the
+#' [contributors_table_template()]. The function can return the output string as
 #' rmarkdown or html formatted text or without any formatting.
 #' 
 #' @section Warning:

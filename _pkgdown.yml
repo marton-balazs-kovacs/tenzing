@@ -34,7 +34,7 @@ news:
   one_page: true
 
 home:
-  strip_header: true
+  strip_header: false
   links:
-  - text: Shiny app
+  - text: Find the Shiny app
     href: http://tenzing.club/

@@ -1,7 +1,7 @@
 #' Validating the contributors table
 #' 
 #' This function validates the `contributors_table` provided to it by checking whether the
-#' provided `contributors_table` is compatible with the \code{\link{contributors_table_template}}. The function
+#' provided `contributors_table` is compatible with the [contributors_table_template()]. The function
 #' early escapes only if the provided `contributors_table` is not a dataframe, the variable
 #' names that are present in the `contributors_table_template` are missing, or if the 
 #' `contributors_table` is empty.
@@ -11,13 +11,13 @@
 #'   \item error, the provided contributors_table is a dataframe
 #'   \item error, the provided contributors_table does not have the same column names as the template
 #'   \item error, the provided contributors_table is empty
-#'   \item error, \code{Firstname} variable has missing value for one of the contributors
-#'   \item error, \code{Surname} variable has a missing value for one of the contributors
+#'   \item error, `Firstname` variable has missing value for one of the contributors
+#'   \item error, `Surname` variable has a missing value for one of the contributors
 #'   \item warning, the contributors_table has duplicate names
 #'   \item warning, the contributors_table has names with duplicate initials
-#'   \item error, the \code{'Order in publication'} variable has missing values
-#'   \item error, the \code{'Order in publication'} variable has duplicate values
-#'   \item error, both \code{'Primary affiliation'} and \code{'Secondary affiliation'} variables
+#'   \item error, the `'Order in publication'` variable has missing values
+#'   \item error, the `'Order in publication'` variable has duplicate values
+#'   \item error, both `'Primary affiliation'` and `'Secondary affiliation'` variables
 #'     are missing for one contributor
 #'   \item warning, there is no corresponding author added
 #'   \item warning, email address is missing for the corresponding author
@@ -27,8 +27,8 @@
 #' @param contributors_table dataframe, filled out contributors_table
 #' 
 #' @return The function returns a list for each checked statement. Each list contains
-#'   a \code{type} vector that stores whether the statement passed the check "success"
-#'   or failed "warning" or "error", and a \code{message} vector that contains information
+#'   a `type` vector that stores whether the statement passed the check "success"
+#'   or failed "warning" or "error", and a `message` vector that contains information
 #'   about the nature of the check.
 #' @export 
 #' @examples

@@ -2,8 +2,8 @@
 #' 
 #' The functions generates the funding information section of the manuscript.
 #' The output is generated from an contributors_table validated with
-#' the \code{\link{validate_contributors_table}} function.
-#' The contributors_table must be based on the \code{\link{contributors_table_template}}.
+#' the [validate_contributors_table()] function.
+#' The contributors_table must be based on the [contributors_table_template()].
 #' 
 #' @family output functions
 #' 

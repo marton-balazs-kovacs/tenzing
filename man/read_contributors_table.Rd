@@ -14,7 +14,7 @@ The function returns the contributors table as
 a dataframe.
 }
 \description{
-This function reads the `contributors_table` given the path if the
+This function reads the \code{contributors_table} given the path if the
 file is a csv, tsv or an xlsx. The function can read
 googlesheets if share url is provided or local files if
 path to the local folder is provided.

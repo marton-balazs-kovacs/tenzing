@@ -14,21 +14,21 @@ print_title_page(contributors_table, text_format = "rmd")
 }
 \value{
 The output is string containing the contributors' name and
-  the corresponding affiliations in the the order defined by the
-  \code{Order in publication} column of the contributors_table.
+the corresponding affiliations in the the order defined by the
+\verb{Order in publication} column of the contributors_table.
 }
 \description{
 The function generates rmarkdown formatted contributors' affiliation text from
-an contributors_table validated with the \code{\link{validate_contributors_table}} function. The 
-contributors_table must be based on the \code{\link{contributors_table_template}}. The function can
+an contributors_table validated with the \code{\link[=validate_contributors_table]{validate_contributors_table()}} function. The
+contributors_table must be based on the \code{\link[=contributors_table_template]{contributors_table_template()}}. The function can
 return the output string as rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
 
 The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.
 }
 
 \examples{

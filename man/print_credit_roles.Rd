@@ -25,21 +25,21 @@ the roles are listed after the name of each contributor ("contributor").}
 }
 \value{
 The function returns a string containing the CRediT roles
-  with the contributors listed for each role they partake in.
+with the contributors listed for each role they partake in.
 }
 \description{
 The function generates rmarkdown formatted text of the contributions according
-to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
-the \code{\link{validate_contributors_table}} function. The `contributors_table` must be based on the
-\code{\link{contributors_table_template}}. The function can return the output string as
+to the CRediT taxonomy. The output is generated from an \code{contributors_table} validated with
+the \code{\link[=validate_contributors_table]{validate_contributors_table()}} function. The \code{contributors_table} must be based on the
+\code{\link[=contributors_table_template]{contributors_table_template()}}. The function can return the output string as
 rmarkdown or html formatted text or without any formatting.
 }
 \section{Warning}{
 
 The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.
 }
 
 \examples{

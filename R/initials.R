@@ -61,7 +61,7 @@ abbreviate <- function(string, collapse) {
 
 #' Abbreviate middle names in a dataframe
 #' 
-#' The function calls the \code{\link{abbreviate}} function to
+#' The function calls the [abbreviate()] function to
 #' abbreviate middle names in the `Middle name` variable in a
 #' dataframe if they are present. The function requires a valid
 #' `contributors_table` as an input to work.
