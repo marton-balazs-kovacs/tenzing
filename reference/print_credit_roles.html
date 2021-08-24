@@ -48,9 +48,9 @@
 
 <meta property="og:title" content="Generate report of the contributions with CRedit — print_credit_roles" />
 <meta property="og:description" content="The function generates rmarkdown formatted text of the contributions according
-to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
-the validate_contributors_table function. The `contributors_table` must be based on the
-contributors_table_template. The function can return the output string as
+to the CRediT taxonomy. The output is generated from an contributors_table validated with
+the validate_contributors_table() function. The contributors_table must be based on the
+contributors_table_template(). The function can return the output string as
 rmarkdown or html formatted text or without any formatting." />
 <meta property="og:image" content="/logo.png" />
 
@@ -145,9 +145,9 @@ rmarkdown or html formatted text or without any formatting." />
 
     <div class="ref-description">
     <p>The function generates rmarkdown formatted text of the contributions according
-to the CRediT taxonomy. The output is generated from an `contributors_table` validated with
-the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function. The `contributors_table` must be based on the
-<code><a href='contributors_table_template.html'>contributors_table_template</a></code>. The function can return the output string as
+to the CRediT taxonomy. The output is generated from an <code>contributors_table</code> validated with
+the <code><a href='validate_contributors_table.html'>validate_contributors_table()</a></code> function. The <code>contributors_table</code> must be based on the
+<code><a href='contributors_table_template.html'>contributors_table_template()</a></code>. The function can return the output string as
 rmarkdown or html formatted text or without any formatting.</p>
     </div>
 
@@ -185,15 +185,15 @@ the roles are listed after the name of each contributor ("contributor").</p></td
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a string containing the CRediT roles
-  with the contributors listed for each role they partake in.</p>
+with the contributors listed for each role they partake in.</p>
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
 
 <p>The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.</p>
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other output functions: 

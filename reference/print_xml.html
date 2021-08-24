@@ -49,9 +49,9 @@
 <meta property="og:title" content="Generate an XML document of the contributions — print_xml" />
 <meta property="og:description" content="The function generates an XML nodeset that contains the contributors' name,
 affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the validate_contributors_table function.
-The `contributors_table` must be based on the contributors_table_template." />
+JATS 1.2 DTD specifications (eLife). The output is generated from an
+contributors_table validated with the validate_contributors_table() function.
+The contributors_table must be based on the contributors_table_template()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -146,9 +146,9 @@ The `contributors_table` must be based on the contributors_table_template." />
     <div class="ref-description">
     <p>The function generates an XML nodeset that contains the contributors' name,
 affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function.
-The `contributors_table` must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>.</p>
+JATS 1.2 DTD specifications (eLife). The output is generated from an
+<code>contributors_table</code> validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table()</a></code> function.
+The <code>contributors_table</code> must be based on the <code><a href='contributors_table_template.html'>contributors_table_template()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>print_xml</span><span class='op'>(</span><span class='va'>contributors_table</span><span class='op'>)</span></pre>
@@ -165,15 +165,15 @@ The `contributors_table` must be based on the <code><a href='contributors_table_
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns an xml nodeset containing the contributors
-  listed for each CRediT role they partake in.</p>
+listed for each CRediT role they partake in.</p>
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
 
 <p>The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.</p>
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other output functions: 

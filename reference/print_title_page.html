@@ -48,8 +48,8 @@
 
 <meta property="og:title" content="Generate title page — print_title_page" />
 <meta property="og:description" content="The function generates rmarkdown formatted contributors' affiliation text from
-an contributors_table validated with the validate_contributors_table function. The 
-contributors_table must be based on the contributors_table_template. The function can
+an contributors_table validated with the validate_contributors_table() function. The
+contributors_table must be based on the contributors_table_template(). The function can
 return the output string as rmarkdown or html formatted text or without any formatting." />
 <meta property="og:image" content="/logo.png" />
 
@@ -144,8 +144,8 @@ return the output string as rmarkdown or html formatted text or without any form
 
     <div class="ref-description">
     <p>The function generates rmarkdown formatted contributors' affiliation text from
-an contributors_table validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function. The 
-contributors_table must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>. The function can
+an contributors_table validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table()</a></code> function. The
+contributors_table must be based on the <code><a href='contributors_table_template.html'>contributors_table_template()</a></code>. The function can
 return the output string as rmarkdown or html formatted text or without any formatting.</p>
     </div>
 
@@ -168,16 +168,16 @@ return the output string as rmarkdown or html formatted text or without any form
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The output is string containing the contributors' name and
-  the corresponding affiliations in the the order defined by the
-  <code>Order in publication</code> column of the contributors_table.</p>
+the corresponding affiliations in the the order defined by the
+<code>Order in publication</code> column of the contributors_table.</p>
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     
 
 <p>The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.</p>
+validation is handled inside of the app separately, the function can
+break with non-informative errors if running locally without first
+validating it.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other output functions: 
