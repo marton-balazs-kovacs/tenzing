@@ -7,7 +7,7 @@ output: html_document
 
 [CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a high-level taxonomy, including 14 roles, that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
 
-_tenzing_ is named after the Nepali-Indian sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, the achievement is less credited to him than to his partner, the New Zealand mountaineer Edmund Hillary.
+_tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, the achievement is less credited to him than to his partner, the New Zealand mountaineer Edmund Hillary.
 
 ### Contributors
 
@@ -23,8 +23,8 @@ Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contribu
 
 [Collabra: Psychology](https://www.collabra.org/)
 
+[DORA](https://sfdora.org/resource-library/?_resource_type=tools)
+
 ### Questions and comments
 
-If you have any questions or comments please write to Marton Kovacs to the following email address: marton.balazs.kovacs@gmail.com
-
-Or submit an issue on the apps Github page: [https://github.com/marton-balazs-kovacs/tenzing](https://github.com/marton-balazs-kovacs/tenzing)
+If you have any questions or comments, please write to Marton Kovacs: marton.balazs.kovacs@gmail.com, or submit an issue [on Github](https://github.com/marton-balazs-kovacs/tenzing).
