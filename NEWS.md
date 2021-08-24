@@ -10,7 +10,7 @@
 * The app allows users to review their contributors_table within the app even if it does not pass the validation checks.
 * There are two new columns added to the contributors_table template: ORCiD iD and Funding.
 * The name of the CRediT taxonomy roles in the contributors_table are now fixed as well their URLs directing to each role in the taxonomy's documentation.
-* The contributors_table template is now empty. However, a filled out example template is added to the package as an external datafile. See the local_use vignette on how to load this example file.
+* The contributors_table template is now empty. However, a filled out example template is added to the package as an external datafile. See `vignette("local_use")` on how to load this example file.
 * The title page output option now allows users to add multiple first authors and prints an additional text listing the names of the shared first authors and the email address of the corresponding author.
 * The app got a new, cleaner look.
 

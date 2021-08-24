@@ -14,10 +14,10 @@ reports about the contribution of each team member on a project using
 CRediT, for insertion into their manuscripts and for publishers to
 potentially incorporate into article metadata.
 
-[CRediT](https://www.casrai.org/credit.html) (Contributor Roles
-Taxonomy) is a taxonomy of 14 categories of contributions to scientific
-scholarly output. Each researcher can indicate which category they
-contributed to in a scholarly project.
+[CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a
+taxonomy of 14 categories of contributions to scientific scholarly
+output. Each researcher can indicate which category they contributed to
+in a scholarly project.
 
 The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
 one of the two individuals who reached the summit of Mount Everest for
@@ -28,14 +28,14 @@ credit than his partner, the New Zealand mountaineer Edmund Hillary.
 
 Tenzing can:
 
-  - read all the necessary contributorship information from one file
+-   read all the necessary contributorship information from one file
     (.csv, .tsv or .xlsx)
-  - create a report of the contributions
-  - create the contributors’ affiliation information, designed for
+-   create a report of the contributions
+-   create the contributors’ affiliation information, designed for
     inclusion in the first page of a manuscript
-  - create JATS XML with the contributions, suitable for publishers to
+-   create JATS XML with the contributions, suitable for publishers to
     include in metadata
-  - create a YAML output that will automatically add the contributorship
+-   create a YAML output that will automatically add the contributorship
     information to the `papaja`package used by some researchers to write
     APA-formatted manuscripts
 
@@ -45,20 +45,12 @@ Tenzing can be used either via the web app or via R.
 
 ### Using the web app
 
-You can use the app at
-<https://martonbalazskovacs.shinyapps.io/tenzing/>.
+You can use the app at <https://tenzing.club/>.
 
 You can alternatively run the app locally on your own computer by
 following these instructions:
 
-You may try to start the downlad and start the app directly in R with
-
-```r
-# install.packages ("shiny")
-shiny::runGitHub("marton-balazs-kovacs/tenzing")
-```
-
-Or install the development version (tenzing is not available from CRAN)
+Install the development version (tenzing is not available from CRAN)
 from [GitHub](https://github.com/) with:
 
 ``` r
@@ -66,7 +58,7 @@ from [GitHub](https://github.com/) with:
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
 
-Running the app with:
+Running the app.
 
 ``` r
 tenzing::run_app()

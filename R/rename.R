@@ -1,7 +1,7 @@
 #' Functions renamed in tenzing 0.2.0
 #' 
-#' @description 
-#' `r lifecycle::badge(deprecated)`
+#' @description
+#' `r lifecycle::badge('deprecated')`
 #' 
 #' In `tenzing 0.2.0` we renamed the `infosheet` to `contributors_table`
 #' in all functions, arguments, and documentation as the new name

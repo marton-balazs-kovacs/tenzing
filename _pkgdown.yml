@@ -32,7 +32,9 @@ reference:
 news:
   cran_dates: false
   one_page: true
-  
-links:
+
+home:
+  strip_header: true
+  links:
   - text: Shiny app
     href: http://tenzing.club/

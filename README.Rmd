@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 Tenzing, an easy-to-use web-based app, allows researchers to generate reports about the contribution of each team member on a project using CRediT, for insertion into their manuscripts and for publishers to potentially incorporate into article metadata.
 
-[CRediT](https://www.casrai.org/credit.html) (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.
+[CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.
 
 The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, he received less credit than his partner, the New Zealand mountaineer Edmund Hillary.
 
@@ -41,7 +41,7 @@ Tenzing can be used either via the web app or via R.
 
 ### Using the web app
 
-You can use the app at [https://martonbalazskovacs.shinyapps.io/tenzing/](https://martonbalazskovacs.shinyapps.io/tenzing/).
+You can use the app at [https://tenzing.club/](https://tenzing.club/).
 
 You can alternatively run the app locally on your own computer by following these instructions:
 

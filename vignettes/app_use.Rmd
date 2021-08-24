@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `tenzing` package can be used as a shiny application, which is already embedded in a webpage: [https://martonbalazskovacs.shinyapps.io/tenzing/](https://martonbalazskovacs.shinyapps.io/tenzing/). When you first open the app it might take a few seconds for the page to load.
+The `tenzing` package can be used as a shiny application, which is already embedded in a webpage: [https://tenzing.club/](https://tenzing.club/). When you first open the app it might take a few seconds for the page to load.
 
 If you want to instead run the app locally from your computer, first you have to open R and install the `tenzing` package with the following code:
 
