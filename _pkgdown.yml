@@ -1,34 +1,38 @@
 reference:
 - title: Shiny App
   desc: Functions to use the shiny app
-- contents: 
+  contents: 
   - run_app
 - title: Contributors table
   desc: Functions to load and test your contributors table
-- contents:
+  contents:
   - contributors_table_template
   - read_contributors_table
   - validate_contributors_table
   - clean_contributors_table
 - title: Generate Output
-- desc: Functions to generate outputs
-- contents:
+  desc: Functions to generate outputs
+  contents:
   - print_title_page
   - print_credit_roles
   - print_xml
   - print_yaml
   - print_funding
 - title: Initials
-- desc: Functions to turn full names into initials
-- contents:
+  desc: Functions to turn full names into initials
+  contents:
   - add_initials
   - abbreviate
   - abbreviate_middle_names_df
 - title: Rename
-- desc: Functions and datafiles that were renamed
-- contents:
+  desc: Functions and datafiles that were renamed
+  contents:
   - rename
 
 news:
   cran_dates: false
   one_page: true
+  
+links:
+  - text: Shiny app
+    href: http://tenzing.club/
