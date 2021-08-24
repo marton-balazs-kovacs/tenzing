@@ -20,11 +20,13 @@ reference:
   - print_funding
 - title: Initials
 - desc: Functions to turn full names into initials
+- contents:
   - add_initials
   - abbreviate
   - abbreviate_middle_names_df
 - title: Rename
 - desc: Functions and datafiles that were renamed
+- contents:
   - rename
 
 news:
