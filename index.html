@@ -92,13 +92,11 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div id="tenzing-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tenzing-" class="anchor"></a>tenzing <a href="https://marton-balazs-kovacs.github.io/tenzing/"><img src="reference/figures/logo.png" align="right" height="200"></a>
-</h1></div>
+
 <!-- badges: start -->
 
 <p>Tenzing, an easy-to-use web-based app, allows researchers to generate reports about the contribution of each team member on a project using CRediT, for insertion into their manuscripts and for publishers to potentially incorporate into article metadata.</p>
-<p><a href="https://www.casrai.org/credit.html">CRediT</a> (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.</p>
+<p><a href="http://credit.niso.org/">CRediT</a> (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.</p>
 <p>The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, he received less credit than his partner, the New Zealand mountaineer Edmund Hillary.</p>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
@@ -119,18 +117,14 @@
 <div id="using-the-web-app" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-the-web-app" class="anchor"></a>Using the web app</h3>
-<p>You can use the app at <a href="https://martonbalazskovacs.shinyapps.io/tenzing/" class="uri">https://martonbalazskovacs.shinyapps.io/tenzing/</a>.</p>
+<p>You can use the app at <a href="https://tenzing.club/" class="uri">https://tenzing.club/</a>.</p>
 <p>You can alternatively run the app locally on your own computer by following these instructions:</p>
-<p>You may try to start the downlad and start the app directly in R with</p>
+<p>Install the development version (tenzing is not available from CRAN) from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages ("shiny")</span>
-<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runUrl.html">runGitHub</a></span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></code></pre></div>
-<p>Or install the development version (tenzing is not available from CRAN) from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></code></pre></div>
-<p>Running the app with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>Running the app.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tenzing</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>You can read more on how to use the <code>tenzing</code> app in <code><a href="articles/app_use.html">vignette("app_use")</a></code>.</p>
 </div>
@@ -156,6 +150,8 @@
 <li>Browse source code at <br><a href="https://github.com/marton-balazs-kovacs/tenzing/">https://​github.com/​marton-balazs-kovacs/​tenzing/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/marton-balazs-kovacs/tenzing/issues">https://​github.com/​marton-balazs-kovacs/​tenzing/​issues</a>
+</li>
+<li>Shiny app at <br><a href="http://tenzing.club/">http://​tenzing.club/​</a>
 </li>
 </ul>
 </div>
