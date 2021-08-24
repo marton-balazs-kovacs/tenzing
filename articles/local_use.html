@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -68,11 +68,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -104,41 +107,50 @@
 <h1 class="hasAnchor">
 <a href="#setup" class="anchor"></a>Setup</h1>
 <p>First, you have to install the package.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install.packages("devtools")</span>
- <span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"marton-balazs-kovacs/tenzing"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+ <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></code></pre></div>
 <p>Second you have to load the package.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/marton-balazs-kovacs/tenzing">tenzing</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/marton-balazs-kovacs/tenzing">tenzing</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="create-your-infosheet" class="section level1">
+<div id="create-your-contributors-table" class="section level1">
 <h1 class="hasAnchor">
-<a href="#create-your-infosheet" class="anchor"></a>Create your infosheet</h1>
-<p>The infosheet template is built in the package, as well as uploaded to the <a href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing">net</a>. If you choose to fill out the template with your credit information locally, you can write the infosheet template as an xlsx file to your working directory from the package with the following code:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># install.packages("writexl")</span>
-<span class="kw">writexl</span>::<span class="fu">write_xlsx</span>(<span class="kw">infosheet_template</span>, <span class="st">"my_infosheet.xlsx"</span>)
-</pre></div>
-<p>To get more information on the infosheet tempalte use the <code><a href="../reference/infosheet_template.html">?tenzing::infosheet_template</a></code> command.</p>
-<p><em>Note: This produces the same result as downloading the infosheet template from the link provided before.</em></p>
+<a href="#create-your-contributors-table" class="anchor"></a>Create your contributors table</h1>
+<p>The contributors table template is built in the package, as well as uploaded to the <a href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing">net</a>. If you choose to fill out the template with your CRediT information locally, you can write your contributors table as an xlsx file to your working directory from the package with the following code:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("writexl")</span>
+<span class="fu">writexl</span><span class="fu">::</span><span class="fu">write_xlsx</span><span class="op">(</span><span class="va">contributors_table_template</span>, <span class="st">"my_contributors_table.xlsx"</span><span class="op">)</span></code></pre></div>
+<p>To get more information on the contributors table template use the <code><a href="../reference/contributors_table_template.html">?tenzing::contributors_table_template</a></code> command.</p>
+<p><em>Note: This produces the same result as downloading the contributors table template from the link provided before.</em></p>
+<p><em>Note: The contributors table template was changed since the first release, as some of the CRediT roles were not named properly in the template columns.</em></p>
 </div>
-<div id="load-your-infosheet" class="section level1">
+<div id="load-your-contributors-table" class="section level1">
 <h1 class="hasAnchor">
-<a href="#load-your-infosheet" class="anchor"></a>Load your infosheet</h1>
-<p>You can load the infosheet into R with the <code><a href="../reference/read_infosheet.html">tenzing::read_infosheet</a></code> function. This function accepts files with csv, tsv and xlsx extensions. As an example we will use the built in infosheet template.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">my_infosheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_infosheet.html">read_infosheet</a></span>(infosheet_path = <span class="st">"full_path_to_my_infosheet_with_extension"</span>)
-</pre></div>
-<p>After loading your infosheet you have to check its validity.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">check_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/validate_infosheet.html">validate_infosheet</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-</pre></div>
-<p>The validation function checks your infosheet by 10 statements. You can learn more about these checks by running the following code <code><a href="../reference/infosheet_template.html">?tenzing::infosheet_template</a></code>.</p>
+<a href="#load-your-contributors-table" class="anchor"></a>Load your contributors table</h1>
+<p>You can load the contributors table into R with the <code><a href="../reference/read_contributors_table.html">tenzing::read_contributors_table</a></code> function. This function accepts files with csv, tsv, xlsx extensions, and the share URL of the Google spreadhseet. As an example we will use the built in contributors table template.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"contributors_table_example.csv"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">my_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_contributors_table.html">read_contributors_table</a></span><span class="op">(</span>contributors_table_path <span class="op">=</span> <span class="va">file_path</span><span class="op">)</span>
+<span class="co">#&gt; Rows: 5 Columns: 24</span>
+<span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; Delimiter: ","</span>
+<span class="co">#&gt; chr  (7): Firstname, Middle name, Surname, Email address, Primary affiliatio...</span>
+<span class="co">#&gt; dbl  (1): Order in publication</span>
+<span class="co">#&gt; lgl (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></code></pre></div>
+<p>If the read contributors table still contains empty rows you can clean it with the <code>clean_contributors_table</code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_contributors_table.html">clean_contributors_table</a></span><span class="op">(</span><span class="va">my_contributors_table</span><span class="op">)</span></code></pre></div>
+<p>After loading your contributors table you have to check its validity.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">check_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/validate_contributors_table.html">validate_contributors_table</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></code></pre></div>
+<p>The validation function checks your contributors table by 10 statements. You can learn more about these checks by running the following code <code><a href="../reference/contributors_table_template.html">?tenzing::contributors_table_template</a></code>.</p>
 <p>The check can have three results: <em>success</em>, <em>warning</em> or <em>error</em>. You can investigate what was the output of each of the 10 checks.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">purrr</span>::<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">check_result</span>, <span class="st">"type"</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">check_result</span>, <span class="st">"type"</span><span class="op">)</span>
 <span class="co">#&gt; $missing_surname</span>
 <span class="co">#&gt; [1] "success"</span>
 <span class="co">#&gt; </span>
@@ -164,14 +176,13 @@
 <span class="co">#&gt; [1] "success"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_credit</span>
-<span class="co">#&gt; [1] "warning"</span>
+<span class="co">#&gt; [1] "success"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_email</span>
-<span class="co">#&gt; [1] "success"</span>
-</pre></div>
-<p>If any of them is an <em>error</em> than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your infosheet accordingly.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">purrr</span>::<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">check_result</span>, <span class="st">"message"</span>)
+<span class="co">#&gt; [1] "success"</span></code></pre></div>
+<p>If any of them is an <em>error</em> than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your contributors table accordingly.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">check_result</span>, <span class="st">"message"</span><span class="op">)</span>
 <span class="co">#&gt; $missing_surname</span>
 <span class="co">#&gt; [1] "There are no missing surnames."</span>
 <span class="co">#&gt; </span>
@@ -179,80 +190,85 @@
 <span class="co">#&gt; [1] "There are no missing firstnames."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $duplicate_names</span>
-<span class="co">#&gt; [1] "There are no duplicate names in the infosheet."</span>
+<span class="co">#&gt; [1] "There are no duplicate names in the contributors_table."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $duplicate_initials</span>
-<span class="co">#&gt; [1] "There are no duplicate initials in the infosheet."</span>
+<span class="co">#&gt; [1] "There are no duplicate initials in the contributors_table."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_order</span>
 <span class="co">#&gt; [1] "There are no missing values in the order of publication."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $duplicate_order</span>
-<span class="co">#&gt; [1] "There are no duplicated order numbers in the infosheet."</span>
+<span class="co">#&gt; [1] "There are no duplicated order numbers in the contributors_table."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_affiliation</span>
-<span class="co">#&gt; [1] "There are no missing affiliations in the infosheet."</span>
+<span class="co">#&gt; [1] "There are no missing affiliations in the contributors_table."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_corresponding</span>
 <span class="co">#&gt; [1] "There is at least one author indicated as corresponding author."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_credit</span>
-<span class="co">#&gt; There is no CRediT taxonomy checked for the following row number(s): 4</span>
+<span class="co">#&gt; [1] "All authors have at least one CRediT statement checked."</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $missing_email</span>
-<span class="co">#&gt; [1] "There are email addresses provided for all corresponding authors."</span>
-</pre></div>
+<span class="co">#&gt; [1] "There are email addresses provided for all corresponding authors."</span></code></pre></div>
 </div>
 <div id="generate-output" class="section level1">
 <h1 class="hasAnchor">
 <a href="#generate-output" class="anchor"></a>Generate output</h1>
-<p>If your infosheet is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.</p>
+<p>If your contributors table is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.</p>
 <p>For the human readable report and the contributors’ affiliation page the output text will be rmarkdown formatted by default. However, by setting the <code>text_format</code> argument to <code>"html"</code> the output can be HTML formatted as well, or by setting the argument to <code>"raw"</code>, the output string will not be formatted at all.</p>
-<div id="create-a-human-readable-report-of-the-contributions" class="section level2">
+<div id="create-a-human-readable-report-of-the-contributions-according-to-the-credit-taxonomy" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-a-human-readable-report-of-the-contributions" class="anchor"></a>create a human readable report of the contributions</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/print_roles_readable.html">print_roles_readable</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; **Conceptualization:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Funding Acquisition:** Marton Kovacs and Balazs Aczel.  </span>
-<span class="co">#&gt; **Investigation:** Balazs Aczel.  </span>
-<span class="co">#&gt; **Methodology:** Balazs Aczel.  </span>
-<span class="co">#&gt; **Project Administration:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Software:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Supervision:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Validation:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Writing - Original Draft Preparation:** Alex O. Holcombe.  </span>
-<span class="co">#&gt; **Writing - Review &amp; Editing:** Alex O. Holcombe.</span>
-</pre></div>
+<a href="#create-a-human-readable-report-of-the-contributions-according-to-the-credit-taxonomy" class="anchor"></a>create a human readable report of the contributions according to the CRediT taxonomy</h2>
+<p>For this section it is possible to use initials by setting the <code>initials</code> argument <code>TRUE</code>. Also, if the <code>order_by</code> argument is set to <code>contributor</code> the function will list the contributions after the name of each researcher, instead of listing the appropriate names after each CRediT role.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/print_credit_roles.html">print_credit_roles</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">TRUE</span>, order_by <span class="op">=</span> <span class="st">"contributor"</span><span class="op">)</span>
+<span class="co">#&gt; **A.O.H.:** Conceptualization, Project administration, Validation, Writing - original draft, and Writing - review &amp; editing.  </span>
+<span class="co">#&gt; **B.A.:** Conceptualization, Supervision, Validation, and Writing - review &amp; editing.  </span>
+<span class="co">#&gt; **F.A.:** Conceptualization, Project administration, Software, Validation, and Writing - review &amp; editing.  </span>
+<span class="co">#&gt; **J.C.:** Conceptualization, Project administration, and Validation.  </span>
+<span class="co">#&gt; **M.K.:** Conceptualization, Data curation, Project administration, Software, Validation, Visualization, Writing - original draft, and Writing - review &amp; editing.</span></code></pre></div>
 </div>
 <div id="create-the-contributors-affiliation-page" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-the-contributors-affiliation-page" class="anchor"></a>Create the contributors’ affiliation page</h2>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/print_contrib_affil.html">print_contrib_affil</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; [1] "Alex O. Holcombe^1^, Marton Kovacs^2^, Balazs Aczel^2^, Frederik Aust^3^  \n   \n^1^University of Sydney, ^2^Institute of Psychology, ELTE, Eotvos Lorand University, Budapest, Hungary, ^3^University of Cologne"</span>
-</pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/print_title_page.html">print_title_page</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span>
+<span class="co">#&gt; Alex O. Holcombe^1*^, Marton Kovacs^2,3*^, Balazs Aczel^2^, Frederik Aust^4,5^, Julien Colomb^6^</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ^1^University of Sydney, ^2^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, ^3^Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, ^4^University of Cologne, Cologne, Germany, ^5^University of Amsterdam, Amsterdam, Netherlands, ^6^Humboldt University of Berlin                    </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; *Alex O. Holcombe and Marton Kovacs are shared first authors. The corresponding author is Marton Kovacs: marton.balazs.kovacs@gmail.com.</span></code></pre></div>
 </div>
 <div id="create-a-jats-formatted-xml-document-containing-the-contributors-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-jats-formatted-xml-document-containing-the-contributors-information" class="anchor"></a>Create a JATS formatted XML document containing the contributors information</h2>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="../reference/print_xml.html">print_xml</a></span>(infosheet = <span class="kw">infosheet_template</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/print_xml.html">print_xml</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span>
 <span class="co">#&gt; {xml_document}</span>
 <span class="co">#&gt; &lt;contrib-group&gt;</span>
 <span class="co">#&gt; [1] &lt;contrib&gt;\n  &lt;name surname="Aczel" given-names="Balazs"/&gt;\n  &lt;role vocab= ...</span>
-<span class="co">#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex O."/&gt;\n  &lt;role vo ...</span>
-<span class="co">#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</span>
-</pre></div>
+<span class="co">#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Aust" given-names="Frederik"/&gt;\n  &lt;role vocab ...</span>
+<span class="co">#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Colomb" given-names="Julien"/&gt;\n  &lt;role vocab ...</span>
+<span class="co">#&gt; [4] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex O."/&gt;\n  &lt;role vo ...</span>
+<span class="co">#&gt; [5] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</span></code></pre></div>
 </div>
 <div id="create-a-yaml-document-containing-the-contributors-informtation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-yaml-document-containing-the-contributors-informtation" class="anchor"></a>Create a YAML document containing the contributors informtation</h2>
 <p>This output can be incorporated into manuscript created with the <code>papaja</code> package.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="../reference/print_yaml.html">print_yaml</a></span>(infosheet = <span class="kw">infosheet_template</span>)
-<span class="co">#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project Administration\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Funding Acquisition\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Funding Acquisition\n      - Investigation\n      - Methodology\n  - name: Frederik Aust\n    affiliation: '3'\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne\n"</span>
-</pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/print_yaml.html">print_yaml</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span>
+<span class="co">#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project administration\n      - Validation\n      - Writing - original draft\n      - Writing - review &amp; editing\n  - name: Marton Kovacs\n    affiliation: '2,5'\n    role:\n      - Conceptualization\n      - Data curation\n      - Project administration\n      - Software\n      - Validation\n      - Visualization\n      - Writing - original draft\n      - Writing - review &amp; editing\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Conceptualization\n      - Supervision\n      - Validation\n      - Writing - review &amp; editing\n  - name: Frederik Aust\n    affiliation: '3,6'\n    role:\n      - Conceptualization\n      - Project administration\n      - Software\n      - Validation\n      - Writing - review &amp; editing\n  - name: Julien Colomb\n    affiliation: '4'\n    role:\n      - Conceptualization\n      - Project administration\n      - Validation\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne, Cologne, Germany\n  - id: '4'\n    institution: Humboldt University of Berlin\n  - id: '5'\n    institution: Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '6'\n    institution: University of Amsterdam, Amsterdam, Netherlands\n"</span></code></pre></div>
+</div>
+<div id="create-funding-acknowledgements-section" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-funding-acknowledgements-section" class="anchor"></a>Create funding acknowledgements section</h2>
+<p>For this section it is possible to use initials by setting the <code>initials</code> argument <code>TRUE</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/print_funding.html">print_funding</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] "M.K. and J.C. were supported by Important Fund; B.A. was supported by National Funding Agency."</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -272,7 +288,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

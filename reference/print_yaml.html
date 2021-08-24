@@ -49,8 +49,8 @@
 <meta property="og:title" content="Generate an YAML document of the contributions — print_yaml" />
 <meta property="og:description" content="The function generates a YAML document containing the contributors information
 and contributions according to the CRediT taxonomy. The output is generated
-from an infosheet validated with the validate_infosheet function.
-The infosheet must be based on the infosheet_template." />
+from an `contributors_table` validated with the validate_contributors_table function.
+The `contributors_table` must be based on the contributors_table_template." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +83,7 @@ The infosheet must be based on the infosheet_template." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ The infosheet must be based on the infosheet_template." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -113,11 +113,14 @@ The infosheet must be based on the infosheet_template." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,18 +145,18 @@ The infosheet must be based on the infosheet_template." />
     <div class="ref-description">
     <p>The function generates a YAML document containing the contributors information
 and contributions according to the CRediT taxonomy. The output is generated
-from an infosheet validated with the <code><a href='validate_infosheet.html'>validate_infosheet</a></code> function.
-The infosheet must be based on the <code><a href='infosheet_template.html'>infosheet_template</a></code>.</p>
+from an `contributors_table` validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function.
+The `contributors_table` must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>print_yaml</span>(<span class='kw'>infosheet</span>)</pre>
+    <pre class="usage"><span class='fu'>print_yaml</span><span class='op'>(</span><span class='va'>contributors_table</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>infosheet</th>
-      <td><p>validated infosheet</p></td>
+      <th>contributors_table</th>
+      <td><p>validated contributors_table</p></td>
     </tr>
     </table>
 
@@ -171,12 +174,24 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other output functions: 
-<code><a href='print_contrib_affil.html'>print_contrib_affil</a>()</code>,
-<code><a href='print_roles_readable.html'>print_roles_readable</a>()</code>,
+<code><a href='print_credit_roles.html'>print_credit_roles</a>()</code>,
+<code><a href='print_funding.html'>print_funding</a>()</code>,
+<code><a href='print_title_page.html'>print_title_page</a>()</code>,
 <code><a href='print_xml.html'>print_xml</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='validate_infosheet.html'>validate_infosheet</a></span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; $missing_surname
+    <pre class="examples"><div class='input'><span class='va'>example_contributors_table</span> <span class='op'>&lt;-</span>
+<span class='fu'><a href='read_contributors_table.html'>read_contributors_table</a></span><span class='op'>(</span>
+contributors_table <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>,
+<span class='st'>"contributors_table_example.csv"</span>, package <span class='op'>=</span> <span class='st'>"tenzing"</span>, mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>Rows: </span><span style='color: #0000BB;'>5</span> <span style='font-weight: bold;'>Columns: </span><span style='color: #0000BB;'>24</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Column specification</span> <span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span></span>
+#&gt; <span class='message'><span style='font-weight: bold;'>Delimiter:</span> ","</span>
+#&gt; <span class='message'><span style='color: #BB0000;'>chr</span>  (7): Firstname, Middle name, Surname, Email address, Primary affiliatio...</span>
+#&gt; <span class='message'><span style='color: #00BB00;'>dbl</span>  (1): Order in publication</span>
+#&gt; <span class='message'><span style='color: #BBBB00;'>lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Use <span style='color: #262626; background-color: #DADADA;'>`spec()`</span> to retrieve the full column specification for this data.</span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Specify the column types or set <span style='color: #262626; background-color: #DADADA;'>`show_col_types = FALSE`</span> to quiet this message.</span></div><div class='input'><span class='fu'><a href='validate_contributors_table.html'>validate_contributors_table</a></span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $missing_surname
 #&gt; $missing_surname$type
 #&gt; [1] "success"
 #&gt; 
@@ -197,7 +212,7 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; [1] "success"
 #&gt; 
 #&gt; $duplicate_names$message
-#&gt; [1] "There are no duplicate names in the infosheet."
+#&gt; [1] "There are no duplicate names in the contributors_table."
 #&gt; 
 #&gt; 
 #&gt; $duplicate_initials
@@ -205,7 +220,7 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; [1] "success"
 #&gt; 
 #&gt; $duplicate_initials$message
-#&gt; [1] "There are no duplicate initials in the infosheet."
+#&gt; [1] "There are no duplicate initials in the contributors_table."
 #&gt; 
 #&gt; 
 #&gt; $missing_order
@@ -221,7 +236,7 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; [1] "success"
 #&gt; 
 #&gt; $duplicate_order$message
-#&gt; [1] "There are no duplicated order numbers in the infosheet."
+#&gt; [1] "There are no duplicated order numbers in the contributors_table."
 #&gt; 
 #&gt; 
 #&gt; $missing_affiliation
@@ -229,7 +244,7 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; [1] "success"
 #&gt; 
 #&gt; $missing_affiliation$message
-#&gt; [1] "There are no missing affiliations in the infosheet."
+#&gt; [1] "There are no missing affiliations in the contributors_table."
 #&gt; 
 #&gt; 
 #&gt; $missing_corresponding
@@ -242,10 +257,10 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; 
 #&gt; $missing_credit
 #&gt; $missing_credit$type
-#&gt; [1] "warning"
+#&gt; [1] "success"
 #&gt; 
 #&gt; $missing_credit$message
-#&gt; There is no CRediT taxonomy checked for the following row number(s): 4
+#&gt; [1] "All authors have at least one CRediT statement checked."
 #&gt; 
 #&gt; 
 #&gt; $missing_email
@@ -255,7 +270,9 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 #&gt; $missing_email$message
 #&gt; [1] "There are email addresses provided for all corresponding authors."
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_yaml</span>(infosheet = <span class='kw'>infosheet_template</span>)</div><div class='output co'>#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project Administration\n      - Software\n      - Supervision\n      - Validation\n      - Writing - Original Draft Preparation\n      - Writing - Review &amp; Editing\n  - name: Marton Kovacs\n    affiliation: '2'\n    role: Funding Acquisition\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Funding Acquisition\n      - Investigation\n      - Methodology\n  - name: Frederik Aust\n    affiliation: '3'\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE, Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne\n"</div></pre>
+#&gt; </div><div class='input'><span class='fu'>print_yaml</span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "author:\n  - name: Alex O. Holcombe\n    affiliation: '1'\n    role:\n      - Conceptualization\n      - Project administration\n      - Validation\n      - Writing - original draft\n      - Writing - review &amp; editing\n  - name: Marton Kovacs\n    affiliation: '2,5'\n    role:\n      - Conceptualization\n      - Data curation\n      - Project administration\n      - Software\n      - Validation\n      - Visualization\n      - Writing - original draft\n      - Writing - review &amp; editing\n    corresponding: yes\n    email: marton.balazs.kovacs@gmail.com\n    address: Enter postal address here\n  - name: Balazs Aczel\n    affiliation: '2'\n    role:\n      - Conceptualization\n      - Supervision\n      - Validation\n      - Writing - review &amp; editing\n  - name: Frederik Aust\n    affiliation: '3,6'\n    role:\n      - Conceptualization\n      - Project administration\n      - Software\n      - Validation\n      - Writing - review &amp; editing\n  - name: Julien Colomb\n    affiliation: '4'\n    role:\n      - Conceptualization\n      - Project administration\n      - Validation\n\naffiliation:\n  - id: '1'\n    institution: University of Sydney\n  - id: '2'\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '3'\n    institution: University of Cologne, Cologne, Germany\n  - id: '4'\n    institution: Humboldt University of Berlin\n  - id: '5'\n    institution: Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary\n  - id: '6'\n    institution: University of Amsterdam, Amsterdam, Netherlands\n"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -271,7 +288,7 @@ The infosheet must be based on the <code><a href='infosheet_template.html'>infos
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

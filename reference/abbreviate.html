@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Abbreviate middle names — abbreviate • tenzing</title>
+<title>Abbreviate names — abbreviate • tenzing</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Abbreviate middle names — abbreviate" />
+<meta property="og:title" content="Abbreviate names — abbreviate" />
 <meta property="og:description" content="Abbreviates multiple words to first letters" />
 <meta property="og:image" content="/logo.png" />
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,11 +110,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -131,8 +134,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Abbreviate middle names</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/tenzing_utils_abbreviate.R'><code>R/tenzing_utils_abbreviate.R</code></a></small>
+    <h1>Abbreviate names</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/initials.R'><code>R/initials.R</code></a></small>
     <div class="hidden name"><code>abbreviate.Rd</code></div>
     </div>
 
@@ -140,14 +143,18 @@
     <p>Abbreviates multiple words to first letters</p>
     </div>
 
-    <pre class="usage"><span class='fu'>abbreviate</span>(<span class='kw'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>abbreviate</span><span class='op'>(</span><span class='va'>string</span>, <span class='va'>collapse</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Character. A character vector with one element.</p></td>
+      <th>string</th>
+      <td><p>Character. A character vector with the names</p></td>
+    </tr>
+    <tr>
+      <th>collapse</th>
+      <td><p>Character. A string that will be used to separate names</p></td>
     </tr>
     </table>
 
@@ -156,7 +163,8 @@
     <p>Returns a character vector with one element.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>tenzing</span>:::<span class='fu'>abbreviate_middle_names</span>(<span class='st'>"Franz Jude Wayne"</span>)</div><div class='output co'>#&gt; [1] "F. J. W."</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>tenzing</span><span class='fu'>:::</span><span class='fu'>abbreviate</span><span class='op'>(</span><span class='st'>"Franz Jude Wayne"</span>, collapse <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "F.J.W."</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -172,7 +180,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate an XML document of the contributions — print_xml • tenzing</title>
+<title>Generate human readable report of the funding information — print_funding • tenzing</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,11 @@
 
 
 
-<meta property="og:title" content="Generate an XML document of the contributions — print_xml" />
-<meta property="og:description" content="The function generates an XML nodeset that contains the contributors' name,
-affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the validate_contributors_table function.
-The `contributors_table` must be based on the contributors_table_template." />
+<meta property="og:title" content="Generate human readable report of the funding information — print_funding" />
+<meta property="og:description" content="The functions generates the funding information section of the manuscript.
+The output is generated from an contributors_table validated with
+the validate_contributors_table function.
+The contributors_table must be based on the contributors_table_template." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -138,20 +137,19 @@ The `contributors_table` must be based on the contributors_table_template." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate an XML document of the contributions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/print_xml.R'><code>R/print_xml.R</code></a></small>
-    <div class="hidden name"><code>print_xml.Rd</code></div>
+    <h1>Generate human readable report of the funding information</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/print_funding.R'><code>R/print_funding.R</code></a></small>
+    <div class="hidden name"><code>print_funding.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function generates an XML nodeset that contains the contributors' name,
-affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function.
-The `contributors_table` must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>.</p>
+    <p>The functions generates the funding information section of the manuscript.
+The output is generated from an contributors_table validated with
+the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function.
+The contributors_table must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>print_xml</span><span class='op'>(</span><span class='va'>contributors_table</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>print_funding</span><span class='op'>(</span><span class='va'>contributors_table</span>, initials <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,26 +158,22 @@ The `contributors_table` must be based on the <code><a href='contributors_table_
       <th>contributors_table</th>
       <td><p>validated contributors_table</p></td>
     </tr>
+    <tr>
+      <th>initials</th>
+      <td><p>Logical. If true initials will be included instead of full
+names in the output</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns an xml nodeset containing the contributors
-  listed for each CRediT role they partake in.</p>
-    <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
-
-    
-
-<p>The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.</p>
+    <p>The function returns a string.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other output functions: 
 <code><a href='print_credit_roles.html'>print_credit_roles</a>()</code>,
-<code><a href='print_funding.html'>print_funding</a>()</code>,
 <code><a href='print_title_page.html'>print_title_page</a>()</code>,
+<code><a href='print_xml.html'>print_xml</a>()</code>,
 <code><a href='print_yaml.html'>print_yaml</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -272,14 +266,8 @@ contributors_table <span class='op'>=</span> <span class='fu'><a href='https://r
 #&gt; $missing_email$message
 #&gt; [1] "There are email addresses provided for all corresponding authors."
 #&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_xml</span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_document}
-#&gt; &lt;contrib-group&gt;
-#&gt; [1] &lt;contrib&gt;\n  &lt;name surname="Aczel" given-names="Balazs"/&gt;\n  &lt;role vocab= ...
-#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Aust" given-names="Frederik"/&gt;\n  &lt;role vocab ...
-#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Colomb" given-names="Julien"/&gt;\n  &lt;role vocab ...
-#&gt; [4] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex O."/&gt;\n  &lt;role vo ...
-#&gt; [5] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'>print_funding</span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span>, initials <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Marton Kovacs and Julien Colomb were supported by Important Fund; Balazs Aczel was supported by National Funding Agency."</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

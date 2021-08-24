@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,11 +109,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -163,8 +166,8 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-infosheet" class="hasAnchor"><a href="#section-infosheet" class="anchor"></a>Infosheet</h2>
-          <p class="section-desc"><p>Functions to load and test your infosheet</p></p>
+          <h2 id="section-contributors-table" class="hasAnchor"><a href="#section-contributors-table" class="anchor"></a>Contributors table</h2>
+          <p class="section-desc"><p>Functions to load and test your contributors table</p></p>
         </th>
       </tr>
       
@@ -175,21 +178,27 @@
       <tr>
         
         <td>
-          <p><code><a href="infosheet_template.html">infosheet_template</a></code> </p>
+          <p><code><a href="contributors_table_template.html">contributors_table_template</a></code> </p>
         </td>
-        <td><p>Template infosheet</p></td>
+        <td><p>Template for the contributors table</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="read_infosheet.html">read_infosheet()</a></code> </p>
+          <p><code><a href="read_contributors_table.html">read_contributors_table()</a></code> </p>
         </td>
-        <td><p>Read the filled out infosheet</p></td>
+        <td><p>Read the filled out contributors_table</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="validate_infosheet.html">validate_infosheet()</a></code> </p>
+          <p><code><a href="validate_contributors_table.html">validate_contributors_table()</a></code> </p>
         </td>
-        <td><p>Validating the infosheet</p></td>
+        <td><p>Validating the contributors table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="clean_contributors_table.html">clean_contributors_table()</a></code> </p>
+        </td>
+        <td><p>Delete empty rows of the contributors_table</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -206,15 +215,15 @@
       <tr>
         
         <td>
-          <p><code><a href="print_contrib_affil.html">print_contrib_affil()</a></code> </p>
+          <p><code><a href="print_title_page.html">print_title_page()</a></code> </p>
         </td>
-        <td><p>Generate contributors' affiliations</p></td>
+        <td><p>Generate title page</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print_roles_readable.html">print_roles_readable()</a></code> </p>
+          <p><code><a href="print_credit_roles.html">print_credit_roles()</a></code> </p>
         </td>
-        <td><p>Generate human readable report of the contributions</p></td>
+        <td><p>Generate report of the contributions with CRedit</p></td>
       </tr><tr>
         
         <td>
@@ -227,6 +236,62 @@
           <p><code><a href="print_yaml.html">print_yaml()</a></code> </p>
         </td>
         <td><p>Generate an YAML document of the contributions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_funding.html">print_funding()</a></code> </p>
+        </td>
+        <td><p>Generate human readable report of the funding information</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-initials" class="hasAnchor"><a href="#section-initials" class="anchor"></a>Initials</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="add_initials.html">add_initials()</a></code> </p>
+        </td>
+        <td><p>Add initials to the contributors_table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="abbreviate.html">abbreviate()</a></code> </p>
+        </td>
+        <td><p>Abbreviate names</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="abbreviate_middle_names_df.html">abbreviate_middle_names_df()</a></code> </p>
+        </td>
+        <td><p>Abbreviate middle names in a dataframe</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-rename" class="hasAnchor"><a href="#section-rename" class="anchor"></a>Rename</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="rename.html">validate_infosheet()</a></code> <code><a href="rename.html">read_infosheet()</a></code> <code><a href="rename.html">clean_infosheet()</a></code> <code><a href="rename.html">print_roles_readable()</a></code> <code><a href="rename.html">print_contrib_affil()</a></code> </p>
+        </td>
+        <td><p>Functions renamed in tenzing 0.2.0</p></td>
       </tr>
     </tbody>
     </table>
@@ -246,7 +311,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

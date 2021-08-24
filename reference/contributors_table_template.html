@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run the Shiny Application — run_app • tenzing</title>
+<title>Template for the contributors table — contributors_table_template • tenzing</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,11 @@
 
 
 
-<meta property="og:title" content="Run the Shiny Application — run_app" />
-<meta property="og:description" content="This function allows users to run the application
-locally from their computer." />
+<meta property="og:title" content="Template for the contributors table — contributors_table_template" />
+<meta property="og:description" content="Dataset that represents the data structure that the tenzing
+package functions require to run without error. The dataset
+is filled with example values and based on the online spreadsheet
+provided in the shiny app." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -135,27 +137,62 @@ locally from their computer." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run the Shiny Application</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/run_app.R'><code>R/run_app.R</code></a></small>
-    <div class="hidden name"><code>run_app.Rd</code></div>
+    <h1>Template for the contributors table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/contributors_table_template.R'><code>R/contributors_table_template.R</code></a></small>
+    <div class="hidden name"><code>contributors_table_template.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function allows users to run the application
-locally from their computer.</p>
+    <p>Dataset that represents the data structure that the tenzing
+package functions require to run without error. The dataset
+is filled with example values and based on the online spreadsheet
+provided in the shiny app.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_app</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>contributors_table_template</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>Allows user to pass global arguments to the app on runtime</p></td>
-    </tr>
-    </table>
 
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A dataframe with 3 rows and 22 variables:</p><dl>
+  <dt>'Order in publication'</dt><dd><p>numeric, used to order the contributors for all outputs</p></dd>
+  <dt>Firstname</dt><dd><p>character, first name of the author, must be provided</p></dd>
+  <dt>'Middle name'</dt><dd><p>character, middle name of the author, blank if not applicable</p></dd>
+  <dt>Surname</dt><dd><p>character, surname of the author, must be provided</p></dd>
+  <dt>Conceptualization</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Data curation'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Formal analysis'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Funding acquisition'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Investigation</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Methodology</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Project administration'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Resources</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Software</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Supervision</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Validation</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>Visualization</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Writing - original draft'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Writing - review &amp; editing'</dt><dd><p>logical, CREdiT role</p></dd>
+  <dt>'Email address'</dt><dd><p>character, email address of the correspondign author, optional</p></dd>
+  <dt>'Primary affiliation'</dt><dd><p>character, primary affiliation of the contributor</p></dd>
+  <dt>'Secondary affiliation'</dt><dd><p>character, secondary affiliation of the contributor, blank if not applicable</p></dd>
+  <dt>Funding</dt><dd><p>character, name of the funds, blank if not applicable</p></dd>
+  <dt>ORCID iD</dt><dd><p>character, ORCID iD of the contributor</p></dd>
+  <dt>'Corresponding author?'</dt><dd><p>logical, TRUE for contributor who is the corresponding author</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing'>https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing</a></p>
+    <h2 class="hasAnchor" id="remark"><a class="anchor" href="#remark"></a>Remark</h2>
+
+    
+
+<p>Each row contains the contributorship information for
+  one contributor. In the template there are 3 contributors
+  added as an example but there is no limit to the number
+  of contributors while using the package.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

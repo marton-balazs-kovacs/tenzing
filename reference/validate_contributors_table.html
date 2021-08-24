@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate an XML document of the contributions — print_xml • tenzing</title>
+<title>Validating the contributors table — validate_contributors_table • tenzing</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,12 @@
 
 
 
-<meta property="og:title" content="Generate an XML document of the contributions — print_xml" />
-<meta property="og:description" content="The function generates an XML nodeset that contains the contributors' name,
-affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the validate_contributors_table function.
-The `contributors_table` must be based on the contributors_table_template." />
+<meta property="og:title" content="Validating the contributors table — validate_contributors_table" />
+<meta property="og:description" content="This function validates the `contributors_table` provided to it by checking whether the
+provided `contributors_table` is compatible with the contributors_table_template. The function
+early escapes only if the provided `contributors_table` is not a dataframe, the variable
+names that are present in the `contributors_table_template` are missing, or if the 
+`contributors_table` is empty." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -138,148 +138,133 @@ The `contributors_table` must be based on the contributors_table_template." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate an XML document of the contributions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/print_xml.R'><code>R/print_xml.R</code></a></small>
-    <div class="hidden name"><code>print_xml.Rd</code></div>
+    <h1>Validating the contributors table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marton-balazs-kovacs/tenzing/blob/master/R/validate_contributors_table.R'><code>R/validate_contributors_table.R</code></a></small>
+    <div class="hidden name"><code>validate_contributors_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The function generates an XML nodeset that contains the contributors' name,
-affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an 
-`contributors_table` validated with the <code><a href='validate_contributors_table.html'>validate_contributors_table</a></code> function.
-The `contributors_table` must be based on the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>.</p>
+    <p>This function validates the `contributors_table` provided to it by checking whether the
+provided `contributors_table` is compatible with the <code><a href='contributors_table_template.html'>contributors_table_template</a></code>. The function
+early escapes only if the provided `contributors_table` is not a dataframe, the variable
+names that are present in the `contributors_table_template` are missing, or if the 
+`contributors_table` is empty.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>print_xml</span><span class='op'>(</span><span class='va'>contributors_table</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>validate_contributors_table</span><span class='op'>(</span><span class='va'>contributors_table</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>contributors_table</th>
-      <td><p>validated contributors_table</p></td>
+      <td><p>dataframe, filled out contributors_table</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns an xml nodeset containing the contributors
-  listed for each CRediT role they partake in.</p>
-    <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
+    <p>The function returns a list for each checked statement. Each list contains
+  a <code>type</code> vector that stores whether the statement passed the check "success"
+  or failed "warning" or "error", and a <code>message</code> vector that contains information
+  about the nature of the check.</p>
+    <h2 class="hasAnchor" id="the-function-checks-the-following-statements"><a class="anchor" href="#the-function-checks-the-following-statements"></a>The function checks the following statements</h2>
 
     
 
-<p>The function is primarily developed to be the part of a shiny app. As the
-  validation is handled inside of the app separately, the function can
-  break with non-informative errors if running locally without first
-  validating it.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+<ul>
+<li><p>error, the provided contributors_table is a dataframe</p></li>
+<li><p>error, the provided contributors_table does not have the same column names as the template</p></li>
+<li><p>error, the provided contributors_table is empty</p></li>
+<li><p>error, <code>Firstname</code> variable has missing value for one of the contributors</p></li>
+<li><p>error, <code>Surname</code> variable has a missing value for one of the contributors</p></li>
+<li><p>warning, the contributors_table has duplicate names</p></li>
+<li><p>warning, the contributors_table has names with duplicate initials</p></li>
+<li><p>error, the <code>'Order in publication'</code> variable has missing values</p></li>
+<li><p>error, the <code>'Order in publication'</code> variable has duplicate values</p></li>
+<li><p>error, both <code>'Primary affiliation'</code> and <code>'Secondary affiliation'</code> variables
+    are missing for one contributor</p></li>
+<li><p>warning, there is no corresponding author added</p></li>
+<li><p>warning, email address is missing for the corresponding author</p></li>
+<li><p>warning, there is at least one CRediT role provided for all contributors</p></li>
+</ul>
 
-    <div class='dont-index'><p>Other output functions: 
-<code><a href='print_credit_roles.html'>print_credit_roles</a>()</code>,
-<code><a href='print_funding.html'>print_funding</a>()</code>,
-<code><a href='print_title_page.html'>print_title_page</a>()</code>,
-<code><a href='print_yaml.html'>print_yaml</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>example_contributors_table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_contributors_table.html'>read_contributors_table</a></span><span class='op'>(</span>
-contributors_table <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>,
-<span class='st'>"contributors_table_example.csv"</span>, package <span class='op'>=</span> <span class='st'>"tenzing"</span>, mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Read the example contributors table</span>
+<span class='va'>file_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"contributors_table_example.csv"</span>, package <span class='op'>=</span> <span class='st'>"tenzing"</span>, mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>my_contributors_table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_contributors_table.html'>read_contributors_table</a></span><span class='op'>(</span>contributors_table_path <span class='op'>=</span> <span class='va'>file_path</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>Rows: </span><span style='color: #0000BB;'>5</span> <span style='font-weight: bold;'>Columns: </span><span style='color: #0000BB;'>24</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Column specification</span> <span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span></span>
 #&gt; <span class='message'><span style='font-weight: bold;'>Delimiter:</span> ","</span>
 #&gt; <span class='message'><span style='color: #BB0000;'>chr</span>  (7): Firstname, Middle name, Surname, Email address, Primary affiliatio...</span>
 #&gt; <span class='message'><span style='color: #00BB00;'>dbl</span>  (1): Order in publication</span>
 #&gt; <span class='message'><span style='color: #BBBB00;'>lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Use <span style='color: #262626; background-color: #DADADA;'>`spec()`</span> to retrieve the full column specification for this data.</span>
-#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Specify the column types or set <span style='color: #262626; background-color: #DADADA;'>`show_col_types = FALSE`</span> to quiet this message.</span></div><div class='input'><span class='fu'><a href='validate_contributors_table.html'>validate_contributors_table</a></span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span><span class='op'>)</span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Specify the column types or set <span style='color: #262626; background-color: #DADADA;'>`show_col_types = FALSE`</span> to quiet this message.</span></div><div class='input'><span class='co'># Validate the table</span>
+<span class='va'>check_result</span> <span class='op'>&lt;-</span> <span class='fu'>validate_contributors_table</span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>my_contributors_table</span><span class='op'>)</span>
+<span class='co'># Show the results of the checks</span>
+<span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>check_result</span>, <span class='st'>"type"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $missing_surname
-#&gt; $missing_surname$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_surname$message
-#&gt; [1] "There are no missing surnames."
-#&gt; 
 #&gt; 
 #&gt; $missing_firstname
-#&gt; $missing_firstname$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_firstname$message
-#&gt; [1] "There are no missing firstnames."
-#&gt; 
 #&gt; 
 #&gt; $duplicate_names
-#&gt; $duplicate_names$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $duplicate_names$message
-#&gt; [1] "There are no duplicate names in the contributors_table."
-#&gt; 
 #&gt; 
 #&gt; $duplicate_initials
-#&gt; $duplicate_initials$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $duplicate_initials$message
-#&gt; [1] "There are no duplicate initials in the contributors_table."
-#&gt; 
 #&gt; 
 #&gt; $missing_order
-#&gt; $missing_order$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_order$message
-#&gt; [1] "There are no missing values in the order of publication."
-#&gt; 
 #&gt; 
 #&gt; $duplicate_order
-#&gt; $duplicate_order$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $duplicate_order$message
-#&gt; [1] "There are no duplicated order numbers in the contributors_table."
-#&gt; 
 #&gt; 
 #&gt; $missing_affiliation
-#&gt; $missing_affiliation$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_affiliation$message
-#&gt; [1] "There are no missing affiliations in the contributors_table."
-#&gt; 
 #&gt; 
 #&gt; $missing_corresponding
-#&gt; $missing_corresponding$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_corresponding$message
-#&gt; [1] "There is at least one author indicated as corresponding author."
-#&gt; 
 #&gt; 
 #&gt; $missing_credit
-#&gt; $missing_credit$type
 #&gt; [1] "success"
-#&gt; 
-#&gt; $missing_credit$message
-#&gt; [1] "All authors have at least one CRediT statement checked."
-#&gt; 
 #&gt; 
 #&gt; $missing_email
-#&gt; $missing_email$type
 #&gt; [1] "success"
+#&gt; </div><div class='input'><span class='co'># Show the corresponding messages</span>
+<span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>check_result</span>, <span class='st'>"message"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $missing_surname
+#&gt; [1] "There are no missing surnames."
 #&gt; 
-#&gt; $missing_email$message
+#&gt; $missing_firstname
+#&gt; [1] "There are no missing firstnames."
+#&gt; 
+#&gt; $duplicate_names
+#&gt; [1] "There are no duplicate names in the contributors_table."
+#&gt; 
+#&gt; $duplicate_initials
+#&gt; [1] "There are no duplicate initials in the contributors_table."
+#&gt; 
+#&gt; $missing_order
+#&gt; [1] "There are no missing values in the order of publication."
+#&gt; 
+#&gt; $duplicate_order
+#&gt; [1] "There are no duplicated order numbers in the contributors_table."
+#&gt; 
+#&gt; $missing_affiliation
+#&gt; [1] "There are no missing affiliations in the contributors_table."
+#&gt; 
+#&gt; $missing_corresponding
+#&gt; [1] "There is at least one author indicated as corresponding author."
+#&gt; 
+#&gt; $missing_credit
+#&gt; [1] "All authors have at least one CRediT statement checked."
+#&gt; 
+#&gt; $missing_email
 #&gt; [1] "There are email addresses provided for all corresponding authors."
-#&gt; 
-#&gt; </div><div class='input'><span class='fu'>print_xml</span><span class='op'>(</span>contributors_table <span class='op'>=</span> <span class='va'>example_contributors_table</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_document}
-#&gt; &lt;contrib-group&gt;
-#&gt; [1] &lt;contrib&gt;\n  &lt;name surname="Aczel" given-names="Balazs"/&gt;\n  &lt;role vocab= ...
-#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Aust" given-names="Frederik"/&gt;\n  &lt;role vocab ...
-#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Colomb" given-names="Julien"/&gt;\n  &lt;role vocab ...
-#&gt; [4] &lt;contrib&gt;\n  &lt;name surname="Holcombe" given-names="Alex O."/&gt;\n  &lt;role vo ...
-#&gt; [5] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</div><div class='input'>
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

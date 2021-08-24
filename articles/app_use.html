@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -68,11 +68,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,49 +104,64 @@
     
 <p>The <code>tenzing</code> package can be used as a shiny application, which is already embedded in a webpage: <a href="https://martonbalazskovacs.shinyapps.io/tenzing/">https://martonbalazskovacs.shinyapps.io/tenzing/</a>. When you first open the app it might take a few seconds for the page to load.</p>
 <p>If you want to instead run the app locally from your computer, first you have to open R and install the <code>tenzing</code> package with the following code:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install.packages("devtools")</span>
-<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"marton-balazs-kovacs/tenzing"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></code></pre></div>
 <p>After the installation finishes, you can launch the app.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">tenzing</span>::<span class="fu"><a href="../reference/run_app.html">run_app</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">tenzing</span><span class="fu">::</span><span class="fu"><a href="../reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div id="overview-of-the-app" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview-of-the-app" class="anchor"></a>Overview of the app</h1>
 <p>When you open the app, you’ll see instructions in the left yellow panel to guide you through the process of providing the input to generate the app’s output: contributorship information using the CRediT taxonomy, in various formats.</p>
 <p><img src="tenzing_on_open.png" width="100%"></p>
 </div>
-<div id="create-your-infosheet" class="section level1">
+<div id="create-your-contributors-table" class="section level1">
 <h1 class="hasAnchor">
-<a href="#create-your-infosheet" class="anchor"></a>Create your infosheet</h1>
-<p>Enter all your credit information in a copy of the infosheet template linked in this panel. You can also reach it <a href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing">HERE</a>. The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by <em>File -&gt; Make a copy</em>. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the infosheet template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The infosheet can be updated as the project progresses.</p>
-<p><img src="infosheet.png" width="100%"></p>
-<p><strong>Note:</strong> Required fields in the infosheet are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like.</p>
-<p>If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at <a href="https://casrai.org/credit/">https://casrai.org/credit/</a>.</p>
+<a href="#create-your-contributors-table" class="anchor"></a>Create your contributors table</h1>
+<p>Enter all your credit information in a copy of the contributors table template linked in this panel. You can also reach it <a href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing">HERE</a>. The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by <em>File -&gt; Make a copy</em>. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the contributors table template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The contributors table can be updated as the project progresses.</p>
+<p><img src="contributors_table.png" width="100%"></p>
+<p><strong>Note:</strong> Required fields in the contributors table are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like.</p>
+<p>If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at <a href="http://credit.niso.org/">http://credit.niso.org/</a>.</p>
 </div>
-<div id="upload-your-infosheet" class="section level1">
+<div id="upload-your-contributors-table" class="section level1">
 <h1 class="hasAnchor">
-<a href="#upload-your-infosheet" class="anchor"></a>Upload your infosheet</h1>
-<p>Before uploading your infosheet to the app, first download it to your computer if you haven’t already. Use <em>File -&gt; Download</em>. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).</p>
+<a href="#upload-your-contributors-table" class="anchor"></a>Upload your contributors table</h1>
+<p>You can load you contributors table to <code>tenzing</code> by either uploading a local file from your computer or pasting the share URL of the Google spreasheet.</p>
+<div id="uploading-a-local-file" class="section level2">
+<h2 class="hasAnchor">
+<a href="#uploading-a-local-file" class="anchor"></a>Uploading a local file</h2>
+<p>Before uploading your contributors table to the app, first download it to your computer if you haven’t already. Use <em>File -&gt; Download</em>. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).</p>
 <p><img src="tenzing_error.png" width="100%"></p>
-<p>On upload the app checks the validity of your infosheet, with feedback to help you find any problems in your infosheet. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your infosheet. In case of an error, the app does not enable the output generating buttons until you fix the error.</p>
-<p>If you want to look at your uploaded infosheet you can do that by clicking <em>“Show infosheet”</em>, and if needed, search or filter the contributors by any column.</p>
+<p>Another possibility is to load your contributors table by providing the share URL of the spreadsheet to the app.</p>
+</div>
+<div id="loading-contributors-table-by-url" class="section level2">
+<h2 class="hasAnchor">
+<a href="#loading-contributors-table-by-url" class="anchor"></a>Loading contributors table by URL</h2>
+<p>When you load your contributors table by using the share URL of the Google spreadsheet do not forget to use the “Anyone with the link” share option, so <code>tenzing</code> has permission to read your spreadsheet.</p>
+</div>
+<div id="validating-the-contributors-table" class="section level2">
+<h2 class="hasAnchor">
+<a href="#validating-the-contributors-table" class="anchor"></a>Validating the contributors table</h2>
+<p>On upload the app checks the validity of your contributors table, with feedback to help you find any problems in your contributors table. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your contributors table. In case of an error, the app does not enable the output generating buttons until you fix the error.</p>
+<p>If you want to look at your uploaded contributors table you can do that by clicking <em>“Review contributors table”</em>, and if needed, search or filter the contributors by any column.</p>
+</div>
 </div>
 <div id="download-the-output" class="section level1">
 <h1 class="hasAnchor">
 <a href="#download-the-output" class="anchor"></a>Download the output</h1>
 <p>By clicking on each of the four output options you will see a preview of the generated output in a different window. The loading of this window might take a few seconds depending on the number of contributors that you have. After the preview has loaded you can decide whether you want to download the file in doc format or instead copy-paste it.</p>
 <p>Below are the output options:</p>
-<div id="create-a-human-readable-report-of-the-contributions" class="section level2">
+<div id="create-a-human-readable-report-of-the-contributions-according-to-credit" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-a-human-readable-report-of-the-contributions" class="anchor"></a>Create a human readable report of the contributions</h2>
+<a href="#create-a-human-readable-report-of-the-contributions-according-to-credit" class="anchor"></a>Create a human readable report of the contributions according to CRediT</h2>
+<p>You can choose to show the initials instead of full names by using the toggle switch. Also, you can list the contributions according to the CRediT roles or by the name of the contributor by using the other switch.</p>
 <p><img src="human_readable_output.png" width="100%"></p>
 </div>
 <div id="create-the-contributors-affiliation-page" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-the-contributors-affiliation-page" class="anchor"></a>Create the contributors’ affiliation page</h2>
+<p><code>tenzing</code> allows multiple first authors. To include multiple first authors you should use 1 for each author in the contributors table’s <em>Order in publication</em> column. <code>tenzing</code> will automatically detect that multiple contributors are listed as first author and print an additional statement. In this statement, <code>tenzing</code> will include the name and email address of the corresponding author as well so do not forget to provide this information.</p>
 <p><img src="contrib_affil_output.png" width="100%"></p>
 </div>
 <div id="create-a-jats-formatted-xml-document-containing-the-contributors-information" class="section level2">
@@ -156,6 +174,12 @@
 <a href="#create-a-yaml-document-containing-the-contributors-informtation" class="anchor"></a>Create a YAML document containing the contributors informtation</h2>
 <p>This output can be incorporated into manuscript created with the <code>papaja</code> package.</p>
 <p><img src="yaml_output.png" width="100%"></p>
+</div>
+<div id="create-funding-acknowledgements-section" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-funding-acknowledgements-section" class="anchor"></a>Create funding acknowledgements section</h2>
+<p>This output lists each contributor and the name of the funding agency, or the specific grant as included in the <em>Funding</em> column of the contributors table. You can choose to show the initials instead of full names by using the toggle switch.</p>
+<p><img src="funding_output.png" width="100%"></p>
 </div>
 </div>
   </div>
@@ -175,7 +199,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
