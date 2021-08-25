@@ -4,13 +4,15 @@ output: html_document
 ---
 
 #### 1. Create your contributors table
-* Copy the contributors table template in your Google Drive _File -> Make a copy_
+* Follow the link in the app, copy the contributors table googlesheet template in your Google Drive _File -> Make a copy_
 * Fill out your copy of the contributors table
 + You can share it with your collaborators to make the process faster
++ You can download the template if you do not want to use googlesheet.
 
 #### 2. Upload your contributors table
-* Use the share URL of your contributors table and click "Upload from URL" OR
-  - The share links should be made viewable
+* Use a googlesheet URL:
+  - Obtain a URL with viewer rights for your googlesheet  _share_
+  - Paste the share URL of your contributors table in the tenzing app and click "Upload from URL"
 * Upload your contributors table in a .csv, .tsv or .xlsx format
   - Download your filled out contributors table to your computer (if you use .xlsx format the contributorship information should be on the first sheet)
   - Click the “Browse” button, locate your contributors table on your computer, and click "Upload from local file"
