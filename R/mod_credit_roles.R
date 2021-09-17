@@ -36,11 +36,11 @@ mod_credit_roles_server <- function(id, input_data){
   moduleServer(id, function(input, output, session) {
     # Preview ---------------------------
     ## Render preview
-    output$preview <- renderText({
+    output$preview <- renderUI({
       if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
-          print_credit_roles(contributors_table = input_data(), text_format = "html", initials = input$initials, order_by = order())
+          HTML(print_credit_roles(contributors_table = input_data(), text_format = "html", initials = input$initials, order_by = order()))
           }
     })
     
@@ -70,7 +70,7 @@ mod_credit_roles_server <- function(id, input_data){
             )
           ),
         hr(style= "margin-top:5px; margin-bottom:10px;"),
-        htmlOutput(NS(id, "preview")),
+        uiOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(
           div(

@@ -12,7 +12,7 @@ params:
 library(knitr)
 ```
 
-```{r echo = FALSE, results = 'asis'}
-cat(params$human_readable)
+```{r echo = FALSE}
+knitr::asis_output(params$human_readable)
 ```
 

@@ -23,6 +23,6 @@ h1.title {
 library(knitr)
 ```
 
-```{r, include = TRUE, echo = FALSE, results = 'asis'}
-cat(params$contrib_affil)
+```{r, include = TRUE, echo = FALSE}
+knitr::asis_output(params$contrib_affil)
 ```

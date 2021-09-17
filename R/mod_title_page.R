@@ -37,8 +37,8 @@ mod_title_page_server <- function(id, input_data){
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
-    output$preview <- renderText({
-      print_title_page(contributors_table = input_data(), text_format = "html")
+    output$preview <- renderUI({
+      HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
     })
     
     ## Build modal
@@ -47,7 +47,7 @@ mod_title_page_server <- function(id, input_data){
         rclipboard::rclipboardSetup(),
         h3("Contributors' affiliation page"),
         hr(),
-        htmlOutput(NS(id, "preview")),
+        uiOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(
           div(

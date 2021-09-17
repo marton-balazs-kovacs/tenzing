@@ -17,6 +17,7 @@ render_report <- function(input, output, format, params) {
                     output_file = output,
                     output_format = format,
                     params = params,
-                    envir = new.env(parent = globalenv())
+                    envir = new.env(parent = globalenv()),
+                    encoding = "UTF-8"
   )
 }

@@ -12,7 +12,7 @@ params:
 library(knitr)
 ```
 
-```{r echo = FALSE, results = 'asis'}
-cat(params$funding_information)
+```{r echo = FALSE}
+knitr::asis_output(params$funding_information)
 ```
 

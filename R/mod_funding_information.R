@@ -28,11 +28,11 @@ mod_funding_information_server <- function(id, input_data){
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
-    output$preview <- renderText({
+    output$preview <- renderUI({
       if(all(is.na(input_data()[["Funding"]]))) {
         "There is no funding information provided for either of the contributors."
         } else {
-          print_funding(contributors_table = input_data(), initials = input$initials)
+          HTML(print_funding(contributors_table = input_data(), initials = input$initials))
           }
     })
     
@@ -50,7 +50,7 @@ mod_funding_information_server <- function(id, input_data){
           span("Initials")
         ),
         hr(),
-        htmlOutput(NS(id, "preview")),
+        uiOutput(NS(id, "preview")),
         easyClose = TRUE,
         footer = tagList(
           div(
