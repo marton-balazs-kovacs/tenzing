@@ -46,6 +46,7 @@ mod_read_spreadsheet_ui <- function(id){
       NS(id, "upload"),
       label = uiOutput(NS(id, "upload_label")),
       class = "btn-primary")
+    # ,textOutput(NS(id, "test"))
     )
 }
     
@@ -69,11 +70,40 @@ mod_read_spreadsheet_server <- function(id) {
       }
     })
     
+    
     # Reading contributors_table ---------------------------
-    table_data <- eventReactive(input$upload, {
+    # The purrr::safely function catches the errors on read
+    # and returns a list
+    sf_read_contributors_table <- purrr::safely(read_contributors_table)
+    
+    # Check if a valid query string is supplied
+    query <- reactive({
+      getQueryString()
+      # if (!length(query) | "url" %not_in% names(query)) {
+      #   NULL
+      # } else {
+        # getQueryString()$url
+      # }
+    })
+    
+    # output$test <- renderText({
+    #   query_url()
+    # })
+    
+    activate <- reactive(
+      if (input$upload == 0 & (!length(query()) | "url" %not_in% names(query()))) {
+        NULL
+      } else {
+        paste(as.character(input$upload), query())
+      }
+    )
+    
+    # Read contributors table
+    table_data <- eventReactive(activate(), {
       # Googlesheets authentication
       googlesheets4::gs4_deauth()
       
+      # Read from upload
       # Select the path to read based on which action button is pressed
       if (input$which_input == "Local file") {
         if (is.null(input$file)) {
@@ -83,12 +113,16 @@ mod_read_spreadsheet_server <- function(id) {
             }
         } else if (input$which_input == "URL") {
           contributors_table_path <- input$url
-          }
+        } 
+      
+      # Read from querystring
+      if (input$upload == 0 && length(query()) | "url" %in% names(query())) {
+        
+        contributors_table_path <- query()$url
+        # updateQueryString("?", "replace")
+      }
       
       # Reading data
-      # The purrr::safely function catches the errors on read
-      # and returns a list
-      sf_read_contributors_table <- purrr::safely(read_contributors_table)
       read_output <- sf_read_contributors_table(contributors_table_path = contributors_table_path)
       if (is.null(read_output$result)) {
         golem::invoke_js("error_alert",
@@ -97,13 +131,13 @@ mod_read_spreadsheet_server <- function(id) {
         return(NULL)
         } else {
           return(read_output$result)
-          }
+        }
       })
     
     # Hide show spreadsheet on start
     golem::invoke_js("hideid", "show-div")
     
-    # Control show spreadsheet button behaviour based on read
+    # Control show spreadsheet button behavior based on read
     observe({
       if(!is.null(table_data())) {
         golem::invoke_js("reable", "#show_spreadsheet-show_data")
@@ -144,7 +178,7 @@ mod_read_spreadsheet_server <- function(id) {
       list(
         data = table_data_clean,
         is_valid = is_valid,
-        upload = reactive(input$upload)
+        upload = activate
         ))
     })
 }
