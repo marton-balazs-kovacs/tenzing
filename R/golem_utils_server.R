@@ -30,3 +30,12 @@ drop_nulls <- function(x){
 # typing reactiveValues is too long
 rv <- shiny::reactiveValues
 rvtl <- shiny::reactiveValuesToList
+
+# turn any text to superscript
+superscript <- function(string, text_format) {
+  switch(
+    text_format,
+    "rmd" = glue::glue("^{string}^"),
+    "html" = glue::glue("<sup>{string}</sup>"),
+    "raw" = glue::glue("{string}"))
+}

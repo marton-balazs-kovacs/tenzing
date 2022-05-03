@@ -97,7 +97,7 @@ app_ui <- function() {
                HTML(
                  "<p><b>Donation:</b></br>
                  <a href='https://opencollective.com/tenzing'; target='_blank'>Open Collective</a></p>"
-               )
+                 )
                ),
         column(2)
         ),

@@ -72,17 +72,19 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     contrib_affil_data %>% 
     dplyr::select(-.data$affiliation) %>% 
     dplyr::mutate(affiliation_no = as.character(.data$affiliation_no)) %>%
-    dplyr::group_by(.data$`Order in publication`, .data$Name) %>% 
+    dplyr::group_by(.data$`Order in publication`, .data$Name, .data$`Corresponding author?`) %>% 
     dplyr::summarise(affiliation_no = stringr::str_c(na.omit(.data$affiliation_no), collapse = ",")) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(
       shared_first & .data$`Order in publication` == 1 ~ paste0(.data$affiliation_no, "*"),
+      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "†"),
       TRUE ~ .data$affiliation_no)) %>% 
     # Format output string according to the text_format argument
-    dplyr::transmute(contrib = switch(
-      text_format,
-      "rmd" = glue::glue("{Name}^{affiliation_no}^"),
-      "html" = glue::glue("{Name}<sup>{affiliation_no}</sup>"),
-      "raw" = glue::glue("{Name}{affiliation_no}"))) %>% 
+    # dplyr::transmute(contrib = switch(
+    #   text_format,
+    #   "rmd" = glue::glue("{Name}^{affiliation_no}^"),
+    #   "html" = glue::glue("{Name}<sup>{affiliation_no}</sup>"),
+    #   "raw" = glue::glue("{Name}{affiliation_no}"))) %>% 
+    dplyr::transmute(contrib = paste0(Name, superscript(affiliation_no, text_format))) %>% 
     # Collapse contributor names to one string
     dplyr::pull(.data$contrib) %>% 
     glue::glue_collapse(., sep = ", ")
@@ -116,16 +118,27 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
       dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>% 
       dplyr::filter(.data$`Corresponding author?`) %>% 
       glue::glue_data("*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}.")
+  } else if (any(clean_names_contributors_table$`Corresponding author?`) & !shared_first) {
+    annotation_print <- 
+      clean_names_contributors_table %>% 
+      dplyr::select(
+        .data$Name,
+        .data$`Email address`,
+        .data$`Corresponding author?`) %>% 
+      dplyr::filter(.data$`Corresponding author?`) %>%
+      glue::glue_data("{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}")
+  } else {
+    annotation_print <- ""
   }
   
   # Bind contributor and affiliation information  ---------------------------
   res <- switch(
     text_format,
     "rmd" = glue::glue("{contrib_print}\n   \n{affil_print}\\
-                       {ifelse(shared_first, paste0('\n   \n', annotation_print), '')}"),
+                       {paste0('\n   \n', annotation_print)}"),
     "html" = glue::glue("{contrib_print}<br><br>{affil_print}\\
-                        {ifelse(shared_first, paste0('<br><br>', annotation_print), '')}"),
-    "raw" = glue::glue("{contrib_print} {affil_print} {ifelse(shared_first, annotation_print, '')}")
+                        {paste0('<br><br>', annotation_print)}"),
+    "raw" = glue::glue("{contrib_print} {affil_print} {annotation_print}")
   )
   
   return(res)
