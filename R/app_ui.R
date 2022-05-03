@@ -89,8 +89,15 @@ app_ui <- function() {
                    )
                  ),
                # Citation
-               HTML("<p><b>Citation:</b></br>
-                    <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). Documenting contributions to scholarly articles using CRediT and tenzing. <i>PLoS ONE, 15</i>(12), e0244611.</a></p>")
+               HTML(
+               "<p><b>Citation:</b></br>
+               <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). Documenting contributions to scholarly articles using CRediT and tenzing. <i>PLoS ONE, 15</i>(12), e0244611.</a></p>"
+                    ),
+               # Donation
+               HTML(
+                 "<p><b>Donation:</b></br>
+                 <a href='https://opencollective.com/tenzing'; target='_blank'>Open Collective</a></p>"
+               )
                ),
         column(2)
         ),
