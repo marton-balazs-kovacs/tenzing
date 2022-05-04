@@ -28,14 +28,14 @@ names that are present in the \code{contributors_table_template} are missing, or
 \item error, the provided contributors_table is a dataframe
 \item error, the provided contributors_table does not have the same column names as the template
 \item error, the provided contributors_table is empty
-\item error, \code{Firstname} variable has missing value for one of the contributors
-\item error, \code{Surname} variable has a missing value for one of the contributors
+\item warning, \code{Firstname} variable has missing value for one or more of the contributors
+\item warning, \code{Surname} variable has a missing value for one or more of the contributors
 \item warning, the contributors_table has duplicate names
 \item warning, the contributors_table has names with duplicate initials
 \item error, the \code{'Order in publication'} variable has missing values
 \item error, the \code{'Order in publication'} variable has duplicate values
-\item error, both \code{'Primary affiliation'} and \code{'Secondary affiliation'} variables
-are missing for one contributor
+\item warning, both \code{'Primary affiliation'} and \code{'Secondary affiliation'} variables
+are missing for one or more contributors
 \item warning, there is no corresponding author added
 \item warning, email address is missing for the corresponding author
 \item warning, there is at least one CRediT role provided for all contributors

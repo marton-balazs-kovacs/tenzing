@@ -79,11 +79,6 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
       .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "†"),
       TRUE ~ .data$affiliation_no)) %>% 
     # Format output string according to the text_format argument
-    # dplyr::transmute(contrib = switch(
-    #   text_format,
-    #   "rmd" = glue::glue("{Name}^{affiliation_no}^"),
-    #   "html" = glue::glue("{Name}<sup>{affiliation_no}</sup>"),
-    #   "raw" = glue::glue("{Name}{affiliation_no}"))) %>% 
     dplyr::transmute(contrib = paste0(Name, superscript(affiliation_no, text_format))) %>% 
     # Collapse contributor names to one string
     dplyr::pull(.data$contrib) %>% 
@@ -96,11 +91,7 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     tidyr::drop_na(.data$affiliation) %>% 
     dplyr::distinct(.data$affiliation, .keep_all = TRUE) %>% 
     # Format output string according to the text_format argument
-    dplyr::transmute(affil = switch(
-      text_format,
-      "rmd" = glue::glue("^{affiliation_no}^{affiliation}"),
-      "html" = glue::glue("<sup>{affiliation_no}</sup>{affiliation}"),
-      "raw" = glue::glue("{affiliation_no}{affiliation}"))) %>% 
+    dplyr::transmute(affil = paste0(superscript(affiliation_no, text_format), affiliation)) %>% 
     # Collapse affiliations to one string
     dplyr::pull(.data$affil) %>% 
     glue::glue_collapse(., sep = ", ")

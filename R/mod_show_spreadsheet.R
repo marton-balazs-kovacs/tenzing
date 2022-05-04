@@ -36,7 +36,6 @@ mod_show_spreadsheet_ui <- function(id) {
 #' @rdname mod_show_spreadsheet
 #' @export
 #' @keywords internal
-    
 mod_show_spreadsheet_server <- function(id, input_data) {
   stopifnot(is.reactive(input_data))
   

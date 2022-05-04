@@ -11,14 +11,14 @@
 #'   \item error, the provided contributors_table is a dataframe
 #'   \item error, the provided contributors_table does not have the same column names as the template
 #'   \item error, the provided contributors_table is empty
-#'   \item error, `Firstname` variable has missing value for one of the contributors
-#'   \item error, `Surname` variable has a missing value for one of the contributors
+#'   \item warning, `Firstname` variable has missing value for one or more of the contributors
+#'   \item warning, `Surname` variable has a missing value for one or more of the contributors
 #'   \item warning, the contributors_table has duplicate names
 #'   \item warning, the contributors_table has names with duplicate initials
 #'   \item error, the `'Order in publication'` variable has missing values
-#'   \item error, the `'Order in publication'` variable has duplicate values
-#'   \item error, both `'Primary affiliation'` and `'Secondary affiliation'` variables
-#'     are missing for one contributor
+#'   \item error, the `'Order in publication'` variable has duplicate values 
+#'   \item warning, both `'Primary affiliation'` and `'Secondary affiliation'` variables
+#'     are missing for one or more contributors
 #'   \item warning, there is no corresponding author added
 #'   \item warning, email address is missing for the corresponding author
 #'   \item warning, there is at least one CRediT role provided for all contributors
@@ -88,7 +88,7 @@ validate_contributors_table <- function(contributors_table) {
         dplyr::filter(is.na(.data$Surname))
       
       list(
-        type = "error",
+        type = "warning",
         message = glue::glue("The Surname is missing for row numbers: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
       )
       } else {
@@ -107,7 +107,7 @@ validate_contributors_table <- function(contributors_table) {
         dplyr::filter(is.na(.data$Firstname))
       
       list(
-        type = "error",
+        type = "warning",
         message = glue::glue("The firstname is missing for row number: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
         )
     } else{
@@ -230,7 +230,7 @@ validate_contributors_table <- function(contributors_table) {
           dplyr::all_vars(is.na(.)))
       
       list(
-        type = "error",
+        type = "warning",
         message = glue::glue("There is no affiliation provided for the following row number(s):", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
         )
       } else {
@@ -324,7 +324,9 @@ validate_contributors_table <- function(contributors_table) {
 #' 
 #' @param contributors_table the imported contributors_table
 #' 
-#' @return The function returns
+#' @return The function returns a list with two character strings. type
+#' records whether the check was successful or not (either warning or success).
+#' message shows the accompanying informative message.
 #' 
 #' @importFrom rlang .data
 check_duplicate_initials <- function(contributors_table) {
