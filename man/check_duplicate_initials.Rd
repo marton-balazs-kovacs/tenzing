@@ -10,7 +10,9 @@ check_duplicate_initials(contributors_table)
 \item{contributors_table}{the imported contributors_table}
 }
 \value{
-The function returns
+The function returns a list with two character strings. type
+records whether the check was successful or not (either warning or success).
+message shows the accompanying informative message.
 }
 \description{
 This function checks the contributors_table for duplicate initials, and

@@ -52,13 +52,18 @@ mod_check_modal_server <- function(id, table_data){
     
     # Create output
       if (all(check_result$type %in% c("warning", "success"))) {
-        valid_contributors_table <- TRUE
+        is_valid <- TRUE
         } else {
-          valid_contributors_table <-  FALSE
+          is_valid <-  FALSE
           }
     
     # Pass output
-    return(valid_contributors_table)
+    return(
+      list(
+        is_valid = is_valid,
+        check_result = check_result
+        )
+    )
   })
 }
     

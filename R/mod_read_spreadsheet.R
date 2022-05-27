@@ -103,7 +103,7 @@ mod_read_spreadsheet_server <- function(id) {
     # Hide show spreadsheet on start
     golem::invoke_js("hideid", "show-div")
     
-    # Control show spreadsheet button behaviour based on read
+    # Control show spreadsheet button behavior based on read
     observe({
       if(!is.null(table_data())) {
         golem::invoke_js("reable", "#show_spreadsheet-show_data")
@@ -120,10 +120,14 @@ mod_read_spreadsheet_server <- function(id) {
     
     # General validation of contributors_table ---------------------------
     # Alert modal to check contributors_table validity
+    check_output <- reactive({
+      req(table_data())
+      mod_check_modal_server("check_modal", table_data = table_data())
+      })
+    
     is_valid <- reactive({
       if (!is.null(table_data())) {
-        check_output <- mod_check_modal_server("check_modal", table_data = table_data())
-        return(check_output)
+        return(check_output()$is_valid)
         } else {
           return(FALSE)
           }
@@ -144,6 +148,7 @@ mod_read_spreadsheet_server <- function(id) {
       list(
         data = table_data_clean,
         is_valid = is_valid,
+        check_result = reactive(check_output()$check_result),
         upload = reactive(input$upload)
         ))
     })

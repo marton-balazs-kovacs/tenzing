@@ -16,6 +16,7 @@ golem::add_module(name = "about_modal")
 golem::add_module(name = "contribs_affiliation_page")
 golem::add_module(name = "check_modal")
 golem::add_module(name = "grant_information")
+golem::add_module(name = "feedback")
 
 ## 2.2 Add dependencies
 
