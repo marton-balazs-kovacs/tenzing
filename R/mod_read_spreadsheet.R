@@ -21,7 +21,7 @@ mod_read_spreadsheet_ui <- function(id){
       type = "tabs",
       tabPanel(
         "Local file",
-        h5("Choose the spreadsheet on your computer and click the upload button", class = "main-steps-desc"),
+        h5("Choose the spreadsheet on your computer", class = "main-steps-desc"),
         fileInput(
           NS(id, "file"),
           label = NULL,
@@ -63,7 +63,7 @@ mod_read_spreadsheet_server <- function(id) {
     # Upload button label ---------------------------
     output$upload_label <- renderText({
       if (input$which_input == "Local file") {
-        paste("Upload from local file", icon("fas fa-upload", lib = "font-awesome"))
+        paste("Use the spreadsheet", icon("fas fa-upload", lib = "font-awesome"))
       } else if (input$which_input == "URL") {
         paste("Upload from URL", icon("fas fa-upload", lib = "font-awesome"))
       }
