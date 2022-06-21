@@ -95,7 +95,8 @@ mod_read_spreadsheet_server <- function(id) {
                          list(error = read_output$error[["message"]],
                               warning = ""))
         return(NULL)
-        } else {
+        } else { #have successfully read the file or Google Sheet
+          message("File or Google Sheet has been uploaded.") #Print message for logfile so we know when people have uploaded a contributor table
           return(read_output$result)
           }
       })
