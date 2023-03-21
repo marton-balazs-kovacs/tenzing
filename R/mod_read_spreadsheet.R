@@ -63,7 +63,7 @@ mod_read_spreadsheet_server <- function(id) {
     # Upload button label ---------------------------
     output$upload_label <- renderText({
       if (input$which_input == "Local file") {
-        paste("Use the spreadsheet", icon("fas fa-upload", lib = "font-awesome"))
+        paste("Process spreadsheet")
       } else if (input$which_input == "URL") {
         paste("Upload from URL", icon("fas fa-upload", lib = "font-awesome"))
       }

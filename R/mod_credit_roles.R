@@ -21,7 +21,11 @@ mod_credit_roles_ui <- function(id){
           NS(id, "show_report"),
           label = "Show author contributions text",
           class = "btn btn-primary btn-validate")
-        )
+        ) %>% 
+      tagAppendAttributes(
+        # Track click event with Matomo
+        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Author information'])"
+      )
     )
   }
     

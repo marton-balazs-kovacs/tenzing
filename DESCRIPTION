@@ -53,12 +53,11 @@ Imports:
     lifecycle,
     rlang,
     stats
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: 
     testthat,
     knitr,
-    rmarkdown,
-    covr
+    rmarkdown
 URL: https://github.com/marton-balazs-kovacs/tenzing
 BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
 VignetteBuilder: knitr
