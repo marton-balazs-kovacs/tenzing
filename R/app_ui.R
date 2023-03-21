@@ -154,6 +154,18 @@ golem_add_external_resources <- function(){
     tags$link(rel = "stylesheet", type = "text/css",
               href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css"),
     # Matomo analytics
-    includeHTML(app_sys("app/www/usage_tracker.html"))
+    # includeHTML(app_sys("app/www/usage_tracker.html"))
+    HTML("<script>
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u='https://tenzingclub.matomo.cloud/';
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src='//cdn.matomo.cloud/tenzingclub.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>")
   )
 }
