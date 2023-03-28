@@ -97,7 +97,10 @@ app_ui <- function() {
                HTML(
                  "<p><b>Donation:</b></br>
                  <a href='https://opencollective.com/tenzing'; target='_blank'>Open Collective</a></p>"
-                 )
+                 ),
+               # Privacy notice
+               HTML("<p><b>Privacy notice:</b></br>
+                    <p>To get a sense of how many users we have, we log a masked version of IP addresses. You are not identifiable by the logged information.</p>")
                ),
         column(2)
         ),
