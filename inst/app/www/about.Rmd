@@ -21,10 +21,10 @@ Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). [Tenzing and the importa
 
 Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://doi.org/10.1371/journal.pone.0244611). _PLOS ONE, 15_(12), e0244611. DOI:10.1371/journal.pone.0244611
 
-### Some organizations that recommend tenzing
+### Groups that recommend <i>tenzing</i>
 
 [DORA](https://sfdora.org/resource-library/?_resource_type=tools), [UKRN](https://ukrn.org), [Collabra: Psychology](https://www.collabra.org/)
 
-### Contact us
+### Contact
 
-If you have comments or questions, please submit an issue [on Github](https://github.com/marton-balazs-kovacs/tenzing), email Marton Kovacs: marton.balazs.kovacs@gmail.com, or message us [on Mastodon](https://neuromatch.social/@tenzingContrib).
+If you have comments or questions, please add to the [issues on Github](https://github.com/marton-balazs-kovacs/tenzing), email Marton: marton.balazs.kovacs@gmail.com, or message us [on Mastodon](https://neuromatch.social/@tenzingContrib).
