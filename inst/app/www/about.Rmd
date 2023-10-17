@@ -23,7 +23,7 @@ Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contribu
 
 ### Some organizations that recommend tenzing
 
-[DORA](https://sfdora.org/resource-library/?_resource_type=tools), [UKRN[(https://ukrn.org), [Collabra: Psychology](https://www.collabra.org/)
+[DORA](https://sfdora.org/resource-library/?_resource_type=tools), [UKRN](https://ukrn.org), [Collabra: Psychology](https://www.collabra.org/)
 
 ### Contact us
 
