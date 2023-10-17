@@ -15,11 +15,15 @@ Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb
 
 ### Citation
 
-Please cite the following article when referring to tenzing:
+Please cite the following if you use tenzing:
 
-Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://doi.org/10.1371/journal.pone.0244611). _Plos one, 15_(12), e0244611.
+Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). [Tenzing and the importance of tool development for research efficiency](https://doi.org/10.3233/ISU-210109). Information Services & Use, 41, 123–130. DOI:10.3233/ISU-210109
 
-### Organizations recommending the app
+Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://doi.org/10.1371/journal.pone.0244611). _PLOS ONE, 15_(12), e0244611. DOI:10.1371/journal.pone.0244611
+
+### Some organizations recommending the app
+
+[UKRN[(https://ukrn.org)
 
 [Collabra: Psychology](https://www.collabra.org/)
 
