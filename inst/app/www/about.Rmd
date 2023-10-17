@@ -3,32 +3,28 @@ title: ""
 output: html_document
 ---
 
-### About contributorship
+<i>tenzing</i> is a project of the [contributorship collaboration](https://tenzing-contrib.github.io/).
 
-[CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a high-level taxonomy, including 14 roles, that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
+_tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the first two people to reach the summit of Mount Everest. Despite his essential contribution, the achievement is often credited less to him than to his partner, the New Zealand mountaineer Edmund Hillary.
 
-_tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, the achievement is less credited to him than to his partner, the New Zealand mountaineer Edmund Hillary.
+### About CRediT
+
+[CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a high-level taxonomy of 14 roles that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
 
 ### Contributors
 
-Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb
+Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb.
 
-### Citation
-
-Please cite the following if you use tenzing:
+### Related papers
 
 Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). [Tenzing and the importance of tool development for research efficiency](https://doi.org/10.3233/ISU-210109). Information Services & Use, 41, 123–130. DOI:10.3233/ISU-210109
 
 Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). [Documenting contributions to scholarly articles using CRediT and tenzing](https://doi.org/10.1371/journal.pone.0244611). _PLOS ONE, 15_(12), e0244611. DOI:10.1371/journal.pone.0244611
 
-### Some organizations recommending the app
+### Some organizations that recommend tenzing
 
-[UKRN[(https://ukrn.org)
+[DORA](https://sfdora.org/resource-library/?_resource_type=tools), [UKRN[(https://ukrn.org), [Collabra: Psychology](https://www.collabra.org/)
 
-[Collabra: Psychology](https://www.collabra.org/)
+### Contact us
 
-[DORA](https://sfdora.org/resource-library/?_resource_type=tools)
-
-### Questions and comments
-
-If you have any questions or comments, please write to Marton Kovacs: marton.balazs.kovacs@gmail.com, or submit an issue [on Github](https://github.com/marton-balazs-kovacs/tenzing).
+If you have comments or questions, please submit an issue [on Github](https://github.com/marton-balazs-kovacs/tenzing), email Marton Kovacs: marton.balazs.kovacs@gmail.com, or message us [on Mastodon](https://neuromatch.social/@tenzingContrib).
