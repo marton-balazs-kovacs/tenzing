@@ -30,7 +30,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "Copy the contributors table template in Google Drive. Go to File -> Make a copy",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(
@@ -55,7 +55,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "Use the share URL of the filled out contributors table and click on the upload button. OR upload your contributors table in a .csv, .tsv or .xlsx format.",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(
@@ -76,7 +76,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "You need a valid contributors table to generate the outputs. Once you have it, click on one of the output buttons to preview and download the output.",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(

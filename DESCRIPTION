@@ -52,8 +52,9 @@ Imports:
     markdown,
     lifecycle,
     rlang,
-    stats
-RoxygenNote: 7.2.1
+    stats,
+    fontawesome
+RoxygenNote: 7.2.3
 Suggests: 
     testthat,
     knitr,
