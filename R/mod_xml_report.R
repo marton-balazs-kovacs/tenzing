@@ -68,7 +68,12 @@ mod_xml_report_server <- function(id, input_data){
     
     # Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_print(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton(
+        inputId = "clip_btn",
+        label = "Copy output to clipboard", 
+        clipText = to_print(), 
+        icon = icon("clipboard"),
+        modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2
