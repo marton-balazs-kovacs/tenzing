@@ -18,11 +18,16 @@ mod_show_yaml_ui <- function(id) {
   
   tagList(
     div(class = "out-btn",
-    actionButton(inputId = NS(id, "show_yaml"),
-                 label = HTML("Show <i>papaja</i> YAML"),
-                 class = "btn btn-primary btn-validate")
+        actionButton(
+          inputId = NS(id, "show_yaml"),
+          label = HTML("Show <i>papaja</i> YAML"),
+          class = "btn btn-primary btn-validate")
+        ) %>% 
+      tagAppendAttributes(
+        # Track click event with Matomo
+        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'YAML information'])"
+        )
     )
-  )
 }
 
 # Module Server
@@ -68,7 +73,12 @@ mod_show_yaml_server <- function(id, input_data) {
 
     # Add clipboard buttons
     output$yaml_clip <- renderUI({
-      rclipboard::rclipButton("yaml_clip_btn", "Copy YAML to clipboard", author_yaml(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton(
+        inputId = "yaml_clip_btn",
+        label = "Copy YAML to clipboard",
+        clipText = author_yaml(),
+        icon = icon("clipboard"),
+        modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2
@@ -93,12 +103,23 @@ mod_show_yaml_server <- function(id, input_data) {
           div(
             style = "display: inline-block",
             uiOutput(session$ns("yaml_clip"))
-          ),
-          downloadButton(
-            NS(id, "report"),
-            label = "Download YAML file",
-            class = "download-report"
-          ), 
+          ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'YAML information'])"
+            ),
+          div(
+            style = "display: inline-block",
+            downloadButton(
+              NS(id, "report"),
+              label = "Download YAML file",
+              class = "download-report"
+              )
+            ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'YAML information'])"
+              ), 
           modalButton("Close")
         )
       )

@@ -21,6 +21,10 @@ mod_title_page_ui <- function(id){
           NS(id, "show_report"),
           label = "Show author list with affiliations",
           class = "btn btn-primary btn-validate")
+        ) %>% 
+      tagAppendAttributes(
+        # Track click event with Matomo
+        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Title information'])"
         )
     )
   }
@@ -53,12 +57,23 @@ mod_title_page_server <- function(id, input_data){
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
-          ),
-          downloadButton(
-            NS(id, "report"),
-            label = "Download file",
-            class = "download-report"
-          ),
+          ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Title information'])"
+            ),
+          div(
+            style = "display: inline-block",
+            downloadButton(
+              NS(id, "report"),
+              label = "Download file",
+              class = "download-report"
+              )
+            ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Title information'])"
+              ),
           modalButton("Close")
         )
       )
