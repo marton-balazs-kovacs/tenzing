@@ -20,6 +20,16 @@ mod_read_spreadsheet_ui <- function(id){
       id = NS(id, "which_input"),
       type = "tabs",
       tabPanel(
+        "URL",
+        h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-desc"),
+        textInput(
+          NS(id, "url"),
+          label = NULL,
+          value = "", 
+          width = NULL, 
+          placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing")
+      ),
+      tabPanel(
         "Local file",
         h5("Choose the spreadsheet on your computer", class = "main-steps-desc"),
         fileInput(
@@ -30,16 +40,6 @@ mod_read_spreadsheet_ui <- function(id){
             '.tsv',
             '.xlsx'),
           multiple = FALSE)
-        ),
-      tabPanel(
-        "URL",
-        h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-desc"),
-        textInput(
-          NS(id, "url"),
-          label = NULL,
-          value = "", 
-          width = NULL, 
-          placeholder = "https://docs.google.com/spreadsheets/d/.../edit?usp=sharing")
         )
       ),
     actionButton(
@@ -95,8 +95,8 @@ mod_read_spreadsheet_server <- function(id) {
                          list(error = read_output$error[["message"]],
                               warning = ""))
         return(NULL)
-        } else { #have successfully read the file or Google Sheet
-          message("File or Google Sheet has been uploaded.") #Print message for logfile so we know when people have uploaded a contributor table
+        } else { # Have successfully read the file or Google Sheet
+          message("File or Google Sheet has been uploaded.") # Print message for logfile so we know when people have uploaded a contributor table
           return(read_output$result)
           }
       })
