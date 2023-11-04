@@ -224,12 +224,12 @@
   background-color: #F8FCFB;
 }
 
-a {
+.link {
   color: #D45F68 !important;
   text-decoration: underline;
 }
 
-a:hover {
+.link:hover {
   color: #B6313B !important;
   text-decoration: underline;
 }
@@ -363,4 +363,22 @@ a:hover {
 
 .btn-file {
   border-color: #b2dcce !important;
+}
+
+#support-div {
+  position: absolute;
+  top: 30px;
+  right: 60px;
+  padding: 10px;
+}
+
+#support-btn {
+  color: white !important;
+  background: #D45F68;
+  border: 1px solid #D45F68;
+  border-radius: 20px;
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 10px;
 }

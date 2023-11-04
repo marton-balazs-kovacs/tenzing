@@ -5,6 +5,17 @@ app_ui <- function() {
     golem_add_external_resources(),
 
     navbarPage(
+      # Header
+      header = tagList(
+          div(id = "support-div",
+              a(id = "support-btn",
+                class = "btn",
+                href = "https://opencollective.com/tenzing",
+                target = "_blank",
+                "Support us",
+                )
+              )
+      ),
       # Title
       title = list(
         div(
@@ -40,7 +51,8 @@ app_ui <- function() {
                    tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                           "contributors table template",
                           target="_blank",
-                          style = "display: inline; color: #ffdf57; text-decoration: underline;")
+                          style = "display: inline; color: #ffdf57; text-decoration: underline;",
+                          class = "link")
                    )
                  ),
                # Second step
@@ -91,13 +103,8 @@ app_ui <- function() {
                # Citation
                HTML(
                "<p><b>Citation:</b></br>
-               <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). Documenting contributions to scholarly articles using CRediT and tenzing. <i>PLoS ONE, 15</i>(12), e0244611.</a></p>"
+               <a class='link' href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). Documenting contributions to scholarly articles using CRediT and tenzing. <i>PLoS ONE, 15</i>(12), e0244611.</a></p>"
                     ),
-               # Donation
-               HTML(
-                 "<p><b>Donation:</b></br>
-                 <a href='https://opencollective.com/tenzing'; target='_blank'>Open Collective</a></p>"
-                 ),
                # Privacy notice
                HTML("<p><b>Privacy notice:</b></br>
                     <p>To get a sense of how many users we have, we log a masked version of IP addresses. You are not identifiable by the logged information.</p>")
