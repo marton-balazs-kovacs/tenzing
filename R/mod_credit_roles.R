@@ -25,7 +25,7 @@ mod_credit_roles_ui <- function(id){
       tagAppendAttributes(
         # Track click event with Matomo
         onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Author information'])"
-      )
+        )
     )
   }
     
@@ -80,12 +80,23 @@ mod_credit_roles_server <- function(id, input_data){
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
-          ),
-          downloadButton(
-            NS(id, "report"),
-            label = "Download file",
-            class = "download-report"
-          ),
+          ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Author information'])"
+            ),
+          div(
+            style = "display: inline-block",
+            downloadButton(
+              NS(id, "report"),
+              label = "Download file",
+              class = "download-report"
+              )
+            ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Author information'])"
+            ),
           modalButton("Close")
         )
       )
@@ -154,7 +165,12 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_clip(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton(
+        inputId = "clip_btn", 
+        label = "Copy output to clipboard",
+        clipText = to_clip(), 
+        icon = icon("clipboard"),
+        modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2

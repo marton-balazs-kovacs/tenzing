@@ -1,55 +1,58 @@
-# Module UI
-  
-#' @title   mod_title_page_ui and mod_title_page_server
-#' @description  A shiny Module.
+#' conflict_statement UI Function
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
+#' @description A shiny Module.
 #'
-#' @rdname mod_title_page
+#' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @keywords internal
-#' @export 
+#' @noRd 
+#'
 #' @importFrom shiny NS tagList 
-mod_title_page_ui <- function(id){
+mod_conflict_statement_ui <- function(id){
 
   tagList(
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show author list with affiliations",
+          label = "Show conflict of interest statement",
           class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(
         # Track click event with Matomo
-        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Title information'])"
+        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Conflict information'])"
         )
-    )
-  }
+  )
+}
     
-# Module Server
-    
-#' @rdname mod_title_page
-#' @export
-#' @keywords internal
-    
-mod_title_page_server <- function(id, input_data){
+#' conflict_statement Server Function
+#'
+#' @noRd 
+mod_conflict_statement_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
-      HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
+      if(all(is.na(input_data()[["Conflict of interest"]]))) {
+        "There are no conflict of interest statements provided for any of the contributors."
+        } else {
+          HTML(print_conflict_statement(contributors_table = input_data(), initials = input$initials))
+          }
     })
     
     ## Build modal
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Contributors' affiliation page"),
+        h3("Conflict of interest statement"),
+        # Toggle between initials and full names
+        div(
+          shinyWidgets::materialSwitch(
+            NS(id, "initials"),
+            label = "Full names",
+            inline = TRUE),
+          span("Initials")
+        ),
         hr(),
         uiOutput(NS(id, "preview")),
         easyClose = TRUE,
@@ -60,7 +63,7 @@ mod_title_page_server <- function(id, input_data){
           ) %>% 
             tagAppendAttributes(
               # Track click event with Matomo
-              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Title information'])"
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Conflict information'])"
             ),
           div(
             style = "display: inline-block",
@@ -69,11 +72,11 @@ mod_title_page_server <- function(id, input_data){
               label = "Download file",
               class = "download-report"
               )
-            ) %>% 
+          ) %>% 
             tagAppendAttributes(
               # Track click event with Matomo
-              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Title information'])"
-              ),
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Conflict information'])"
+            ),
           modalButton("Close")
         )
       )
@@ -88,29 +91,33 @@ mod_title_page_server <- function(id, input_data){
     ## Set up loading bar
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    ## Restructure dataframe for the contributors affiliation output
-    to_download <- reactive({
-      print_title_page(contributors_table = input_data(), text_format = "rmd")
+    ## Restructure dataframe for the output
+    to_download_and_clip <- reactive({
+      if(all(is.na(input_data()[["Funding"]]))) {
+        "There are no conflict of interest statements provided for any of the contributors."
+      } else {
+        print_conflict_statement(contributors_table = input_data(), initials = input$initials)
+      }
     })
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
-      list(contrib_affil = to_download())
+      list(conflict_statement = to_download_and_clip())
     })
     
     ## Render output Rmd
     output$report <- downloadHandler(
       # Set filename
       filename = function() {
-        paste0("contributors_affiliation_", Sys.Date(), ".doc")
+        paste0("conflict_statement_", Sys.Date(), ".doc")
       },
       # Set content of the file
       content = function(file) {
         # Start progress bar
         waitress$notify()
         # Copy the report file to a temporary directory before processing it
-        file_path <- file.path("inst/app/www/", "contribs_affiliation.Rmd")
-        file.copy("contribs_affiliation.Rmd", file_path, overwrite = TRUE)
+        file_path <- file.path("inst/app/www/", "conflict_statement.Rmd")
+        file.copy("conflict_statement.Rmd", file_path, overwrite = TRUE)
         
         # Knit the document
         callr::r(
@@ -123,29 +130,25 @@ mod_title_page_server <- function(id, input_data){
     )
     
     # Clip ---------------------------
-    ## Set up output text to clip
-    to_clip <- reactive({
-      print_title_page(contributors_table = input_data(), text_format = "raw")
-    })
-    
     ## Add clipboard buttons
     output$clip <- renderUI({
       rclipboard::rclipButton(
         inputId = "clip_btn", 
         label = "Copy output to clipboard", 
-        clipText = to_clip(),
+        clipText =  to_download_and_clip(), 
         icon = icon("clipboard"),
         modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
+    observeEvent(input$clip_btn, clipr::write_clip(to_download_and_clip()))
   })
+ 
 }
     
 ## To be copied in the UI
-# mod_title_page_ui("title_page")
+# mod_conflict_statement_ui("conflict_statement")
     
 ## To be copied in the server
-# mod_title_page_server("title_page")
+# mod_conflict_statement_server("conflict_statement")
  

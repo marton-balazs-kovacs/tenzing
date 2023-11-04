@@ -52,7 +52,8 @@ Imports:
     markdown,
     lifecycle,
     rlang,
-    stats
+    stats,
+    fontawesome
 RoxygenNote: 7.2.3
 Suggests: 
     testthat,

@@ -15,6 +15,10 @@ mod_funding_information_ui <- function(id){
           NS(id, "show_report"),
           label = "Show funding information",
           class = "btn btn-primary btn-validate")
+        ) %>% 
+      tagAppendAttributes(
+        # Track click event with Matomo
+        onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Funding information'])"
         )
   )
 }
@@ -56,12 +60,23 @@ mod_funding_information_server <- function(id, input_data){
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
-          ),
-          downloadButton(
-            NS(id, "report"),
-            label = "Download file",
-            class = "download-report"
-          ),
+          ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Funding information'])"
+            ),
+          div(
+            style = "display: inline-block",
+            downloadButton(
+              NS(id, "report"),
+              label = "Download file",
+              class = "download-report"
+              )
+          ) %>% 
+            tagAppendAttributes(
+              # Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Funding information'])"
+            ),
           modalButton("Close")
         )
       )
@@ -117,7 +132,12 @@ mod_funding_information_server <- function(id, input_data){
     # Clip ---------------------------
     ## Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton("clip_btn", "Copy output to clipboard", to_download_and_clip(), icon("clipboard"), modal = TRUE)
+      rclipboard::rclipButton(
+        inputId = "clip_btn", 
+        label = "Copy output to clipboard", 
+        clipText =  to_download_and_clip(), 
+        icon = icon("clipboard"),
+        modal = TRUE)
     })
     
     ## Workaround for execution within RStudio version < 1.2

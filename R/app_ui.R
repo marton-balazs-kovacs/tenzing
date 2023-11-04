@@ -5,6 +5,17 @@ app_ui <- function() {
     golem_add_external_resources(),
 
     navbarPage(
+      # Header
+      header = tagList(
+          div(id = "support-div",
+              a(id = "support-btn",
+                class = "btn",
+                href = "https://opencollective.com/tenzing",
+                target = "_blank",
+                "Support us",
+                )
+              )
+      ),
       # Title
       title = list(
         div(
@@ -30,7 +41,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "Copy the contributors table template in Google Drive. Go to File -> Make a copy",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(
@@ -40,7 +51,8 @@ app_ui <- function() {
                    tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
                           "contributors table template",
                           target="_blank",
-                          style = "display: inline; color: #ffdf57; text-decoration: underline;")
+                          style = "display: inline; color: #ffdf57; text-decoration: underline;",
+                          class = "link")
                    )
                  ),
                # Second step
@@ -55,7 +67,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "Use the share URL of the filled out contributors table and click on the upload button. OR upload your contributors table in a .csv, .tsv or .xlsx format.",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(
@@ -76,7 +88,7 @@ app_ui <- function() {
                    div(
                      class = "help-icon-container",
                      title = "You need a valid contributors table to generate the outputs. Once you have it, click on one of the output buttons to preview and download the output.",
-                     icon("far fa-question-circle", lib = "font-awesome", class = "help-icon")
+                     fontawesome::fa_i(name = "fas fa-circle-question", style = "color: #D45F68; font-size: 2em;")
                      )
                    ),
                  wellPanel(
@@ -85,21 +97,17 @@ app_ui <- function() {
                    mod_title_page_ui("title_page"),
                    mod_xml_report_ui("xml_report"),
                    mod_show_yaml_ui("show_yaml"),
-                   mod_funding_information_ui("funding_information")
+                   mod_funding_information_ui("funding_information"),
+                   mod_conflict_statement_ui("conflict_statement")
                    )
                  ),
                # Citation
                HTML(
                "<p><b>Citation:</b></br>
-              Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href='https://doi.org/10.3233/ISU-210109'; target='_blank'>Tenzing and the importance of tool development for research efficiency.</a> <i>Information Services & Use, 41</i>, 123-130.
-                <BR>
-                Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing.</a> <i>PLOS ONE, 15</i>(12), e0244611.</p>"
+               Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href='https://doi.org/10.3233/ISU-210109'; target='_blank'>Tenzing and the importance of tool development for research efficiency.</a> <i>Information Services & Use, 41</i>, 123-130.
+               <BR>
+               Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing.</a> <i>PLOS ONE, 15</i>(12), e0244611.</p>"
                     ),
-               # Donation
-               HTML(
-                 "<p><b>Donation:</b></br>
-                 <a href='https://opencollective.com/tenzing'; target='_blank'>Open Collective</a></p>"
-                 ),
                # Privacy notice
                HTML("<p><b>Privacy:</b><BR>
                     To get a sense of how many users we have, we log a masked version of IP addresses. You are not identifiable by the logged information.</p>")

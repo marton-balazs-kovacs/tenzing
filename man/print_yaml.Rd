@@ -37,6 +37,7 @@ print_yaml(contributors_table = example_contributors_table)
 }
 \seealso{
 Other output functions: 
+\code{\link{print_conflict_statement}()},
 \code{\link{print_credit_roles}()},
 \code{\link{print_funding}()},
 \code{\link{print_title_page}()},

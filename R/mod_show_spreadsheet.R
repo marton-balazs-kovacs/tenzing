@@ -18,7 +18,6 @@ mod_show_spreadsheet_ui <- function(id) {
   tagList(
     div(
       # style = "display: block; text-align: right;",
-      title = "Click to upload from file",
       id = "show-div",
       actionButton(
         NS(id, "show_data"),
@@ -27,6 +26,10 @@ mod_show_spreadsheet_ui <- function(id) {
           icon("fas fa-eye", lib = "font-awesome")
         ),
         class = "btn-primary")
+      ) %>% 
+      tagAppendAttributes(
+        # Track click event with Matomo
+        onclick = "_paq.push(['trackEvent', 'Input', 'Click show', 'Table'])"
       )
     )
   }

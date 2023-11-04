@@ -25,7 +25,7 @@ names that are present in the \code{contributors_table_template} are missing, or
 \section{The function checks the following statements}{
 
 \itemize{
-\item error, the provided contributors_table is a dataframe
+\item error, the provided contributors_table is not a dataframe
 \item error, the provided contributors_table does not have the same column names as the template
 \item error, the provided contributors_table is empty
 \item warning, \code{Firstname} variable has missing value for one or more of the contributors
@@ -39,6 +39,7 @@ are missing for one or more contributors
 \item warning, there is no corresponding author added
 \item warning, email address is missing for the corresponding author
 \item warning, there is at least one CRediT role provided for all contributors
+\item warning, author has missing conflict on interest statement
 }
 }
 
