@@ -8,7 +8,7 @@
 #' 
 #' @section The function checks the following statements:
 #' \itemize{
-#'   \item error, the provided contributors_table is a dataframe
+#'   \item error, the provided contributors_table is not a dataframe
 #'   \item error, the provided contributors_table does not have the same column names as the template
 #'   \item error, the provided contributors_table is empty
 #'   \item warning, `Firstname` variable has missing value for one or more of the contributors
@@ -22,6 +22,7 @@
 #'   \item warning, there is no corresponding author added
 #'   \item warning, email address is missing for the corresponding author
 #'   \item warning, there is at least one CRediT role provided for all contributors
+#'   \item warning, author has missing conflict on interest statement
 #' }
 #' 
 #' @param contributors_table dataframe, filled out contributors_table
@@ -292,6 +293,26 @@ validate_contributors_table <- function(contributors_table) {
           message = "All authors have at least one CRediT statement checked.")
       }
     }
+    
+    # Check if there is missing conflict of interest statement ---------------------------
+    check_coi <- function(x) {
+      if (any(is.na(x[, "Conflict of interest"]))) {
+        missing <-
+          x %>%
+          tibble::rownames_to_column(var = "rowname") %>% 
+          dplyr::filter(is.na(.data[["Conflict of interest"]]))
+        
+        list(
+          type = "warning",
+          message = glue::glue("The conflict of interest statement is missing for row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
+        )
+      } else {
+        list(
+          type = "success",
+          message = "There are no missing conflict of interest statements."
+        )
+      }
+    }
   
   # Return output ---------------------------
   res <- list(
@@ -303,7 +324,8 @@ validate_contributors_table <- function(contributors_table) {
     duplicate_order = check_duplicate_order(contributors_table_clean),
     missing_affiliation = check_affiliation(contributors_table_clean),
     missing_corresponding = check_missing_corresponding(contributors_table_clean),
-    missing_credit = check_credit(contributors_table_clean)
+    missing_credit = check_credit(contributors_table_clean),
+    missing_coi = check_coi(contributors_table_clean)
     )
     
     if(res$missing_corresponding$type == "success") {

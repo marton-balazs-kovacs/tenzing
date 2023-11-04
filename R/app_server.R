@@ -45,6 +45,9 @@ app_server <- function(input, output,session) {
   # Show funding information in viewer window
   mod_funding_information_server("funding_information", input_data = read_out$data)
   
+  # Show conflict of interest statement
+  mod_conflict_statement_server("conflict_statement", input_data = read_out$data)
+  
   # Hide on launch waiter screen
   waiter::waiter_hide()
 }

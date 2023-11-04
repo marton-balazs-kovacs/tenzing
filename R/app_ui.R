@@ -97,7 +97,8 @@ app_ui <- function() {
                    mod_title_page_ui("title_page"),
                    mod_xml_report_ui("xml_report"),
                    mod_show_yaml_ui("show_yaml"),
-                   mod_funding_information_ui("funding_information")
+                   mod_funding_information_ui("funding_information"),
+                   mod_conflict_statement_ui("conflict_statement")
                    )
                  ),
                # Citation
