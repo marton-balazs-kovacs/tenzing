@@ -17,8 +17,9 @@ Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb.
 
 ### Related papers
 
-Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.org/10.1371/journal.pone.0244611" class="link" target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing</a>. *Plos one, 15*(12), e0244611.
-Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org/10.3233/ISU-210109" class="link" target='_blank'>Tenzing and the importance of tool development for research efficiency</a>. Information Services & Use, 41, 123–130. DOI:10.3233/ISU-210109
+Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.org/10.1371/journal.pone.0244611" class="link" target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing</a>. *Plos one, 15*(12), e0244611. DOI:10.1371/journal.pone.0244611
+
+Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org/10.3233/ISU-210109" class="link" target='_blank'>Tenzing and the importance of tool development for research efficiency</a>. *Information Services & Use, 41*, 123–130. DOI:10.3233/ISU-210109
 
 ### Groups that recommend <i>tenzing</i>
 
@@ -30,4 +31,4 @@ Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org
 
 ### Contact
 
-If you have any questions or comments, please add to the <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issues on Github</a>, email Marton: marton.balazs.kovacs@gmail.com, or message us <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">on Mastodon</a>.
+If you have any questions or comments, please add to the <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issues on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or message us <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">on Mastodon</a>.

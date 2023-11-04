@@ -104,9 +104,9 @@ app_ui <- function() {
                # Citation
                HTML(
                "<p><b>Citation:</b></br>
-               Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href='https://doi.org/10.3233/ISU-210109'; target='_blank'>Tenzing and the importance of tool development for research efficiency.</a> <i>Information Services & Use, 41</i>, 123-130.
+               Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href='https://doi.org/10.3233/ISU-210109'; target='_blank'; class='link'>Tenzing and the importance of tool development for research efficiency.</a> <i>Information Services & Use, 41</i>, 123-130.
                <BR>
-               Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing.</a> <i>PLOS ONE, 15</i>(12), e0244611.</p>"
+               Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href='https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0244611'; target='_blank'; class='link'>Documenting contributions to scholarly articles using CRediT and tenzing.</a> <i>PLOS ONE, 15</i>(12), e0244611.</p>"
                     ),
                # Privacy notice
                HTML("<p><b>Privacy:</b><BR>
