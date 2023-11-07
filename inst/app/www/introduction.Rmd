@@ -17,9 +17,10 @@ output: html_document
 * To verify that your contributors table was imported correctly click “Review contributors table”
   
 #### 3. Download the output
-* You can generate 5 types of outputs:
-  - A human-readable report of the contributions with the "Author Contributions text"
-  - The contributors affiliation page information for the manuscript with the "Annotated author list with affiliations"
-  - JATS XML containing the contributions with the “XML (for publishers only)
+* Select the associated button to choose one of the available outputs, which are:
+  - "author Contributions text": A human-readable report of the contributions with the 
+  - "author list with affiliations": The author names and affiliation information
+  - "XML file": JATS XML, the machine-readable version of the contributions
   - `papaja` compatible YAML code of the contributor roles
-  - Funding information section of the manuscript
+  - "funding information" for pasting into a manuscript
+  - "conflict of interest statement"
