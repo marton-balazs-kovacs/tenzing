@@ -1,5 +1,49 @@
 #' @import shiny
+#' @import shinyjs
 app_server <- function(input, output,session) {
+  observe({
+  if (is.null(session$userData$app_open_count)) {
+    session$userData$app_open_count <- shiny::reactiveVal(0)
+  }
+  
+  app_open_count <- session$userData$app_open_count()
+  session$userData$app_open_count(app_open_count + 1)
+  
+  # if ((session$userData$app_open_count() %% 4) == 0) {
+  #   shiny::showModal(
+  #     shiny::modalDialog(
+  #       title = "Support the development of Tenzing!",
+  #       easyClose = TRUE,
+  #       footer = modalButton("Close"),
+  #       tagList(
+  #         p("Consider donating to support future development!"),
+  #         tags$a(href = "https://opencollective.com/tenzing", "Click here to donate!", target = "_blank")
+  #       )
+  #     )
+  #   )
+  # }
+
+if ((session$userData$app_open_count() %% 4) == 0) {
+    # Show a non-aggressive pop-up notification using shinyjs
+    shinyjs::runjs("
+      const div = document.createElement('div');
+      div.innerHTML = '<strong>Support the App!</strong><br>Consider donating <a href=\"https://your-donation-link.com\" target=\"_blank\">here</a>!';
+      div.style.position = 'fixed';
+      div.style.bottom = '20px';
+      div.style.right = '20px';
+      div.style.padding = '10px';
+      div.style.background = 'lightblue';
+      div.style.border = '1px solid gray';
+      div.style.borderRadius = '5px';
+      div.style.zIndex = 9999;
+      document.body.appendChild(div);
+
+      // Remove the notification after 10 seconds
+      setTimeout(function() { div.remove(); }, 10000);
+    ")
+          }
+ })
+  
   # Read in the contributors_table
   ## Save the read data as a reactive object
   read_out <- mod_read_spreadsheet_server("read_spreadsheet")
