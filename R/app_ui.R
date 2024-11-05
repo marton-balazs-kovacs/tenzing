@@ -166,6 +166,7 @@ golem_add_external_resources <- function(){
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js"),
     tags$link(rel = "stylesheet", type = "text/css",
               href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism.min.css"),
+    shinyjs::useShinyjs(), #To create pop-up, in app_server.R
     # Matomo analytics
     # includeHTML(app_sys("app/www/usage_tracker.html"))
     HTML("<script>
