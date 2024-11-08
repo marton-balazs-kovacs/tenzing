@@ -1,36 +1,32 @@
 #' @import shiny
 #' @import shinyjs
 app_server <- function(input, output,session) {
+  show_popup = FALSE
   observe({
   if (is.null(session$userData$app_open_count)) {
     session$userData$app_open_count <- shiny::reactiveVal(0)
+    
+    #Calculate whether should create the pop-up, by using the date/time as a random number proxy
+    # Get the current time
+    current_time <- Sys.time()
+    # Format the time as a continuous string
+    formatted_time <- format(current_time, "%Y%m%d%H%M%S")
+    # Convert the string to a numeric value
+    numeric_time <- as.numeric(formatted_time)
+    if ((numeric_time %% 3) == 0) { #modulus two seems to make it show up less than 50% of time?
+      show_popup = TRUE
+    }
+    
   }
   
-  app_open_count <- session$userData$app_open_count()
-  session$userData$app_open_count(app_open_count + 1)
-  
-  # if ((session$userData$app_open_count() %% 4) == 0) {
-  #   shiny::showModal(
-  #     shiny::modalDialog(
-  #       title = "Support the development of Tenzing!",
-  #       easyClose = TRUE,
-  #       footer = modalButton("Close"),
-  #       tagList(
-  #         p("Consider donating to support future development!"),
-  #         tags$a(href = "https://opencollective.com/tenzing", "Click here to donate!", target = "_blank")
-  #       )
-  #     )
-  #   )
-  # }
-
-if ((session$userData$app_open_count() %% 4) == 0) {
+if (show_popup) {
     # Show a non-aggressive pop-up notification using shinyjs
     shinyjs::runjs("
       const div = document.createElement('div');
-      div.innerHTML = '<strong>Support the App!</strong><br>Consider donating <a href=\"https://your-donation-link.com\" target=\"_blank\">here</a>!';
+      div.innerHTML = 'Please support tenzing &#x1F60A; <br>Donate <a href=\"https://opencollective.com/tenzing\" target=\"_blank\">here</a>!';
       div.style.position = 'fixed';
-      div.style.bottom = '20px';
-      div.style.right = '20px';
+      div.style.top = '75%';
+      div.style.left = '16%';
       div.style.padding = '10px';
       div.style.background = 'lightblue';
       div.style.border = '1px solid gray';
@@ -38,8 +34,8 @@ if ((session$userData$app_open_count() %% 4) == 0) {
       div.style.zIndex = 9999;
       document.body.appendChild(div);
 
-      // Remove the notification after 10 seconds
-      setTimeout(function() { div.remove(); }, 10000);
+      // Remove the notification after 60 seconds
+      setTimeout(function() { div.remove(); }, 60000);
     ")
           }
  })
