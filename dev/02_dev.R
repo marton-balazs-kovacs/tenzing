@@ -41,6 +41,7 @@ usethis::use_package("lifecycle")
 usethis::use_package("rlang")
 usethis::use_package("stats")
 usethis::use_package("fontawesome")
+# usethis::use_package("validate")
 # usethis::use_package("covr", "Suggests")
 usethis::use_pipe()
 

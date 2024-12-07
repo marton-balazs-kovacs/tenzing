@@ -46,13 +46,7 @@ app_ui <- function() {
                    ),
                  wellPanel(
                    class = "main-steps-panel",
-                   tags$p("Duplicate and edit the ",
-                          style = "display: inline; margin-bottom: 0;"),
-                   tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
-                          "contributors table template",
-                          target="_blank",
-                          style = "display: inline; color: #ffdf57; text-decoration: underline;",
-                          class = "link")
+                   mod_create_table_ui("create_table")
                    )
                  ),
                # Second step

@@ -17,16 +17,16 @@ about the nature of the check.
 }
 \description{
 This function validates the \code{contributors_table} provided to it by checking whether the
-provided \code{contributors_table} is compatible with the \code{\link[=contributors_table_template]{contributors_table_template()}}. The function
+provided \code{contributors_table} is compatible with the \code{\link[=contributors_table_template]{contributors_table_template()}} or the \code{\link[=contributors_table_template_deluxe]{contributors_table_template_deluxe()}}. The function
 early escapes only if the provided \code{contributors_table} is not a dataframe, the variable
-names that are present in the \code{contributors_table_template} are missing, or if the
+names that are present in the \code{contributors_table_template} or\code{contributors_table_template_deluxe} are missing, or if the
 \code{contributors_table} is empty.
 }
 \section{The function checks the following statements}{
 
 \itemize{
 \item error, the provided contributors_table is not a dataframe
-\item error, the provided contributors_table does not have the same column names as the template
+\item error, the provided contributors_table does not have the same column names as the simple or deluxe template
 \item error, the provided contributors_table is empty
 \item warning, \code{Firstname} variable has missing value for one or more of the contributors
 \item warning, \code{Surname} variable has a missing value for one or more of the contributors
