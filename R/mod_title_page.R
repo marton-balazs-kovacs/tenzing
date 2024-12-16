@@ -19,7 +19,7 @@ mod_title_page_ui <- function(id){
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show author list with affiliations",
+          label = "Show contributor list with affiliations",
           class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(

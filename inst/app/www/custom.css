@@ -382,3 +382,18 @@
   font-size: 20px;
   margin-bottom: 10px;
 }
+
+.alert {
+  margin-bottom: 10px; /* Add spacing between validation results */
+  border-radius: 5px;  /* Rounded corners for alert boxes */
+}
+
+.alert-warning {
+  background-color: #ffc107 !important; /* Yellow for warnings */
+  color: #856404 !important; /* Text color for warnings */
+}
+
+.alert-danger {
+  background-color: #dc3545 !important; /* Red for errors */
+  color: #fff !important; /* White text for errors */
+}
