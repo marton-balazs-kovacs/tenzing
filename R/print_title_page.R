@@ -38,6 +38,18 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
   ## Check if there are shared first authors
   shared_first <- nrow(contributors_table[contributors_table$`Order in publication` == 1, ]) > 1
   
+  # Combine legacy and numbered affiliation columns ---------------------------
+  # Identify all columns matching `Affiliation {n}` format
+  # Define valid affiliation columns
+  legacy_affiliation_cols <- c("Primary affiliation", "Secondary affiliation")
+  numbered_affiliation_cols <- grep("^Affiliation \\d+$", colnames(contributors_table), value = TRUE)
+  
+  # Combine columns that actually exist in the table
+  affiliation_cols <- c(
+    intersect(legacy_affiliation_cols, colnames(contributors_table)), # Keep only legacy columns that exist
+    numbered_affiliation_cols # Add numbered affiliation columns
+  )
+  
   # Restructure dataframe for the contributors affiliation output ---------------------------
   clean_names_contributors_table <-
     contributors_table %>%
@@ -47,25 +59,17 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
                                          paste(.data$Firstname, .data$`Middle name`, .data$Surname)))
   
   contrib_affil_data <-
-    clean_names_contributors_table %>% 
-    dplyr::select(
-      .data$`Order in publication`,
-      .data$Name,
-      .data$`Primary affiliation`,
-      .data$`Secondary affiliation`,
-      .data$`Email address`,
-      .data$`Corresponding author?`) %>%
-    tidyr::gather(key = "affiliation_type", value = "affiliation",
-                  -.data$Name,
-                  -.data$`Order in publication`,
-                  -.data$`Email address`,
-                  -.data$`Corresponding author?`
-                  ) %>% 
-    dplyr::arrange(.data$`Order in publication`) %>% 
+    clean_names_contributors_table %>%
+    tidyr::pivot_longer(
+      cols = all_of(affiliation_cols),
+      names_to = "affiliation_type",
+      values_to = "affiliation"
+    ) %>%
+    dplyr::arrange(.data$`Order in publication`) %>%
     dplyr::mutate(affiliation_no = dplyr::case_when(
       !is.na(affiliation) ~ suppressWarnings(dplyr::group_indices(., factor(affiliation, levels = unique(affiliation)))),
-      is.na(affiliation) ~ NA_integer_)
-      )
+      is.na(affiliation) ~ NA_integer_
+    ))
   
   # Modify data for printing contributor information ---------------------------
   contrib_print <- 
