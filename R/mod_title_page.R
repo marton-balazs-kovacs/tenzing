@@ -39,6 +39,13 @@ mod_title_page_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    
+    mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      output_type = "title"
+    )
+    
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
@@ -52,6 +59,7 @@ mod_title_page_server <- function(id, input_data){
         h3("Contributors' affiliation page"),
         hr(),
         uiOutput(NS(id, "preview")),
+        mod_validation_card_ui(NS(id, "validation_card")),
         easyClose = TRUE,
         footer = tagList(
           div(

@@ -16,7 +16,7 @@ mod_check_modal_ui <- function(id){
 #' check_modal Server Function
 #'
 #' @noRd 
-mod_check_modal_server <- function(id, table_data){
+mod_check_modal_server <- function(id, table_data) {
   
   moduleServer(id, function(input, output, session) {
     # Needs to be added to run if called from another module
@@ -31,7 +31,6 @@ mod_check_modal_server <- function(id, table_data){
           type = "error",
           message = as.character(validation_output$error["message"]))
       } else if (!is.null(validation_output$result)) {
-        print(validation_output)
         check_result <- tibble::tibble(
           type = purrr::map_chr(validation_output$result, "type", .default = "error"),
           message = purrr::map_chr(validation_output$result, "message", .default = "Unknown issue"))
