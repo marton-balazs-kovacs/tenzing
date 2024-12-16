@@ -240,44 +240,49 @@ check_duplicate_order <- function(contributors_table) {
 }
 
 #' Check if at least one affiliation is provided for each contributor
+#' Check if at least one affiliation is provided for each contributor
 check_affiliation <- function(contributors_table) {
-  # Defining global variables
+  # Define global variables
   . = NULL
   
-  # Determine which columns to check for affiliations
+  # Identify legacy and numbered affiliation columns
   legacy_cols <- c("Primary affiliation", "Secondary affiliation")
-  affiliation_cols <-
-    colnames(contributors_table)[grepl("^Affiliation \\d+$", colnames(contributors_table))]
+  numbered_affiliation_cols <- colnames(contributors_table)[grepl("^Affiliation \\d+$", colnames(contributors_table))]
   
-  # Use legacy columns if they exist, otherwise use new affiliation columns
-  if (all(legacy_cols %in% colnames(contributors_table))) {
-    cols_to_check <- legacy_cols
-  } else if (length(affiliation_cols) > 0) {
-    cols_to_check <- affiliation_cols
-  }
+  # Combine all available affiliation columns
+  cols_to_check <- c(
+    intersect(legacy_cols, colnames(contributors_table)),
+    numbered_affiliation_cols
+  )
   
-  # Get rows with missing values
-  missing_rows <-
+  # Get rows with missing affiliation values
+  missing_rows <- 
     contributors_table %>%
     tibble::rownames_to_column(var = "rowname") %>%
-    dplyr::mutate_at(dplyr::vars(dplyr::all_of(cols_to_check)),
-                     list( ~ as.character(
-                       stringr::str_trim(tolower(.), side = "both")
-                     ))) %>%
-    dplyr::filter_at(dplyr::vars(dplyr::all_of(cols_to_check)),
-                     dplyr::all_vars(is.na(.)))
+    dplyr::mutate_at(
+      dplyr::vars(dplyr::all_of(cols_to_check)),
+      list(~ as.character(stringr::str_trim(tolower(.), side = "both")))
+    ) %>%
+    dplyr::filter_at(
+      dplyr::vars(dplyr::all_of(cols_to_check)),
+      dplyr::all_vars(is.na(.))
+    )
   
+  # Return warning if there are rows with missing affiliations
   if (nrow(missing_rows) > 0) {
     list(
       type = "warning",
       message = glue::glue(
-        "There is no affiliation provided for the following row number(s):",
-        glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
+        "There is no affiliation provided for the following row number(s): ",
+        glue::glue_collapse(missing_rows$rowname, sep = ", ", last = " and ")
       )
     )
   } else {
-    list(type = "success",
-         message = "There are no missing affiliations in the contributors_table.")
+    # Success if all rows have at least one affiliation
+    list(
+      type = "success",
+      message = "There are no missing affiliations in the contributors_table."
+    )
   }
 }
 

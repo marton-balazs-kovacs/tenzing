@@ -2,10 +2,12 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_affiliation}
 \alias{check_affiliation}
-\title{Check if at least one affiliation is provided for each contributor}
+\title{Check if at least one affiliation is provided for each contributor
+Check if at least one affiliation is provided for each contributor}
 \usage{
 check_affiliation(contributors_table)
 }
 \description{
+Check if at least one affiliation is provided for each contributor
 Check if at least one affiliation is provided for each contributor
 }
