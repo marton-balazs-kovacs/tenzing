@@ -62,7 +62,11 @@ mod_validation_card_server <- function(id, contributors_table, output_type) {
       results <- filtered_results()
       
       if (is.null(results) || length(results) == 0) {
-        shiny::tags$p("No errors or warnings found.", class = "text-success")
+        shiny::tags$div(
+          class = "alert alert-success",
+          shiny::tags$strong("Success: "),
+          "No errors or warnings found."
+        )
       } else {
         shiny::tags$div(
           lapply(results, function(result) {
