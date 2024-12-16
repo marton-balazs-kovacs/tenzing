@@ -1,3 +1,37 @@
+#' Check affiliation columns for consistency
+#'
+#' This function checks if both legacy (`Primary affiliation` and `Secondary affiliation`) 
+#' and `Affiliation {n}` columns are present in the contributors_table. If both are present,
+#' it raises a warning to suggest using only one format to ensure consistent results.
+#'
+#' @param contributors_table A dataframe containing the contributors' table.
+#'
+#' @return A list containing `valid` (TRUE/FALSE) and a `message` (if applicable).
+check_affiliation_consistency <- function(contributors_table) {
+  # Check for the presence of legacy columns
+  has_primary_affiliation <- "Primary affiliation" %in% colnames(contributors_table)
+  has_secondary_affiliation <- "Secondary affiliation" %in% colnames(contributors_table)
+  has_legacy_affiliations <- has_primary_affiliation || has_secondary_affiliation
+  
+  # Check for the presence of `Affiliation {n}` columns
+  has_affiliation_n <- any(grepl("^Affiliation \\d+$", colnames(contributors_table)))
+
+  # If both systems are detected, raise an error
+  if (has_legacy_affiliations && has_affiliation_n) {
+    return(
+      list(type = "warning",
+           message = "Both legacy columns ('Primary affiliation' or 'Secondary affiliation') and 'Affiliation {n}' columns are present. Please use only one format for consistent results.")
+    )
+  }
+  
+  # If only one system is detected, return success
+  return(list(
+    type = "success",
+    message = "Affiliation column names are used consistently."
+  ))
+}
+
+
 #' Check affiliation columns
 #' 
 #' Affiliation columns can be named in multiple ways. In the first version of tenzing only two affiliation were allowed per contributor

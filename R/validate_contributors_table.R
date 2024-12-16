@@ -84,6 +84,7 @@ validate_contributors_table <- function(contributors_table, output_type = "minim
   title_tests <- c(
     minimal_tests,
     list(
+      check_affiliation_consistency = check_affiliation_consistency,
       check_affiliation = check_affiliation,
       check_missing_corresponding = check_missing_corresponding,
       check_missing_email = check_missing_email
