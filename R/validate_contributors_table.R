@@ -45,12 +45,17 @@
 #' 
 #' @importFrom rlang .data
 #' @importFrom utils data
-validate_contributors_table <- function(contributors_table) {
+validate_contributors_table <- function(contributors_table, output_type = "minimal") {
   # Check if contributors_table is a dataframe ---------------------------
   if (!is.data.frame(contributors_table)) stop("The provided contributors_table is not a dataframe.")
   
-  # Check necessary variable names ---------------------------
-  check_cols(contributors_table)
+  # Check necessary variable names for each output type ---------------------------
+  available_outputs <- check_outputs(contributors_table)
+  
+  # If all outputs disabled throw error
+  if (all(!unlist(available_outputs))) {
+    stop("All outputs are disabled. Please ensure the contributors table includes the required columns to generate at least one output.")
+  }
   
   # Check if contributors_table is empty ---------------------------
   if (all(is.na(contributors_table[, c("Firstname", "Middle name", "Surname")]))) {
@@ -59,38 +64,62 @@ validate_contributors_table <- function(contributors_table) {
   
   # Delete empty rows ---------------------------
   contributors_table_clean <- clean_contributors_table(contributors_table)
-    
-  # Return output ---------------------------
-  res <- list(
-    # Check for missing surname
-    missing_surname = check_missing_surname(contributors_table_clean),
-    # Check for missing first name
-    missing_firstname = check_missing_firstname(contributors_table_clean),
-    # Check for duplicate names
-    duplicate_names = check_duplicate_names(contributors_table_clean),
-    # Check for same initials, issue a warning that we will use surname to differentiate
-    duplicate_initials = check_duplicate_initials(contributors_table_clean),
-    # Check if order value is not missing
-    missing_order = check_missing_order(contributors_table_clean),
-    # Check if order has only unique values
-    duplicate_order = check_duplicate_order(contributors_table_clean),
-    # Check if at least one affiliation is provided for each name
-    missing_affiliation = check_affiliation(contributors_table_clean),
-    # Check if corresponding author is not missing
-    missing_corresponding = check_missing_corresponding(contributors_table_clean),
-    # Check if there is a name but all CRediT statement is FALSE
-    missing_credit = check_credit(contributors_table_clean),
-    # Check if there is missing conflict of interest statement
-    missing_coi = check_coi(contributors_table_clean)
+  
+  # Run tests ---------------------------
+  # Define validation tests for each output type
+  minimal_tests <- list(
+    check_missing_surname = check_missing_surname,
+    check_missing_firstname = check_missing_firstname,
+    check_duplicate_names = check_duplicate_names,
+    check_duplicate_initials = check_duplicate_initials,
+    check_missing_order = check_missing_order,
+    check_duplicate_order = check_duplicate_order
+  )
+  
+  credit_tests <- c(
+    minimal_tests,
+    list(check_credit = check_credit)
+  )
+  
+  title_tests <- c(
+    minimal_tests,
+    list(
+      check_affiliation = check_affiliation,
+      check_missing_corresponding = check_missing_corresponding,
+      check_missing_email = check_missing_email
     )
-    
-    if(res$missing_corresponding$type == "success") {
-      res <- c(
-        res,
-        # Check if email address is provided for the corresponding author
-        list(missing_email = check_missing_email(contributors_table_clean))
-      )
-    }
-    
-    return(res)
+  )
+
+  coi_tests <- c(
+    minimal_tests,
+    list(check_coi = check_coi)
+  )
+  
+  # Map output types to validation tests
+  validation_map <- list(
+    credit = credit_tests,
+    title = title_tests,
+    xml = credit_tests,
+    yaml = title_tests,
+    funding = minimal_tests,
+    coi = coi_tests,
+    minimal = minimal_tests
+  )
+  
+  # Check if the provided output_type is valid
+  if (!output_type %in% names(validation_map)) {
+    stop(glue::glue("Invalid output type: '{output_type}'. Valid types are: {glue::glue_collapse(names(validation_map), sep = ', ', last = ' and ')}."))
+  }
+  
+  # Run the selected validation tests
+  selected_tests <- validation_map[[output_type]]
+  
+  # Apply the selected validation functions
+  results <- purrr::map(selected_tests, ~ {
+    result <- .x(contributors_table_clean)
+    list(type = result$type, message = result$message)
+  })
+  
+  # Return validation results ---------------------------
+  return(results)
   }
