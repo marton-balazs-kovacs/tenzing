@@ -40,15 +40,13 @@ mod_title_page_server <- function(id, input_data){
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    mod_validation_card_server(
-      id = "validation_card",
-      contributors_table = input_data,
-      output_type = "title"
-    )
+    # Reactive value to track modal state
+    modal_open <- reactiveVal(FALSE)
     
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
+      req(modal_open())
       HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
     })
     
@@ -89,8 +87,19 @@ mod_title_page_server <- function(id, input_data){
     
     ## Show preview modal
     observeEvent(input$show_report, {
+      modal_open(TRUE) # Set modal state to open
       showModal(modal())
     })
+    
+    # Initialize validation card logic only when modal is open
+    observeEvent(modal_open(), {
+      req(modal_open())
+      mod_validation_card_server(
+        id = "validation_card",
+        contributors_table = input_data,
+        output_type = "title"
+      )
+    }, ignoreInit = TRUE)
     
     # Download ---------------------------
     ## Set up loading bar

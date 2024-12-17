@@ -10,6 +10,7 @@ mod_validation_card_ui <- function(id) {
   ns <- NS(id)
   tagList(
     shiny::div(
+      id = ns("validation_card"),
       class = "card",
       style = "border: 2px solid #D45F68; border-radius: 8px; width: 100%;", 
       shiny::div(
@@ -21,7 +22,8 @@ mod_validation_card_ui <- function(id) {
         shiny::tags$p(
           "Table Validation ",
           shiny::tags$i(class = "fas fa-chevron-down"), # Icon for collapsed state
-          style = "text-align: left; color: #D45F68; font-weight: 900; margin: 10px"
+          style = "text-align: left; color: #D45F68; font-weight: 900; margin: 10px",
+          id = ns("header_text")
         )
       ),
       shiny::div(
@@ -52,9 +54,36 @@ mod_validation_card_server <- function(id, contributors_table, output_type) {
       validate_contributors_table(contributors_table(), output_type)
     })
     
+    observe({print(validation_results())})
     # Filter results for errors and warnings
     filtered_results <- reactive({
       purrr::keep(validation_results(), ~ .x$type %in% c("error", "warning"))
+    })
+    
+    # Determine validation severity
+    severity <- reactive({
+      results <- filtered_results()
+      if (any(purrr::map_chr(results, "type") == "error")) {
+        list(type = "error", textColor = "#D45F68", borderColor = "#D45F68") # Red for errors
+      } else if (any(purrr::map_chr(results, "type") == "warning")) {
+        list(type = "warning", textColor = "#ecd149", borderColor = "#ecd149") # Yellow for warnings
+      } else {
+        list(type = "success", textColor = "#7ec4ad", borderColor = "#7ec4ad") # Green for success
+      }
+    })
+    
+    # Dynamically update card and header styles using JavaScript
+    observe({
+      current_severity <- severity()
+      golem::invoke_js(
+        "update_card_styles",
+        list(
+          cardId = ns("validation_card"),
+          headerTextId = ns("header_text"),
+          textColor = current_severity$textColor,
+          borderColor = current_severity$borderColor
+        )
+      )
     })
     
     # Render validation results
