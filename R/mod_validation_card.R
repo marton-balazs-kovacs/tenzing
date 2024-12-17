@@ -12,7 +12,7 @@ mod_validation_card_ui <- function(id) {
     shiny::div(
       id = ns("validation_card"),
       class = "card",
-      style = "border: 2px solid #D45F68; border-radius: 8px; width: 100%;", 
+      style = "border: 2px solid black; border-radius: 8px; width: 100%;", 
       shiny::div(
         id = ns("validation_header"),
         class = "card-header collapsible-header",
@@ -22,7 +22,7 @@ mod_validation_card_ui <- function(id) {
         shiny::tags$p(
           "Table Validation ",
           shiny::tags$i(class = "fas fa-chevron-down"), # Icon for collapsed state
-          style = "text-align: left; color: #D45F68; font-weight: 900; margin: 10px",
+          style = "text-align: left; color: black; font-weight: 900; margin: 10px",
           id = ns("header_text")
         )
       ),
@@ -45,7 +45,7 @@ mod_validation_card_ui <- function(id) {
 #' @param output_type The type of output being validated (e.g., "credit", "title").
 #'
 #' @noRd
-mod_validation_card_server <- function(id, contributors_table, output_type) {
+mod_validation_card_server <- function(id, contributors_table, output_type, trigger = reactive(NULL)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
@@ -54,7 +54,6 @@ mod_validation_card_server <- function(id, contributors_table, output_type) {
       validate_contributors_table(contributors_table(), output_type)
     })
     
-    observe({print(validation_results())})
     # Filter results for errors and warnings
     filtered_results <- reactive({
       purrr::keep(validation_results(), ~ .x$type %in% c("error", "warning"))
@@ -73,7 +72,9 @@ mod_validation_card_server <- function(id, contributors_table, output_type) {
     })
     
     # Dynamically update card and header styles using JavaScript
-    observe({
+    observeEvent({
+      trigger()
+    }, {
       current_severity <- severity()
       golem::invoke_js(
         "update_card_styles",
@@ -84,7 +85,7 @@ mod_validation_card_server <- function(id, contributors_table, output_type) {
           borderColor = current_severity$borderColor
         )
       )
-    })
+    }, ignoreNULL = TRUE, ignoreInit = FALSE)
     
     # Render validation results
     output$validation_results <- shiny::renderUI({

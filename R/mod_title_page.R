@@ -57,8 +57,8 @@ mod_title_page_server <- function(id, input_data){
         h3("Contributors' affiliation page"),
         hr(),
         uiOutput(NS(id, "preview")),
-        mod_validation_card_ui(NS(id, "validation_card")),
-        easyClose = TRUE,
+        mod_validation_card_ui(ns("validation_card")),
+        easyClose = FALSE,
         footer = tagList(
           div(
             style = "display: inline-block",
@@ -80,26 +80,30 @@ mod_title_page_server <- function(id, input_data){
               # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Title information'])"
               ),
-          modalButton("Close")
+          actionButton(ns("close_modal"), label = "Close", class = "btn btn-default")
         )
       )
     }
     
     ## Show preview modal
     observeEvent(input$show_report, {
-      modal_open(TRUE) # Set modal state to open
+      modal_open(TRUE)  # Mark modal as open
       showModal(modal())
     })
     
+    # Handle Close button
+    observeEvent(input$close_modal, {
+      modal_open(FALSE)  # Mark modal as closed
+      removeModal()      # Close modal explicitly
+    })
+
     # Initialize validation card logic only when modal is open
-    observeEvent(modal_open(), {
-      req(modal_open())
       mod_validation_card_server(
         id = "validation_card",
         contributors_table = input_data,
-        output_type = "title"
+        output_type = "title",
+        trigger = modal_open
       )
-    }, ignoreInit = TRUE)
     
     # Download ---------------------------
     ## Set up loading bar
