@@ -112,27 +112,35 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     glue::glue_collapse(., sep = ", ")
   
   # Modify data for shared first authors ---------------------------
-  if (shared_first) {
+  if (any(clean_names_contributors_table$`Corresponding author?`) & shared_first) {
     annotation_print <-
-      clean_names_contributors_table %>% 
+      clean_names_contributors_table %>%
       dplyr::select(
         .data$`Order in publication`,
         .data$Name,
         .data$`Email address`,
-        .data$`Corresponding author?`) %>% 
-      dplyr::filter(.data$`Order in publication` == 1) %>% 
-      dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>% 
-      dplyr::filter(.data$`Corresponding author?`) %>% 
-      glue::glue_data("*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}.")
-  } else if (any(clean_names_contributors_table$`Corresponding author?`) & !shared_first) {
-    annotation_print <- 
-      clean_names_contributors_table %>% 
-      dplyr::select(
-        .data$Name,
-        .data$`Email address`,
-        .data$`Corresponding author?`) %>% 
+        .data$`Corresponding author?`
+      ) %>%
+      dplyr::filter(.data$`Order in publication` == 1) %>%
+      dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>%
       dplyr::filter(.data$`Corresponding author?`) %>%
-      glue::glue_data("{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}")
+      glue::glue_data(
+        "*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}."
+      )
+  } else if (any(clean_names_contributors_table$`Corresponding author?`) &
+             !shared_first) {
+    annotation_print <-
+      clean_names_contributors_table %>%
+      dplyr::select(.data$Name,
+                    .data$`Email address`,
+                    .data$`Corresponding author?`) %>%
+      dplyr::filter(.data$`Corresponding author?`) %>%
+      glue::glue_data(
+        "{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}"
+      )
+  } else if (text_format == "html") {
+    annotation_print <-
+      '<span style="background-color: #ffec9b; padding: 2px;">[Missing corresponding author statement]</span>'
   } else {
     annotation_print <- ""
   }
