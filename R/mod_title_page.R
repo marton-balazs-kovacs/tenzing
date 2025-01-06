@@ -54,33 +54,25 @@ mod_title_page_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        h3("Contributors' affiliation page"),
-        hr(),
+        h3("Contributors' affiliation page", style = "color: #d45f68;"),
+        hr(style = "border-color: #d45f68;"),
         uiOutput(NS(id, "preview")),
-        mod_validation_card_ui(ns("validation_card")),
         easyClose = FALSE,
         footer = tagList(
+          mod_validation_card_ui(ns("validation_card")),
+          div(style = "display: inline-block",
+              uiOutput(session$ns("clip"))) %>%
+            tagAppendAttributes(# Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Title information'])"),
           div(
             style = "display: inline-block",
-            uiOutput(session$ns("clip"))
-          ) %>% 
-            tagAppendAttributes(
-              # Track click event with Matomo
-              onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Title information'])"
-            ),
-          div(
-            style = "display: inline-block",
-            downloadButton(
-              NS(id, "report"),
-              label = "Download file",
-              class = "download-report"
-              )
-            ) %>% 
-            tagAppendAttributes(
-              # Track click event with Matomo
-              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Title information'])"
-              ),
-          actionButton(ns("close_modal"), label = "Close", class = "btn btn-default")
+            downloadButton(NS(id, "report"),
+                           label = "Download file",
+                           class = "btn-download")
+          ) %>%
+            tagAppendAttributes(# Track click event with Matomo
+              onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Title information'])"),
+          actionButton(ns("close_modal"), label = "Close", class = "btn btn-close")
         )
       )
     }
@@ -156,7 +148,8 @@ mod_title_page_server <- function(id, input_data){
         label = "Copy output to clipboard", 
         clipText = to_clip(),
         icon = icon("clipboard"),
-        modal = TRUE)
+        modal = TRUE,
+        class = "btn-download")
     })
     
     ## Workaround for execution within RStudio version < 1.2

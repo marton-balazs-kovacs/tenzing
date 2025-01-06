@@ -180,6 +180,70 @@
   background-color: #3A806D !important;
 }
 
+.btn-close {
+  color: #D45F68;
+  border-color: #D45F68;
+  background: Transparent no-repeat;
+}
+
+.btn-close:hover {
+  color: #D45F68;
+  border-color: #D45F68;
+  background: #edbfc2;
+}
+
+.btn-close:focus {
+  border-color: #a94c53;
+  background-color: #be555d;
+  outline: none;
+}
+
+.btn-close:visited {
+  color: #be555d;
+  border-color: #be555d;
+  background: Transparent no-repeat;
+}
+
+.btn-close:active {
+  border-color: #be555d;
+  background-color: #dc7e86 !important;
+}
+
+.btn-download {
+  color: #326F5E;
+  border-color: #326F5E;
+  background: Transparent no-repeat;
+}
+
+.btn-download:hover {
+  color: #326F5E;
+  border-color: #326F5E;
+  background-color: #C4E4D9 !important;
+}
+
+.btn-download[disabled]:hover {
+  color: #7ec4ad;
+  border-color: #7ec4ad;
+  background-color: #C4E4D9;
+}
+
+.btn-download:focus {
+  border-color: #193B30;
+  background-color: #2A5D4F;
+  outline: none;
+}
+
+.btn-download:visited {
+  color: #326F5E;
+  border-color: #326F5E;
+  background: Transparent no-repeat;
+}
+
+.btn-download:active {
+  border-color: #224C40;
+  background-color: #3A806D !important;
+}
+
 .swal2-icon.swal2-info {
   border-color: #ffec9b !important;
   color: #FFDD4F !important;
@@ -232,16 +296,6 @@
 .link:hover {
   color: #B6313B !important;
   text-decoration: underline;
-}
-
-.download-report {
-  color: #333 !important;
-}
-
-.download-report:hover {
-  color: #333 !important;
-  background-color: #e6e6e6 !important;
-  border-color: #adadad !important;
 }
 
 .btn:focus{
@@ -383,17 +437,29 @@
   margin-bottom: 10px;
 }
 
+#support-btn:hover {
+  color: white !important;
+  background: #dc7e86;
+  border: 1px solid #dc7e86;
+  border-radius: 20px;
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
 .alert {
   margin-bottom: 10px; /* Add spacing between validation results */
   border-radius: 5px;  /* Rounded corners for alert boxes */
+  text-align: left;
 }
 
 .alert-warning {
-  background-color: #ffc107 !important; /* Yellow for warnings */
-  color: #856404 !important; /* Text color for warnings */
+  background-color: #FFDD4F !important; /* Yellow for warnings */
+  color: black !important; /* Text color for warnings */
 }
 
 .alert-danger {
-  background-color: #dc3545 !important; /* Red for errors */
+  background-color: #d45f68 !important; /* Red for errors */
   color: #fff !important; /* White text for errors */
 }
