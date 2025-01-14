@@ -1,22 +1,35 @@
 rules:
+  minimal:
+    operator: "AND"
+    columns:
+        - Firstname
+        - Middle name
+        - Surname
+        - Order in publication
+    severity: "warning"
+    
   credit:
     operator: "AND"
     columns:
-      - Firstname
-      - Middle name
-      - Surname
-      - Conceptualization
-      - Data curation
-      - Software
+        - Conceptualization
+        - Data curation
+        - Formal analysis
+        - Funding acquisition
+        - Investigation
+        - Methodology
+        - Project administration
+        - Resources
+        - Software
+        - Supervision
+        - Validation
+        - Visualization
+        - Writing - original draft
+        - Writing - review & editing
     severity: "warning"
 
   title:
     operator: "AND"
     columns:
-      - Firstname
-      - Middle name
-      - Surname
-      - Order in publication
       - Corresponding author?
       - Email address
     regex: "^Affiliation \\d+$"
@@ -25,17 +38,11 @@ rules:
   funding:
     operator: "AND"
     columns:
-      - Firstname
-      - Middle name
-      - Surname
       - Funding
     severity: "warning"
 
   coi:
     operator: "AND"
     columns:
-      - Firstname
-      - Middle name
-      - Surname
       - Conflict of interest
     severity: "warning"

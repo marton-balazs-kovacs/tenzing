@@ -38,14 +38,61 @@ mod_credit_roles_ui <- function(id){
 mod_credit_roles_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    # Setup ---------------------------
+    ns <- session$ns
+    
+    # Reactive value to track modal state
+    modal_open <- reactiveVal(FALSE)
+    
+    # Validation ---------------------------
+    # Initialize ValidateOutput with the title validation config
+    validate_output_instance <- ValidateOutput$new(
+      config_path = system.file("config/credit_validation.yaml", package = "tenzing")
+    )
+    
+    # Initialize validation card logic only when modal is open
+    # Use mod_validation_card_server to handle validation and get error status
+    has_errors <- mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open
+    )
+    
+    observe({
+      req(modal_open())
+      if (has_errors()) {
+        golem::invoke_js("disable", paste0("#", ns("report")))
+        golem::invoke_js("hideid", ns("clip"))
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = paste0("#", ns("report")),
+                           message = "Fix the errors to enable the download."))
+      } else {
+        golem::invoke_js("remove_tooltip", paste0("#", ns("report")))
+        golem::invoke_js("reable", paste0("#", ns("report")))
+        golem::invoke_js("showid", ns("clip"))
+      }
+    })
+    
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
+      req(modal_open())
       if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
-        } else {
-          HTML(print_credit_roles(contributors_table = input_data(), text_format = "html", initials = input$initials, order_by = order()))
-          }
+      } else if (has_errors()) {
+        "The output cannot be generated. See 'Table Validation' for more information."
+      } else {
+        HTML(
+          print_credit_roles(
+            contributors_table = input_data(),
+            text_format = "html",
+            initials = input$initials,
+            order_by = order()
+          )
+        )
+      }
     })
     
     ## Build preview modal
@@ -75,8 +122,9 @@ mod_credit_roles_server <- function(id, input_data){
           ),
         hr(style= "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview")),
-        easyClose = TRUE,
+        easyClose = FALSE,
         footer = tagList(
+          mod_validation_card_ui(ns("validation_card")),
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
@@ -97,16 +145,23 @@ mod_credit_roles_server <- function(id, input_data){
               # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Author information'])"
             ),
-          modalButton("Close")
+          actionButton(ns("close_modal"), label = "Close", class = "btn btn-close")
         )
       )
     }
     
     ## Show preview modal
     observeEvent(input$show_report, {
+      modal_open(TRUE)  # Mark modal as open
       showModal(modal())
     })
     
+    # Handle Close button
+    observeEvent(input$close_modal, {
+      modal_open(FALSE)  # Mark modal as closed
+      removeModal()      # Close modal explicitly
+    })
+
     ## Switch for order_by input
     order <- reactive({
       ifelse(input$order_by, "contributor", "role")
@@ -118,6 +173,7 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
+      req(!has_errors())
       if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for any of the contributors."
         } else {
@@ -156,7 +212,7 @@ mod_credit_roles_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) | has_errors()) {
         "There are no CRediT roles checked for either of the contributors."
         } else {
           print_credit_roles(contributors_table = input_data(), text_format = "raw", initials = input$initials, order_by = order())
