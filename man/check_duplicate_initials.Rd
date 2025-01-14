@@ -2,10 +2,8 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_duplicate_initials}
 \alias{check_duplicate_initials}
-\title{Check for duplicate initials}
+\title{Check for same initials}
 \usage{
-check_duplicate_initials(contributors_table)
-
 check_duplicate_initials(contributors_table)
 }
 \arguments{

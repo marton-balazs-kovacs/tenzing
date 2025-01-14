@@ -60,7 +60,6 @@ mod_title_page_server <- function(id, input_data){
     )
     
     observe({
-      print( ns("click"))
       req(modal_open())
       if (has_errors()) {
         golem::invoke_js("disable", paste0("#", ns("report")))

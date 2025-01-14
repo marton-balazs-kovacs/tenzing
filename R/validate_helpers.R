@@ -102,36 +102,6 @@ check_duplicate_names <- function(contributors_table) {
   }
 }
 
-#' Check for duplicate initials
-check_duplicate_initials <- function(contributors_table) {
-  duplicate <-
-    contributors_table %>% 
-    dplyr::mutate_at(
-      dplyr::vars(.data$Firstname, .data$`Middle name`, .data$Surname),
-      list(~ as.character(stringr::str_trim(tolower(.), side = "both")))) %>% 
-    dplyr::mutate_at(dplyr::vars(.data$Firstname, .data$`Middle name`, .data$Surname),
-                     ~ dplyr::if_else(is.na(.),
-                                      NA_character_,
-                                      paste0(stringr::str_sub(., 1, 1), "."))) %>% 
-    dplyr::mutate(Initials = dplyr::if_else(is.na(.data$`Middle name`),
-                                            paste(.data$Firstname, .data$Surname),
-                                            paste(.data$Firstname, .data$`Middle name`, .data$Surname))) %>% 
-    dplyr::count(.data$Initials) %>% 
-    dplyr::filter(.data$n > 1)
-  
-  if (nrow(duplicate) != 0) {
-    list(
-      type = "warning",
-      message = glue::glue("The contributors_table has the following duplicate initials: ", glue::glue_collapse(toupper(duplicate$Initials), sep = ", ", last = " and "))
-    )
-  } else {
-    list(
-      type = "success",
-      message = "There are no duplicate initials in the contributors_table."
-    )
-  }
-}
-
 #' Check for missing values in the `Order in publication` column
 check_missing_order <- function(contributors_table) {
   missing <-

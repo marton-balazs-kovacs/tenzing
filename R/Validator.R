@@ -13,7 +13,14 @@ Validator <- R6::R6Class(
         check_missing_corresponding = check_missing_corresponding,
         check_missing_email = check_missing_email,
         check_duplicate_names = check_duplicate_names,
-        check_affiliation_consistency = check_affiliation_consistency
+        check_affiliation_consistency = check_affiliation_consistency,
+        check_missing_order = check_missing_order,
+        check_duplicate_order = check_duplicate_order,
+        check_missing_firstname = check_missing_firstname,
+        check_duplicate_initials = check_duplicate_initials,
+        check_affiliation = check_affiliation,
+        check_credit = check_credit,
+        check_coi = check_coi
       )
       self$results <- list()
     },

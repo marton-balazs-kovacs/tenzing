@@ -18,11 +18,15 @@ column_config:
 
 validation_config:
   validations:
+    - name: check_missing_order
     - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
     - name: check_missing_corresponding
     - name: check_missing_email
       dependencies:
         - 'self$results[["check_missing_corresponding"]]$type == "success"'
         - '"Email address" %in% colnames(contributors_table)'
     - name: check_duplicate_names
+    - name: check_affiliation
     - name: check_affiliation_consistency
