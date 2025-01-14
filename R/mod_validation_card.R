@@ -60,6 +60,11 @@ mod_validation_card_server <- function(id, contributors_table, validate_output_i
       purrr::keep(validation_results(), ~ .x$type %in% c("error", "warning"))
     })
     
+    # Reactive flag to indicate presence of errors
+    has_errors <- reactive({
+      any(purrr::map_chr(validation_results(), "type") == "error")
+    })
+    
     # Determine validation severity
     severity <- reactive({
       results <- filtered_results()
@@ -110,6 +115,9 @@ mod_validation_card_server <- function(id, contributors_table, validate_output_i
         )
       }
     })
+    
+    # Return reactive indicating error status
+    return(has_errors)
   })
 }
 

@@ -27,7 +27,8 @@ ColumnValidator <- R6::R6Class(
     check_rule = function(contributors_table, rule, rule_name) {
       operator <- rule$operator
       columns <- rule$columns
-      regex <- rule$regex %||% NULL # Use regex if provided
+      severity <- rule$severity %||% "warning"  # Default severity to "warning"
+      regex <- rule$regex %||% NULL  # Use regex if provided
       
       # Get actual columns if regex is provided
       if (!is.null(regex)) {
@@ -42,21 +43,21 @@ ColumnValidator <- R6::R6Class(
       if (operator == "AND") {
         if (length(missing_columns) > 0) {
           return(list(
-            type = "warning",
+            type = severity,
             message = glue::glue("Rule '{rule_name}': Missing columns: {paste(missing_columns, collapse = ', ')}")
           ))
         }
       } else if (operator == "OR") {
         if (length(present_columns) == 0) {
           return(list(
-            type = "warning",
+            type = severity,
             message = glue::glue("Rule '{rule_name}': None of the required columns are present: {paste(columns, collapse = ', ')}")
           ))
         }
       } else if (operator == "NOT") {
         if (length(present_columns) > 0) {
           return(list(
-            type = "warning",
+            type = severity,
             message = glue::glue("Rule '{rule_name}': Unexpected columns found: {paste(present_columns, collapse = ', ')}")
           ))
         }

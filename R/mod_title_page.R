@@ -38,21 +38,53 @@ mod_title_page_ui <- function(id){
 mod_title_page_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    # Setup ---------------------------
     ns <- session$ns
     
     # Reactive value to track modal state
     modal_open <- reactiveVal(FALSE)
     
+    # Validation ---------------------------
     # Initialize ValidateOutput with the title validation config
     validate_output_instance <- ValidateOutput$new(
       config_path = system.file("config/title_validation.yaml", package = "tenzing")
     )
     
+    # Initialize validation card logic only when modal is open
+    # Use mod_validation_card_server to handle validation and get error status
+    has_errors <- mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open
+    )
+    
+    observe({
+      print( ns("click"))
+      req(modal_open())
+      if (has_errors()) {
+        golem::invoke_js("disable", paste0("#", ns("report")))
+        golem::invoke_js("hideid", ns("clip"))
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = paste0("#", ns("report")),
+                           message = "Fix the errors to enable the download."))
+      } else {
+        golem::invoke_js("remove_tooltip", paste0("#", ns("report")))
+        golem::invoke_js("reable", paste0("#", ns("report")))
+        golem::invoke_js("showid", ns("clip"))
+      }
+    })
+    
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
       req(modal_open())
-      HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
+      if (has_errors()) {
+        "The output cannot be generated. See 'Table Validation' for more information."
+      } else {
+        HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
+      }
     })
     
     ## Build modal
@@ -93,14 +125,6 @@ mod_title_page_server <- function(id, input_data){
       modal_open(FALSE)  # Mark modal as closed
       removeModal()      # Close modal explicitly
     })
-
-    # Initialize validation card logic only when modal is open
-    mod_validation_card_server(
-      id = "validation_card",
-      contributors_table = input_data,
-      validate_output_instance = validate_output_instance,
-      trigger = modal_open
-    )
     
     # Download ---------------------------
     ## Set up loading bar
@@ -108,6 +132,7 @@ mod_title_page_server <- function(id, input_data){
     
     ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
+      req(!has_errors())
       print_title_page(contributors_table = input_data(), text_format = "rmd")
     })
     
@@ -143,7 +168,11 @@ mod_title_page_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      print_title_page(contributors_table = input_data(), text_format = "raw")
+      if (has_errors()) {
+        ""
+      } else {
+        print_title_page(contributors_table = input_data(), text_format = "raw") 
+      }
     })
     
     ## Add clipboard buttons

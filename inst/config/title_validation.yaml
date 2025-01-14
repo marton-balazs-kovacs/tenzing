@@ -1,6 +1,6 @@
 column_config:
   rules:
-    title:
+    minimal:
       operator: "AND"
       columns:
         - Firstname
@@ -8,8 +8,13 @@ column_config:
         - Surname
         - Order in publication
         - Corresponding author?
+      severity: "error"
+    title:
+      operator: "AND"
+      columns:
         - Email address
       regex: "^Affiliation \\d+$"
+      severity: "warning"
 
 validation_config:
   validations:

@@ -156,6 +156,7 @@ golem_add_external_resources <- function(){
     # Change window title
     tags$script("document.title = 'tenzing';"),
     tags$script(src = "www/tooltip.js"),
+    tags$script(src = "www/custom.js"),
     tags$script(src = "www/collapsible.js"),
     tags$script(src = "www/update_card_styles.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"),
