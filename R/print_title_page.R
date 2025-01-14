@@ -54,20 +54,33 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
   clean_names_contributors_table <-
     contributors_table %>%
     abbreviate_middle_names_df() %>%
-    dplyr::mutate(
-      Name = dplyr::if_else(
-        is.na(.data$`Middle name`),
-        paste(.data$Firstname, .data$Surname),
-        paste(.data$Firstname, .data$`Middle name`, .data$Surname)
-      ),
-      `Email address` = dplyr::if_else(
-        text_format == "html" &
-          is.na(.data$`Email address`) &
-          .data$`Corresponding author?`,
-        '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
-        .data$`Email address`
+    dplyr::mutate(Name = dplyr::if_else(
+      is.na(.data$`Middle name`),
+      paste(.data$Firstname, .data$Surname),
+      paste(.data$Firstname, .data$`Middle name`, .data$Surname)
+    ))
+  
+  if ("Email address" %in% colnames(contributors_table)) {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(
+        `Email address` = dplyr::if_else(
+          text_format == "html" &
+            is.na(.data$`Email address`) &
+            .data$`Corresponding author?`,
+          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
+          .data$`Email address`
+        )
       )
-    )
+  } else {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(
+        `Email address` = dplyr::if_else(
+          text_format == "html",
+          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
+          NA_character_
+        )
+      )
+  }
   
   contrib_affil_data <-
     clean_names_contributors_table %>%
