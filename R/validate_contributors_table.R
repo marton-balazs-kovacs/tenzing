@@ -45,82 +45,21 @@
 #' 
 #' @importFrom rlang .data
 #' @importFrom utils data
-validate_contributors_table <- function(contributors_table, output_type = "minimal") {
-  # Check if contributors_table is a dataframe ---------------------------
-  if (!is.data.frame(contributors_table)) stop("The provided contributors_table is not a dataframe.")
-  
-  # Check necessary variable names for each output type ---------------------------
-  available_outputs <- check_outputs(contributors_table)
-  
-  # If all outputs disabled throw error
-  if (all(!unlist(available_outputs))) {
-    stop("All outputs are disabled. Please ensure the contributors table includes the required columns to generate at least one output.")
+validate_contributors_table <- function(contributors_table, config_path) {
+  # Check if contributors_table is a dataframe
+  if (!is.data.frame(contributors_table)) {
+    stop("The provided contributors_table is not a dataframe.")
   }
   
-  # Check if contributors_table is empty ---------------------------
-  if (all(is.na(contributors_table[, c("Firstname", "Middle name", "Surname")]))) {
-    stop("There are no contributors in the table.")
-  }
+  # Load the YAML config
+  config <- yaml::read_yaml(config_path)
   
-  # Delete empty rows ---------------------------
-  contributors_table_clean <- clean_contributors_table(contributors_table)
+  # Initialize ColumnValidator with the column configuration
+  column_validator <- ColumnValidator$new(config_input = config)
   
-  # Run tests ---------------------------
-  # Define validation tests for each output type
-  minimal_tests <- list(
-    check_missing_surname = check_missing_surname,
-    check_missing_firstname = check_missing_firstname,
-    check_duplicate_names = check_duplicate_names,
-    check_duplicate_initials = check_duplicate_initials,
-    check_missing_order = check_missing_order,
-    check_duplicate_order = check_duplicate_order
-  )
+  # Run column validation
+  column_results <- column_validator$validate_columns(contributors_table)
   
-  credit_tests <- c(
-    minimal_tests,
-    list(check_credit = check_credit)
-  )
-  
-  title_tests <- c(
-    minimal_tests,
-    list(
-      check_affiliation_consistency = check_affiliation_consistency,
-      check_affiliation = check_affiliation,
-      check_missing_corresponding = check_missing_corresponding,
-      check_missing_email = check_missing_email
-    )
-  )
+  return(column_results)
 
-  coi_tests <- c(
-    minimal_tests,
-    list(check_coi = check_coi)
-  )
-  
-  # Map output types to validation tests
-  validation_map <- list(
-    credit = credit_tests,
-    title = title_tests,
-    xml = credit_tests,
-    yaml = title_tests,
-    funding = minimal_tests,
-    coi = coi_tests,
-    minimal = minimal_tests
-  )
-  
-  # Check if the provided output_type is valid
-  if (!output_type %in% names(validation_map)) {
-    stop(glue::glue("Invalid output type: '{output_type}'. Valid types are: {glue::glue_collapse(names(validation_map), sep = ', ', last = ' and ')}."))
-  }
-  
-  # Run the selected validation tests
-  selected_tests <- validation_map[[output_type]]
-  
-  # Apply the selected validation functions
-  results <- purrr::map(selected_tests, ~ {
-    result <- .x(contributors_table_clean)
-    list(type = result$type, message = result$message)
-  })
-  
-  # Return validation results ---------------------------
-  return(results)
-  }
+}

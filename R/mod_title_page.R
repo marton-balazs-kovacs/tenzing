@@ -43,6 +43,11 @@ mod_title_page_server <- function(id, input_data){
     # Reactive value to track modal state
     modal_open <- reactiveVal(FALSE)
     
+    # Initialize ValidateOutput with the title validation config
+    validate_output_instance <- ValidateOutput$new(
+      config_path = system.file("config/title_validation.yaml", package = "tenzing")
+    )
+    
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
@@ -90,12 +95,12 @@ mod_title_page_server <- function(id, input_data){
     })
 
     # Initialize validation card logic only when modal is open
-      mod_validation_card_server(
-        id = "validation_card",
-        contributors_table = input_data,
-        output_type = "title",
-        trigger = modal_open
-      )
+    mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open
+    )
     
     # Download ---------------------------
     ## Set up loading bar

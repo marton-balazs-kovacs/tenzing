@@ -2,7 +2,10 @@
 #'
 #' This function checks if both legacy (`Primary affiliation` and `Secondary affiliation`) 
 #' and `Affiliation {n}` columns are present in the contributors_table. If both are present,
-#' it raises a warning to suggest using only one format to ensure consistent results.
+#' it raises a warning to suggest using only one format to ensure consistent results. 
+#' In the first version of tenzing only two affiliation were allowed per contributor
+#' and the required names for the columns were `Primary affiliation` and `Secondary affiliation`. In the new version of the spreadsheet
+#' any number of affiliation columns can be created as long as they follow the `Affiliation {number}` naming convention.
 #'
 #' @param contributors_table A dataframe containing the contributors' table.
 #'
@@ -29,73 +32,6 @@ check_affiliation_consistency <- function(contributors_table) {
     type = "success",
     message = "Affiliation column names are used consistently."
   ))
-}
-
-
-#' Check affiliation columns
-#' 
-#' Affiliation columns can be named in multiple ways. In the first version of tenzing only two affiliation were allowed per contributor
-#' and the required names for the columns were `Primary affiliation` and `Secondary affiliation`. In the new `deluxe` version of the spreadsheet
-#' any number of affiliation columns can be created as long as they follow the `Affiliation {number}` naming convention.
-#' 
-#' @param contributors_table dataframe. Contributors table read with the `tenzing::read_contributors_table` function
-check_affiliation_columns <- function(contributors_table) {
-  # Check if at least one `Affiliation {n}` column exists
-  has_affiliation_n <- any(grepl("^Affiliation \\d+$", colnames(contributors_table)))
-  
-  # Check if both legacy columns are present
-  has_legacy_affiliations <- all(c("Primary affiliation", "Secondary affiliation") %in% colnames(contributors_table))
-  
-  # Validate the presence of either affiliation system
-  if (!has_affiliation_n && !has_legacy_affiliations) {
-    return(FALSE)
-  }
-  
-  # If valid, return success
-  return(TRUE)
-}
-
-#' Match columns for each output type
-match_cols <- function(required_cols, contributors_table) {
-  required_cols[!required_cols %in% colnames(contributors_table)]
-}
-
-#' Check column names in the contributors_table
-#' 
-#' This helper function for the validation checks whether all the necessary columns in the contributors_table are available for each
-#' output separately.
-#' 
-#' @param contributors_table dataframe, filled out contributors_table
-#' 
-#' @return The function returns a list that contains a nested list for each output that contains: boolean for whether the output is enabled,
-#'   and vector of missing column names.
-check_outputs <- function(contributors_table) {
-  # Define column required columns for each output type
-  required_cols <- c("Firstname", "Middle name", "Surname")
-  credit_cols <- c(required_cols, dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`))
-  title_cols <- c(required_cols, "Order in publication", "Corresponding author?", "Email address")
-  funding_cols <- c(required_cols, "Funding")
-  coi_cols <- c(required_cols, "Conflict of interest")
-  
-  # Affiliation check
-  affiliation_cols_valid <- check_affiliation_columns(contributors_table)
-  
-  credit_missing <- match_cols(credit_cols, contributors_table)
-  title_missing <- match_cols(title_cols, contributors_table)
-  funding_missing <- match_cols(funding_cols, contributors_table)
-  coi_missing <- match_cols(coi_cols, contributors_table)
-  
-  # Return output statuses
-  return(
-    list(
-      credit_enabled = length(credit_missing) == 0,
-      title_enabled = length(title_missing) == 0 && affiliation_cols_valid,
-      xml_enabled = length(credit_missing) == 0,
-      yaml_enabled = length(title_missing) == 0 && affiliation_cols_valid,
-      funding_enabled = length(funding_missing) == 0,
-      coi_enabled = length(coi_missing) == 0
-    )
-  )
 }
 
 #' Check missing surnames

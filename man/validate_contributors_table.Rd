@@ -4,7 +4,7 @@
 \alias{validate_contributors_table}
 \title{Validating the contributors table}
 \usage{
-validate_contributors_table(contributors_table, output_type = "minimal")
+validate_contributors_table(contributors_table, config_path)
 }
 \arguments{
 \item{contributors_table}{dataframe, filled out contributors_table}

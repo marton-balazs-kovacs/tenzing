@@ -16,4 +16,7 @@ A list containing \code{valid} (TRUE/FALSE) and a \code{message} (if applicable)
 This function checks if both legacy (\verb{Primary affiliation} and \verb{Secondary affiliation})
 and \verb{Affiliation \{n\}} columns are present in the contributors_table. If both are present,
 it raises a warning to suggest using only one format to ensure consistent results.
+In the first version of tenzing only two affiliation were allowed per contributor
+and the required names for the columns were \verb{Primary affiliation} and \verb{Secondary affiliation}. In the new version of the spreadsheet
+any number of affiliation columns can be created as long as they follow the \verb{Affiliation \{number\}} naming convention.
 }

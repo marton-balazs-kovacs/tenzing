@@ -42,16 +42,17 @@ mod_validation_card_ui <- function(id) {
 #'
 #' @param id Module ID.
 #' @param contributors_table A reactive object containing the contributors table.
-#' @param output_type The type of output being validated (e.g., "credit", "title").
+#' @param validate_output_instance R6 class instance for validating the output
 #'
 #' @noRd
-mod_validation_card_server <- function(id, contributors_table, output_type, trigger = reactive(NULL)) {
+mod_validation_card_server <- function(id, contributors_table, validate_output_instance, trigger = reactive(NULL)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    # Perform validation based on the contributors table and output type
+    # Perform validations using the ValidateOutput instance
     validation_results <- reactive({
-      validate_contributors_table(contributors_table(), output_type)
+      req(contributors_table())
+      validate_output_instance$run_validations(contributors_table())
     })
     
     # Filter results for errors and warnings

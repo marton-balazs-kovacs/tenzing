@@ -1,0 +1,34 @@
+rules:
+  credit:
+    operator: "AND"
+    columns:
+      - Firstname
+      - Middle name
+      - Surname
+      - Conceptualization
+      - Data curation
+      - Software
+  title:
+    operator: "AND"
+    columns:
+      - Firstname
+      - Middle name
+      - Surname
+      - Order in publication
+      - Corresponding author?
+      - Email address
+    regex: "^Affiliation \\d+$"
+  funding:
+    operator: "AND"
+    columns:
+      - Firstname
+      - Middle name
+      - Surname
+      - Funding
+  coi:
+    operator: "AND"
+    columns:
+      - Firstname
+      - Middle name
+      - Surname
+      - Conflict of interest
