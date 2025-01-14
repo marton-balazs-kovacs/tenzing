@@ -13,11 +13,11 @@ column_config:
 
 validation_config:
   validations:
-    - check_missing_surname
-    - check_missing_corresponding
-    - check_missing_email
-    - check_duplicate_names
-    - check_affiliation_consistency
+  - check_missing_surname
+  - check_missing_corresponding
+  - check_missing_email
+  - check_duplicate_names
+  - check_affiliation_consistency
 
   dependencies:
     check_missing_email:

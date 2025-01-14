@@ -25,7 +25,7 @@ mod_check_modal_server <- function(id, table_data) {
     # Run test codes
       sf_validate_contributors_table <- purrr::safely(validate_contributors_table)
       validation_output <- sf_validate_contributors_table(table_data, system.file("config", "column_validation.yaml", package = "tenzing"))
-   print(validation_output)
+
       if(!is.null(validation_output$error)) {
         check_result <- tibble::tibble(
           type = "error",
