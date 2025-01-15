@@ -7,13 +7,11 @@ column_config:
         - Middle name
         - Surname
         - Order in publication
-        - Corresponding author?
-      regex: "^Affiliation \\d+$"
       severity: "error"
-    title:
+    coi:
       operator: "AND"
       columns:
-        - Email address
+        - Conflict of interest
       severity: "warning"
 
 validation_config:
@@ -23,11 +21,7 @@ validation_config:
     - name: check_missing_surname
     - name: check_missing_firstname
     - name: check_duplicate_initials
-    - name: check_missing_corresponding
-    - name: check_missing_email
-      dependencies:
-        - 'self$results[["check_missing_corresponding"]]$type == "success"'
-        - '"Email address" %in% colnames(contributors_table)'
     - name: check_duplicate_names
-    - name: check_affiliation
-    - name: check_affiliation_consistency
+    - name: check_coi
+      dependencies:
+        - '"Conflict of interest" %in% colnames(contributors_table)'

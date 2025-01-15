@@ -8,12 +8,26 @@ column_config:
         - Surname
         - Order in publication
         - Corresponding author?
+        - Email address
       regex: "^Affiliation \\d+$"
       severity: "error"
-    title:
+    credit:
       operator: "AND"
       columns:
-        - Email address
+        - Conceptualization
+        - Data curation
+        - Formal analysis
+        - Funding acquisition
+        - Investigation
+        - Methodology
+        - Project administration
+        - Resources
+        - Software
+        - Supervision
+        - Validation
+        - Visualization
+        - Writing - original draft
+        - Writing - review & editing
       severity: "warning"
 
 validation_config:
@@ -27,7 +41,7 @@ validation_config:
     - name: check_missing_email
       dependencies:
         - 'self$results[["check_missing_corresponding"]]$type == "success"'
-        - '"Email address" %in% colnames(contributors_table)'
     - name: check_duplicate_names
     - name: check_affiliation
     - name: check_affiliation_consistency
+    - name: check_credit

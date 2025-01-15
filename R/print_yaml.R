@@ -28,94 +28,76 @@
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
 print_yaml <- function(contributors_table) {
-  # Restructure input data
-  affiliation_data <- contributors_table %>% 
-    dplyr::select(dplyr::contains("affiliation")) %>% 
-    unlist() %>% 
-    unique() %>% 
-    na.omit()
+  # Combine legacy and numbered affiliation columns ---------------------------
+  # Identify all columns matching `Affiliation {n}` format
+  # Define valid affiliation columns
+  legacy_affiliation_cols <- c("Primary affiliation", "Secondary affiliation")
+  numbered_affiliation_cols <- grep("^Affiliation \\d+$", colnames(contributors_table), value = TRUE)
   
+  # Combine columns that actually exist in the table
+  affiliation_cols <- c(
+    intersect(legacy_affiliation_cols, colnames(contributors_table)), # Keep only legacy columns that exist
+    numbered_affiliation_cols # Add numbered affiliation columns
+  )
+  
+  # Extract unique affiliations in row-by-row order ---------------------------
+  affiliation_data <- contributors_table %>%
+    dplyr::select(all_of(affiliation_cols)) %>%
+    tidyr::pivot_longer(cols = everything(), values_to = "affiliation") %>%
+    dplyr::filter(!is.na(affiliation)) %>%
+    dplyr::distinct(affiliation) %>%
+    dplyr::pull(affiliation)
+    
+  # Prepare contributor data with affiliations and roles ----------------------
   contrib_data <- contributors_table %>%
     abbreviate_middle_names_df() %>%
     dplyr::rename(
-      order = .data$`Order in publication`,
-      email = .data$`Email address`,
-      corresponding = .data$`Corresponding author?`
-    ) %>% 
-    dplyr::arrange(.data$order) %>%
-    dplyr::rowwise() %>%
+      order = `Order in publication`,
+      email = `Email address`,
+      corresponding = `Corresponding author?`
+    ) %>%
+    dplyr::arrange(order) %>%
     dplyr::mutate(
-      name = gsub("NA\\s*", "", paste(.data$Firstname, .data$`Middle name`, .data$Surname)),
-      affiliation = paste(
-        which(affiliation_data %in% na.omit(c(.data$`Primary affiliation`, .data$`Secondary affiliation`))),
-        collapse = ","
+      name = gsub("NA\\s*", "", paste(Firstname, `Middle name`, Surname)),
+      affiliation = purrr::map_chr(
+        dplyr::row_number(),
+        ~ paste(
+          which(affiliation_data %in% na.omit(unlist(contributors_table[., affiliation_cols]))),
+          collapse = ","
+        )
       )
     ) %>%
-    dplyr::ungroup() %>% 
     dplyr::select(
-      dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`),
-      .data$name, .data$corresponding, .data$email, .data$affiliation
-      ) %>% 
-    dplyr::filter(.data$name != "") %>%
-    dplyr::mutate(name = factor(.data$name, levels = .data$name)) # Ensure split retains order
+      dplyr::pull(credit_taxonomy, `CRediT Taxonomy`),
+      name, corresponding, email, affiliation
+    ) %>%
+    dplyr::filter(name != "") %>%
+    dplyr::mutate(name = factor(name, levels = name))
   
-  # Create list column of roles
+  # Generate role assignments
   contrib_data$role <- I(
-    list(
-      names(
-        dplyr::select(contrib_data, -c(.data$name, .data$corresponding, .data$email, .data$affiliation))
-      )
+    purrr::map(
+      split(contrib_data, contrib_data$name),
+      ~ names(dplyr::select(., dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)))[.x[1, -c(1:4)] == TRUE]
     )
   )
   
-  contrib_data$role_logical <- I(
-    lapply(
-      split(
-        dplyr::select(contrib_data, -c(.data$name, .data$corresponding, .data$email, .data$role, .data$affiliation)),
-        contrib_data$name
-      ),
-      unlist
-    )
-  )
+  # Create YAML structure
+  author_list <- contrib_data %>%
+    dplyr::select(name, affiliation, role, corresponding, email) %>%
+    split(.$name) %>%
+    purrr::map(as.list) %>%
+    purrr::map(function(x) {
+      x$role <- x$role[[1]]
+      if (isTRUE(x$corresponding)) x$address <- "Enter postal address here"
+      if (is.na(x$email)) x$email <- NULL
+      x
+    })
   
-  contrib_data$role <- Map(`[`, contrib_data$role, contrib_data$role_logical)
+  affiliation_list <- purrr::imap(affiliation_data, ~ list(id = .y, institution = .x))
   
-  # Turn author information into a list (currently ignores affiliation information)
-  author <- dplyr::select(
-    contrib_data,
-    .data$name,
-    .data$affiliation,
-    .data$role,
-    .data$corresponding,
-    .data$email)
-  yaml <- list(author = as.list(split(author, author$name)))
-  yaml$author <- lapply(yaml$author, as.list)
-  yaml$author <- lapply(yaml$author, function(x) { x$role <- x$role[[1]]; x })
-  yaml <- lapply(yaml, function(x) { names(x) <- NULL; x })
-  
-  # Fix missing information
-  yaml$author <- lapply(
-    yaml$author,
-    function(x) { 
-      if(isTRUE(x$corresponding)) {
-        x$address <- "Enter postal address here"
-      } else {
-        x$corresponding <- NULL
-      }
-      if(length(x$role) == 0) x$role <- NULL
-      if(is.na(x$email)) x$email <- NULL
-      
-      x[c("name", "affiliation", names(x)[!names(x) %in% c("name", "affiliation")])]
-    }
-  )
-  
-  affiliation <- lapply(
-    seq_along(affiliation_data),
-    function(x) c(id = x, institution = affiliation_data[x])
-  )
-  
-  yaml <- c(yaml, affiliation = list(lapply(affiliation, as.list)))
-  yaml <- yaml::as.yaml(yaml, indent.mapping.sequence = TRUE)
-  
-  gsub("\\naffiliation:", "\n\naffiliation:", yaml)
+  # Assemble final YAML
+  yaml <- list(author = author_list, affiliation = affiliation_list)
+  yaml::as.yaml(yaml, indent.mapping.sequence = TRUE) %>%
+    gsub("\\naffiliation:", "\n\naffiliation:", .)
 }

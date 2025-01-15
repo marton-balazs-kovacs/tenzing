@@ -138,7 +138,7 @@ mod_credit_roles_server <- function(id, input_data){
             downloadButton(
               NS(id, "report"),
               label = "Download file",
-              class = "download-report"
+              class = "btn-download"
               )
             ) %>% 
             tagAppendAttributes(
@@ -173,8 +173,7 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      req(!has_errors())
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) | has_errors()) {
         "There are no CRediT roles checked for any of the contributors."
         } else {
           print_credit_roles(contributors_table = input_data(), initials = input$initials, order_by = order())
@@ -226,7 +225,8 @@ mod_credit_roles_server <- function(id, input_data){
         label = "Copy output to clipboard",
         clipText = to_clip(), 
         icon = icon("clipboard"),
-        modal = TRUE)
+        modal = TRUE,
+        class = "btn-download")
     })
     
     ## Workaround for execution within RStudio version < 1.2

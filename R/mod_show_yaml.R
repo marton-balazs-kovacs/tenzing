@@ -39,13 +39,54 @@ mod_show_yaml_ui <- function(id) {
 mod_show_yaml_server <- function(id, input_data) {
 
   moduleServer(id, function(input, output, session) {
+    # Setup ---------------------------
+    ns <- session$ns
+    
+    # Reactive value to track modal state
+    modal_open <- reactiveVal(FALSE)
+    
+    # Validation ---------------------------
+    # Initialize ValidateOutput with the title validation config
+    validate_output_instance <- ValidateOutput$new(
+      config_path = system.file("config/yaml_validation.yaml", package = "tenzing")
+    )
+    
+    # Initialize validation card logic only when modal is open
+    # Use mod_validation_card_server to handle validation and get error status
+    has_errors <- mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open
+    )
+    
+    observe({
+      req(modal_open())
+      if (has_errors()) {
+        golem::invoke_js("disable", paste0("#", ns("report")))
+        golem::invoke_js("hideid", ns("clip"))
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = paste0("#", ns("report")),
+                           message = "Fix the errors to enable the download."))
+      } else {
+        golem::invoke_js("remove_tooltip", paste0("#", ns("report")))
+        golem::invoke_js("reable", paste0("#", ns("report")))
+        golem::invoke_js("showid", ns("clip"))
+      }
+    })
+    
     # Create YAML
     author_yaml <- reactive({
       # Table data validation
-      req(input_data())
+      req(input_data(), modal_open())
       
       # Create output
-      print_yaml(contributors_table = input_data())
+      if (has_errors()) {
+        "The output cannot be generated. See 'Table Validation' for more information."
+      } else {
+        print_yaml(contributors_table = input_data())
+      } 
     })
     
     ## Create preview
@@ -78,7 +119,8 @@ mod_show_yaml_server <- function(id, input_data) {
         label = "Copy YAML to clipboard",
         clipText = author_yaml(),
         icon = icon("clipboard"),
-        modal = TRUE)
+        modal = TRUE,
+        class = "btn-download")
     })
     
     ## Workaround for execution within RStudio version < 1.2
@@ -98,8 +140,9 @@ mod_show_yaml_server <- function(id, input_data) {
           "You can copy the YAML code below and paste it into the YAML front matter of a ", HTML("<code>papaja</code>"), "-R Markdown file to populate the author metadata. ", HTML("<code>papaja</code>"), " will automatically add the contributorship information to the author note."
         ),
         uiOutput(NS(id, "papaja_yaml"), container = pre),
-        easyClose = TRUE,
+        easyClose = FALSE,
         footer = tagList(
+          mod_validation_card_ui(ns("validation_card")),
           div(
             style = "display: inline-block",
             uiOutput(session$ns("yaml_clip"))
@@ -113,22 +156,29 @@ mod_show_yaml_server <- function(id, input_data) {
             downloadButton(
               NS(id, "report"),
               label = "Download YAML file",
-              class = "download-report"
+              class = "btn-download"
               )
             ) %>% 
             tagAppendAttributes(
               # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'YAML information'])"
               ), 
-          modalButton("Close")
+          actionButton(ns("close_modal"), label = "Close", class = "btn btn-close")
         )
       )
     }
     
+    ## Show preview modal
     observeEvent(input$show_yaml, {
+      modal_open(TRUE)  # Mark modal as open
       showModal(modal())
       })
     
+    # Handle Close button
+    observeEvent(input$close_modal, {
+      modal_open(FALSE)  # Mark modal as closed
+      removeModal()      # Close modal explicitly
+    })
   })
 }
 

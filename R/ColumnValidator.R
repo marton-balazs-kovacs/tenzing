@@ -44,21 +44,21 @@ ColumnValidator <- R6::R6Class(
         if (length(missing_columns) > 0) {
           return(list(
             type = severity,
-            message = glue::glue("Rule '{rule_name}': Missing columns: {paste(missing_columns, collapse = ', ')}")
+            message = glue::glue("Missing columns: {paste(missing_columns, collapse = ', ')}")
           ))
         }
       } else if (operator == "OR") {
         if (length(present_columns) == 0) {
           return(list(
             type = severity,
-            message = glue::glue("Rule '{rule_name}': None of the required columns are present: {paste(columns, collapse = ', ')}")
+            message = glue::glue("None of the required columns are present: {paste(columns, collapse = ', ')}")
           ))
         }
       } else if (operator == "NOT") {
         if (length(present_columns) > 0) {
           return(list(
             type = severity,
-            message = glue::glue("Rule '{rule_name}': Unexpected columns found: {paste(present_columns, collapse = ', ')}")
+            message = glue::glue("Unexpected columns found: {paste(present_columns, collapse = ', ')}")
           ))
         }
       } else {
@@ -68,7 +68,7 @@ ColumnValidator <- R6::R6Class(
       # If validation passes
       return(list(
         type = "success",
-        message = glue::glue("Rule '{rule_name}': All column requirements satisfied.")
+        message = glue::glue("All column requirements satisfied.")
       ))
     }
   )

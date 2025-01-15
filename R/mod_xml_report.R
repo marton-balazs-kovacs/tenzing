@@ -37,13 +37,54 @@ mod_xml_report_ui <- function(id){
 mod_xml_report_server <- function(id, input_data){
   
   moduleServer(id, function(input, output, session) {
+    # Setup ---------------------------
+    ns <- session$ns
+    
+    # Reactive value to track modal state
+    modal_open <- reactiveVal(FALSE)
+    
+    # Validation ---------------------------
+    # Initialize ValidateOutput with the title validation config
+    validate_output_instance <- ValidateOutput$new(
+      config_path = system.file("config/credit_validation.yaml", package = "tenzing")
+    )
+    
+    # Initialize validation card logic only when modal is open
+    # Use mod_validation_card_server to handle validation and get error status
+    has_errors <- mod_validation_card_server(
+      id = "validation_card",
+      contributors_table = input_data,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open
+    )
+    
+    observe({
+      req(modal_open())
+      if (has_errors()) {
+        golem::invoke_js("disable", paste0("#", ns("report")))
+        golem::invoke_js("hideid", ns("clip"))
+        golem::invoke_js("add_tooltip",
+                         list(
+                           where = paste0("#", ns("report")),
+                           message = "Fix the errors to enable the download."))
+      } else {
+        golem::invoke_js("remove_tooltip", paste0("#", ns("report")))
+        golem::invoke_js("reable", paste0("#", ns("report")))
+        golem::invoke_js("showid", ns("clip"))
+      }
+    })
+    
     # Create XML
     to_print <- reactive({
       # Table data validation
-      req(input_data())
+      req(input_data(), modal_open())
 
       # Create output
-      print_xml(contributors_table = input_data())
+      if (has_errors()) {
+        "The output cannot be generated. See 'Table Validation' for more information."
+      } else {
+        print_xml(contributors_table = input_data())
+      } 
     })
 
     ## Create preview
@@ -77,7 +118,8 @@ mod_xml_report_server <- function(id, input_data){
         label = "Copy output to clipboard", 
         clipText = to_print(), 
         icon = icon("clipboard"),
-        modal = TRUE)
+        modal = TRUE,
+        class = "btn-download")
     })
     
     ## Workaround for execution within RStudio version < 1.2
@@ -91,8 +133,9 @@ mod_xml_report_server <- function(id, input_data){
         hr(),
         p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
         uiOutput(NS(id, "jats_xml"), container = pre),
-        easyClose = TRUE,
+        easyClose = FALSE,
         footer = tagList(
+          mod_validation_card_ui(ns("validation_card")),
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
@@ -106,21 +149,29 @@ mod_xml_report_server <- function(id, input_data){
             downloadButton(
               NS(id, "report"),
               label = "Download file",
-              class = "download-report"
+              class = "btn-download"
               )
             ) %>% 
             tagAppendAttributes(
               # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'XML information'])"
             ),
-          modalButton("Close")
+          actionButton(ns("close_modal"), label = "Close", class = "btn btn-close")
         )
       )
     }
     
+    ## Show preview modal
     observeEvent(input$show_report, {
+      modal_open(TRUE)  # Mark modal as open
       showModal(modal())
       })
+    
+    # Handle Close button
+    observeEvent(input$close_modal, {
+      modal_open(FALSE)  # Mark modal as closed
+      removeModal()      # Close modal explicitly
+    })
     })
 }
     
