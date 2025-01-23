@@ -1,5 +1,45 @@
 #' @import shiny
+#' @import shinyjs
 app_server <- function(input, output,session) {
+  show_popup = FALSE
+  observe({
+  if (is.null(session$userData$app_open_count)) {
+    session$userData$app_open_count <- shiny::reactiveVal(0)
+    
+    #Calculate whether should create the pop-up, by using the date/time as a random number proxy
+    # Get the current time
+    current_time <- Sys.time()
+    # Format the time as a continuous string
+    formatted_time <- format(current_time, "%Y%m%d%H%M%S")
+    # Convert the string to a numeric value
+    numeric_time <- as.numeric(formatted_time)
+    if ((numeric_time %% 3) == 0) { #modulus two seems to make it show up less than 50% of time?
+      show_popup = TRUE
+    }
+    
+  }
+  
+if (show_popup) {
+    # Show a non-aggressive pop-up notification using shinyjs
+    shinyjs::runjs("
+      const div = document.createElement('div');
+      div.innerHTML = 'Please support tenzing &#x1F60A; <br>Donate <a href=\"https://opencollective.com/tenzing\" target=\"_blank\">here</a>!';
+      div.style.position = 'fixed';
+      div.style.top = '75%';
+      div.style.left = '16%';
+      div.style.padding = '10px';
+      div.style.background = 'lightblue';
+      div.style.border = '1px solid gray';
+      div.style.borderRadius = '5px';
+      div.style.zIndex = 9999;
+      document.body.appendChild(div);
+
+      // Remove the notification after 60 seconds
+      setTimeout(function() { div.remove(); }, 60000);
+    ")
+          }
+ })
+  
   # Read in the contributors_table
   ## Save the read data as a reactive object
   read_out <- mod_read_spreadsheet_server("read_spreadsheet")
