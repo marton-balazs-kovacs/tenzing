@@ -1,0 +1,24 @@
+column_config:
+  rules:
+    minimal:
+      operator: "AND"
+      columns:
+        - Firstname
+        - Middle name
+        - Surname
+        - Order in publication
+      severity: "error"
+    coi:
+      operator: "AND"
+      columns:
+        - Funding
+      severity: "warning"
+
+validation_config:
+  validations:
+    - name: check_missing_order
+    - name: check_duplicate_order
+    - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
+    - name: check_duplicate_names

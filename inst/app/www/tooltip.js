@@ -1,9 +1,11 @@
-$( document ).ready(function() {
+$(document).ready(function() {
   Shiny.addCustomMessageHandler('add_tooltip', function(arg) {
-    $(arg.where).attr('title', arg.message);
+    console.log('Adding tooltip:', arg); // Debugging
+    $(arg.where).attr('title', arg.message).tooltip({ trigger: 'hover' });
   });
-  
+
   Shiny.addCustomMessageHandler('remove_tooltip', function(where) {
-    $(where).removeAttr('title');
+    console.log('Removing tooltip from:', where); // Debugging
+    $(where).tooltip('dispose').removeAttr('title');
   });
 });

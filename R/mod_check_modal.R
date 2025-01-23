@@ -16,7 +16,7 @@ mod_check_modal_ui <- function(id){
 #' check_modal Server Function
 #'
 #' @noRd 
-mod_check_modal_server <- function(id, table_data){
+mod_check_modal_server <- function(id, table_data) {
   
   moduleServer(id, function(input, output, session) {
     # Needs to be added to run if called from another module
@@ -24,15 +24,22 @@ mod_check_modal_server <- function(id, table_data){
     
     # Run test codes
       sf_validate_contributors_table <- purrr::safely(validate_contributors_table)
-      valid <- sf_validate_contributors_table(table_data)
-      if(!is.null(valid$error)) {
+      validation_output <- sf_validate_contributors_table(table_data, system.file("config", "column_validation.yaml", package = "tenzing"))
+
+      if(!is.null(validation_output$error)) {
         check_result <- tibble::tibble(
           type = "error",
-          message = as.character(valid$error["message"]))
-      } else {
+          message = as.character(validation_output$error["message"]))
+      } else if (!is.null(validation_output$result)) {
         check_result <- tibble::tibble(
-          type = purrr::map_chr(valid$result, "type"),
-          message = purrr::map_chr(valid$result, "message"))
+          type = purrr::map_chr(validation_output$result, "type", .default = "error"),
+          message = purrr::map_chr(validation_output$result, "message", .default = "Unknown issue"))
+      } else {
+        # Handle unexpected empty results
+        check_result <- tibble::tibble(
+          type = "error",
+          message = "Validation returned an unexpected empty result."
+        )
       }
     
     # Activate modal

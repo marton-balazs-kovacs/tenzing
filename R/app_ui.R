@@ -46,13 +46,7 @@ app_ui <- function() {
                    ),
                  wellPanel(
                    class = "main-steps-panel",
-                   tags$p("Duplicate and edit the ",
-                          style = "display: inline; margin-bottom: 0;"),
-                   tags$a(href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
-                          "contributors table template",
-                          target="_blank",
-                          style = "display: inline; color: #ffdf57; text-decoration: underline;",
-                          class = "link")
+                   mod_create_table_ui("create_table")
                    )
                  ),
                # Second step
@@ -162,6 +156,9 @@ golem_add_external_resources <- function(){
     # Change window title
     tags$script("document.title = 'tenzing';"),
     tags$script(src = "www/tooltip.js"),
+    tags$script(src = "www/custom.js"),
+    tags$script(src = "www/collapsible.js"),
+    tags$script(src = "www/update_card_styles.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js"),
     tags$link(rel = "stylesheet", type = "text/css",

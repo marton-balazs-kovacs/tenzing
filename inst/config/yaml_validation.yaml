@@ -1,0 +1,53 @@
+column_config:
+  rules:
+    minimal:
+      operator: "AND"
+      columns:
+        - Firstname
+        - Middle name
+        - Surname
+        - Order in publication
+        - Corresponding author?
+        - Email address
+      severity: "error"
+    affiliation:
+      operator: "OR"  # Either legacy OR regex-based affiliation columns must be present
+      columns:
+        - Primary affiliation
+        - Secondary affiliation  # Legacy columns
+      regex: "^Affiliation [0-9]+$"  # Regex-based columns
+      severity: "error"  # Make sure it's required for validation to pass
+    credit:
+      operator: "AND"
+      columns:
+        - Conceptualization
+        - Data curation
+        - Formal analysis
+        - Funding acquisition
+        - Investigation
+        - Methodology
+        - Project administration
+        - Resources
+        - Software
+        - Supervision
+        - Validation
+        - Visualization
+        - Writing - original draft
+        - Writing - review & editing
+      severity: "warning"
+
+validation_config:
+  validations:
+    - name: check_missing_order
+    - name: check_duplicate_order
+    - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
+    - name: check_missing_corresponding
+    - name: check_missing_email
+      dependencies:
+        - 'self$results[["check_missing_corresponding"]]$type == "success"'
+    - name: check_duplicate_names
+    - name: check_affiliation
+    - name: check_affiliation_consistency
+    - name: check_credit

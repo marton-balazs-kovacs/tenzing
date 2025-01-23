@@ -1,6 +1,6 @@
 Package: tenzing
 Title: Documenting Contributions to Scientific Scholarly Output with CRediT
-Version: 0.2.0
+Version: 0.3.0
 Authors@R:
   c(person(given = "Marton",
            family = "Kovacs",
@@ -12,12 +12,22 @@ Authors@R:
            role = "ctb",
            email = "frederik.aust@uni-koeln.de",
            comment = c(ORCID = "0000-0003-4900-788X")),
-    person(given = "Alex", 
+    person(given = c("Alex", "O"), 
            family = "Holcombe",
-           role = "ctb"),
+           role = "ctb",
+           comment = c(ORCID = "0000-0003-2869-0085")),
     person(given = "Balazs", 
            family = "Aczel",
-           role = "ctb"))
+           role = "ctb",
+           comment = c(ORCID = "0000-0001-9364-4988")),
+    person(given = "Julien", 
+           family = "Colomb",
+           role = "ctb",
+           comment = c(ORCID = "0000-0002-3127-5520")),
+    person(given = c("Marton", "Aron"), 
+           family = "Varga",
+           role = "ctb",
+           comment = c(ORCID = "0000-0002-8828-3070")))
 Description: A modularized shiny app that reads contributorship information from a local source and produces human and machine-readable summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8

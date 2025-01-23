@@ -38,34 +38,69 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
   ## Check if there are shared first authors
   shared_first <- nrow(contributors_table[contributors_table$`Order in publication` == 1, ]) > 1
   
+  # Combine legacy and numbered affiliation columns ---------------------------
+  # Identify all columns matching `Affiliation {n}` format
+  # Define valid affiliation columns
+  legacy_affiliation_cols <- c("Primary affiliation", "Secondary affiliation")
+  numbered_affiliation_cols <- grep("^Affiliation \\d+$", colnames(contributors_table), value = TRUE)
+  
+  # Combine columns that actually exist in the table
+  affiliation_cols <- c(
+    intersect(legacy_affiliation_cols, colnames(contributors_table)), # Keep only legacy columns that exist
+    numbered_affiliation_cols # Add numbered affiliation columns
+  )
+  
   # Restructure dataframe for the contributors affiliation output ---------------------------
   clean_names_contributors_table <-
     contributors_table %>%
     abbreviate_middle_names_df() %>%
-    dplyr::mutate(Name = dplyr::if_else(is.na(.data$`Middle name`),
-                                         paste(.data$Firstname, .data$Surname),
-                                         paste(.data$Firstname, .data$`Middle name`, .data$Surname)))
+    dplyr::mutate(Name = dplyr::if_else(
+      is.na(.data$`Middle name`),
+      paste(.data$Firstname, .data$Surname),
+      paste(.data$Firstname, .data$`Middle name`, .data$Surname)
+    ))
+  
+  # Ensure missing "Corresponding author?" is handled gracefully
+  if (!"Corresponding author?" %in% colnames(contributors_table)) {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(`Corresponding author?` = FALSE)
+  }
+  
+  # Ensure missing "Email address" is handled gracefully
+  if (!"Email address" %in% colnames(contributors_table)) {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(
+        `Email address` = dplyr::if_else(
+          text_format == "html",
+          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
+          NA_character_
+        )
+      )
+  } else {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(
+        `Email address` = dplyr::if_else(
+          text_format == "html" &
+            is.na(.data$`Email address`) &
+            .data$`Corresponding author?`,
+          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
+          .data$`Email address`
+        )
+      )
+  }
   
   contrib_affil_data <-
-    clean_names_contributors_table %>% 
-    dplyr::select(
-      .data$`Order in publication`,
-      .data$Name,
-      .data$`Primary affiliation`,
-      .data$`Secondary affiliation`,
-      .data$`Email address`,
-      .data$`Corresponding author?`) %>%
-    tidyr::gather(key = "affiliation_type", value = "affiliation",
-                  -.data$Name,
-                  -.data$`Order in publication`,
-                  -.data$`Email address`,
-                  -.data$`Corresponding author?`
-                  ) %>% 
-    dplyr::arrange(.data$`Order in publication`) %>% 
+    clean_names_contributors_table %>%
+    tidyr::pivot_longer(
+      cols = all_of(affiliation_cols),
+      names_to = "affiliation_type",
+      values_to = "affiliation"
+    ) %>%
+    dplyr::arrange(.data$`Order in publication`) %>%
     dplyr::mutate(affiliation_no = dplyr::case_when(
       !is.na(affiliation) ~ suppressWarnings(dplyr::group_indices(., factor(affiliation, levels = unique(affiliation)))),
-      is.na(affiliation) ~ NA_integer_)
-      )
+      is.na(affiliation) ~ NA_integer_
+    ))
   
   # Modify data for printing contributor information ---------------------------
   contrib_print <- 
@@ -97,27 +132,35 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     glue::glue_collapse(., sep = ", ")
   
   # Modify data for shared first authors ---------------------------
-  if (shared_first) {
+  if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) & shared_first) {
     annotation_print <-
-      clean_names_contributors_table %>% 
+      clean_names_contributors_table %>%
       dplyr::select(
         .data$`Order in publication`,
         .data$Name,
         .data$`Email address`,
-        .data$`Corresponding author?`) %>% 
-      dplyr::filter(.data$`Order in publication` == 1) %>% 
-      dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>% 
-      dplyr::filter(.data$`Corresponding author?`) %>% 
-      glue::glue_data("*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}.")
-  } else if (any(clean_names_contributors_table$`Corresponding author?`) & !shared_first) {
-    annotation_print <- 
-      clean_names_contributors_table %>% 
-      dplyr::select(
-        .data$Name,
-        .data$`Email address`,
-        .data$`Corresponding author?`) %>% 
+        .data$`Corresponding author?`
+      ) %>%
+      dplyr::filter(.data$`Order in publication` == 1) %>%
+      dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>%
       dplyr::filter(.data$`Corresponding author?`) %>%
-      glue::glue_data("{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}")
+      glue::glue_data(
+        "*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}."
+      )
+  } else if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) &
+             !shared_first) {
+    annotation_print <-
+      clean_names_contributors_table %>%
+      dplyr::select(.data$Name,
+                    .data$`Email address`,
+                    .data$`Corresponding author?`) %>%
+      dplyr::filter(.data$`Corresponding author?`) %>%
+      glue::glue_data(
+        "{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}"
+      )
+  } else if (text_format == "html") {
+    annotation_print <-
+      '<span style="background-color: #ffec9b; padding: 2px;">[Missing corresponding author statement]</span>'
   } else {
     annotation_print <- ""
   }
