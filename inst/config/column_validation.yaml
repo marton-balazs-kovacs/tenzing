@@ -32,6 +32,13 @@ rules:
     columns:
       - Corresponding author?
       - Email address
+    severity: "warning"
+  
+  affiliations:
+    operator: "OR"
+    columns:
+      - Primary affiliation
+      - Secondary affiliation
     regex: "^Affiliation \\d+$"
     severity: "warning"
 

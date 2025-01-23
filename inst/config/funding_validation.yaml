@@ -11,7 +11,7 @@ column_config:
     coi:
       operator: "AND"
       columns:
-        - Conflict of interest
+        - Funding
       severity: "warning"
 
 validation_config:

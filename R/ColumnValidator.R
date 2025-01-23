@@ -31,8 +31,17 @@ ColumnValidator <- R6::R6Class(
       regex <- rule$regex %||% NULL  # Use regex if provided
       
       # Get actual columns if regex is provided
+      matched_columns <- character(0)  # Default to empty if no matches
       if (!is.null(regex)) {
+        
         matched_columns <- colnames(contributors_table)[grepl(regex, colnames(contributors_table))]
+        
+        # If regex does not match any columns, explicitly track it as a missing requirement
+        if (length(matched_columns) == 0) {
+          matched_columns <- regex  # Keep the regex label for error messages
+        }
+  
+        # Ensure matched columns are appended to required columns
         columns <- unique(c(columns, matched_columns))
       }
       
