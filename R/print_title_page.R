@@ -60,7 +60,23 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
       paste(.data$Firstname, .data$`Middle name`, .data$Surname)
     ))
   
-  if ("Email address" %in% colnames(contributors_table)) {
+  # Ensure missing "Corresponding author?" is handled gracefully
+  if (!"Corresponding author?" %in% colnames(contributors_table)) {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(`Corresponding author?` = FALSE)
+  }
+  
+  # Ensure missing "Email address" is handled gracefully
+  if (!"Email address" %in% colnames(contributors_table)) {
+    clean_names_contributors_table <- clean_names_contributors_table %>%
+      dplyr::mutate(
+        `Email address` = dplyr::if_else(
+          text_format == "html",
+          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
+          NA_character_
+        )
+      )
+  } else {
     clean_names_contributors_table <- clean_names_contributors_table %>%
       dplyr::mutate(
         `Email address` = dplyr::if_else(
@@ -69,15 +85,6 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
             .data$`Corresponding author?`,
           '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
           .data$`Email address`
-        )
-      )
-  } else {
-    clean_names_contributors_table <- clean_names_contributors_table %>%
-      dplyr::mutate(
-        `Email address` = dplyr::if_else(
-          text_format == "html",
-          '<span style="background-color: #ffec9b; padding: 2px;">[Missing email for the corresponding author]</span>',
-          NA_character_
         )
       )
   }
@@ -125,7 +132,7 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     glue::glue_collapse(., sep = ", ")
   
   # Modify data for shared first authors ---------------------------
-  if (any(clean_names_contributors_table$`Corresponding author?`) & shared_first) {
+  if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) & shared_first) {
     annotation_print <-
       clean_names_contributors_table %>%
       dplyr::select(
@@ -140,7 +147,7 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
       glue::glue_data(
         "*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}."
       )
-  } else if (any(clean_names_contributors_table$`Corresponding author?`) &
+  } else if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) &
              !shared_first) {
     annotation_print <-
       clean_names_contributors_table %>%
