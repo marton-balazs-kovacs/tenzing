@@ -63,6 +63,7 @@ Running the app.
 ``` r
 tenzing::run_app()
 ```
+If working in RStudio, after opening the .Rproj file and then "app.R", click on "Run app" in the top right of the app window.
 
 You can read more on how to use the `tenzing` app in
 `vignette("app_use")`.
