@@ -1,0 +1,12 @@
+name: tenzing-master
+title: tenzing-master
+username: rollercoaster
+account: rollercoaster
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8633777
+bundleId: 9700340
+url: https://rollercoaster.shinyapps.io/tenzing-master/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

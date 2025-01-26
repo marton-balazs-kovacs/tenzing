@@ -18,7 +18,7 @@ mod_xml_report_ui <- function(id){
   tagList(
     div(class = "out-btn",
         actionButton(NS(id, "show_report"),
-                       label = "Show XML file (for publisher use)",
+                       label = "JATS-XML (for publisher use)",
                        class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(

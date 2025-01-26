@@ -23,7 +23,7 @@ if (show_popup) {
     # Show a non-aggressive pop-up notification using shinyjs
     shinyjs::runjs("
       const div = document.createElement('div');
-      div.innerHTML = 'Please support tenzing &#x1F60A; <br>Donate <a href=\"https://opencollective.com/tenzing\" target=\"_blank\">here</a>!';
+      div.innerHTML = 'Please support tenzing &#x1F60A; by <br>donating <a href=\"https://opencollective.com/tenzing\" target=\"_blank\">here</a>.';
       div.style.position = 'fixed';
       div.style.top = '75%';
       div.style.left = '16%';

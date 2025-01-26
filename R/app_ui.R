@@ -77,7 +77,7 @@ app_ui <- function() {
                    class = "main-steps-title-container",
                    h1("3.",
                       class = "main-steps-title-number"),
-                   h3("Download the output",
+                   h3("Generate an output",
                       class = "main-steps-title"),
                    div(
                      class = "help-icon-container",
@@ -104,7 +104,7 @@ app_ui <- function() {
                     ),
                # Privacy notice
                HTML("<p><b>Privacy:</b><BR>
-                    To get a sense of how many users we have, we log a masked version of IP addresses. You are not identifiable by the logged information.</p>")
+                    To get a sense of how many use tenzing, we log a masked version of IP addresses. You are not identifiable by the logged information.</p>")
                ),
         column(2)
         ),

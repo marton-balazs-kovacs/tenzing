@@ -1,0 +1,12 @@
+name: tenzing-master
+title: tenzing-master
+username: alexholcombe
+account: alexholcombe
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8701446
+bundleId: 9691969
+url: https://alexholcombe.shinyapps.io/tenzing-master/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

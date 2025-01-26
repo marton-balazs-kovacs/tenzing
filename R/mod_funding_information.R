@@ -13,7 +13,7 @@ mod_funding_information_ui <- function(id){
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show funding information",
+          label = "Funding information",
           class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(

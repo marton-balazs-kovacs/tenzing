@@ -13,7 +13,7 @@ mod_conflict_statement_ui <- function(id){
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show conflict of interest statement",
+          label = "Conflict of interest statement",
           class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(

@@ -5,15 +5,19 @@ output: html_document
 
 <i>tenzing</i> is a project of the <a href="https://contributorshipcollaboration.github.io/" class="link" target='_blank'>Contributorship Collaboration</a>.
 
-_tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the first two people to reach the summit of Mount Everest. Despite his essential contribution, the achievement is often credited less to him than to his partner, the New Zealand mountaineer Edmund Hillary.
+_tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievement in climbing Everest is often credited less to him than to his partner, the New Zealand mountaineer Edmund Hillary.
 
 ### About CRediT
 
 <a href="http://credit.niso.org/" class="link" target='_blank'>CRediT</a> (Contributor Roles Taxonomy) is a high-level taxonomy of 14 roles that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
 
-### Contributors
+### Some who have recommended <i>tenzing</i>
 
-Marton Kovacs, Alex Holcombe, Balazs Aczel, Frederik Aust, Julien Colomb.
+<a href="https://sfdora.org/resource-library/?_resource_type=tools" class="link" target='_blank'>DORA</a>
+<br>
+<a href="https://www.collabra.org/" class="link" target='_blank'>Collabra: Psychology</a>
+<br>
+<a href="https://ukrn.org" class="link" target='_blank'>UKRN</a>
 
 ### Related papers
 
@@ -21,14 +25,10 @@ Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.
 
 Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org/10.3233/ISU-210109" class="link" target='_blank'>Tenzing and the importance of tool development for research efficiency</a>. *Information Services & Use, 41*, 123–130. DOI:10.3233/ISU-210109
 
-### Groups that recommend <i>tenzing</i>
+### Contributors
 
-<a href="https://www.collabra.org/" class="link" target='_blank'>Collabra: Psychology</a>
-<br>
-<a href="https://sfdora.org/resource-library/?_resource_type=tools" class="link" target='_blank'>DORA</a>
-<br>
-<a href="https://ukrn.org" class="link" target='_blank'>UKRN</a>
+Marton Kovacs, Alex O. Holcombe, [et al.](https://github.com/marton-balazs-kovacs/tenzing/graphs/contributors)
 
 ### Contact
 
-If you have any questions or comments, please add to the <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issues on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or message us <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">on Mastodon</a>.
+If you have any questions or comments, please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or message us <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">on Mastodon</a>.
