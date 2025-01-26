@@ -19,7 +19,7 @@ mod_credit_roles_ui <- function(id){
     div(class = "out-btn",
         actionButton(
           NS(id, "show_report"),
-          label = "Show contributor contributions text",
+          label = "Contributions text",
           class = "btn btn-primary btn-validate")
         ) %>% 
       tagAppendAttributes(

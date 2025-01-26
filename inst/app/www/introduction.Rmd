@@ -3,24 +3,22 @@ title: ""
 output: html_document
 ---
 
-#### 1. Create your contributors table
-* Copy the contributors table template in your Google Drive _File -> Make a copy_
-* Fill out your copy of the contributors table
-+ You can share it with your collaborators to make the process faster
+### 1. Create your contributors table
+* Duplicate the contributors table template into your Google Drive: _File -> Make a copy_. Alternatively, you can download it.
+* Fill out your copy of the contributors table (consider sharing it with your collaborators to do so).
 
-#### 2. Upload your contributors table
-* Use the share URL of your contributors table and click "Upload from URL" OR
-  - The share links should be made viewable
-* Upload your contributors table in a .csv, .tsv or .xlsx format
-  - Download your filled out contributors table to your computer (if you use .xlsx format the contributorship information should be on the first sheet)
-  - Click the “Browse” button, locate your contributors table on your computer, and click "Upload from local file"
-* To verify that your contributors table was imported correctly click “Review contributors table”
+### 2. A) Upload your contributors table file, or B) Paste its URL
+A. Upload your contributors table in a .csv, .tsv or .xlsx format.
+  - Click "Local file", then “Browse”, and locate your contributors table on your computer.
+
+B. Share the URL via Google Drive, and click "Upload from URL".
+  - To ensure the URL is public so tenzing can access it, in your copy go to _File->Share with others_. Set _General access_ to _Anyone with the link_.
   
-#### 3. Download the output
+### 3. Generate an output
 * Select the associated button to choose one of the available outputs, which are:
-  - "author Contributions text": A human-readable report of the contributions with the 
-  - "author list with affiliations": The author names and affiliation information
-  - "XML file": JATS XML, the machine-readable version of the contributions
-  - `papaja` compatible YAML code of the contributor roles
-  - "funding information" for pasting into a manuscript
-  - "conflict of interest statement"
+  - "contributions text": A list of the contributions 
+  - "contributor list with affiliations": The contributor names and affiliations (useful for your manuscript's title page)
+  - "JATS-XML": JATS XML, the machine-readable version of the contributions
+  - [papaja](https://github.com/crsh/papaja)-compatible YAML code of the contributor roles
+  - "funding information", useful for pasting into a manuscript
+  - "conflict of interest statement", useful for pasting into a manuscript

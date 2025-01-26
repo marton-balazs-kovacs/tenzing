@@ -18,7 +18,7 @@ mod_create_table_ui <- function(id) {
     p("Duplicate and edit the ",
       style = "display: inline; margin-bottom: 0;"),
     a(
-      href = "https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing",
+      href = "https://docs.google.com/spreadsheets/d/1ay8pS-ftvfzWTrKCZr6Fa0cTLg3n8KxAOOleZmuE7Hs/edit?usp=sharing",
       "contributors table template",
       target = "_blank",
       style = "display: inline; color: #ffdf57; text-decoration: underline;",
