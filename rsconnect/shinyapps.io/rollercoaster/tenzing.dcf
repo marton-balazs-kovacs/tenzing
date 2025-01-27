@@ -5,7 +5,7 @@ account: rollercoaster
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4527698
-bundleId: 9700369
+bundleId: 9703929
 url: https://rollercoaster.shinyapps.io/tenzing/
 version: 1
 asMultiple: FALSE

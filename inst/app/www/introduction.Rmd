@@ -12,13 +12,13 @@ A. Upload your contributors table in a .csv, .tsv or .xlsx format.
   - Click "Local file", then “Browse”, and locate your contributors table on your computer.
 
 B. Share the URL via Google Drive, and click "Upload from URL".
-  - To ensure the URL is public so tenzing can access it, in your copy go to _File->Share with others_. Set _General access_ to _Anyone with the link_.
+  - To ensure the URL is public so that tenzing can access it, in your copy go to _File->Share with others_. Set _General access_ to _Anyone with the link_.
   
 ### 3. Generate an output
 * Select the associated button to choose one of the available outputs, which are:
   - "contributions text": A list of the contributions 
   - "contributor list with affiliations": The contributor names and affiliations (useful for your manuscript's title page)
   - "JATS-XML": JATS XML, the machine-readable version of the contributions
-  - [papaja](https://github.com/crsh/papaja)-compatible YAML code of the contributor roles
+  - <a href="https://github.com/crsh/papaja" class="link" target='_blank'>papaja</a>-compatible YAML code of the contributor roles
   - "funding information", useful for pasting into a manuscript
   - "conflict of interest statement", useful for pasting into a manuscript
