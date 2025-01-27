@@ -7,8 +7,6 @@ output: html_document
 
 _tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievement in climbing Everest is often credited less to him than to his partner, the New Zealand mountaineer Edmund Hillary.
 
-### About CRediT
-
 <a href="http://credit.niso.org/" class="link" target='_blank'>CRediT</a> (Contributor Roles Taxonomy) is a high-level taxonomy of 14 roles that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
 
 ### Some who have recommended <i>tenzing</i>
@@ -19,16 +17,20 @@ _tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievem
 <br>
 <a href="https://ukrn.org" class="link" target='_blank'>UKRN</a>
 
-### Related papers
-
-Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.org/10.1371/journal.pone.0244611" class="link" target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing</a>. *Plos one, 15*(12), e0244611. DOI:10.1371/journal.pone.0244611
-
-Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org/10.3233/ISU-210109" class="link" target='_blank'>Tenzing and the importance of tool development for research efficiency</a>. *Information Services & Use, 41*, 123–130. DOI:10.3233/ISU-210109
-
 ### Contributors
 
-Marton Kovacs, Alex O. Holcombe, [et al.](https://github.com/marton-balazs-kovacs/tenzing/graphs/contributors)
+Marton Kovacs, Alex O. Holcombe, <A href="https://github.com/marton-balazs-kovacs/tenzing/graphs/contributors" class="link" target='_blank'>et al.</A>
 
 ### Contact
 
-If you have any questions or comments, please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or message us <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">on Mastodon</a>.
+If you have any questions or comments, please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or contact us at <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib on Mastodon</a>.
+<br>
+Follow <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib</a> on Mastodon to see announcements about updates, our <a href="https://contributorshipcollaboration.github.io/" class="link" target='_blank'>other projects</a>, and our videocalls. You can also subscribe to <a href="https://neuromatch.social/@tenzingContrib.rss" class="link">the RSS feed</a>.
+
+### Related papers
+
+Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org/10.3233/ISU-210109" class="link" target='_blank'>Tenzing and the importance of tool development for research efficiency</a>. *Information Services & Use, 41*, 123–130. DOI:10.3233/ISU-210109
+
+Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.org/10.1371/journal.pone.0244611" class="link" target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing</a>. *Plos one, 15*(12), e0244611. DOI:10.1371/journal.pone.0244611
+
+Holcombe, A. O. (2019). <A href="https://doi.org/10.3390/publications7030048"  class="link" target='_blank'>Contributorship, Not Authorship: Use CRediT to Indicate Who Did What</A>. *Publications, 7*(3), Article 3. 
