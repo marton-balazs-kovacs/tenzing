@@ -110,11 +110,16 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     dplyr::group_by(.data$`Order in publication`, .data$Name, .data$`Corresponding author?`) %>% 
     dplyr::summarise(affiliation_no = stringr::str_c(na.omit(.data$affiliation_no), collapse = ",")) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(
-      shared_first & .data$`Order in publication` == 1 ~ paste0(.data$affiliation_no, "*"),
-      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "†"),
-      TRUE ~ .data$affiliation_no)) %>% 
+      shared_first & .data$`Order in publication` == 1 & .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "*†"),  # Shared first & corresponding
+      shared_first & .data$`Order in publication` == 1 ~ paste0(.data$affiliation_no, "*"),  # Shared first only
+      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "†"),  # Corresponding only
+      TRUE ~ .data$affiliation_no
+    )) %>% 
     # Format output string according to the text_format argument
-    dplyr::transmute(contrib = paste0(Name, superscript(affiliation_no, text_format))) %>% 
+    dplyr::transmute(contrib = dplyr::case_when(
+      text_format == "rmd" ~ glue::glue("{Name}^{affiliation_no}^"), # R Markdown superscript
+      TRUE ~ paste0(Name, superscript(affiliation_no, text_format))
+    )) %>% 
     # Collapse contributor names to one string
     dplyr::pull(.data$contrib) %>% 
     glue::glue_collapse(., sep = ", ")
@@ -132,38 +137,47 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     glue::glue_collapse(., sep = ", ")
   
   # Modify data for shared first authors ---------------------------
-  if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) & shared_first) {
-    annotation_print <-
+  if (shared_first) {
+    # Identify first authors
+    first_authors_data <-
       clean_names_contributors_table %>%
-      dplyr::select(
-        .data$`Order in publication`,
-        .data$Name,
-        .data$`Email address`,
-        .data$`Corresponding author?`
-      ) %>%
       dplyr::filter(.data$`Order in publication` == 1) %>%
-      dplyr::mutate(shared_author_names = glue_oxford_collapse(.data$Name)) %>%
-      dplyr::filter(.data$`Corresponding author?`) %>%
-      glue::glue_data(
-        "*{shared_author_names} are shared first authors. The corresponding author is {Name}: {`Email address`}."
+      dplyr::summarise(
+        shared_author_names = glue_oxford_collapse(.data$Name),
+        .groups = "drop"
       )
-  } else if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE) &
-             !shared_first) {
-    annotation_print <-
-      clean_names_contributors_table %>%
-      dplyr::select(.data$Name,
-                    .data$`Email address`,
-                    .data$`Corresponding author?`) %>%
-      dplyr::filter(.data$`Corresponding author?`) %>%
-      glue::glue_data(
-        "{superscript('†', text_format)}Correspondence should be addressed to {Name}; E-mail: {`Email address`}"
-      )
-  } else if (text_format == "html") {
-    annotation_print <-
-      '<span style="background-color: #ffec9b; padding: 2px;">[Missing corresponding author statement]</span>'
+    
+    first_author_text <- glue::glue_data(
+      first_authors_data,
+      "*{shared_author_names} are shared first authors."
+    )
   } else {
-    annotation_print <- ""
+    first_author_text <- ""
   }
+  
+  # Identify corresponding authors (can be first authors or not)
+  if (any(clean_names_contributors_table$`Corresponding author?`, na.rm = TRUE)) {
+    corresponding_authors_data <-
+      clean_names_contributors_table %>%
+      dplyr::filter(.data$`Corresponding author?`) %>%
+      dplyr::summarise(
+        corresponding_names = glue_oxford_collapse(.data$Name),
+        corresponding_emails = glue_oxford_collapse(.data$`Email address`),
+        .groups = "drop"
+      )
+    
+    corresponding_text <- glue::glue_data(
+      corresponding_authors_data,
+      "{superscript('†', text_format)} Correspondence should be addressed to {corresponding_names}; E-mail: {corresponding_emails}."
+    )
+  } else if (text_format == "html") {
+    corresponding_text <- '<span style="background-color: #ffec9b; padding: 2px;">[Missing corresponding author statement]</span>'
+  } else {
+    corresponding_text <- ""
+  }
+  
+  # Combine first author and corresponding author statements
+  annotation_print <- glue::glue("{first_author_text} {corresponding_text}")
   
   # Bind contributor and affiliation information  ---------------------------
   res <- switch(
