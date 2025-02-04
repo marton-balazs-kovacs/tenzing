@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Using tenzing as a shiny app • tenzing</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -12,200 +12,230 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Using tenzing as a shiny app">
-<meta property="og:description" content="tenzing">
-<meta property="og:image" content="/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using tenzing as a shiny app">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">tenzing</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/app_use.html">Using tenzing as a shiny app</a>
-    </li>
-    <li>
-      <a href="../articles/local_use.html">Using tenzing as a package</a>
-    </li>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
+    <a class="navbar-brand me-2" href="../index.html">tenzing</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/app_use.html">Using tenzing as a shiny app</a></li>
+    <li><a class="dropdown-item" href="../articles/local_use.html">Using tenzing as a package</a></li>
+    <li><a class="dropdown-item" href="../articles/validation.html">Custom Validation in tenzing</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/marton-balazs-kovacs/tenzing/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/marton-balazs-kovacs/tenzing"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="app_use_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Using tenzing as a shiny app</h1>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../logo.png" class="logo" alt=""><h1>Using tenzing as a shiny app</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/marton-balazs-kovacs/tenzing/blob/master/vignettes/app_use.Rmd"><code>vignettes/app_use.Rmd</code></a></small>
-      <div class="hidden name"><code>app_use.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/marton-balazs-kovacs/tenzing/blob/master/vignettes/app_use.Rmd" class="external-link"><code>vignettes/app_use.Rmd</code></a></small>
+      <div class="d-none name"><code>app_use.Rmd</code></div>
     </div>
 
     
     
-<p>The <code>tenzing</code> package can be used as a shiny application, which is already embedded in a webpage: <a href="https://tenzing.club/">https://tenzing.club/</a>. When you first open the app it might take a few seconds for the page to load.</p>
-<p>If you want to instead run the app locally from your computer, first you have to open R and install the <code>tenzing</code> package with the following code:</p>
+<p>The <code>tenzing</code> package can be used as a shiny application,
+which is already embedded in a webpage: <a href="https://tenzing.club/" class="external-link">https://tenzing.club/</a>. When you first
+open the app it might take a few seconds for the page to load.</p>
+<p>If you want to instead run the app locally from your computer, first
+you have to open R and install the <code>tenzing</code> package with the
+following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"marton-balazs-kovacs/tenzing"</span><span class="op">)</span></span></code></pre></div>
 <p>After the installation finishes, you can launch the app.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tenzing</span><span class="fu">::</span><span class="fu"><a href="../reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div id="overview-of-the-app" class="section level1">
-<h1 class="hasAnchor">
-<a href="#overview-of-the-app" class="anchor"></a>Overview of the app</h1>
-<p>When you open the app, you’ll see instructions in the left yellow panel to guide you through the process of providing the input to generate the app’s output: contributorship information using the CRediT taxonomy, in various formats.</p>
+<code class="sourceCode R"><span><span class="fu">tenzing</span><span class="fu">::</span><span class="fu"><a href="../reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="overview-of-the-app">Overview of the app<a class="anchor" aria-label="anchor" href="#overview-of-the-app"></a>
+</h2>
+<p>When you open the app, you’ll see instructions in the left yellow
+panel to guide you through the process of providing the input to
+generate the app’s output: contributorship information using the CRediT
+taxonomy, in various formats.</p>
 <p><img src="tenzing_on_open.png" width="100%"></p>
 </div>
-<div id="create-your-contributors-table" class="section level1">
-<h1 class="hasAnchor">
-<a href="#create-your-contributors-table" class="anchor"></a>Create your contributors table</h1>
-<p>Enter all your credit information in a copy of the contributors table template linked in this panel. You can also reach it <a href="https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing">HERE</a>. The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by <em>File -&gt; Make a copy</em>. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the contributors table template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The contributors table can be updated as the project progresses.</p>
+<div class="section level2">
+<h2 id="create-your-contributors-table">Create your contributors table<a class="anchor" aria-label="anchor" href="#create-your-contributors-table"></a>
+</h2>
+<p>Enter all your credit information in a copy of the contributors table
+template linked in this panel. You can also reach it <a href="https://docs.google.com/spreadsheets/d/1ay8pS-ftvfzWTrKCZr6Fa0cTLg3n8KxAOOleZmuE7Hs/edit?usp=sharing" class="external-link">HERE</a>.
+The template is created as a Google spreadsheet. Make your own copy of
+it in your Google Drive by <em>File -&gt; Make a copy</em>. This Google
+spreadsheet format allows easy sharing with your collaborators so they
+can optionally enter their contributorship information themselves. We
+suggest you create and fill out the contributors table template in the
+beginning of your project, as it helps the contributors to have an
+overview on what each member of the team does. The contributors table
+can be updated as the project progresses.</p>
 <p><img src="contributors_table.png" width="100%"></p>
-<p><strong>Note:</strong> Required fields in the contributors table are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like.</p>
-<p>If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at <a href="http://credit.niso.org/">http://credit.niso.org/</a>.</p>
+<p><strong>Note:</strong> Required fields in the contributors table are,
+for each author, the <code>Firstname</code>, <code>Middle name</code>,
+and <code>Surname</code> columns and the
+<code>Order in publication</code> column. The
+<code>Order in publication</code> column must be filled for each author
+with a unique value. Except in case of multiple first authors. You can
+add as many contributors as you like.</p>
+<p>If you hover your mouse over the CRediT taxonomy column names in the
+Google spreadsheet format, you can see the definition of each role. You
+can find out more about the roles at <a href="http://credit.niso.org/" class="external-link">http://credit.niso.org/</a>.</p>
 </div>
-<div id="upload-your-contributors-table" class="section level1">
-<h1 class="hasAnchor">
-<a href="#upload-your-contributors-table" class="anchor"></a>Upload your contributors table</h1>
-<p>You can load you contributors table to <code>tenzing</code> by either uploading a local file from your computer or pasting the share URL of the Google spreasheet.</p>
-<div id="uploading-a-local-file" class="section level2">
-<h2 class="hasAnchor">
-<a href="#uploading-a-local-file" class="anchor"></a>Uploading a local file</h2>
-<p>Before uploading your contributors table to the app, first download it to your computer if you haven’t already. Use <em>File -&gt; Download</em>. The app can process any of three formats: csv, tsv or xlsx (xlsx can have multiple sheets, so be aware that only the first sheet will be used by the app).</p>
+<div class="section level2">
+<h2 id="upload-your-contributors-table">Upload your contributors table<a class="anchor" aria-label="anchor" href="#upload-your-contributors-table"></a>
+</h2>
+<p>You can load you contributors table to <code>tenzing</code> by either
+uploading a local file from your computer or pasting the share URL of
+the Google spreasheet.</p>
+<div class="section level3">
+<h3 id="uploading-a-local-file">Uploading a local file<a class="anchor" aria-label="anchor" href="#uploading-a-local-file"></a>
+</h3>
+<p>Before uploading your contributors table to the app, first download
+it to your computer if you haven’t already. Use <em>File -&gt;
+Download</em>. The app can process any of three formats: csv, tsv or
+xlsx (xlsx can have multiple sheets, so be aware that only the first
+sheet will be used by the app).</p>
 <p><img src="tenzing_error.png" width="100%"></p>
-<p>Another possibility is to load your contributors table by providing the share URL of the spreadsheet to the app.</p>
+<p>Another possibility is to load your contributors table by providing
+the share URL of the spreadsheet to the app.</p>
 </div>
-<div id="loading-contributors-table-by-url" class="section level2">
-<h2 class="hasAnchor">
-<a href="#loading-contributors-table-by-url" class="anchor"></a>Loading contributors table by URL</h2>
-<p>When you load your contributors table by using the share URL of the Google spreadsheet do not forget to use the “Anyone with the link” share option, so <code>tenzing</code> has permission to read your spreadsheet.</p>
+<div class="section level3">
+<h3 id="loading-contributors-table-by-url">Loading contributors table by URL<a class="anchor" aria-label="anchor" href="#loading-contributors-table-by-url"></a>
+</h3>
+<p>When you load your contributors table by using the share URL of the
+Google spreadsheet do not forget to use the “Anyone with the link” share
+option, so <code>tenzing</code> has permission to read your
+spreadsheet.</p>
 </div>
-<div id="validating-the-contributors-table" class="section level2">
-<h2 class="hasAnchor">
-<a href="#validating-the-contributors-table" class="anchor"></a>Validating the contributors table</h2>
-<p>On upload the app checks the validity of your contributors table, with feedback to help you find any problems in your contributors table. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your contributors table. In case of an error, the app does not enable the output generating buttons until you fix the error.</p>
-<p>If you want to look at your uploaded contributors table you can do that by clicking <em>“Review contributors table”</em>, and if needed, search or filter the contributors by any column.</p>
+<div class="section level3">
+<h3 id="validating-the-contributors-table">Validating the contributors table<a class="anchor" aria-label="anchor" href="#validating-the-contributors-table"></a>
+</h3>
+<p>On upload the app checks the validity of your contributors table,
+with feedback to help you find any problems in your contributors
+table.</p>
+<p>Upon upload, <strong>tenzing</strong> only checks if columns to
+generate the outputs exists in your contributors table. If none of the
+outputs can be created based on the uploaded table you cannot proceed.
+Otherwise, output specific validations are shown after clicking on a
+given output.</p>
+<p>Warnings usually do not affect the generated outputs so you can
+ignore them, although they can highlight possible duplication in your
+contributors table. Any warnings, errors, that the validation returns
+for a specific output are listed at the bottom of the output modal under
+<strong>Table validation</strong>.</p>
+<p>If you want to look at your uploaded contributors table you can do
+that by clicking <em>“Review contributors table”</em>, and if needed,
+search or filter the contributors by any column.</p>
 </div>
 </div>
-<div id="download-the-output" class="section level1">
-<h1 class="hasAnchor">
-<a href="#download-the-output" class="anchor"></a>Download the output</h1>
-<p>By clicking on each of the four output options you will see a preview of the generated output in a different window. The loading of this window might take a few seconds depending on the number of contributors that you have. After the preview has loaded you can decide whether you want to download the file in doc format or instead copy-paste it.</p>
+<div class="section level2">
+<h2 id="download-the-output">Download the output<a class="anchor" aria-label="anchor" href="#download-the-output"></a>
+</h2>
+<p>By clicking on each of the four output options you will see a preview
+of the generated output in a different window. The loading of this
+window might take a few seconds depending on the number of contributors
+that you have. After the preview has loaded you can decide whether you
+want to download the file in doc format or instead copy-paste it.</p>
 <p>Below are the output options:</p>
-<div id="create-a-human-readable-report-of-the-contributions-according-to-credit" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-a-human-readable-report-of-the-contributions-according-to-credit" class="anchor"></a>Create a human readable report of the contributions according to CRediT</h2>
-<p>You can choose to show the initials instead of full names by using the toggle switch. Also, you can list the contributions according to the CRediT roles or by the name of the contributor by using the other switch.</p>
+<div class="section level3">
+<h3 id="create-a-human-readable-report-of-the-contributions-according-to-credit">Create a human readable report of the contributions according to
+CRediT<a class="anchor" aria-label="anchor" href="#create-a-human-readable-report-of-the-contributions-according-to-credit"></a>
+</h3>
+<p>You can choose to show the initials instead of full names by using
+the toggle switch. Also, you can list the contributions according to the
+CRediT roles or by the name of the contributor by using the other
+switch.</p>
 <p><img src="human_readable_output.png" width="100%"></p>
 </div>
-<div id="create-the-contributors-affiliation-page" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-the-contributors-affiliation-page" class="anchor"></a>Create the contributors’ affiliation page</h2>
-<p><code>tenzing</code> allows multiple first authors. To include multiple first authors you should use 1 for each author in the contributors table’s <em>Order in publication</em> column. <code>tenzing</code> will automatically detect that multiple contributors are listed as first author and print an additional statement. In this statement, <code>tenzing</code> will include the name and email address of the corresponding author as well so do not forget to provide this information.</p>
+<div class="section level3">
+<h3 id="create-the-contributors-affiliation-page">Create the contributors’ affiliation page<a class="anchor" aria-label="anchor" href="#create-the-contributors-affiliation-page"></a>
+</h3>
+<p><code>tenzing</code> allows multiple first authors. To include
+multiple first authors you should use 1 for each author in the
+contributors table’s <em>Order in publication</em> column.
+<code>tenzing</code> will automatically detect that multiple
+contributors are listed as first author and print an additional
+statement. In this statement, <code>tenzing</code> will include the name
+and email address of the corresponding author as well so do not forget
+to provide this information.</p>
 <p><img src="contrib_affil_output.png" width="100%"></p>
 </div>
-<div id="create-a-jats-formatted-xml-document-containing-the-contributors-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-a-jats-formatted-xml-document-containing-the-contributors-information" class="anchor"></a>Create a JATS formatted XML document containing the contributors information</h2>
+<div class="section level3">
+<h3 id="create-a-jats-formatted-xml-document-containing-the-contributors-information">Create a JATS formatted XML document containing the contributors
+information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-xml-document-containing-the-contributors-information"></a>
+</h3>
 <p><img src="xml_output.png" width="100%"></p>
 </div>
-<div id="create-a-yaml-document-containing-the-contributors-informtation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-a-yaml-document-containing-the-contributors-informtation" class="anchor"></a>Create a YAML document containing the contributors informtation</h2>
-<p>This output can be incorporated into manuscript created with the <code>papaja</code> package.</p>
+<div class="section level3">
+<h3 id="create-a-yaml-document-containing-the-contributors-informtation">Create a YAML document containing the contributors informtation<a class="anchor" aria-label="anchor" href="#create-a-yaml-document-containing-the-contributors-informtation"></a>
+</h3>
+<p>This output can be incorporated into manuscript created with the
+<code>papaja</code> package.</p>
 <p><img src="yaml_output.png" width="100%"></p>
 </div>
-<div id="create-funding-acknowledgements-section" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-funding-acknowledgements-section" class="anchor"></a>Create funding acknowledgements section</h2>
-<p>This output lists each contributor and the name of the funding agency, or the specific grant as included in the <em>Funding</em> column of the contributors table. You can choose to show the initials instead of full names by using the toggle switch.</p>
+<div class="section level3">
+<h3 id="create-funding-acknowledgements-section">Create funding acknowledgements section<a class="anchor" aria-label="anchor" href="#create-funding-acknowledgements-section"></a>
+</h3>
+<p>This output lists each contributor and the name of the funding
+agency, or the specific grant as included in the <em>Funding</em> column
+of the contributors table. You can choose to show the initials instead
+of full names by using the toggle switch.</p>
 <p><img src="funding_output.png" width="100%"></p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p>Developed by Marton Kovacs.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
-  
+
+
 
 
   </body>

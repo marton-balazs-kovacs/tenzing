@@ -1,8 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1
+pandoc: 3.1.11
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   app_use: app_use.html
   local_use: local_use.html
-last_built: 2021-09-17T19:11Z
-
+  validation: validation.html
+last_built: 2025-02-04T18:53Z
+urls:
+  reference: https://marton-balazs-kovacs.github.io/tenzing/reference
+  article: https://marton-balazs-kovacs.github.io/tenzing/articles
