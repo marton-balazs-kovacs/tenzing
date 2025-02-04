@@ -27,3 +27,4 @@ The function is based on the suggestion of Hadley Wickham \url{https://mastering
 \seealso{
 \code{\link[rmarkdown:render]{rmarkdown::render()}}
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ table formatted according the JATS 1.2 DTD specifications.
 This function generates an XML document from the preformatted
 \code{contributors_table}.
 }
+\keyword{internal}

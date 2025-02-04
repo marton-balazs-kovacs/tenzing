@@ -14,22 +14,13 @@
 #' }
 #' 
 #' @param contributors_table dataframe, filled out contributors_table
+#' @param config_path character, file path to validation configuration file
 #' 
 #' @return The function returns a list for each checked statement. Each list contains
 #'   a `type` vector that stores whether the statement passed the check "success"
 #'   or failed "warning" or "error", and a `message` vector that contains information
 #'   about the nature of the check.
 #' @export 
-#' @examples
-#' # Read the example contributors table
-#' file_path <- system.file("extdata", "contributors_table_example.csv", package = "tenzing", mustWork = TRUE)
-#' my_contributors_table <- read_contributors_table(contributors_table_path = file_path)
-#' # Validate the table
-#' check_result <- validate_contributors_table(contributors_table = my_contributors_table)
-#' # Show the results of the checks
-#' purrr::map(check_result, "type")
-#' # Show the corresponding messages
-#' purrr::map(check_result, "message")
 #' 
 #' @importFrom rlang .data
 #' @importFrom utils data

@@ -12,6 +12,8 @@
 #' @param output path of the rendered output file
 #' @param format the extension of the output file
 #' @param params list of parameters that will be passed to the RMD
+#' 
+#' @keywords internal
 render_report <- function(input, output, format, params) {
   rmarkdown::render(input,
                     output_file = output,

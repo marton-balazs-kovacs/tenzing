@@ -18,3 +18,4 @@ Returns a character vector with one element.
 The function filters the results of the validation of the contributors_table template
 by type. Then the message elements are pulled and collapsed into one element.
 }
+\keyword{internal}

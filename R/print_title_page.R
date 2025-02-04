@@ -109,9 +109,9 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     dplyr::group_by(.data$`Order in publication`, .data$Name, .data$`Corresponding author?`) %>% 
     dplyr::summarise(affiliation_no = stringr::str_c(na.omit(.data$affiliation_no), collapse = ",")) %>% 
     dplyr::mutate(affiliation_no = dplyr::case_when(
-      shared_first & .data$`Order in publication` == 1 & .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "*†"),  # Shared first & corresponding
+      shared_first & .data$`Order in publication` == 1 & .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "*\u2020"),  # Shared first & corresponding
       shared_first & .data$`Order in publication` == 1 ~ paste0(.data$affiliation_no, "*"),  # Shared first only
-      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "†"),  # Corresponding only
+      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "\u2020"),  # Corresponding only
       TRUE ~ .data$affiliation_no
     )) %>% 
     # Format output string according to the text_format argument
@@ -167,7 +167,7 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     
     corresponding_text <- glue::glue_data(
       corresponding_authors_data,
-      "{superscript('†', text_format)} Correspondence should be addressed to {corresponding_names}; E-mail: {corresponding_emails}."
+      "{superscript('\u2020', text_format)} Correspondence should be addressed to {corresponding_names}; E-mail: {corresponding_emails}."
     )
   } else if (text_format == "html") {
     corresponding_text <- '<span style="background-color: #ffec9b; padding: 2px;">[Missing corresponding author statement]</span>'

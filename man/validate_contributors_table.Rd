@@ -31,15 +31,3 @@ names that are present in the \code{contributors_table_template} is missing, or 
 }
 }
 
-\examples{
-# Read the example contributors table
-file_path <- system.file("extdata", "contributors_table_example.csv", package = "tenzing", mustWork = TRUE)
-my_contributors_table <- read_contributors_table(contributors_table_path = file_path)
-# Validate the table
-check_result <- validate_contributors_table(contributors_table = my_contributors_table)
-# Show the results of the checks
-purrr::map(check_result, "type")
-# Show the corresponding messages
-purrr::map(check_result, "message")
-
-}

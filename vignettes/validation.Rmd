@@ -2,7 +2,7 @@
 title: "Custom Validation in tenzing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{local_use}
+  %\VignetteIndexEntry{validation}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -11,15 +11,12 @@ editor_options:
     wrap: 72
 ---
 
-```{r, include = FALSE}
+```{r, include = FALSE, message = FALSE, warning = FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-# install.packages("devtools")
-devtools::install_github("marton-balazs-kovacs/tenzing")
 
 library(tenzing)
 

@@ -1,8 +1,23 @@
+# _pkgdown.yml
+
+# Website URL
+url: https://marton-balazs-kovacs.github.io/tenzing
+
+# Update to Bootstrap 5 for improved styling and features
+template:
+  bootstrap: 5
+
+# Authors information
+authors:
+  Marton Balazs Kovacs:
+    href: https://github.com/marton-balazs-kovacs
+
 reference:
 - title: Shiny App
   desc: Functions to use the shiny app
   contents: 
   - run_app
+  
 - title: Contributors table
   desc: Functions to load and test your contributors table
   contents:
@@ -10,6 +25,7 @@ reference:
   - read_contributors_table
   - validate_contributors_table
   - clean_contributors_table
+  
 - title: Generate Output
   desc: Functions to generate outputs
   contents:
@@ -18,23 +34,68 @@ reference:
   - print_xml
   - print_yaml
   - print_funding
+  - print_conflict_statement
+  
 - title: Initials
   desc: Functions to turn full names into initials
   contents:
   - add_initials
   - abbreviate
   - abbreviate_middle_names_df
+
+- title: Validation Classes
+  desc: Classes to manage table validation
+  contents:
+  - Validator
+  - ColumnValidator
+  - ValidateOutput
+
+- title: Validation Helpers
+  desc: Functions for custom validation checks
+  contents:
+  - check_affiliation
+  - check_affiliation_consistency
+  - check_coi
+  - check_credit
+  - check_duplicate_initials
+  - check_duplicate_names
+  - check_duplicate_order
+  - check_missing_corresponding
+  - check_missing_email
+  - check_missing_firstname
+  - check_missing_order
+  - check_missing_surname
+
 - title: Rename
   desc: Functions and datafiles that were renamed
   contents:
   - rename
 
+# News section settings
 news:
   cran_dates: false
   one_page: true
 
+# Home page settings
 home:
   strip_header: false
   links:
-  - text: Find the Shiny app
-    href: http://tenzing.club/
+    - text: "Find the Shiny app"
+      href: "http://tenzing.club/"
+    - text: "GitHub repository"
+      href: "https://github.com/marton-balazs-kovacs/tenzing"
+      icon: fa-github
+      aria-label: "GitHub repository for tenzing"
+
+# Navbar configuration
+navbar:
+  structure:
+    left: [reference, articles, news]
+    right: [github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/marton-balazs-kovacs/tenzing
+
+# Favicon for the website (ensure favicon files are available in inst/logo/)
+favicon: inst/app/www/favicon.png

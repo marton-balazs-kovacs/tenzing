@@ -18,6 +18,9 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2  # Updated from master to v2
 
+      - name: Set up Pandoc  # ✅ Fix: Install Pandoc before running R CMD check
+        uses: r-lib/actions/setup-pandoc@v2  
+
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))

@@ -9,6 +9,8 @@
 #' 
 #' @section Source:
 #' <https://mastering-shiny.org/scaling-modules.html>
+#' 
+#' @keywords internal
 moduleServer <- function(id, module) {
   callModule(module, id)
 }

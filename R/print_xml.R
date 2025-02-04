@@ -59,6 +59,8 @@ print_xml <-  function(contributors_table) {
 #' 
 #' @return The function returns an XML document from the contributors
 #' table formatted according the JATS 1.2 DTD specifications.
+#' 
+#' @keywords internal
 contrib_group <- function(contrib_data) {
   # Create a new XML root
   root <- xml2::xml_new_root(.value = "contrib-group")

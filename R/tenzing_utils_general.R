@@ -7,6 +7,8 @@
 #' @param y The type of validation message
 #'
 #' @return Returns a character vector with one element.
+#' 
+#' @keywords internal
 unnamed_message <- function(x, y) {
   x %>% 
     dplyr::filter(.data$type == y) %>% 
@@ -24,6 +26,8 @@ unnamed_message <- function(x, y) {
 #' @param x character, the vector to be collapsed
 #' 
 #' @return The function returns a vector of length 1.
+#' 
+#' @keywords internal
 glue_oxford_collapse <- function(x) {
   if (length(x) >= 3) {
     glue::glue_collapse(x, sep = ", ", last = ", and ")

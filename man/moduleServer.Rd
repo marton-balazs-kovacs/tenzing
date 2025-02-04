@@ -21,3 +21,4 @@ from version 1.5.0. To be deleted after update.
 \url{https://mastering-shiny.org/scaling-modules.html}
 }
 
+\keyword{internal}

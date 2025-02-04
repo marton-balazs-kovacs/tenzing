@@ -70,7 +70,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-URL: https://github.com/marton-balazs-kovacs/tenzing
+URL: https://github.com/marton-balazs-kovacs/tenzing, https://marton-balazs-kovacs.github.io/tenzing
 BugReports: https://github.com/marton-balazs-kovacs/tenzing/issues
 VignetteBuilder: knitr
 Depends: 
