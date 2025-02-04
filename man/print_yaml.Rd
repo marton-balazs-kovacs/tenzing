@@ -15,8 +15,7 @@ The function returns a YAML document
 \description{
 The function generates a YAML document containing the contributors information
 and contributions according to the CRediT taxonomy. The output is generated
-from an \code{contributors_table} validated with the \code{\link[=validate_contributors_table]{validate_contributors_table()}} function.
-The \code{contributors_table} must be based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
+from an \code{contributors_table} based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
 }
 \section{Warning}{
 
@@ -31,7 +30,6 @@ example_contributors_table <-
 read_contributors_table(
 contributors_table = system.file("extdata",
 "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-validate_contributors_table(contributors_table = example_contributors_table)
 print_yaml(contributors_table = example_contributors_table)
 
 }

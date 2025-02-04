@@ -1,0 +1,297 @@
+---
+title: "Custom Validation in tenzing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{local_use}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/tenzing")
+
+library(tenzing)
+
+file_path <- system.file("extdata", "contributors_table_example.csv", package = "tenzing", mustWork = TRUE)
+my_contributors_table <- read_contributors_table(contributors_table_path = file_path)
+```
+
+This vignette provides a step-by-step guide on how to create and apply
+custom validation rules in **tenzing**. The validation framework in
+**tenzing** is based on R6 classes that allow for flexible and
+configurable validation of contributor tables.
+
+# Overview
+
+The validation system in **tenzing** consists of three main components:
+
+-   `ColumnValidator` -- Ensures that required columns exist in the
+    contributors table.
+-   `Validator` -- Runs logical checks on the contents of the table
+    (e.g., missing values, duplicate names).
+-   `ValidateOutput` -- Combines column and data validation, allowing
+    for customized validation pipelines using `YAML` configuration
+    files.
+
+By leveraging these components, you can create your own validation rules
+to check for specific issues in your data.
+
+# 1. Defining Custom Validation Rules
+
+Validation rules are written as functions in **tenzing**. These
+functions should take the `contributors_table` as input and return a
+list with two elements:
+
+-   `type`: Can be "success", "warning", or "error", indicating the
+    result of the check.
+-   `message`: A user-friendly explanation of the check result.
+
+# Example: Custom Validation Function
+
+Let's say you want to create a check that ensures every contributor has
+a valid ORCID ID.
+
+```{r}
+#' Check for valid ORCID IDs
+#'
+#' This function checks if the ORCID IDs in the `contributors_table` are formatted correctly.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success", "warning", or "error".}
+#' \item{message}{An informative message indicating if any ORCID IDs are invalid.}
+check_orcid <- function(contributors_table) {
+  if (!"ORCID" %in% colnames(contributors_table)) {
+    return(list(
+      type = "warning",
+      message = "No ORCID column found. ORCID validation skipped."
+    ))
+  }
+  
+  invalid_orcids <- contributors_table %>%
+    dplyr::filter(!grepl("^\\d{4}-\\d{4}-\\d{4}-\\d{4}$", .data$ORCID) & !is.na(.data$ORCID))
+  
+  if (nrow(invalid_orcids) > 0) {
+    return(list(
+      type = "warning",
+      message = glue::glue("Invalid ORCID format for the following rows: {paste(invalid_orcids$rowname, collapse = ', ')}")
+    ))
+  }
+  
+  return(list(type = "success", message = "All ORCID IDs are correctly formatted."))
+}
+
+```
+
+# 2. Configuring Validation with YAML
+
+Once you define your validation function, you need to tell **tenzing**
+to use it. This is done by specifying the validation in a `YAML`
+configuration file.
+
+**tenzing** includes a set of predefined validation helpers in `R/validation_helpers.R`. These include:
+- `check_missing_order` – Ensures that all contributors have an order in the publication.
+- `check_duplicate_order` – Ensures no duplicate order numbers unless multiple first authors exist.
+- `check_missing_surname` – Ensures all contributors have a surname.
+- `check_duplicate_names` – Ensures no duplicate contributor names.
+- `check_affiliation_consistency` – Ensures only one affiliation format is used.
+- Many more...
+
+These functions are automatically available when setting up validation in **tenzing**.
+
+## Writing Custom Dependencies
+
+Some validations should only run if other conditions are met. You can define dependencies in the `YAML` configuration file.
+
+### Example: Adding ORCID Validation in `config/validator_vignette_example.yaml`
+
+```         
+validation_config:
+  validations:
+    - name: check_missing_order
+    - name: check_duplicate_order
+    - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
+    - name: check_missing_corresponding
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+    - name: check_missing_email
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+        - 'self$results[["check_missing_corresponding"]]$type == "success"'
+        - '"Email address" %in% colnames(contributors_table)'
+    - name: check_orcid
+      dependencies:
+        - '"ORCID" %in% colnames(contributors_table)'
+```
+
+In this configuration:
+
+-   The `check_orcid` validation will only run if the column `"ORCID"` exists.
+-   The `check_missing_email` validation will only run if a corresponding author is specified and their email column exists.
+
+# 3. Running Custom Validations
+
+Once you have added the validation rule, you can run it using **tenzing's** validation pipeline.
+
+## Step 1: Load the Configuration
+
+```{r}
+config_path <- system.file("config/validator_vignette_example.yaml", package = "tenzing")
+
+config_file <- yaml::read_yaml(config_path)
+```
+
+## Step 2: Initialize the `Validator` class
+
+```{r}
+validator <- Validator$new()
+
+validator$setup_validator(config_file$validation_config)
+```
+
+## Step 3: Run Validations on Your Data
+
+```{r}
+validate_results <- validator$run_validations(contributors_table = my_contributors_table)
+```
+
+## Step 4: Inspect the Validation Results
+
+```{r}
+purrr::map(validate_results, "type")
+```
+
+```{r}
+purrr::map(validate_results, "message")
+```
+
+# 4. Understanding the `Validator` Class
+
+The `Validator` class in **tenzing** is responsible for running all
+validation checks.
+
+Key Features of `Validator`
+
+-   It dynamically loads validation functions from
+    `validation_helpers.R`.
+-   It allows adding dependencies between validation rules.
+-   It executes only the specified validations from the configuration.
+
+# 5. Ensuring Required Columns Exist with ColumnValidator
+
+The `ColumnValidator` class ensures that all necessary columns are present before running validations.
+
+## Example: Configuring Required Columns
+
+In `config/columnvalidator_example.yaml`:
+
+```         
+column_config:
+  rules:
+    minimal:
+      operator: "AND"
+      columns:
+        - Firstname
+        - Middle name
+        - Surname
+        - Order in publication
+      severity: "error"
+    affiliation:
+      operator: "OR"  # Either legacy OR regex-based affiliation columns must be present
+      columns:
+        - Primary affiliation
+        - Secondary affiliation  # Legacy columns
+      regex: "^Affiliation [0-9]+$"  # Regex-based columns
+      severity: "error"  # Make sure it's required for validation to pass
+    title:
+      operator: "AND"
+      columns:
+        - Corresponding author?
+        - Email address
+      severity: "warning"
+```
+
+## Using Regex to Validate Column Names
+
+You can also define **regex-based column validation** to match dynamically named columns.
+
+### Example: Using Regex for Affiliation Columns
+
+```
+column_config:
+  rules:
+    affiliation:
+      operator: "OR"
+      columns:
+        - Primary affiliation
+        - Secondary affiliation
+      regex: "^Affiliation [0-9]+$"
+      severity: "error"
+```
+
+This configuration:
+-   Requires at least one affiliation column.
+-   Allows dynamic affiliation columns (e.g., `Affiliation 1`, `Affiliation 2`, etc.).
+-   Fails validation if no affiliation column exists.
+
+
+## Running the ColumnValidator
+
+```{r}
+config_path <- system.file("config/columnvalidator_example.yaml", package = "tenzing")
+
+config_file <- yaml::read_yaml(config_path)
+
+column_validator <- ColumnValidator$new(config_input = config_file$column_config)
+
+column_results <- column_validator$validate_columns(my_contributors_table)
+
+column_results
+```
+
+# 6. Bringing It All Together with ValidateOutput
+
+The `ValidateOutput` class integrates both `Validator` and
+`ColumnValidator`.
+
+## How It Works
+
+1.  Reads the configuration file.
+
+2.  Runs ColumnValidator to check required columns.
+
+3.  Runs Validator to check data integrity.
+
+4.  Returns the combined results.
+
+## Example Usage
+
+```{r}
+validate_output_instance <- ValidateOutput$new(config_path = config_path)
+
+validate_results <- validate_output_instance$run_validations(my_contributors_table)
+
+validate_results
+```
+
+# 7. Summary
+
+-   Define custom validation functions in `validation_helpers.R`.
+-   Add custom validations to `YAML` configuration files.
+-   Use `Validator` to run content-based checks.
+-   Use `ColumnValidator` to enforce required columns.
+-   Use `ValidateOutput` to integrate everything.

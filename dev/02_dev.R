@@ -21,6 +21,7 @@ golem::add_module(name = "feedback")
 ## 2.2 Add dependencies
 
 usethis::use_package("shiny")
+usethis::use_package("shinyjs")
 usethis::use_package("DT")
 usethis::use_package("dplyr")
 usethis::use_package("xml2")

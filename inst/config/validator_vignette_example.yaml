@@ -1,0 +1,10 @@
+validation_config:
+  validations:
+    - name: check_missing_corresponding
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+    - name: check_missing_email
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+        - 'self$results[["check_missing_corresponding"]]$type == "success"'
+        - '"Email address" %in% colnames(contributors_table)'

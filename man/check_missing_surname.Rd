@@ -2,10 +2,19 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_missing_surname}
 \alias{check_missing_surname}
-\title{Check missing surnames}
+\title{Check for Missing Surnames}
 \usage{
 check_missing_surname(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the row numbers with missing surnames, if any.}
+}
 \description{
-Check missing surnames
+This function checks for missing values in the \code{Surname} column of the
+\code{contributors_table} and returns a warning if any surnames are missing.
 }

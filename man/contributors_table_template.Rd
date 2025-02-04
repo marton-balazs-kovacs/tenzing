@@ -7,10 +7,10 @@
 \format{
 A dataframe with 3 rows and 22 variables:
 \describe{
-\item{'Order in publication'}{numeric, used to order the contributors for all outputs}
-\item{Firstname}{character, first name of the author, must be provided}
-\item{'Middle name'}{character, middle name of the author, blank if not applicable}
-\item{Surname}{character, surname of the author, must be provided}
+\item{'Order in publication'}{numeric, used to order the contributors for all outputs, shared first authorship is allowed}
+\item{Firstname}{character, first name of the contributor, must be provided}
+\item{'Middle name'}{character, middle name of the contributor, blank if not applicable}
+\item{Surname}{character, surname of the contributor, must be provided}
 \item{Conceptualization}{logical, CREdiT role}
 \item{'Data curation'}{logical, CREdiT role}
 \item{'Formal analysis'}{logical, CREdiT role}
@@ -26,11 +26,13 @@ A dataframe with 3 rows and 22 variables:
 \item{'Writing - original draft'}{logical, CREdiT role}
 \item{'Writing - review & editing'}{logical, CREdiT role}
 \item{'Email address'}{character, email address of the correspondign author, optional}
-\item{'Primary affiliation'}{character, primary affiliation of the contributor}
-\item{'Secondary affiliation'}{character, secondary affiliation of the contributor, blank if not applicable}
+\item{'Affiliation 1'}{character, primary affiliation of the contributor}
+\item{'Affiliation 2'}{character, secondary affiliation of the contributor, blank if not applicable}
+\item{'Affiliation 3'}{character, tertiary affiliation of the contributor, blank if not applicable, more affiliation columns can be added following the "Affiliation {n}" pattern}
 \item{Funding}{character, name of the funds, blank if not applicable}
 \item{ORCID iD}{character, ORCID iD of the contributor}
-\item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author}
+\item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author, multiple corresponding authors are allowed}
+\item{'Conflict of interest'}{character, conflict of interest statement of the contributor}
 }
 }
 \source{

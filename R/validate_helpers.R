@@ -7,9 +7,11 @@
 #' and the required names for the columns were `Primary affiliation` and `Secondary affiliation`. In the new version of the spreadsheet
 #' any number of affiliation columns can be created as long as they follow the `Affiliation {number}` naming convention.
 #'
-#' @param contributors_table A dataframe containing the contributors' table.
+#' @param contributors_table A dataframe containing the contributors' information.
 #'
-#' @return A list containing `valid` (TRUE/FALSE) and a `message` (if applicable).
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message regarding the validation result.}
 check_affiliation_consistency <- function(contributors_table) {
   # Check for the presence of legacy columns
   has_primary_affiliation <- "Primary affiliation" %in% colnames(contributors_table)
@@ -34,7 +36,16 @@ check_affiliation_consistency <- function(contributors_table) {
   ))
 }
 
-#' Check missing surnames
+#' Check for Missing Surnames
+#'
+#' This function checks for missing values in the `Surname` column of the 
+#' `contributors_table` and returns a warning if any surnames are missing.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the row numbers with missing surnames, if any.}
 check_missing_surname <- function(contributors_table) {
   # Check for missing surname
   if (any(is.na(contributors_table[, "Surname"]))) {
@@ -56,7 +67,16 @@ check_missing_surname <- function(contributors_table) {
   }
 }
 
-#' Check missing firstnames
+#' Check for Missing First Names
+#'
+#' This function checks for missing values in the `Firstname` column of the 
+#' `contributors_table` and returns a warning if any first names are missing.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the row numbers with missing first names, if any.}
 check_missing_firstname <- function(contributors_table) {
   if (any(is.na(contributors_table[, "Firstname"]))) {
     missing <-
@@ -76,7 +96,17 @@ check_missing_firstname <- function(contributors_table) {
   }
 }
 
-#' Check for duplicate names
+#' Check for Duplicate Names
+#'
+#' This function checks for duplicate names in the `contributors_table`. 
+#' It considers the combination of `Firstname`, `Middle name`, and `Surname` 
+#' to identify duplicates.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message listing any duplicate names found.}
 check_duplicate_names <- function(contributors_table) {
   duplicate <- 
     contributors_table %>% 
@@ -102,7 +132,17 @@ check_duplicate_names <- function(contributors_table) {
   }
 }
 
-#' Check for missing values in the `Order in publication` column
+#' Check for Missing Values in the Order of Publication
+#'
+#' This function checks for missing values in the `Order in publication` column
+#' of the `contributors_table`. If there are missing order numbers, it returns 
+#' an error indicating which rows are affected.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "error".}
+#' \item{message}{An informative message indicating the row numbers with missing order values.}
 check_missing_order <- function(contributors_table) {
   missing <-
     contributors_table %>% 
@@ -122,7 +162,17 @@ check_missing_order <- function(contributors_table) {
   }
 }
 
-#' Check for duplicate order
+#' Check for Duplicate Order Numbers
+#'
+#' This function checks for duplicate order numbers in the `Order in publication` 
+#' column of the `contributors_table`. If duplicate order numbers are detected and
+#' there are no shared first authors, the function returns an error.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "error".}
+#' \item{message}{An informative message indicating the order numbers that are duplicated.}
 check_duplicate_order <- function(contributors_table) {
   ## Check if there are shared first authors
   shared_first <- nrow(contributors_table[contributors_table$`Order in publication` == 1, ]) > 1
@@ -145,8 +195,17 @@ check_duplicate_order <- function(contributors_table) {
   }
 }
 
-#' Check if at least one affiliation is provided for each contributor
-#' Check if at least one affiliation is provided for each contributor
+#' Check for Missing Affiliations
+#'
+#' This function checks whether at least one affiliation (either legacy 
+#' or numbered) is provided for each contributor. If a contributor is missing 
+#' all affiliation information, the function returns a warning.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating which rows have missing affiliations.}
 check_affiliation <- function(contributors_table) {
   # Define global variables
   . = NULL
@@ -192,7 +251,16 @@ check_affiliation <- function(contributors_table) {
   }
 }
 
-#' Check if the corresponding author is missing
+#' Check for Missing Corresponding Author
+#'
+#' This function checks if there is at least one corresponding author 
+#' indicated in the `contributors_table`. If none are found, it returns a warning.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating whether a corresponding author is missing.}
 check_missing_corresponding <- function(contributors_table) {
   if (any(contributors_table$`Corresponding author?`)) {
     list(
@@ -205,7 +273,17 @@ check_missing_corresponding <- function(contributors_table) {
   }
 }
 
-#' Check if email is provided for the corresponding author
+#' Check for Missing Emails for Corresponding Authors
+#'
+#' This function checks if email addresses are provided for all corresponding authors 
+#' in the `contributors_table`. If any corresponding author is missing an email address, 
+#' it returns a warning.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the row numbers of corresponding authors with missing emails.}
 check_missing_email <- function(contributors_table) {
   corresponding <-
     contributors_table %>%
@@ -223,7 +301,16 @@ check_missing_email <- function(contributors_table) {
   }
 }
 
-#' Check for contributors with no CRediT roles
+#' Check for Contributors with No CRediT Roles
+#'
+#' This function checks whether each contributor has at least one CRediT taxonomy role 
+#' checked. It returns a warning if any contributor has no roles assigned.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the rows with no CRediT roles assigned.}
 check_credit <- function(contributors_table) {
   # Defining global variables
   . = NULL
@@ -245,7 +332,16 @@ check_credit <- function(contributors_table) {
   }
 }
 
-#' Check for missing COI statement
+#' Check for Missing Conflict of Interest Statements
+#'
+#' This function checks if a conflict of interest statement is provided for each contributor.
+#' It returns a warning if any contributor is missing this information.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the rows missing a conflict of interest statement.}
 check_coi <- function(contributors_table) {
   if (any(is.na(contributors_table[, "Conflict of interest"]))) {
     missing <-
@@ -265,19 +361,17 @@ check_coi <- function(contributors_table) {
   }
 }
 
-#' Check for same initials
-#' 
-#' This function checks the contributors_table for duplicate initials, and
-#' issues a warning that the surnames will be used to differentiate
-#' between the users.
-#' 
-#' @param contributors_table the imported contributors_table
-#' 
-#' @return The function returns a list with two character strings. type
-#' records whether the check was successful or not (either warning or success).
-#' message shows the accompanying informative message.
-#' 
-#' @importFrom rlang .data
+#' Check for Duplicate Initials
+#'
+#' This function checks for duplicate initials in the `contributors_table`, taking into
+#' account the `Firstname`, `Middle name`, and `Surname` columns. It issues a warning 
+#' if duplicate initials are found, which may indicate ambiguous contributor identification.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the initials that are duplicated.}
 check_duplicate_initials <- function(contributors_table) {
   duplicate <-
     contributors_table %>% 

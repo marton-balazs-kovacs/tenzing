@@ -7,10 +7,12 @@
 check_affiliation_consistency(contributors_table)
 }
 \arguments{
-\item{contributors_table}{A dataframe containing the contributors' table.}
+\item{contributors_table}{A dataframe containing the contributors' information.}
 }
 \value{
-A list containing \code{valid} (TRUE/FALSE) and a \code{message} (if applicable).
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message regarding the validation result.}
 }
 \description{
 This function checks if both legacy (\verb{Primary affiliation} and \verb{Secondary affiliation})

@@ -1,7 +1,7 @@
 #' Generate title page
 #' 
 #' The function generates rmarkdown formatted contributors' affiliation text from
-#' an contributors_table validated with the [validate_contributors_table()] function. The 
+#' an contributors_table. The 
 #' contributors_table must be based on the [contributors_table_template()]. The function can
 #' return the output string as rmarkdown or html formatted text or without any formatting.
 #' 
@@ -25,7 +25,6 @@
 #' example_contributors_table <- read_contributors_table(
 #' contributors_table = system.file("extdata",
 #' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_contributors_table(contributors_table = example_contributors_table)
 #' print_title_page(contributors_table = example_contributors_table)
 #' 
 #' @importFrom rlang .data

@@ -40,13 +40,13 @@ knitr::include_graphics('./tenzing_on_open.png')
 
 # Create your contributors table
 
-Enter all your credit information in a copy of the contributors table template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the contributors table template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The contributors table can be updated as the project progresses.
+Enter all your credit information in a copy of the contributors table template linked in this panel. You can also reach it [HERE](https://docs.google.com/spreadsheets/d/1ay8pS-ftvfzWTrKCZr6Fa0cTLg3n8KxAOOleZmuE7Hs/edit?usp=sharing). The template is created as a Google spreadsheet. Make your own copy of it in your Google Drive by _File -> Make a copy_. This Google spreadsheet format allows easy sharing with your collaborators so they can optionally enter their contributorship information themselves. We suggest you create and fill out the contributors table template in the beginning of your project, as it helps the contributors to have an overview on what each member of the team does. The contributors table can be updated as the project progresses.
 
 ```{r, echo = FALSE, out.width = "100%"}
 knitr::include_graphics('./contributors_table.png')
 ```
 
-__Note:__ Required fields in the contributors table are, for each author, the firstname and surname columns and at least one affiliation. The order of authors column must be filled for each author with a unique value. You can add as many contributors as you like. 
+__Note:__ Required fields in the contributors table are, for each author, the `Firstname`, `Middle name`, and `Surname` columns and the `Order in publication` column. The `Order in publication` column must be filled for each author with a unique value. Except in case of multiple first authors. You can add as many contributors as you like. 
 
 If you hover your mouse over the CRediT taxonomy column names in the Google spreadsheet format, you can see the definition of each role. You can find out more about the roles at [http://credit.niso.org/](http://credit.niso.org/).
 
@@ -70,7 +70,11 @@ When you load your contributors table by using the share URL of the Google sprea
 
 ## Validating the contributors table
 
-On upload the app checks the validity of your contributors table, with feedback to help you find any problems in your contributors table. Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your contributors table. In case of an error, the app does not enable the output generating buttons until you fix the error.
+On upload the app checks the validity of your contributors table, with feedback to help you find any problems in your contributors table.
+
+Upon upload, __tenzing__ only checks if columns to generate the outputs exists in your contributors table. If none of the outputs can be created based on the uploaded table you cannot proceed. Otherwise, output specific validations are shown after clicking on a given output.
+
+Warnings usually do not affect the generated outputs so you can ignore them, although they can highlight possible duplication in your contributors table. Any warnings, errors, that the validation returns for a specific output are listed at the bottom of the output modal under __Table validation__.
 
 If you want to look at your uploaded contributors table you can do that by clicking _"Review contributors table"_, and if needed, search or filter the contributors by any column.
 

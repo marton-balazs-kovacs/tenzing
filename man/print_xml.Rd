@@ -17,8 +17,7 @@ listed for each CRediT role they partake in.
 The function generates an XML nodeset that contains the contributors' name,
 affiliation, and their CRediT roles with a structure outlined in the
 JATS 1.2 DTD specifications (eLife). The output is generated from an
-\code{contributors_table} validated with the \code{\link[=validate_contributors_table]{validate_contributors_table()}} function.
-The \code{contributors_table} must be based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
+\code{contributors_table} based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
 }
 \section{Warning}{
 
@@ -32,7 +31,6 @@ validating it.
 example_contributors_table <- read_contributors_table(
 contributors_table = system.file("extdata",
 "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-validate_contributors_table(contributors_table = example_contributors_table)
 print_xml(contributors_table = example_contributors_table)
 
 }

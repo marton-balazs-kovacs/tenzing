@@ -17,29 +17,17 @@ about the nature of the check.
 }
 \description{
 This function validates the \code{contributors_table} provided to it by checking whether the
-provided \code{contributors_table} is compatible with the \code{\link[=contributors_table_template]{contributors_table_template()}} or the \code{\link[=contributors_table_template_deluxe]{contributors_table_template_deluxe()}}. The function
+provided \code{contributors_table} is compatible with the \code{\link[=contributors_table_template]{contributors_table_template()}}. The function
 early escapes only if the provided \code{contributors_table} is not a dataframe, the variable
-names that are present in the \code{contributors_table_template} or\code{contributors_table_template_deluxe} are missing, or if the
+names that are present in the \code{contributors_table_template} is missing, or if the
 \code{contributors_table} is empty.
 }
 \section{The function checks the following statements}{
 
 \itemize{
 \item error, the provided contributors_table is not a dataframe
-\item error, the provided contributors_table does not have the same column names as the simple or deluxe template
+\item error, none of the outputs can be created based the provided contributors_table due to missing columns
 \item error, the provided contributors_table is empty
-\item warning, \code{Firstname} variable has missing value for one or more of the contributors
-\item warning, \code{Surname} variable has a missing value for one or more of the contributors
-\item warning, the contributors_table has duplicate names
-\item warning, the contributors_table has names with duplicate initials
-\item error, the \code{'Order in publication'} variable has missing values
-\item error, the \code{'Order in publication'} variable has duplicate values
-\item warning, both \code{'Primary affiliation'} and \code{'Secondary affiliation'} variables
-are missing for one or more contributors
-\item warning, there is no corresponding author added
-\item warning, email address is missing for the corresponding author
-\item warning, there is at least one CRediT role provided for all contributors
-\item warning, author has missing conflict on interest statement
 }
 }
 

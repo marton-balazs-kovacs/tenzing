@@ -2,10 +2,20 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_duplicate_order}
 \alias{check_duplicate_order}
-\title{Check for duplicate order}
+\title{Check for Duplicate Order Numbers}
 \usage{
 check_duplicate_order(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "error".}
+\item{message}{An informative message indicating the order numbers that are duplicated.}
+}
 \description{
-Check for duplicate order
+This function checks for duplicate order numbers in the \verb{Order in publication}
+column of the \code{contributors_table}. If duplicate order numbers are detected and
+there are no shared first authors, the function returns an error.
 }

@@ -1,0 +1,23 @@
+column_config:
+  rules:
+    minimal:
+      operator: "AND"
+      columns:
+        - Firstname
+        - Middle name
+        - Surname
+        - Order in publication
+      severity: "error"
+    affiliation:
+      operator: "OR"  # Either legacy OR regex-based affiliation columns must be present
+      columns:
+        - Primary affiliation
+        - Secondary affiliation  # Legacy columns
+      regex: "^Affiliation [0-9]+$"  # Regex-based columns
+      severity: "error"  # Make sure it's required for validation to pass
+    title:
+      operator: "AND"
+      columns:
+        - Corresponding author?
+        - Email address
+      severity: "warning"

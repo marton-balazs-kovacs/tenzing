@@ -2,8 +2,7 @@
 #' 
 #' The function generates a YAML document containing the contributors information
 #' and contributions according to the CRediT taxonomy. The output is generated
-#' from an `contributors_table` validated with the [validate_contributors_table()] function.
-#' The `contributors_table` must be based on the [contributors_table_template()].
+#' from an `contributors_table` based on the [contributors_table_template()].
 #' 
 #' @section Warning:
 #' The function is primarily developed to be the part of a shiny app. As the
@@ -22,7 +21,6 @@
 #' read_contributors_table(
 #' contributors_table = system.file("extdata",
 #' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_contributors_table(contributors_table = example_contributors_table)
 #' print_yaml(contributors_table = example_contributors_table)
 #' 
 #' @importFrom rlang .data

@@ -2,10 +2,19 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_coi}
 \alias{check_coi}
-\title{Check for missing COI statement}
+\title{Check for Missing Conflict of Interest Statements}
 \usage{
 check_coi(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the rows missing a conflict of interest statement.}
+}
 \description{
-Check for missing COI statement
+This function checks if a conflict of interest statement is provided for each contributor.
+It returns a warning if any contributor is missing this information.
 }

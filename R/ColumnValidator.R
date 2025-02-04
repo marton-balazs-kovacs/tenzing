@@ -1,9 +1,86 @@
+#' ColumnValidator Class for Contributors Table
+#'
+#' The `ColumnValidator` class performs column-level validation for a contributors table.
+#' It ensures that required columns exist, applying logical validation rules such as:
+#' \itemize{
+#'   \item **AND**: All listed columns must be present.
+#'   \item **OR**: At least one of the listed columns must be present.
+#'   \item **NOT**: None of the listed columns should be present.
+#' }
+#'
+#' This validation process is **configurable** via a YAML file.
+#'
+#' @section Regex Matching:
+#' Some columns may follow a dynamic naming pattern (e.g., "Affiliation 1", "Affiliation 2").
+#' The `regex` field in the YAML configuration allows **pattern-based matching**.
+#'
+#' @section YAML Configuration:
+#' The validator reads a YAML file (e.g., `inst/config/columnvalidator_example.yaml`) that defines:
+#' \itemize{
+#'   \item **Rules** specifying required columns.
+#'   \item **Operators** (`AND`, `OR`, `NOT`) for column validation.
+#'   \item **Regex patterns** for dynamically named columns.
+#'   \item **Severity levels** (`error` or `warning`).
+#' }
+#'
+#' Example:
+#' \preformatted{
+#' column_config:
+#'   rules:
+#'     minimal:
+#'       operator: "AND"
+#'       columns:
+#'         - Firstname
+#'         - Middle name
+#'         - Surname
+#'         - Order in publication
+#'       severity: "error"
+#' 
+#'     affiliation:
+#'       operator: "OR"  
+#'       columns:
+#'         - Primary affiliation
+#'         - Secondary affiliation  
+#'       regex: "^Affiliation [0-9]+$"
+#'       severity: "error"
+#'
+#'     title:
+#'       operator: "AND"
+#'       columns:
+#'         - Corresponding author?
+#'         - Email address
+#'       severity: "warning"
+#' }
+#'
+#' @section Integration with ValidateOutput:
+#' The `ValidateOutput` class initializes an instance of `ColumnValidator` to perform column checks.
+#' If required columns are missing, the validation process halts, returning **only column validation errors**.
+#'
+#' @section Usage:
+#' \preformatted{
+#' # Load a column validation config
+#' config <- yaml::read_yaml("inst/config/columnvalidator_example.yaml")
+#' 
+#' # Create a ColumnValidator instance
+#' column_validator <- ColumnValidator$new(config_input = config$column_config)
+#' 
+#' # Validate a contributors table
+#' results <- column_validator$validate_columns(contributors_table)
+#' }
+#'
+#' @seealso \code{\link{ValidateOutput}} which integrates this class for validation.
+#'
+#' @export
 ColumnValidator <- R6::R6Class(
   classname = "ColumnValidator",
   
   public = list(
+    #' @field config Stores the column validation rules loaded from the YAML file.
     config = NULL,
     
+    #' @description
+    #' Initializes the `ColumnValidator` class.
+    #' @param config_input A parsed YAML configuration containing column validation rules.
     initialize = function(config_input) {
       # Expect a pre-parsed YAML list for config_input
       if (!is.list(config_input)) {
@@ -12,6 +89,14 @@ ColumnValidator <- R6::R6Class(
       self$config <- config_input
     },
     
+    #' @description
+    #' Validates columns in the provided contributors table.
+    #' @param contributors_table A dataframe containing contributor data.
+    #' @return A list of validation results, each containing:
+    #' \itemize{
+    #'   \item `type`: `"error"`, `"warning"`, or `"success"`.
+    #'   \item `message`: A descriptive validation message.
+    #' }
     validate_columns = function(contributors_table) {
       results <- list()
       
@@ -24,6 +109,12 @@ ColumnValidator <- R6::R6Class(
       return(results)
     },
     
+    #' @description
+    #' Checks whether the contributors table satisfies a specific validation rule.
+    #' @param contributors_table A dataframe containing contributor data.
+    #' @param rule A validation rule from the YAML configuration.
+    #' @param rule_name The name of the validation rule.
+    #' @return A validation result indicating whether the rule passed or failed.
     check_rule = function(contributors_table, rule, rule_name) {
       operator <- rule$operator
       columns <- rule$columns

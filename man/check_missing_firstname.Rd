@@ -2,10 +2,19 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_missing_firstname}
 \alias{check_missing_firstname}
-\title{Check missing firstnames}
+\title{Check for Missing First Names}
 \usage{
 check_missing_firstname(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the row numbers with missing first names, if any.}
+}
 \description{
-Check missing firstnames
+This function checks for missing values in the \code{Firstname} column of the
+\code{contributors_table} and returns a warning if any first names are missing.
 }

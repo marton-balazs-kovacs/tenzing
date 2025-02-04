@@ -2,10 +2,20 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_missing_email}
 \alias{check_missing_email}
-\title{Check if email is provided for the corresponding author}
+\title{Check for Missing Emails for Corresponding Authors}
 \usage{
 check_missing_email(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the row numbers of corresponding authors with missing emails.}
+}
 \description{
-Check if email is provided for the corresponding author
+This function checks if email addresses are provided for all corresponding authors
+in the \code{contributors_table}. If any corresponding author is missing an email address,
+it returns a warning.
 }

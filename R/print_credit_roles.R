@@ -29,7 +29,6 @@
 #' example_contributors_table <- read_contributors_table(
 #' contributors_table = system.file("extdata",
 #' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_contributors_table(contributors_table = example_contributors_table)
 #' print_credit_roles(contributors_table = example_contributors_table)
 #' 
 #' @importFrom rlang .data

@@ -2,10 +2,19 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_credit}
 \alias{check_credit}
-\title{Check for contributors with no CRediT roles}
+\title{Check for Contributors with No CRediT Roles}
 \usage{
 check_credit(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the rows with no CRediT roles assigned.}
+}
 \description{
-Check for contributors with no CRediT roles
+This function checks whether each contributor has at least one CRediT taxonomy role
+checked. It returns a warning if any contributor has no roles assigned.
 }

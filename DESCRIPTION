@@ -63,7 +63,8 @@ Imports:
     lifecycle,
     rlang,
     stats,
-    fontawesome
+    fontawesome,
+    shinyjs
 RoxygenNote: 7.2.3
 Suggests: 
     testthat,

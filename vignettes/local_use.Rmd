@@ -3,8 +3,10 @@ title: "Using tenzing as a package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{local_use}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -15,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you do not want to use the tenzing app, you can use the package from R to achieve the same outputs.
+If you do not want to use the __tenzing__ app, you can use the package from R to achieve the same outputs.
 
 # Setup
 
@@ -23,7 +25,7 @@ First, you have to install the package.
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
- devtools::install_github("marton-balazs-kovacs/tenzing")
+devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
 
 Second you have to load the package.
@@ -34,7 +36,7 @@ library(tenzing)
 
 # Create your contributors table
 
-The contributors table template is built in the package, as well as uploaded to the [net](https://docs.google.com/spreadsheets/d/1Gl0cwqN_nTsdFH9yhSvi9NypBfDCEhViGq4A3MnBrG8/edit?usp=sharing). If you choose to fill out the template with your CRediT information locally, you can write your contributors table as an xlsx file to your working directory from the package with the following code:
+The contributors table template is built in the package, as well as uploaded to the [net](https://docs.google.com/spreadsheets/d/1ay8pS-ftvfzWTrKCZr6Fa0cTLg3n8KxAOOleZmuE7Hs/edit?usp=sharing). If you choose to fill out the template with your CRediT information locally, you can write your contributors table as an xlsx file to your working directory from the package with the following code:
 
 ```{r, eval = FALSE}
 # install.packages("writexl")
@@ -63,29 +65,60 @@ If the read contributors table still contains empty rows you can clean it with t
 my_contributors_table <- clean_contributors_table(my_contributors_table)
 ```
 
-After loading your contributors table you have to check its validity.
+# Validate your contributors table
+
+Before generating outputs, you must check whether your `contributors_table` is well-formatted. In __tenzing__, validation is handled using two R6 classes:
+
+* `ColumnValidator`: Ensures required columns exist.
+* `Validator`: Runs logical and consistency checks on the data.
+
+Both work based on __YAML configuration files__, allowing for flexible, customizable validation pipelines. For a detailed explanation of validation rules and configurations, please refer to the `Validation Vignette`.
+
+__tenzing__ supports multiple output types, each requiring a properly formatted `contributors_table.` You can use the `ValidateOutput` R6 class to check your table __against a specific configuration__ for each output.
+
+For example, if you want to generate a __title page__ for your manuscript, you should first validate your table to ensure it meets the required structure.
+
+## 1. Load the Title Page Validation Configuration
 
 ```{r}
-check_result <- validate_contributors_table(contributors_table = my_contributors_table)
+config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 ```
 
-The validation function checks your contributors table by 10 statements. You can learn more about these checks by running the following code `?tenzing::contributors_table_template`.
-
-The check can have three results: _success_, _warning_ or _error_. You can investigate what was the output of each of the 10 checks.
+## 2. Initialize a Validation Instance
 
 ```{r}
-purrr::map(check_result, "type")
+validate_output_instance <- ValidateOutput$new(config_path = config_path)
 ```
 
-If any of them is an _error_ than the output that you will generate in the next step will be corroborated. Therefore, you have to read the messages that are accompanied with the erroneous checks and update your contributors table accordingly.
+## 3. Run the Validation Checks
 
 ```{r}
-purrr::map(check_result, "message")
+validate_results <- validate_output_instance$run_validations(contributors_table = my_contributors_table)
+```
+
+## 4. Review Validation Results
+
+Each check returns one of three statuses:
+
+* __success__ – The check passed.
+* __warning__ – The table has issues that may affect output quality.
+* __error__ – The table is incorrectly formatted and must be fixed before generating output. 
+
+You can check the status of each validation:
+
+```{r}
+purrr::map(validate_results, "type")
+```
+
+And review the detailed messages for failed checks:
+
+```{r}
+purrr::map(validate_results, "message")
 ```
 
 # Generate output
 
-If your contributors table is validated you can move on to output generation. There are four different types of outputs that you can create with the tenzing app.
+If your contributors table is validated you can move on to output generation. There are six different types of outputs that you can create with the __tenzing__ app.
 
 For the human readable report and the contributors' affiliation page the output text will be rmarkdown formatted by default. However, by setting the `text_format` argument to `"html"` the output can be HTML formatted as well, or by setting the argument to `"raw"`, the output string will not be formatted at all.
 
@@ -123,5 +156,13 @@ For this section it is possible to use initials by setting the `initials` argume
 
 ```{r}
 print_funding(contributors_table = my_contributors_table, initials = TRUE)
+```
+
+## Create a conflict of interest statement
+
+For this section it is possible to use the initials by setting the `initials` argument `TRUE`.
+
+```{r}
+print_conflict_statement(contributors_table = my_contributors_table, initials = FALSE)
 ```
 

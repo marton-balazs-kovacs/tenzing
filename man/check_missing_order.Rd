@@ -2,10 +2,20 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_missing_order}
 \alias{check_missing_order}
-\title{Check for missing values in the \verb{Order in publication} column}
+\title{Check for Missing Values in the Order of Publication}
 \usage{
 check_missing_order(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "error".}
+\item{message}{An informative message indicating the row numbers with missing order values.}
+}
 \description{
-Check for missing values in the \verb{Order in publication} column
+This function checks for missing values in the \verb{Order in publication} column
+of the \code{contributors_table}. If there are missing order numbers, it returns
+an error indicating which rows are affected.
 }

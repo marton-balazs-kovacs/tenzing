@@ -2,10 +2,20 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_duplicate_names}
 \alias{check_duplicate_names}
-\title{Check for duplicate names}
+\title{Check for Duplicate Names}
 \usage{
 check_duplicate_names(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message listing any duplicate names found.}
+}
 \description{
-Check for duplicate names
+This function checks for duplicate names in the \code{contributors_table}.
+It considers the combination of \code{Firstname}, \verb{Middle name}, and \code{Surname}
+to identify duplicates.
 }

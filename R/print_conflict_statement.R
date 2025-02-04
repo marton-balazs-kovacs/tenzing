@@ -1,9 +1,7 @@
 #' Generate human readable report of the conflict of interest statements
 #' 
 #' The functions generates the conflict of interest statement section of the manuscript.
-#' The output is generated from an contributors_table validated with
-#' the [validate_contributors_table()] function.
-#' The contributors_table must be based on the [contributors_table_template()].
+#' The output is generated from an contributors_table based on the [contributors_table_template()].
 #' 
 #' @family output functions
 #' 
@@ -17,7 +15,6 @@
 #' example_contributors_table <- read_contributors_table(
 #' contributors_table = system.file("extdata",
 #' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
-#' validate_contributors_table(contributors_table = example_contributors_table)
 #' print_conflict_statement(contributors_table = example_contributors_table, initials = FALSE)
 #' 
 #' @importFrom rlang .data

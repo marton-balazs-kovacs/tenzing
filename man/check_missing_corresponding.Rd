@@ -2,10 +2,19 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_missing_corresponding}
 \alias{check_missing_corresponding}
-\title{Check if the corresponding author is missing}
+\title{Check for Missing Corresponding Author}
 \usage{
 check_missing_corresponding(contributors_table)
 }
+\arguments{
+\item{contributors_table}{A dataframe containing the contributors' information.}
+}
+\value{
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating whether a corresponding author is missing.}
+}
 \description{
-Check if the corresponding author is missing
+This function checks if there is at least one corresponding author
+indicated in the \code{contributors_table}. If none are found, it returns a warning.
 }

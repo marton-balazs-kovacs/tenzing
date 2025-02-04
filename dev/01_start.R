@@ -38,8 +38,7 @@ usethis::use_git()
 ## 
 ## If you have data in your package
 usethis::use_data_raw( name = "credit_taxonomy", open = FALSE )
-usethis::use_data_raw( name = "infosheet_template", open = FALSE )
-usethis::use_data_raw( name = "infosheet_template_example", open = TRUE )
+# usethis::use_data_raw( name = "infosheet_template", open = FALSE )
 
 ## 1.4 - Init Tests
 ## 

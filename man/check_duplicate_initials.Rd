@@ -2,20 +2,20 @@
 % Please edit documentation in R/validate_helpers.R
 \name{check_duplicate_initials}
 \alias{check_duplicate_initials}
-\title{Check for same initials}
+\title{Check for Duplicate Initials}
 \usage{
 check_duplicate_initials(contributors_table)
 }
 \arguments{
-\item{contributors_table}{the imported contributors_table}
+\item{contributors_table}{A dataframe containing the contributors' information.}
 }
 \value{
-The function returns a list with two character strings. type
-records whether the check was successful or not (either warning or success).
-message shows the accompanying informative message.
+A list containing:
+\item{type}{Type of validation result: "success" or "warning".}
+\item{message}{An informative message indicating the initials that are duplicated.}
 }
 \description{
-This function checks the contributors_table for duplicate initials, and
-issues a warning that the surnames will be used to differentiate
-between the users.
+This function checks for duplicate initials in the \code{contributors_table}, taking into
+account the \code{Firstname}, \verb{Middle name}, and \code{Surname} columns. It issues a warning
+if duplicate initials are found, which may indicate ambiguous contributor identification.
 }
