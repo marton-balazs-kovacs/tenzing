@@ -4,10 +4,10 @@ output: html_document
 ---
 
 ### 1. Create your contributors table
-* Duplicate the contributors table template into your Google Drive: _File -> Make a copy_. Alternatively, you can download it.
-* Fill out your copy of the contributors table (consider sharing it with your collaborators to do so).
+* Once you are at the contributors template, click USE TEMPLATE
+* Fill it out (consider sharing it with your collaborators to do so).
 
-### 2. A) Upload your contributors table file, or B) Paste its URL
+### 2. A) Upload your contributors table file (after downloading it), or B) Paste its url
 A. Upload your contributors table in a .csv, .tsv or .xlsx format.
   - Click "Local file", then “Browse”, and locate your contributors table on your computer.
 
