@@ -9,17 +9,19 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-Tenzing, an easy-to-use web-based app, allows researchers to generate
+An easy-to-use web app for researchers, tenzing generates
 reports about the contribution of each team member on a project using
-CRediT, for insertion into their manuscripts and for publishers to
-potentially incorporate into article metadata.
+CRediT. Researchers typically paste these reports into their journal manuscripts. JATS-XML can also be generated, for publishers to
+incorporate into article metadata.
 
 [CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a
 taxonomy of 14 categories of contributions to scientific scholarly
 output. Each researcher can indicate which category they contributed to
 in a scholarly project.
 
-The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
+Tenzing is a Shiny app programmed with R. There is also an R package version.
+
+Tenzing is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
 one of the two individuals who reached the summit of Mount Everest for
 the first time. Despite his essential contribution, he received less
 credit than his partner, the New Zealand mountaineer Edmund Hillary.
@@ -74,9 +76,7 @@ from R in `vignette("local_use")`.
 
 ## Contribution
 
-We are open to new ideas and feature requests. We think Tenzing has the
-potential to make additional contributorship-related tasks easy for
-researchers.
+We are open to new ideas and feature requests. You can see already-requested features [in the Github Issues](https://github.com/marton-balazs-kovacs/tenzing/issues?q=is%3Aissue%20state%3Aopen%20label%3Aenhancement).
 
 Please note that the ‘tenzing’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
