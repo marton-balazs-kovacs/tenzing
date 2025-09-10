@@ -10,7 +10,7 @@ app_server <- function(input, output,session) {
     # Get the current time
     current_time <- Sys.time()
     # Format the time as a continuous string
-    formatted_time <- format(current_time, "%Y%m%d%H%M%S")
+    formatted_time <- format(current_time, "%H%M%S")
     # Convert the string to a numeric value
     numeric_time <- as.numeric(formatted_time)
     if ((numeric_time %% 3) == 0) { #modulus two seems to make it show up less than 50% of time?
@@ -21,22 +21,29 @@ app_server <- function(input, output,session) {
   
 if (show_popup) {
     # Show a non-aggressive pop-up notification using shinyjs
-    shinyjs::runjs("
-      const div = document.createElement('div');
-      div.innerHTML = 'Please support tenzing &#x1F60A; by <br>donating <a href=\"https://opencollective.com/tenzing\" target=\"_blank\">here</a>.';
-      div.style.position = 'fixed';
-      div.style.top = '75%';
-      div.style.left = '16%';
-      div.style.padding = '10px';
-      div.style.background = 'lightblue';
-      div.style.border = '1px solid gray';
-      div.style.borderRadius = '5px';
-      div.style.zIndex = 9999;
-      document.body.appendChild(div);
-
-      // Remove the notification after 60 seconds
-      setTimeout(function() { div.remove(); }, 60000);
-    ")
+    # To get a random number to decide ask_for_citation_not_donation, use part of the date
+    current_date <- Sys.time()
+    formatted_date <- format(current_date, "%S%Y%m%d")
+    numeric_date <- as.numeric(formatted_date)
+    if ((numeric_date %% 3) == 0) { #modulus two seems to make it show up less than 50% of time?
+      msg <-"Please support tenzing 😊 by <br>donating <a href='https://opencollective.com/tenzing' target='_blank'>here</a>."
+    } else {
+      msg <-"Please cite tenzing (references listed at bottom😊)"
+    }      
+    shinyjs::runjs(glue("const div = document.createElement('div');
+                           div.innerHTML = '{msg}';
+                           div.style.position = 'fixed';
+                           div.style.top = '75%';
+                           div.style.left = '16%';
+                           div.style.padding = '10px';
+                           div.style.background = 'lightblue';
+                           div.style.border = '1px solid gray';
+                           div.style.borderRadius = '5px';
+                           div.style.zIndex = 9999;
+                           document.body.appendChild(div);
+                           // Remove the notification after 60 seconds
+                           setTimeout(function() {{ div.remove(); }}, 60000);
+                        "))
           }
  })
   
