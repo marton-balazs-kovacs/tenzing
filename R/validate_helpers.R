@@ -122,7 +122,9 @@ check_duplicate_names <- function(contributors_table) {
   if (nrow(duplicate) != 0) {
     list(
       type = "warning",
-      message = glue::glue("The contributors_table has the following duplicate names: ", glue::glue_collapse(stringr::str_to_title(duplicate$Names), sep = ", ", last = " and "))
+      message = glue::glue("The contributors_table has the following duplicate names: ",
+                           glue::glue_collapse(stringr::str_to_title(duplicate$Names),
+                           sep = ", ", last = " and "))
     )
   } else {
     list(
@@ -391,7 +393,9 @@ check_duplicate_initials <- function(contributors_table) {
   if (nrow(duplicate) != 0) {
     list(
       type = "warning",
-      message = glue::glue("The contributors_table has the following duplicate initials: ", glue::glue_collapse(toupper(duplicate$Initials), sep = ", ", last = " and "))
+      message = glue::glue( "There are duplicate initials (full last names will be used to disambiguate them): ",
+                            glue::glue_collapse(toupper(duplicate$Initials),
+                            sep = ", ", last = " and ") )
     )
   } else {
     list(
