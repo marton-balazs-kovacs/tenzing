@@ -8,6 +8,8 @@ validate_contributors_table(contributors_table, config_path)
 }
 \arguments{
 \item{contributors_table}{dataframe, filled out contributors_table}
+
+\item{config_path}{character, file path to validation configuration file}
 }
 \value{
 The function returns a list for each checked statement. Each list contains

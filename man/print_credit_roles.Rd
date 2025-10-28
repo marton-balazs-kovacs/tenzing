@@ -8,7 +8,9 @@ print_credit_roles(
   contributors_table,
   text_format = "rmd",
   initials = FALSE,
-  order_by = "role"
+  order_by = "role",
+  include = c("author", "acknowledgment"),
+  pub_order = c("asc", "desc")
 )
 }
 \arguments{
@@ -22,6 +24,15 @@ names in the output}
 
 \item{order_by}{Character. Whether the contributing authors listed for each role ("role"), or
 the roles are listed after the name of each contributor ("contributor").}
+
+\item{include}{Character. Filter which people to include:
+\itemize{
+\item "author" (keep rows where \code{Author/Acknowledgee} == "Author")
+\item "acknowledgment" (keep rows where \code{Author/Acknowledgee} == "Acknowledgment only")
+Rows with "Don't agree to be named" are always excluded.
+}}
+
+\item{pub_order}{Character. "asc" (default) or "desc" for \verb{Order in publication}.}
 }
 \value{
 The function returns a string containing the CRediT roles
