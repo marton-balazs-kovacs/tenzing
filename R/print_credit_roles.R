@@ -131,7 +131,7 @@ print_credit_roles <-  function(
     roles_long %>%
     dplyr::distinct(Name) %>%
     dplyr::pull(Name)
-  print(roles_long)
+
   # Compose output ---------------------------
   # Ordered by roles ---------------------------
   if (order_by == "role") {
@@ -140,7 +140,7 @@ print_credit_roles <-  function(
       roles_long %>%
       dplyr::group_by(.data$`CRediT Taxonomy`) %>%
       dplyr::summarise(Names = glue_oxford_collapse(.data$Name), .groups = "drop")
-    print(roles_grouped)
+  
     # Format output string according to the text_format argument ---------------------------
     if (text_format == 'rmd') {
       res <-
@@ -180,7 +180,6 @@ print_credit_roles <-  function(
       dplyr::summarise(Roles = glue_oxford_collapse(.data$`CRediT Taxonomy`)) %>%
       dplyr::arrange(factor(Name, levels = name_levels))
     
-    print(contrib_grouped)
     # Format output string according to the text_format argument ---------------------------
     if (text_format == 'rmd') {
       res <-

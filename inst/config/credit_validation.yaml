@@ -7,6 +7,7 @@ column_config:
         - Middle name
         - Surname
         - Order in publication
+        - Author/Acknowledgee
         - Conceptualization
         - Data curation
         - Formal analysis
@@ -32,3 +33,6 @@ validation_config:
     - name: check_duplicate_initials
     - name: check_duplicate_names
     - name: check_credit
+    - name: check_author_acknowledgee_values
+    - name: check_corresponding_non_author
+    - name: check_missing_author_acknowledgee

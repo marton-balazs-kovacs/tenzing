@@ -86,7 +86,10 @@ Validator <- R6::R6Class(
         check_duplicate_initials = check_duplicate_initials,
         check_affiliation = check_affiliation,
         check_credit = check_credit,
-        check_coi = check_coi
+        check_coi = check_coi,
+        check_author_acknowledgee_values = check_author_acknowledgee_values,
+        check_corresponding_non_author = check_corresponding_non_author,
+        check_missing_author_acknowledgee= check_missing_author_acknowledgee
       )
       self$results <- list()
     },

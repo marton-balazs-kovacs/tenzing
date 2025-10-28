@@ -404,3 +404,139 @@ check_duplicate_initials <- function(contributors_table) {
     )
   }
 }
+
+#' Check allowed values in Author/Acknowledgee
+#'
+#' Verifies that all entries in `Author/Acknowledgee` belong to the allowed set:
+#' "Author", "Acknowledgment only", "Don't agree to be named".
+#'
+#' @param contributors_table A dataframe of contributors.
+#' @return list(type = "success"|"warning", message = <chr>)
+check_author_acknowledgee_values <- function(contributors_table) {
+  allowed <- c("Author", "Acknowledgment only", "Don't agree to be named")
+  
+  if (!"Author/Acknowledgee" %in% names(contributors_table)) {
+    return(list(
+      type = "warning",
+      message = "Column 'Author/Acknowledgee' is missing."
+    ))
+  }
+  
+  invalid <-
+    contributors_table %>%
+    tibble::rownames_to_column(var = "rowname") %>%
+    dplyr::mutate(`Author/Acknowledgee` = as.character(.data$`Author/Acknowledgee`)) %>%
+    dplyr::filter(!is.na(.data$`Author/Acknowledgee`) & !(.data$`Author/Acknowledgee` %in% allowed))
+  
+  if (nrow(invalid) > 0) {
+    bad_vals <- invalid %>% dplyr::distinct(.data$`Author/Acknowledgee`) %>% dplyr::pull()
+    return(list(
+      type = "warning",
+      message = glue::glue(
+        "Unrecognized values in 'Author/Acknowledgee': {glue::glue_collapse(bad_vals, sep = ', ', last = ' and ')}. ",
+        "Rows: {glue::glue_collapse(invalid$rowname, sep = ', ', last = ' and ')}. ",
+        "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
+      )
+    ))
+  }
+  
+  list(type = "success", message = "All 'Author/Acknowledgee' values are valid.")
+}
+
+#' Check that only Authors are marked as Corresponding
+#'
+#' Warns if any row is marked `Corresponding author? == TRUE` while
+#' `Author/Acknowledgee` is not "Author".
+#'
+#' @param contributors_table A dataframe of contributors.
+#' @return list(type = "success"|"warning", message = <chr>)
+check_corresponding_non_author <- function(contributors_table) {
+  needed <- c("Author/Acknowledgee", "Corresponding author?")
+  missing_cols <- setdiff(needed, names(contributors_table))
+  if (length(missing_cols) > 0) {
+    return(list(
+      type = "warning",
+      message = glue::glue(
+        "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+      )
+    ))
+  }
+  
+  offenders <-
+    contributors_table %>%
+    tibble::rownames_to_column(var = "rowname") %>%
+    # treat NA as FALSE
+    dplyr::mutate(`Corresponding author?` = dplyr::coalesce(.data$`Corresponding author?`, FALSE)) %>%
+    dplyr::filter(.data$`Corresponding author?` == TRUE,
+                  .data$`Author/Acknowledgee` != "Author")
+  
+  if (nrow(offenders) > 0) {
+    return(list(
+      type = "warning",
+      message = glue::glue(
+        "Non-author rows are marked as corresponding author. Row number(s): ",
+        "{glue::glue_collapse(offenders$rowname, sep = ', ', last = ' and ')}."
+      )
+    ))
+  }
+  
+  list(type = "success", message = "Only authors are marked as corresponding.")
+}
+
+#' Check missing Author/Acknowledgee where names are present
+#'
+#' Warns if `Author/Acknowledgee` is missing for rows that have a name
+#' (Firstname or Surname present).
+#'
+#' @param contributors_table A dataframe of contributors.
+#' @return list(type = "success"|"warning", message = <chr>)
+check_missing_author_acknowledgee <- function(contributors_table) {
+  # Columns we rely on
+  needed <- c("Author/Acknowledgee", "Firstname", "Surname")
+  missing_cols <- setdiff(needed, names(contributors_table))
+  if (length(missing_cols) > 0) {
+    return(list(
+      type = "warning",
+      message = glue::glue(
+        "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+      )
+    ))
+  }
+  
+  # helper to treat blanks as missing
+  trim_na <- function(x) {
+    y <- as.character(x)
+    y <- stringr::str_trim(y, side = "both")
+    y[y == ""] <- NA_character_
+    y
+  }
+  
+  df <-
+    contributors_table %>%
+    tibble::rownames_to_column(var = "rowname") %>%
+    dplyr::mutate(
+      Firstname = trim_na(.data$Firstname),
+      Surname   = trim_na(.data$Surname),
+      `Author/Acknowledgee` = trim_na(.data$`Author/Acknowledgee`)
+    )
+  
+  missing_rows <-
+    df %>%
+    dplyr::filter(
+      ( !is.na(.data$Firstname) | !is.na(.data$Surname) ) &
+        is.na(.data$`Author/Acknowledgee`)
+    ) %>%
+    dplyr::pull(.data$rowname)
+  
+  if (length(missing_rows) > 0) {
+    return(list(
+      type = "warning",
+      message = glue::glue(
+        "Missing 'Author/Acknowledgee' value for row number(s) with names: ",
+        "{glue::glue_collapse(missing_rows, sep = ', ', last = ' and ')}."
+      )
+    ))
+  }
+  
+  list(type = "success", message = "All named rows have 'Author/Acknowledgee' filled.")
+}

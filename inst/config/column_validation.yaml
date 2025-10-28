@@ -6,6 +6,7 @@ rules:
         - Middle name
         - Surname
         - Order in publication
+        - Author/Acknowledgee
     severity: "warning"
     
   credit:

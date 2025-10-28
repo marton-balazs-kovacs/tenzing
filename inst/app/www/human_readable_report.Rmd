@@ -1,5 +1,5 @@
 ---
-title: "Author Contributions"
+title: "Contributions"
 output: 
   html_document:
     self_contained: false

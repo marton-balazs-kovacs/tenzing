@@ -74,7 +74,8 @@ mod_credit_roles_server <- function(id, input_data){
     
     # Preview ---------------------------
     ## Render preview
-    output$preview <- renderUI({
+    # ---- Author preview (HTML) ----
+    output$preview_auth <- renderUI({
       req(modal_open())
       if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
         "There are no CRediT roles checked for either of the contributors."
@@ -85,8 +86,31 @@ mod_credit_roles_server <- function(id, input_data){
           print_credit_roles(
             contributors_table = input_data(),
             text_format = "html",
-            initials = input$initials,
-            order_by = order()
+            initials = isTRUE(input$initials),
+            order_by = order(),
+            include = "author",
+            pub_order = pub_order()
+          )
+        )
+      }
+    })
+    
+    # ---- Acknowledgee preview (HTML), only if present ----
+    output$preview_ack <- renderUI({
+      req(modal_open(), has_ack())
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
+        "There are no CRediT roles checked for either of the contributors."
+      } else if (has_errors()) {
+        "The output cannot be generated. See 'Table Validation' for more information."
+      } else {
+        HTML(
+          print_credit_roles(
+            contributors_table = input_data(),
+            text_format = "html",
+            initials = isTRUE(input$initials_ack),
+            order_by = order_ack(),
+            include = "acknowledgment",
+            pub_order = pub_order_ack()
           )
         )
       }
@@ -97,28 +121,28 @@ mod_credit_roles_server <- function(id, input_data){
       modalDialog(
         rclipboard::rclipboardSetup(),
         h3("Author contributions"),
-        # Toggle between initials and full names
         div(
-          style = "display:inline-block; width:100%; padding-bottom:0px; margin-bottom:0px;",
+          class = "toggle-row",
           div(
-            style = "display:inline-block; float:left;",
-            shinyWidgets::materialSwitch(
-              NS(id, "initials"),
-              label = "Full names",
-              inline = TRUE),
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "initials"), label = "Full names", inline = TRUE),
             span("Initials")
           ),
           div(
-            style = "display:inline-block; float:right;",
-            shinyWidgets::materialSwitch(
-              NS(id, "order_by"),
-              label = "Contributor names",
-              inline = TRUE),
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "order_by"), label = "Contributor names", inline = TRUE),
             span("Roles")
-            )
           ),
+          div(
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "pub_desc"), label = "Desc", inline = TRUE),
+            span("Asc")
+          )
+        ), 
         hr(style= "margin-top:5px; margin-bottom:10px;"),
-        uiOutput(NS(id, "preview")),
+        uiOutput(NS(id, "preview_auth")),
+        # ---- Acknowledgee block (conditionally shown) ----
+        uiOutput(NS(id, "ack_section")),
         easyClose = FALSE,
         footer = tagList(
           mod_validation_card_ui(ns("validation_card")),
@@ -147,6 +171,39 @@ mod_credit_roles_server <- function(id, input_data){
       )
     }
     
+    output$ack_section <- renderUI({
+      req(modal_open())
+      # only show if there are acknowledgees present
+      if (!has_ack())
+        return(NULL)
+      
+      tagList(
+        hr(),
+        h3("Acknowledgee contributions"),
+        div(
+          class = "toggle-row",
+          div(
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "initials_ack"), label = "Full names", inline = TRUE),
+            span("Initials")
+          ),
+          div(
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "order_by_ack"), label = "Contributor names", inline = TRUE),
+            span("Roles")
+          ),
+          div(
+            class = "toggle-item",
+            shinyWidgets::materialSwitch(NS(id, "pub_desc_ack"), label = "Desc", inline = TRUE),
+            span("Asc")
+          )
+        ),
+        
+        hr(style = "margin-top:5px; margin-bottom:10px;"),
+        uiOutput(NS(id, "preview_ack"))
+      )
+    })
+    
     ## Show preview modal
     observeEvent(input$show_report, {
       modal_open(TRUE)  # Mark modal as open
@@ -159,9 +216,37 @@ mod_credit_roles_server <- function(id, input_data){
       removeModal()      # Close modal explicitly
     })
 
-    ## Switch for order_by input
+    # contributor vs role (authors)
     order <- reactive({
       ifelse(input$order_by, "contributor", "role")
+    })
+    
+    # pub order (authors)
+    pub_order <- reactive({
+      if (isTRUE(input$pub_desc)) "desc" else "asc"
+    })
+    
+    # contributor vs role (acknowledgees)
+    order_ack <- reactive({
+      ifelse(isTRUE(input$order_by_ack), "contributor", "role")
+    })
+    
+    # pub order (acknowledgees)
+    pub_order_ack <- reactive({
+      if (isTRUE(input$pub_desc_ack)) "desc" else "asc"
+    })
+    
+    
+    # any acknowledgees? (excluding "Don't agree to be named")
+    has_ack <- reactive({
+      req(input_data())
+      df <- input_data()
+      if (!"Author/Acknowledgee" %in% names(df)) return(FALSE)
+      any(
+        df$`Author/Acknowledgee` == "Acknowledgment only" &
+          df$`Author/Acknowledgee` != "Don't agree to be named",
+        na.rm = TRUE
+      )
     })
     
     # Download ---------------------------
@@ -170,12 +255,40 @@ mod_credit_roles_server <- function(id, input_data){
     
     ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) | has_errors()) {
-        "There are no CRediT roles checked for any of the contributors."
-        } else {
-          print_credit_roles(contributors_table = input_data(), initials = input$initials, order_by = order())
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) || has_errors()) {
+        return("There are no CRediT roles checked for any of the contributors.")
       }
+      
+      # Build Rmd-formatted string
+      parts <- list()
+      
+      # Authors section (always)
+      auth_txt <- print_credit_roles(
+        contributors_table = input_data(),
+        text_format = "rmd",
+        initials = isTRUE(input$initials),
+        order_by = order(),
+        include = "author",
+        pub_order = pub_order()
+      )
+      parts <- c(parts, paste0("### Author contributions\n\n", auth_txt, "\n\n"))
+      
+      # Acknowledgees section (conditional)
+      if (has_ack()) {
+        ack_txt <- print_credit_roles(
+          contributors_table = input_data(),
+          text_format = "rmd",
+          initials = isTRUE(input$initials_ack),
+          order_by = order_ack(),
+          include = "acknowledgment",
+          pub_order = pub_order_ack()
+        )
+        parts <- c(parts, paste0("### Acknowledgee contributions\n\n", ack_txt, "\n\n"))
+      }
+      
+      paste0(parts, collapse = "\n")
     })
+    
     
     ## Set up parameters to pass to Rmd document
     params <- reactive({
@@ -208,11 +321,37 @@ mod_credit_roles_server <- function(id, input_data){
     # Clip ---------------------------
     ## Set up output text to clip
     to_clip <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) | has_errors()) {
-        "There are no CRediT roles checked for either of the contributors."
-        } else {
-          print_credit_roles(contributors_table = input_data(), text_format = "raw", initials = input$initials, order_by = order())
-          }
+      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) || has_errors()) {
+        return("There are no CRediT roles checked for either of the contributors.")
+      }
+      
+      parts <- list()
+      
+      # Authors (raw)
+      auth_raw <- print_credit_roles(
+        contributors_table = input_data(),
+        text_format = "raw",
+        initials = isTRUE(input$initials),
+        order_by = order(),
+        include = "author",
+        pub_order = pub_order()
+      )
+      parts <- c(parts, paste0("Author contributions: ", auth_raw))
+      
+      # Acknowledgees (raw, if present)
+      if (has_ack()) {
+        ack_raw <- print_credit_roles(
+          contributors_table = input_data(),
+          text_format = "raw",
+          initials = isTRUE(input$initials_ack),
+          order_by = order_ack(),
+          include = "acknowledgment",
+          pub_order = pub_order_ack()
+        )
+        parts <- c(parts, paste0("Acknowledgee contributions: ", ack_raw))
+      }
+      
+      paste(parts, collapse = "\n\n")
     })
     
     ## Add clipboard buttons

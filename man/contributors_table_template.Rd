@@ -7,6 +7,7 @@
 \format{
 A dataframe with 3 rows and 22 variables:
 \describe{
+\item{'Author/Acknowledgee'}{character, whether the contributor is an 'Author', 'Acknowledgment only', or 'Don't agree to be named'}
 \item{'Order in publication'}{numeric, used to order the contributors for all outputs, shared first authorship is allowed}
 \item{Firstname}{character, first name of the contributor, must be provided}
 \item{'Middle name'}{character, middle name of the contributor, blank if not applicable}
@@ -25,6 +26,7 @@ A dataframe with 3 rows and 22 variables:
 \item{Visualization}{logical, CREdiT role}
 \item{'Writing - original draft'}{logical, CREdiT role}
 \item{'Writing - review & editing'}{logical, CREdiT role}
+\item{Note}{character, optional comments for the contributor}
 \item{'Email address'}{character, email address of the correspondign author, optional}
 \item{'Affiliation 1'}{character, primary affiliation of the contributor}
 \item{'Affiliation 2'}{character, secondary affiliation of the contributor, blank if not applicable}

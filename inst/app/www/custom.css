@@ -463,3 +463,18 @@
   background-color: #d45f68 !important; /* Red for errors */
   color: #fff !important; /* White text for errors */
 }
+
+.toggle-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
