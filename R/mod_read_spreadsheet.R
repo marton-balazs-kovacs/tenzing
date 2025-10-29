@@ -51,7 +51,14 @@ mod_read_spreadsheet_ui <- function(id){
 #' @rdname mod_read_spreadsheet
 #' @export
 #' @keywords internal
-    
+#' @details The server function returns a list with the following reactive elements:
+#' \describe{
+#'   \item{data}{The cleaned and filtered contributors table}
+#'   \item{is_valid}{Logical reactive indicating if the table passed validation}
+#'   \item{upload}{Reactive trigger that fires when the upload button is clicked}
+#' }
+#' Note: The `is_valid` and `upload` reactives are exported primarily for use by
+#' the global button manager module to control button states across the application.
 mod_read_spreadsheet_server <- function(id) {
   # File uploading limit: 9MB
   options(shiny.maxRequestSize = 9*1024^2)
@@ -181,7 +188,6 @@ mod_read_spreadsheet_server <- function(id) {
       list(
         data = table_data_filtered,
         is_valid = is_valid,
-        check_result = reactive(check_output()$check_result),
         upload = reactive(input$upload)
         ))
     })

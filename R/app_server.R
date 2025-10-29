@@ -8,22 +8,12 @@ app_server <- function(input, output, session) {
   ## Save the read data as a reactive object
   read_out <- mod_read_spreadsheet_server("read_spreadsheet")
   
-  # Output generating button activation
-  ## Disable button on start and add tooltip
-  ### Buttons that need a validated contributors_table
-  js_disable_buttons(".btn-validate")
-  js_add_tooltip(".out-btn", "Please upload a valid contributors_table")
-
-  ## Toggle logic for multiple uploads
-  observeEvent(read_out$upload(), {
-    if(read_out$is_valid()) {
-      js_enable_buttons(".btn-validate")
-      js_remove_tooltip(".out-btn")
-      } else{
-        js_disable_buttons(".btn-validate")
-        js_add_tooltip(".out-btn", "Please upload a valid contributors_table")
-        }
-    })
+  # Global button state manager
+  mod_global_button_manager_server(
+    "global_button_manager",
+    upload = read_out$upload,
+    is_valid = read_out$is_valid
+  )
   
   # Show the spreadsheet in viewer window
   mod_show_spreadsheet_server("show_spreadsheet", input_data = read_out$data)
