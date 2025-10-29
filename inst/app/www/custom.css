@@ -478,3 +478,21 @@
   gap: 6px;
   white-space: nowrap;
 }
+
+/* Support popup: tenzing */
+.support-toast {
+  position: fixed;
+  top: 75%;
+  left: 16%;
+  padding: 10px;
+  background: #edbfc2;   /* requested color */
+  border: none;           /* no border */
+  border-radius: 15px;
+  z-index: 9999;
+  color: inherit;
+  font-size: 14px;
+  box-shadow: none;       /* no shadow */
+  max-width: 420px;
+  line-height: 1.4;
+}
+.support-toast a { text-decoration: underline; }
