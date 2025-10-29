@@ -4,6 +4,6 @@ contributors_table_template <-
   template_url %>% 
   googlesheets4::read_sheet() %>% 
   tibble::as_tibble() %>% 
-  dplyr::slice(1:3)
+  dplyr::slice(1:4)
 
 usethis::use_data(contributors_table_template, overwrite = TRUE, internal = FALSE)

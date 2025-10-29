@@ -1,21 +1,22 @@
 #' ValidateOutput Class for Contributors Table Validation
 #'
-#' The `ValidateOutput` class runs both **column-based validation** (ensuring required columns exist)
-#' and **data-based validation** (checking correctness of values) for a contributors table.
-#' 
+#' The `ValidateOutput` class runs both **column-based validation** (ensuring
+#' required columns exist) and **data-based validation** (checking correctness of
+#' values) for a contributors table.
+#'
 #' It integrates two validation classes:
 #' \itemize{
 #'   \item **\code{\link{ColumnValidator}}**: Ensures required columns are present.
 #'   \item **\code{\link{Validator}}**: Runs content-based validation checks on contributor data.
 #' }
-#' 
-#' This validation process is **configured via a YAML file**. The `inst/config/` package di contains predefined YAML configuration files
-#' for each of the six output types.
+#'
+#' This validation process is **configured via a YAML file**. The `inst/config/`
+#' package directory contains predefined YAML configuration files for each output type.
 #'
 #' @section Column Validation:
 #' The `ColumnValidator` ensures that required columns exist **before running data-based checks**.
 #' If a required column is missing, **validation stops immediately** with an error.
-#' 
+#'
 #' Example YAML Configuration (`inst/config/title_validation.yaml`):
 #' \preformatted{
 #' column_config:
@@ -28,7 +29,7 @@
 #'         - Surname
 #'         - Order in publication
 #'       severity: "error"
-#' 
+#'
 #'     affiliation:
 #'       operator: "OR"
 #'       columns:
@@ -36,7 +37,7 @@
 #'         - Secondary affiliation
 #'       regex: "^Affiliation [0-9]+$"
 #'       severity: "error"
-#' 
+#'
 #'     title:
 #'       operator: "AND"
 #'       columns:
@@ -47,7 +48,7 @@
 #'
 #' @section General Data Validation:
 #' The `Validator` runs content-based validation checks **after** column validation passes.
-#' 
+#'
 #' Example Validation Configuration (`inst/config/title_validation.yaml`):
 #' \preformatted{
 #' validation_config:
@@ -88,14 +89,17 @@
 #' @section Usage:
 #' \preformatted{
 #' # Load a validation configuration file
-#' config_path <- "inst/config/title_validation.yaml"
-#' 
+#' config_path <- system.file("config/title_validation.yaml", package = "tenzing")
+#'
 #' # Create a ValidateOutput instance
 #' validate_output <- ValidateOutput$new(config_path = config_path)
-#' 
-#' # Run validation on the contributors table
+#'
+#' # Run validation on the contributors table (no context)
 #' results <- validate_output$run_validations(contributors_table)
-#' print(results)
+#'
+#' # Or run with a context (e.g., UI presets for an output)
+#' ctx <- list(include = "author", order_by = "contributor", pub_order = "asc")
+#' results_ctx <- validate_output$run_validations(contributors_table, context = ctx)
 #' }
 #'
 #' @seealso \code{\link{ColumnValidator}}, \code{\link{Validator}}
@@ -114,8 +118,7 @@ ValidateOutput <- R6::R6Class(
     #' @field config Stores the combined YAML validation configuration.
     config = NULL,
     
-    #' @description
-    #' Initializes the `ValidateOutput` class.
+    #' @description Initializes the `ValidateOutput` class.
     #' @param config_path Path to the YAML configuration file.
     initialize = function(config_path) {
       if (missing(config_path)) {
@@ -135,10 +138,13 @@ ValidateOutput <- R6::R6Class(
       self$validator$setup_validator(self$config$validation_config)
     },
     
-    #' @description
-    #' Runs both column and data validation on a contributors table.
+    #' @description Runs both column and data validation on a contributors table.
     #' @param contributors_table A dataframe containing contributor data.
-    #' @return A list of validation results, each containing:
+    #' @param context Optional named list providing contextual information
+    #'   for validations (e.g., `list(include = "author", order_by = "role", pub_order = "asc")`).
+    #'   This is made available to validations via the `Validator` and can be used in
+    #'   YAML `dependencies` as `context$...`.
+    #' @return A named list of validation results. Each element is a list with:
     #' \itemize{
     #'   \item `type`: `"error"`, `"warning"`, or `"success"`.
     #'   \item `message`: A descriptive validation message.
@@ -152,12 +158,12 @@ ValidateOutput <- R6::R6Class(
         return(column_results)
       }
       
-      # Run specified general validations
+      # Run specified general validations (context-aware)
       self$validator$context <- context
       validation_results <- self$validator$run_validations(contributors_table, context = context)
       
       # Combine and return results
-      return(c(column_results, validation_results))
+      c(column_results, validation_results)
     }
   )
 )

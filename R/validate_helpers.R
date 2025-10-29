@@ -595,7 +595,7 @@ check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
 #' @examples
 #' check_roles_present(filtered_tbl)
 #'
-check_roles_present <- function(contributors_table, context = NULL) {
+check_roles_present <- function(contributors_table) {
   # Identify role columns using credit_taxonomy
   role_cols <- intersect(
     dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`),

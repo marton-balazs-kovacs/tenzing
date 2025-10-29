@@ -4,7 +4,7 @@
 \alias{check_roles_present}
 \title{Check for Presence of Assigned CRediT Roles}
 \usage{
-check_roles_present(contributors_table, context = NULL)
+check_roles_present(contributors_table)
 }
 \arguments{
 \item{contributors_table}{A dataframe containing the contributors' information.}

@@ -141,10 +141,22 @@ mod_read_spreadsheet_server <- function(id) {
           }
       })
     
+    # Remove rows where Author/Acknowledgee == "Don't agree to be named"
+    table_data_filtered <- reactive({
+      req(table_data_clean())
+      df <- table_data_clean()
+      if ("Author/Acknowledgee" %in% names(df)) {
+        df %>%
+          dplyr::filter(is.na(.data$`Author/Acknowledgee`) | .data$`Author/Acknowledgee` != "Don't agree to be named")
+      } else {
+        df
+      }
+    })
+    
     # Return output ---------------------------
     return(
       list(
-        data = table_data_clean,
+        data = table_data_filtered,
         is_valid = is_valid,
         check_result = reactive(check_output()$check_result),
         upload = reactive(input$upload)

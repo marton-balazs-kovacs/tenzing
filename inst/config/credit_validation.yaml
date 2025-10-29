@@ -40,5 +40,3 @@ validation_config:
       dependencies:
         - 'context$include %in% c("author", "acknowledgee")'
     - name: check_roles_present
-      dependencies:
-        - 'nrow(contributors_table) > 0'

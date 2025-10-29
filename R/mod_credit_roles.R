@@ -63,12 +63,14 @@ mod_credit_roles_server <- function(id, input_data){
       df[df$`Author/Acknowledgee` != "Don't agree to be named" &
            df$`Author/Acknowledgee` == "Author", , drop = FALSE]
     })
+    
     acks_df <- reactive({
       df <- req(input_data())
       if (!"Author/Acknowledgee" %in% names(df)) return(df[0, , drop = FALSE])
       df[df$`Author/Acknowledgee` != "Don't agree to be named" &
            df$`Author/Acknowledgee` == "Acknowledgment only", , drop = FALSE]
     })
+    
     has_ack <- reactive({
       nrow(acks_df()) > 0
     })
@@ -76,10 +78,10 @@ mod_credit_roles_server <- function(id, input_data){
     # Contexts for YAML dependency conditions ----------------------------------
     # Note: your config uses include values: "author" and "acknowledgee"
     ctx_auth <- reactive({
-      list(include = "author", order_by = order(), pub_order = pub_order())
+      list(include = "author")
     })
     ctx_ack <- reactive({
-      list(include = "acknowledgee", order_by = order_ack(), pub_order = pub_order_ack())
+      list(include = "acknowledgee")
     })
     
     # Two independent validation cards -----------------------------------------

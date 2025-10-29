@@ -9,8 +9,9 @@ ValidateOutput Class for Contributors Table Validation
 ValidateOutput Class for Contributors Table Validation
 }
 \details{
-The \code{ValidateOutput} class runs both \strong{column-based validation} (ensuring required columns exist)
-and \strong{data-based validation} (checking correctness of values) for a contributors table.
+The \code{ValidateOutput} class runs both \strong{column-based validation} (ensuring
+required columns exist) and \strong{data-based validation} (checking correctness of
+values) for a contributors table.
 
 It integrates two validation classes:
 \itemize{
@@ -18,8 +19,8 @@ It integrates two validation classes:
 \item \strong{\code{\link{Validator}}}: Runs content-based validation checks on contributor data.
 }
 
-This validation process is \strong{configured via a YAML file}. The \verb{inst/config/} package di contains predefined YAML configuration files
-for each of the six output types.
+This validation process is \strong{configured via a YAML file}. The \verb{inst/config/}
+package directory contains predefined YAML configuration files for each output type.
 }
 \section{Column Validation}{
 
@@ -108,14 +109,17 @@ The class runs in the following order:
 
 \preformatted{
 # Load a validation configuration file
-config_path <- "inst/config/title_validation.yaml"
+config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 
 # Create a ValidateOutput instance
 validate_output <- ValidateOutput$new(config_path = config_path)
 
-# Run validation on the contributors table
+# Run validation on the contributors table (no context)
 results <- validate_output$run_validations(contributors_table)
-print(results)
+
+# Or run with a context (e.g., UI presets for an output)
+ctx <- list(include = "author", order_by = "contributor", pub_order = "asc")
+results_ctx <- validate_output$run_validations(contributors_table, context = ctx)
 }
 }
 
@@ -171,11 +175,16 @@ Runs both column and data validation on a contributors table.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{contributors_table}}{A dataframe containing contributor data.}
+
+\item{\code{context}}{Optional named list providing contextual information
+for validations (e.g., \code{list(include = "author", order_by = "role", pub_order = "asc")}).
+This is made available to validations via the \code{Validator} and can be used in
+YAML \code{dependencies} as \code{context$...}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A list of validation results, each containing:
+A named list of validation results. Each element is a list with:
 \itemize{
 \item \code{type}: \code{"error"}, \code{"warning"}, or \code{"success"}.
 \item \code{message}: A descriptive validation message.
