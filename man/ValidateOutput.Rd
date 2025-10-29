@@ -164,7 +164,7 @@ Initializes the \code{ValidateOutput} class.
 \subsection{Method \code{run_validations()}}{
 Runs both column and data validation on a contributors table.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$run_validations(contributors_table)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$run_validations(contributors_table, context = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

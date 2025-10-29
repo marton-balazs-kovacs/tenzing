@@ -2,10 +2,11 @@
 #'
 #' The `Validator` class runs a set of user-defined validation functions on 
 #' a contributors table. It allows for configuring which validations should 
-#' be executed, handling dependencies between validations, and storing results.
+#' be executed, handling dependencies between validations, evaluating 
+#' context-aware conditions, and storing results.
 #'
-#' This class is used in conjunction with the `ValidateOutput` class to 
-#' apply both column and general table validations.
+#' This class is used in conjunction with the [`ValidateOutput`] class to 
+#' apply both column-level and data-level validation.
 #'
 #' @section Configurable Validations:
 #' The class dynamically loads validation functions, allowing users to add 
@@ -15,7 +16,24 @@
 #' @section Dependencies:
 #' Some validations depend on the presence of specific columns or successful 
 #' execution of other validations. These dependencies are defined in a YAML 
-#' config file.
+#' config file and evaluated dynamically during runtime.
+#'
+#' @section Context-Aware Validation:
+#' The validator supports an optional **context** parameter, which can hold
+#' additional information about the environment in which validation is run.
+#' 
+#' This allows validation logic and dependency conditions to react to dynamic
+#' UI states or user selections (e.g., `"include" = "author"`, `"order" = "desc"`).
+#' 
+#' The `context` object is a named list accessible inside dependencies and
+#' validation functions, enabling conditional validation rules.
+#'
+#' Example use cases:
+#' \itemize{
+#'   \item Running separate validations for authors vs. acknowledgees.
+#'   \item Changing which checks run depending on toggle inputs in a Shiny app.
+#'   \item Adjusting severity or skipping certain checks dynamically.
+#' }
 #'
 #' @section YAML Configuration:
 #' The validator reads a YAML configuration file (e.g., `inst/config/validator_example.yaml`), 
@@ -37,6 +55,9 @@
 #'         - '"Corresponding author?" %in% colnames(contributors_table)'
 #'         - 'self$results[["check_missing_corresponding"]]$type == "success"'
 #'         - '"Email address" %in% colnames(contributors_table)'
+#'     - name: check_subset_specific_rule
+#'       dependencies:
+#'         - 'context$include == "author"'
 #' }
 #'
 #' @section Usage:
@@ -47,12 +68,23 @@
 #' # Configure which validations should run
 #' validator$setup_validator(validation_config)
 #' 
-#' # Run the validations on a contributors table
-#' results <- validator$run_validations(contributors_table)
+#' # Run the validations on a contributors table with optional context
+#' context <- list(include = "author", order_by = "desc")
+#' results <- validator$run_validations(contributors_table, context = context)
+#' 
+#' # Access validation results
+#' print(results)
 #' }
 #'
-#' @seealso \code{\link{ValidateOutput}} which integrates this class for validation.
-#' 
+#' @section Notes:
+#' * If no `context` is provided, all validations run as before (backward-compatible).
+#' * Validation helpers can optionally define a `context` argument to access contextual data.
+#' * Within YAML dependency conditions, the `context` object is automatically available.
+#'
+#' @seealso 
+#' * [`ValidateOutput`] — integrates the `Validator` and `ColumnValidator` classes.
+#' * [`ColumnValidator`] — ensures required columns exist before data validations.
+#'
 #' @export
 Validator <- R6::R6Class(
   classname = "Validator",
@@ -69,6 +101,9 @@ Validator <- R6::R6Class(
     
     #' @field specified_validations The subset of validations to execute, defined in the YAML config.
     specified_validations = NULL, # Store the subset of validations to run
+    
+    #' @field context hold runtime context parameters (UI/state toggles etc.)
+    context = NULL,
     
     #' @description
     #' Initializes the `Validator` class. 
@@ -89,9 +124,12 @@ Validator <- R6::R6Class(
         check_coi = check_coi,
         check_author_acknowledgee_values = check_author_acknowledgee_values,
         check_corresponding_non_author = check_corresponding_non_author,
-        check_missing_author_acknowledgee= check_missing_author_acknowledgee
+        check_missing_author_acknowledgee= check_missing_author_acknowledgee,
+        check_nonempty_filtered_subset = check_nonempty_filtered_subset,
+        check_roles_present = check_roles_present
       )
       self$results <- list()
+      self$context <- NULL
     },
     
     #' @description
@@ -120,9 +158,11 @@ Validator <- R6::R6Class(
     #' @description
     #' Runs the specified validations on the provided contributors table.
     #' @param contributors_table A dataframe containing contributor data.
+    #' @param context Optional context parameters for dynamic validation.
     #' @return A list of validation results.
-    run_validations = function(contributors_table) {
+    run_validations = function(contributors_table, context = NULL) {
       self$results <- list() # Reset results
+      self$context <- context
       
       for (validation_name in self$specified_validations) {
         # Check if this validation should run based on dependencies
@@ -130,8 +170,18 @@ Validator <- R6::R6Class(
           next
         }
         
-        # Run the validation and store the result
-        result <- self$validations[[validation_name]](contributors_table)
+        fn <- self$validations[[validation_name]]
+        
+        # Call with context only if the function supports it
+        wants_context <- "context" %in% names(formals(fn))
+        result <- if (wants_context) {
+          # Run validation with context
+          fn(contributors_table, context = self$context)
+        } else {
+          # Run the validation without context
+          fn(contributors_table)
+        }
+        # Store the validation result
         self$results[[validation_name]] <- result
       }
       
@@ -151,9 +201,17 @@ Validator <- R6::R6Class(
       
       # Evaluate dependency conditions
       conditions <- self$dependencies[[validation_name]]
+      
+      # Build a safe evaluation environment that exposes the objects
+      eval_env <- list2env(list(
+        contributors_table = contributors_table,
+        self = self,
+        context = self$context
+      ), parent = parent.frame())
+      
       for (condition in conditions) {
-        # Ensure contributors_table is available in the environment for evaluation
-        if (!eval(parse(text = condition))) {
+        ok <- try(eval(parse(text = condition), envir = eval_env), silent = TRUE)
+        if (inherits(ok, "try-error") || isFALSE(ok) || is.na(ok)) {
           return(FALSE)
         }
       }

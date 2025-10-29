@@ -143,7 +143,7 @@ ValidateOutput <- R6::R6Class(
     #'   \item `type`: `"error"`, `"warning"`, or `"success"`.
     #'   \item `message`: A descriptive validation message.
     #' }
-    run_validations = function(contributors_table) {
+    run_validations = function(contributors_table, context = NULL) {
       # Run column validations first
       column_results <- self$column_validator$validate_columns(contributors_table)
       
@@ -153,7 +153,8 @@ ValidateOutput <- R6::R6Class(
       }
       
       # Run specified general validations
-      validation_results <- self$validator$run_validations(contributors_table)
+      self$validator$context <- context
+      validation_results <- self$validator$run_validations(contributors_table, context = context)
       
       # Combine and return results
       return(c(column_results, validation_results))

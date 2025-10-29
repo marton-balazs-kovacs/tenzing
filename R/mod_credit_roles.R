@@ -1,70 +1,124 @@
 # Module UI
-  
 #' @title   mod_credit_roles_ui and mod_credit_roles_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
 #'
 #' @rdname mod_credit_roles
-#'
 #' @keywords internal
-#' @export 
-#' @importFrom shiny NS tagList 
+#' @export
+#' @importFrom shiny NS tagList
 mod_credit_roles_ui <- function(id){
-
   tagList(
-    div(class = "out-btn",
-        actionButton(
-          NS(id, "show_report"),
-          label = "Contributions text",
-          class = "btn btn-primary btn-validate")
-        ) %>% 
+    div(
+      class = "out-btn",
+      actionButton(
+        NS(id, "show_report"),
+        label = "Contributions text",
+        class = "btn btn-primary btn-validate"
+      )
+    ) %>%
       tagAppendAttributes(
-        # Track click event with Matomo
         onclick = "_paq.push(['trackEvent', 'Output', 'Click show', 'Author information'])"
-        )
-    )
-  }
-    
+      )
+  )
+}
+
 # Module Server
-    
 #' @rdname mod_credit_roles
 #' @export
 #' @keywords internal
-    
 mod_credit_roles_server <- function(id, input_data){
-  
   moduleServer(id, function(input, output, session) {
-    # Setup ---------------------------
     ns <- session$ns
     
-    # Reactive value to track modal state
+    # Modal open flag ----------------------------------------------------------
     modal_open <- reactiveVal(FALSE)
     
-    # Validation ---------------------------
-    # Initialize ValidateOutput with the title validation config
+    # Validator instance (config has context-aware validations) ----------------
     validate_output_instance <- ValidateOutput$new(
       config_path = system.file("config/credit_validation.yaml", package = "tenzing")
     )
     
-    # Initialize validation card logic only when modal is open
-    # Use mod_validation_card_server to handle validation and get error status
-    has_errors <- mod_validation_card_server(
-      id = "validation_card",
-      contributors_table = input_data,
+    # Toggle reactives (authors) -----------------------------------------------
+    order <- reactive({
+      ifelse(isTRUE(input$order_by), "contributor", "role")
+    })
+    pub_order <- reactive({
+      if (isTRUE(input$pub_desc)) "desc" else "asc"
+    })
+    
+    # Toggle reactives (acknowledgees) -----------------------------------------
+    order_ack <- reactive({
+      ifelse(isTRUE(input$order_by_ack), "contributor", "role")
+    })
+    pub_order_ack <- reactive({
+      if (isTRUE(input$pub_desc_ack)) "desc" else "asc"
+    })
+    
+    # Filtered subsets ----------------------------------------------------------
+    authors_df <- reactive({
+      df <- req(input_data())
+      if (!"Author/Acknowledgee" %in% names(df)) return(df[0, , drop = FALSE])
+      df[df$`Author/Acknowledgee` != "Don't agree to be named" &
+           df$`Author/Acknowledgee` == "Author", , drop = FALSE]
+    })
+    acks_df <- reactive({
+      df <- req(input_data())
+      if (!"Author/Acknowledgee" %in% names(df)) return(df[0, , drop = FALSE])
+      df[df$`Author/Acknowledgee` != "Don't agree to be named" &
+           df$`Author/Acknowledgee` == "Acknowledgment only", , drop = FALSE]
+    })
+    has_ack <- reactive({
+      nrow(acks_df()) > 0
+    })
+    
+    # Contexts for YAML dependency conditions ----------------------------------
+    # Note: your config uses include values: "author" and "acknowledgee"
+    ctx_auth <- reactive({
+      list(include = "author", order_by = order(), pub_order = pub_order())
+    })
+    ctx_ack <- reactive({
+      list(include = "acknowledgee", order_by = order_ack(), pub_order = pub_order_ack())
+    })
+    
+    # Two independent validation cards -----------------------------------------
+    # IMPORTANT: mod_validation_card_server must accept `context` and pass it to
+    # ValidateOutput$run_validations(contributors_table, context).
+    has_errors_auth <- mod_validation_card_server(
+      id = "validation_card_auth",
+      contributors_table = authors_df,
       validate_output_instance = validate_output_instance,
-      trigger = modal_open
+      trigger = modal_open,
+      context = ctx_auth
     )
+    
+    has_errors_ack <- mod_validation_card_server(
+      id = "validation_card_ack",
+      contributors_table = acks_df,
+      validate_output_instance = validate_output_instance,
+      trigger = modal_open,
+      context = ctx_ack
+    )
+    
+    # Global disable for download/clip: disable only if BOTH sections invalid OR no sections
+    disable_all <- reactive({
+      no_auth <- nrow(authors_df()) == 0 || isTRUE(has_errors_auth())
+      no_ack  <- !has_ack() || isTRUE(has_errors_ack())
+      no_auth && no_ack
+    })
     
     observe({
       req(modal_open())
-      if (has_errors()) {
+      if (disable_all()) {
         golem::invoke_js("disable", paste0("#", ns("report")))
         golem::invoke_js("hideid", ns("clip"))
         golem::invoke_js("add_tooltip",
                          list(
                            where = paste0("#", ns("report")),
-                           message = "Fix the errors to enable the download."))
+                           message = "Fix the validation errors to enable the download."
+                         )
+        )
       } else {
         golem::invoke_js("remove_tooltip", paste0("#", ns("report")))
         golem::invoke_js("reable", paste0("#", ns("report")))
@@ -72,15 +126,11 @@ mod_credit_roles_server <- function(id, input_data){
       }
     })
     
-    # Preview ---------------------------
-    ## Render preview
-    # ---- Author preview (HTML) ----
+    # Previews ------------------------------------------------------------------
     output$preview_auth <- renderUI({
       req(modal_open())
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
-        "There are no CRediT roles checked for either of the contributors."
-      } else if (has_errors()) {
-        "The output cannot be generated. See 'Table Validation' for more information."
+      if (isTRUE(has_errors_auth())) {
+        "The author section cannot be generated. See 'Table Validation' (Authors) for details."
       } else {
         HTML(
           print_credit_roles(
@@ -95,13 +145,10 @@ mod_credit_roles_server <- function(id, input_data){
       }
     })
     
-    # ---- Acknowledgee preview (HTML), only if present ----
     output$preview_ack <- renderUI({
       req(modal_open(), has_ack())
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE)) {
-        "There are no CRediT roles checked for either of the contributors."
-      } else if (has_errors()) {
-        "The output cannot be generated. See 'Table Validation' for more information."
+      if (isTRUE(has_errors_ack())) {
+        "The acknowledgee section cannot be generated. See 'Table Validation' (Acknowledgees) for details."
       } else {
         HTML(
           print_credit_roles(
@@ -109,17 +156,19 @@ mod_credit_roles_server <- function(id, input_data){
             text_format = "html",
             initials = isTRUE(input$initials_ack),
             order_by = order_ack(),
-            include = "acknowledgment",
+            include = "acknowledgment",  # print fn expects 'acknowledgment'
             pub_order = pub_order_ack()
           )
         )
       }
     })
     
-    ## Build preview modal
+    # Modal ---------------------------------------------------------------------
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
+        
+        # -------- Authors block --------
         h3("Author contributions"),
         div(
           class = "toggle-row",
@@ -138,20 +187,22 @@ mod_credit_roles_server <- function(id, input_data){
             shinyWidgets::materialSwitch(NS(id, "pub_desc"), label = "Desc", inline = TRUE),
             span("Asc")
           )
-        ), 
+        ),
         hr(style= "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_auth")),
-        # ---- Acknowledgee block (conditionally shown) ----
+        # Authors validation card
+        mod_validation_card_ui(ns("validation_card_auth")),
+        
+        # -------- Acknowledgees block (conditional) --------
         uiOutput(NS(id, "ack_section")),
+        
         easyClose = FALSE,
         footer = tagList(
-          mod_validation_card_ui(ns("validation_card")),
           div(
             style = "display: inline-block",
             uiOutput(session$ns("clip"))
-          ) %>% 
+          ) %>%
             tagAppendAttributes(
-              # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Author information'])"
             ),
           div(
@@ -160,10 +211,9 @@ mod_credit_roles_server <- function(id, input_data){
               NS(id, "report"),
               label = "Download file",
               class = "btn-download"
-              )
-            ) %>% 
+            )
+          ) %>%
             tagAppendAttributes(
-              # Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click download', 'Author information'])"
             ),
           actionButton(ns("close_modal"), label = "Close", class = "btn btn-close")
@@ -173,9 +223,7 @@ mod_credit_roles_server <- function(id, input_data){
     
     output$ack_section <- renderUI({
       req(modal_open())
-      # only show if there are acknowledgees present
-      if (!has_ack())
-        return(NULL)
+      if (!has_ack()) return(NULL)
       
       tagList(
         hr(),
@@ -198,83 +246,42 @@ mod_credit_roles_server <- function(id, input_data){
             span("Asc")
           )
         ),
-        
         hr(style = "margin-top:5px; margin-bottom:10px;"),
-        uiOutput(NS(id, "preview_ack"))
+        uiOutput(NS(id, "preview_ack")),
+        # Acknowledgees validation card
+        mod_validation_card_ui(ns("validation_card_ack"))
       )
     })
     
-    ## Show preview modal
+    # Show/close modal ----------------------------------------------------------
     observeEvent(input$show_report, {
-      modal_open(TRUE)  # Mark modal as open
+      modal_open(TRUE)
       showModal(modal())
     })
-    
-    # Handle Close button
     observeEvent(input$close_modal, {
-      modal_open(FALSE)  # Mark modal as closed
-      removeModal()      # Close modal explicitly
-    })
-
-    # contributor vs role (authors)
-    order <- reactive({
-      ifelse(input$order_by, "contributor", "role")
+      modal_open(FALSE)
+      removeModal()
     })
     
-    # pub order (authors)
-    pub_order <- reactive({
-      if (isTRUE(input$pub_desc)) "desc" else "asc"
-    })
-    
-    # contributor vs role (acknowledgees)
-    order_ack <- reactive({
-      ifelse(isTRUE(input$order_by_ack), "contributor", "role")
-    })
-    
-    # pub order (acknowledgees)
-    pub_order_ack <- reactive({
-      if (isTRUE(input$pub_desc_ack)) "desc" else "asc"
-    })
-    
-    
-    # any acknowledgees? (excluding "Don't agree to be named")
-    has_ack <- reactive({
-      req(input_data())
-      df <- input_data()
-      if (!"Author/Acknowledgee" %in% names(df)) return(FALSE)
-      any(
-        df$`Author/Acknowledgee` == "Acknowledgment only" &
-          df$`Author/Acknowledgee` != "Don't agree to be named",
-        na.rm = TRUE
-      )
-    })
-    
-    # Download ---------------------------
-    ## Set up loading bar
+    # Download / Clipboard ------------------------------------------------------
     waitress <- waiter::Waitress$new(theme = "overlay", infinite = TRUE)
     
-    ## Restructure dataframe for the human readable output
     to_download <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) || has_errors()) {
-        return("There are no CRediT roles checked for any of the contributors.")
-      }
-      
-      # Build Rmd-formatted string
       parts <- list()
       
-      # Authors section (always)
-      auth_txt <- print_credit_roles(
-        contributors_table = input_data(),
-        text_format = "rmd",
-        initials = isTRUE(input$initials),
-        order_by = order(),
-        include = "author",
-        pub_order = pub_order()
-      )
-      parts <- c(parts, paste0("### Author contributions\n\n", auth_txt, "\n\n"))
+      if (!isTRUE(has_errors_auth()) && nrow(authors_df()) > 0) {
+        auth_txt <- print_credit_roles(
+          contributors_table = input_data(),
+          text_format = "rmd",
+          initials = isTRUE(input$initials),
+          order_by = order(),
+          include = "author",
+          pub_order = pub_order()
+        )
+        parts <- c(parts, paste0("### Author contributions\n\n", auth_txt, "\n\n"))
+      }
       
-      # Acknowledgees section (conditional)
-      if (has_ack()) {
+      if (has_ack() && !isTRUE(has_errors_ack()) && nrow(acks_df()) > 0) {
         ack_txt <- print_credit_roles(
           contributors_table = input_data(),
           text_format = "rmd",
@@ -286,60 +293,48 @@ mod_credit_roles_server <- function(id, input_data){
         parts <- c(parts, paste0("### Acknowledgee contributions\n\n", ack_txt, "\n\n"))
       }
       
+      if (length(parts) == 0)
+        return("There are no sections that can be generated due to validation errors. See 'Table Validation'.")
+      
       paste0(parts, collapse = "\n")
     })
     
-    
-    ## Set up parameters to pass to Rmd document
     params <- reactive({
       list(human_readable = to_download())
     })
-  
-    ## Render output Rmd
+    
     output$report <- downloadHandler(
-      # Set filename
       filename = function() {
         paste0("human_readable_report_", Sys.Date(), ".doc")
       },
-      # Set content of the file
       content = function(file) {
-        # Start progress bar
         waitress$notify()
-        # Copy the report file to a temporary directory before processing it
         file_path <- file.path("inst/app/www/", "human_readable_report.Rmd")
         file.copy("human_readable_report.Rmd", file_path, overwrite = TRUE)
-        # Knit the document
         callr::r(
           render_report,
           list(input = file_path, output = file, format = "word_document", params = params())
         )
-        # Stop progress bar
         waitress$close()
       }
     )
     
-    # Clip ---------------------------
-    ## Set up output text to clip
     to_clip <- reactive({
-      if (all(input_data()[dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)] == FALSE) || has_errors()) {
-        return("There are no CRediT roles checked for either of the contributors.")
-      }
-      
       parts <- list()
       
-      # Authors (raw)
-      auth_raw <- print_credit_roles(
-        contributors_table = input_data(),
-        text_format = "raw",
-        initials = isTRUE(input$initials),
-        order_by = order(),
-        include = "author",
-        pub_order = pub_order()
-      )
-      parts <- c(parts, paste0("Author contributions: ", auth_raw))
+      if (!isTRUE(has_errors_auth()) && nrow(authors_df()) > 0) {
+        auth_raw <- print_credit_roles(
+          contributors_table = input_data(),
+          text_format = "raw",
+          initials = isTRUE(input$initials),
+          order_by = order(),
+          include = "author",
+          pub_order = pub_order()
+        )
+        parts <- c(parts, paste0("Author contributions: ", auth_raw))
+      }
       
-      # Acknowledgees (raw, if present)
-      if (has_ack()) {
+      if (has_ack() && !isTRUE(has_errors_ack()) && nrow(acks_df()) > 0) {
         ack_raw <- print_credit_roles(
           contributors_table = input_data(),
           text_format = "raw",
@@ -351,28 +346,22 @@ mod_credit_roles_server <- function(id, input_data){
         parts <- c(parts, paste0("Acknowledgee contributions: ", ack_raw))
       }
       
+      if (length(parts) == 0)
+        return("No valid sections to copy due to validation errors. See 'Table Validation'.")
+      
       paste(parts, collapse = "\n\n")
     })
     
-    ## Add clipboard buttons
     output$clip <- renderUI({
       rclipboard::rclipButton(
-        inputId = "clip_btn", 
+        inputId = "clip_btn",
         label = "Copy output to clipboard",
-        clipText = to_clip(), 
+        clipText = to_clip(),
         icon = icon("clipboard"),
         modal = TRUE,
-        class = "btn-download")
+        class = "btn-download"
+      )
     })
-    
-    ## Workaround for execution within RStudio version < 1.2
     observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
   })
 }
-    
-## To be copied in the UI
-# mod_credit_roles_ui("credit_roles")
-    
-## To be copied in the server
-# mod_credit_roles_server("credit_roles")
- 

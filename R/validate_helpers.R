@@ -540,3 +540,84 @@ check_missing_author_acknowledgee <- function(contributors_table) {
   
   list(type = "success", message = "All named rows have 'Author/Acknowledgee' filled.")
 }
+
+#' Check Non-Empty Filtered Contributor Subset
+#'
+#' This function verifies that the filtered contributors table is not empty
+#' after applying inclusion/exclusion criteria (e.g., include = "Author",
+#' excluding "Don't agree to be named").
+#'
+#' @param contributors_table A dataframe of contributors after filtering.
+#' @param context Optional named list providing contextual information
+#'   such as \code{include} ("author" or "acknowledgee").
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "error".}
+#' \item{message}{A descriptive validation message.}
+#'
+#' @examples
+#' check_nonempty_filtered_subset(filtered_tbl, context = list(include = "author"))
+#'
+check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
+  if (nrow(contributors_table) == 0) {
+    include <- context$include %||% "the selected group"
+    list(
+      type = "error",
+      message = glue::glue(
+        "No rows remain after filtering by '{include}' and excluding 'Don't agree to be named'."
+      )
+    )
+  } else {
+    list(
+      type = "success",
+      message = "Contributors subset is non-empty after filtering."
+    )
+  }
+}
+
+#' Check for Presence of Assigned CRediT Roles
+#'
+#' This function verifies that at least one CRediT taxonomy role
+#' is checked for any contributor in the filtered dataset.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#' @param context Optional named list providing contextual information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "error".}
+#' \item{message}{A descriptive validation message.}
+#'
+#' @details
+#' This validation is equivalent to the internal check used in
+#' \code{print_credit_roles()} to ensure that contributors have at least one
+#' CRediT category marked as TRUE.
+#'
+#' @examples
+#' check_roles_present(filtered_tbl)
+#'
+check_roles_present <- function(contributors_table, context = NULL) {
+  # Identify role columns using credit_taxonomy
+  role_cols <- intersect(
+    dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`),
+    colnames(contributors_table)
+  )
+  
+  if (length(role_cols) == 0) {
+    return(list(
+      type = "error",
+      message = "No CRediT role columns were found in the contributors table."
+    ))
+  }
+  
+  if (all(contributors_table[role_cols] == FALSE, na.rm = TRUE)) {
+    list(
+      type = "error",
+      message = "There are no CRediT roles checked for any of the contributors."
+    )
+  } else {
+    list(
+      type = "success",
+      message = "At least one contributor has a CRediT role checked."
+    )
+  }
+}

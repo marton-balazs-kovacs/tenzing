@@ -11,10 +11,11 @@ Validator Class for Contributors Table
 \details{
 The \code{Validator} class runs a set of user-defined validation functions on
 a contributors table. It allows for configuring which validations should
-be executed, handling dependencies between validations, and storing results.
+be executed, handling dependencies between validations, evaluating
+context-aware conditions, and storing results.
 
-This class is used in conjunction with the \code{ValidateOutput} class to
-apply both column and general table validations.
+This class is used in conjunction with the \code{\link{ValidateOutput}} class to
+apply both column-level and data-level validation.
 }
 \section{Configurable Validations}{
 
@@ -27,7 +28,26 @@ are available.
 
 Some validations depend on the presence of specific columns or successful
 execution of other validations. These dependencies are defined in a YAML
-config file.
+config file and evaluated dynamically during runtime.
+}
+
+\section{Context-Aware Validation}{
+
+The validator supports an optional \strong{context} parameter, which can hold
+additional information about the environment in which validation is run.
+
+This allows validation logic and dependency conditions to react to dynamic
+UI states or user selections (e.g., \code{"include" = "author"}, \code{"order" = "desc"}).
+
+The \code{context} object is a named list accessible inside dependencies and
+validation functions, enabling conditional validation rules.
+
+Example use cases:
+\itemize{
+\item Running separate validations for authors vs. acknowledgees.
+\item Changing which checks run depending on toggle inputs in a Shiny app.
+\item Adjusting severity or skipping certain checks dynamically.
+}
 }
 
 \section{YAML Configuration}{
@@ -51,6 +71,9 @@ validation_config:
         - '"Corresponding author?" %in% colnames(contributors_table)'
         - 'self$results[["check_missing_corresponding"]]$type == "success"'
         - '"Email address" %in% colnames(contributors_table)'
+    - name: check_subset_specific_rule
+      dependencies:
+        - 'context$include == "author"'
 }
 }
 
@@ -63,13 +86,29 @@ validator <- Validator$new()
 # Configure which validations should run
 validator$setup_validator(validation_config)
 
-# Run the validations on a contributors table
-results <- validator$run_validations(contributors_table)
+# Run the validations on a contributors table with optional context
+context <- list(include = "author", order_by = "desc")
+results <- validator$run_validations(contributors_table, context = context)
+
+# Access validation results
+print(results)
+}
+}
+
+\section{Notes}{
+
+\itemize{
+\item If no \code{context} is provided, all validations run as before (backward-compatible).
+\item Validation helpers can optionally define a \code{context} argument to access contextual data.
+\item Within YAML dependency conditions, the \code{context} object is automatically available.
 }
 }
 
 \seealso{
-\code{\link{ValidateOutput}} which integrates this class for validation.
+\itemize{
+\item \code{\link{ValidateOutput}} — integrates the \code{Validator} and \code{ColumnValidator} classes.
+\item \code{\link{ColumnValidator}} — ensures required columns exist before data validations.
+}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -81,6 +120,8 @@ results <- validator$run_validations(contributors_table)
 \item{\code{results}}{Stores the results of executed validations.}
 
 \item{\code{specified_validations}}{The subset of validations to execute, defined in the YAML config.}
+
+\item{\code{context}}{hold runtime context parameters (UI/state toggles etc.)}
 }
 \if{html}{\out{</div>}}
 }
@@ -148,13 +189,15 @@ Configures the validator with the subset of validations to execute.
 \subsection{Method \code{run_validations()}}{
 Runs the specified validations on the provided contributors table.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$run_validations(contributors_table)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Validator$run_validations(contributors_table, context = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{contributors_table}}{A dataframe containing contributor data.}
+
+\item{\code{context}}{Optional context parameters for dynamic validation.}
 }
 \if{html}{\out{</div>}}
 }
