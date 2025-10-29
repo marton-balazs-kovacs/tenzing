@@ -88,8 +88,36 @@ mod_read_spreadsheet_server <- function(id) {
       sf_read_contributors_table <- purrr::safely(read_contributors_table)
       read_output <- sf_read_contributors_table(contributors_table_path = contributors_table_path)
       if (is.null(read_output$result)) {
+        # Extract error message
+        error_msg <- if (!is.null(read_output$error) && !is.null(read_output$error[["message"]])) {
+          read_output$error[["message"]]
+        } else {
+          "Unknown error occurred while reading the spreadsheet."
+        }
+        
+        # Check if this is a Google Sheets permission error
+        is_google_sheets_url <- grepl("https", contributors_table_path)
+        permission_keywords <- c("403", "permission", "access denied", "forbidden", 
+                                 "PERMISSION_DENIED", "insufficient permissions",
+                                 "not shared", "cannot access", "unauthorized")
+        is_permission_error <- any(sapply(permission_keywords, function(keyword) {
+          grepl(keyword, error_msg, ignore.case = TRUE)
+        }))
+        
+        # Provide user-friendly error message
+        if (is_google_sheets_url && is_permission_error) {
+          user_friendly_error <- paste0(
+            "Unable to access the Google Spreadsheet. ",
+            "The spreadsheet may have restricted viewing permissions. ",
+            "Please ensure the spreadsheet is shared with 'Anyone with the link' ",
+            "or with the appropriate viewing permissions."
+          )
+        } else {
+          user_friendly_error <- error_msg
+        }
+        
         golem::invoke_js("error_alert",
-                         list(error = read_output$error[["message"]],
+                         list(error = user_friendly_error,
                               warning = ""))
         return(NULL)
         } else { # Have successfully read the file or Google Sheet
