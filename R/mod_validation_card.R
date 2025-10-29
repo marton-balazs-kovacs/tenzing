@@ -95,14 +95,11 @@ mod_validation_card_server <- function(
     
     # ---- Apply styles AFTER DOM is ready; don't read reactives inside onFlushed
     apply_styles <- function(current) {
-      golem::invoke_js(
-        "update_card_styles",
-        list(
-          cardId = ns("validation_card"),
-          headerTextId = ns("header_text"),
-          textColor = current$textColor,
-          borderColor = current$borderColor
-        )
+      js_update_card_styles(
+        card_id = ns("validation_card"),
+        header_text_id = ns("header_text"),
+        text_color = current$textColor,
+        border_color = current$borderColor
       )
     }
     

@@ -11,23 +11,17 @@ app_server <- function(input, output, session) {
   # Output generating button activation
   ## Disable button on start and add tooltip
   ### Buttons that need a validated contributors_table
-  golem::invoke_js("disable", ".btn-validate")
-  golem::invoke_js("add_tooltip",
-                   list(
-                     where = ".out-btn",
-                     message = "Please upload a valid contributors_table"))
+  js_disable_buttons(".btn-validate")
+  js_add_tooltip(".out-btn", "Please upload a valid contributors_table")
 
   ## Toggle logic for multiple uploads
   observeEvent(read_out$upload(), {
     if(read_out$is_valid()) {
-      golem::invoke_js("reable", ".btn-validate")
-      golem::invoke_js("remove_tooltip", ".out-btn")
+      js_enable_buttons(".btn-validate")
+      js_remove_tooltip(".out-btn")
       } else{
-        golem::invoke_js("disable", ".btn-validate")
-        golem::invoke_js("add_tooltip",
-                         list(
-                           where = ".out-btn",
-                           message = "Please upload a valid contributors_table"))
+        js_disable_buttons(".btn-validate")
+        js_add_tooltip(".out-btn", "Please upload a valid contributors_table")
         }
     })
   

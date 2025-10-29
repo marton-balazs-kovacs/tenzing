@@ -116,9 +116,7 @@ mod_read_spreadsheet_server <- function(id) {
           user_friendly_error <- error_msg
         }
         
-        golem::invoke_js("error_alert",
-                         list(error = user_friendly_error,
-                              warning = ""))
+        js_error_alert(error = user_friendly_error)
         return(NULL)
         } else { # Have successfully read the file or Google Sheet
           message("File or Google Sheet has been uploaded.") # Print message for logfile so we know when people have uploaded a contributor table
@@ -127,20 +125,17 @@ mod_read_spreadsheet_server <- function(id) {
       })
     
     # Hide show spreadsheet on start
-    golem::invoke_js("hideid", "show-div")
+    js_hide_id("show-div")
     
     # Control show spreadsheet button behavior based on read
     observe({
       if(!is.null(table_data())) {
-        golem::invoke_js("reable", "#show_spreadsheet-show_data")
-        golem::invoke_js("showid", "show-div")
-        golem::invoke_js("remove_tooltip", "#show-div")
+        js_enable_buttons("#show_spreadsheet-show_data")
+        js_show_id("show-div")
+        js_remove_tooltip("#show-div")
         } else{
-          golem::invoke_js("disable", "#show_spreadsheet-show_data")
-          golem::invoke_js("add_tooltip",
-                           list(
-                             where = "#show-div",
-                             message = "Please upload a contributors_table"))
+          js_disable_buttons("#show_spreadsheet-show_data")
+          js_add_tooltip("#show-div", "Please upload a contributors_table")
           }
       })
     

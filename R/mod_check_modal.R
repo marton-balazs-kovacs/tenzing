@@ -44,17 +44,16 @@ mod_check_modal_server <- function(id, table_data) {
     
     # Activate modal
       if (all(check_result$type == "error")) {
-       golem::invoke_js("error_alert",
-                        list(error = check_result$message,
-                             warning = ""))
+       js_error_alert(error = check_result$message)
         } else if (all(check_result$type == "success")) {
-          golem::invoke_js("success_alert", "")
+          js_success_alert()
           } else if (all(check_result$type %in% c("warning", "success"))) {
-            golem::invoke_js("warning_alert", unnamed_message(check_result, "warning"))
+            js_warning_alert(unnamed_message(check_result, "warning"))
             } else {
-              golem::invoke_js("error_alert",
-                               list(error = unnamed_message(check_result, "error"),
-                                    warning = unnamed_message(check_result, "warning")))
+              js_error_alert(
+                error = unnamed_message(check_result, "error"),
+                warning = unnamed_message(check_result, "warning")
+              )
               }
     
     # Create output
