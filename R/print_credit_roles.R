@@ -55,15 +55,26 @@ print_credit_roles <-  function(
   
   
   # Coerce and filter upfront ---------------------------------------------------
+  has_author_ack <- "Author/Acknowledgee" %in% names(contributors_table)
   ct <- contributors_table %>%
     dplyr::mutate(
       # make sure the ordering column is numeric; NA for unparseable
       `Order in publication` = suppressWarnings(as.numeric(.data$`Order in publication`))
-    ) %>%
-    # always exclude "Don't agree to be named"
-    dplyr::filter(.data$`Author/Acknowledgee` != "Don't agree to be named") %>%
-    # keep only the requested group
-    dplyr::filter(.data$`Author/Acknowledgee` == include_value)
+    )
+  
+  if (has_author_ack) {
+    ct <- ct %>%
+      # always exclude "Don't agree to be named"
+      dplyr::filter(.data$`Author/Acknowledgee` != "Don't agree to be named") %>%
+      # keep only the requested group
+      dplyr::filter(.data$`Author/Acknowledgee` == include_value)
+  } else {
+    # Backward compatibility: treat all rows as authors when the column is missing
+    # If caller explicitly requests acknowledgees, produce empty to trigger validation error
+    if (identical(include, "acknowledgment")) {
+      ct <- ct[0, , drop = FALSE]
+    }
+  }
   
   # Validate input ---------------------------
   if (nrow(ct) == 0) {

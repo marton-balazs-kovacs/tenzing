@@ -59,7 +59,7 @@ mod_credit_roles_server <- function(id, input_data){
     # Filtered subsets ----------------------------------------------------------
     authors_df <- reactive({
       df <- req(input_data())
-      if (!"Author/Acknowledgee" %in% names(df)) return(df[0, , drop = FALSE])
+      if (!"Author/Acknowledgee" %in% names(df)) return(df)
       df[df$`Author/Acknowledgee` != "Don't agree to be named" &
            df$`Author/Acknowledgee` == "Author", , drop = FALSE]
     })

@@ -176,9 +176,11 @@ mod_read_spreadsheet_server <- function(id) {
       req(table_data_clean())
       df <- table_data_clean()
       if ("Author/Acknowledgee" %in% names(df)) {
+        # Only filter out if column is present
         df %>%
           dplyr::filter(is.na(.data$`Author/Acknowledgee`) | .data$`Author/Acknowledgee` != "Don't agree to be named")
       } else {
+        # If absent, do not drop any rows (backward compatible)
         df
       }
     })

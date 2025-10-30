@@ -8,11 +8,6 @@ column_config:
       - Surname
       - Order in publication
       severity: error
-    author_acknowledgee_rule:
-      operator: AND
-      columns:
-      - Author/Acknowledgee
-      severity: warning
     credit_rule:
       operator: AND
       columns:
@@ -40,8 +35,16 @@ validation_config:
   - name: check_duplicate_initials
   - name: check_duplicate_names
   - name: check_credit
+  - name: check_author_acknowledgee_missing
+    dependencies:
+    - '! ("Author/Acknowledgee" %in% colnames(contributors_table))'
+    - 'context$include == "author"'
   - name: check_author_acknowledgee_values
+    dependencies:
+    - '"Author/Acknowledgee" %in% colnames(contributors_table)'
   - name: check_missing_author_acknowledgee
+    dependencies:
+    - '"Author/Acknowledgee" %in% colnames(contributors_table)'
   - name: check_roles_present
   - name: check_nonempty_filtered_subset
     dependencies:
