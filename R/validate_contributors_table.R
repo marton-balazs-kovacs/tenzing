@@ -34,7 +34,7 @@ validate_contributors_table <- function(contributors_table, config_path) {
   config <- yaml::read_yaml(config_path)
   
   # Initialize ColumnValidator with the column configuration
-  column_validator <- ColumnValidator$new(config_input = config)
+  column_validator <- ColumnValidator$new(config_input = config$column_config)
   
   # Run column validation
   column_results <- column_validator$validate_columns(contributors_table)

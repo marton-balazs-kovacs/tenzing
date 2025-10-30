@@ -1,42 +1,48 @@
 column_config:
   rules:
-    credit:
-      operator: "AND"
+    minimal_rule:
+      operator: AND
       columns:
-        - Firstname
-        - Middle name
-        - Surname
-        - Order in publication
-        - Author/Acknowledgee
-        - Conceptualization
-        - Data curation
-        - Formal analysis
-        - Funding acquisition
-        - Investigation
-        - Methodology
-        - Project administration
-        - Resources
-        - Software
-        - Supervision
-        - Validation
-        - Visualization
-        - Writing - original draft
-        - Writing - review & editing
-      severity: "error"
-
+      - Firstname
+      - Middle name
+      - Surname
+      - Order in publication
+      severity: error
+    author_acknowledgee_rule:
+      operator: AND
+      columns:
+      - Author/Acknowledgee
+      severity: warning
+    credit_rule:
+      operator: AND
+      columns:
+      - Conceptualization
+      - Data curation
+      - Formal analysis
+      - Funding acquisition
+      - Investigation
+      - Methodology
+      - Project administration
+      - Resources
+      - Software
+      - Supervision
+      - Validation
+      - Visualization
+      - Writing - original draft
+      - Writing - review & editing
+      severity: warning
 validation_config:
   validations:
-    - name: check_missing_order
-    - name: check_duplicate_order
-    - name: check_missing_surname
-    - name: check_missing_firstname
-    - name: check_duplicate_initials
-    - name: check_duplicate_names
-    - name: check_credit
-    - name: check_author_acknowledgee_values
-    - name: check_corresponding_non_author
-    - name: check_missing_author_acknowledgee
-    - name: check_nonempty_filtered_subset
-      dependencies:
-        - 'context$include %in% c("author", "acknowledgee")'
-    - name: check_roles_present
+  - name: check_missing_order
+  - name: check_duplicate_order
+  - name: check_missing_surname
+  - name: check_missing_firstname
+  - name: check_duplicate_initials
+  - name: check_duplicate_names
+  - name: check_credit
+  - name: check_author_acknowledgee_values
+  - name: check_missing_author_acknowledgee
+  - name: check_roles_present
+  - name: check_nonempty_filtered_subset
+    dependencies:
+    - context$include %in% c("author", "acknowledgee")

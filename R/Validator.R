@@ -9,9 +9,9 @@
 #' apply both column-level and data-level validation.
 #'
 #' @section Configurable Validations:
-#' The class dynamically loads validation functions, allowing users to add 
-#' custom checks. By default, the predefined functions in `validate_helpers.R` 
-#' are available.
+#' The class loads validation functions explicitly, ensuring they are available 
+#' in all environments. By default, the predefined functions in `validate_helpers.R` 
+#' are loaded.
 #'
 #' @section Dependencies:
 #' Some validations depend on the presence of specific columns or successful 
@@ -90,7 +90,7 @@ Validator <- R6::R6Class(
   classname = "Validator",
   
   public = list(
-    #' @field validations A list of validation functions dynamically loaded from `validate_helpers.R` or custom functions.
+    #' @field validations A list of validation functions explicitly loaded from `validate_helpers.R` or custom functions.
     validations = list(),
     
     #' @field dependencies A list of validation dependencies.
@@ -107,9 +107,22 @@ Validator <- R6::R6Class(
     
     #' @description
     #' Initializes the `Validator` class. 
-    #' Loads predefined validations from `validate_helpers.R` and allows for adding custom validations.
+    #' Loads validation functions explicitly from `validate_helpers.R` and allows for adding custom validations.
     initialize = function() {
-      self$validations <- list(
+      # Load validation functions explicitly
+      self$validations <- self$load_validation_functions()
+      self$results <- list()
+      self$context <- NULL
+    },
+    
+    #' @description
+    #' Loads validation functions explicitly.
+    #' This ensures all validation functions are available in all environments.
+    #' @return A list of validation functions
+    load_validation_functions = function() {
+      # Define validation functions explicitly
+      # This ensures they're always available in all environments (including Shiny apps)
+      validation_functions <- list(
         check_missing_surname = check_missing_surname,
         check_missing_corresponding = check_missing_corresponding,
         check_missing_email = check_missing_email,
@@ -124,12 +137,15 @@ Validator <- R6::R6Class(
         check_coi = check_coi,
         check_author_acknowledgee_values = check_author_acknowledgee_values,
         check_corresponding_non_author = check_corresponding_non_author,
-        check_missing_author_acknowledgee= check_missing_author_acknowledgee,
+        check_missing_author_acknowledgee = check_missing_author_acknowledgee,
         check_nonempty_filtered_subset = check_nonempty_filtered_subset,
         check_roles_present = check_roles_present
       )
-      self$results <- list()
-      self$context <- NULL
+      
+      # Filter out any NULL entries (functions that don't exist)
+      validation_functions <- validation_functions[!sapply(validation_functions, is.null)]
+      
+      return(validation_functions)
     },
     
     #' @description
@@ -172,8 +188,17 @@ Validator <- R6::R6Class(
         
         fn <- self$validations[[validation_name]]
         
+        # Check if function exists
+        if (is.null(fn) || !is.function(fn)) {
+          warning(glue::glue("Validation function '{validation_name}' not found or not a function"))
+          next
+        }
+        
         # Call with context only if the function supports it
-        wants_context <- "context" %in% names(formals(fn))
+        wants_context <- tryCatch(
+          "context" %in% names(formals(fn)),
+          error = function(e) FALSE
+        )
         result <- if (wants_context) {
           # Run validation with context
           fn(contributors_table, context = self$context)

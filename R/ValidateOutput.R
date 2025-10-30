@@ -120,13 +120,26 @@ ValidateOutput <- R6::R6Class(
     
     #' @description Initializes the `ValidateOutput` class.
     #' @param config_path Path to the YAML configuration file.
-    initialize = function(config_path) {
+    #' @param use_base_config Whether to merge with base configuration (default: TRUE).
+    #' @param validate_schema Whether to validate the configuration schema (default: TRUE).
+    initialize = function(config_path, use_base_config = TRUE, validate_schema = TRUE) {
       if (missing(config_path)) {
         stop("config_path is required")
       }
       
-      # Load the combined YAML config
-      self$config <- yaml::read_yaml(config_path)
+      # Load the YAML config, optionally merging with base config
+      if (use_base_config && exists("load_validation_config", mode = "function")) {
+        self$config <- load_validation_config(config_path)
+      } else {
+        self$config <- yaml::read_yaml(config_path)
+      }
+      
+      # Validate configuration schema if requested
+      if (validate_schema && exists("validate_config_schema", mode = "function")) {
+        if (!validate_config_schema(self$config)) {
+          stop("Configuration validation failed. Check warnings for details.")
+        }
+      }
       
       # Initialize ColumnValidator with the column configuration
       self$column_validator <- ColumnValidator$new(config_input = self$config$column_config)

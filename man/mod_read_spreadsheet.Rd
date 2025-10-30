@@ -15,4 +15,14 @@ mod_read_spreadsheet_server(id)
 \description{
 A shiny Module.
 }
+\details{
+The server function returns a list with the following reactive elements:
+\describe{
+\item{data}{The cleaned and filtered contributors table}
+\item{is_valid}{Logical reactive indicating if the table passed validation}
+\item{upload}{Reactive trigger that fires when the upload button is clicked}
+}
+Note: The \code{is_valid} and \code{upload} reactives are exported primarily for use by
+the global button manager module to control button states across the application.
+}
 \keyword{internal}

@@ -1,0 +1,118 @@
+# Base validation configuration with common rules
+# This file defines reusable validation rules using YAML anchors and aliases
+
+# Common column validation rules
+base_column_rules:
+  # Minimal required columns for all outputs
+  minimal: &minimal_rule
+    operator: "AND"
+    columns:
+      - Firstname
+      - Middle name
+      - Surname
+      - Order in publication
+    severity: "error"
+
+  # Affiliation columns - either legacy OR regex-based
+  affiliation: &affiliation_rule
+    operator: "OR"
+    columns:
+      - Primary affiliation
+      - Secondary affiliation
+    regex: "^Affiliation [0-9]+$"
+    severity: "error"
+
+  # Title page specific columns
+  title: &title_rule
+    operator: "AND"
+    columns:
+      - Corresponding author?
+      - Email address
+    severity: "warning"
+
+  # Credit taxonomy columns
+  credit: &credit_rule
+    operator: "AND"
+    columns:
+      - Conceptualization
+      - Data curation
+      - Formal analysis
+      - Funding acquisition
+      - Investigation
+      - Methodology
+      - Project administration
+      - Resources
+      - Software
+      - Supervision
+      - Validation
+      - Visualization
+      - Writing - original draft
+      - Writing - review & editing
+    severity: "warning"
+
+  # Author/Acknowledgee column
+  author_acknowledgee: &author_acknowledgee_rule
+    operator: "AND"
+    columns:
+      - Author/Acknowledgee
+    severity: "warning"
+
+  # Funding column
+  funding: &funding_rule
+    operator: "AND"
+    columns:
+      - Funding
+    severity: "warning"
+
+  # Conflict of interest column
+  coi: &coi_rule
+    operator: "AND"
+    columns:
+      - Conflict of interest
+    severity: "warning"
+
+# Common validation functions
+base_validation_functions:
+  # Core validation functions used in most outputs
+  core_validations: &core_validations
+    - name: check_missing_order
+    - name: check_duplicate_order
+    - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
+    - name: check_duplicate_names
+
+  # Title page specific validations
+  title_validations: &title_validations
+    - name: check_missing_corresponding
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+    - name: check_missing_email
+      dependencies:
+        - '"Corresponding author?" %in% colnames(contributors_table)'
+        - 'self$results[["check_missing_corresponding"]]$type == "success"'
+        - '"Email address" %in% colnames(contributors_table)'
+
+  # Affiliation validations
+  affiliation_validations: &affiliation_validations
+    - name: check_affiliation
+    - name: check_affiliation_consistency
+
+  # Credit specific validations
+  credit_validations: &credit_validations
+    - name: check_credit
+    - name: check_author_acknowledgee_values
+    - name: check_missing_author_acknowledgee
+    - name: check_roles_present
+
+  # Context-aware validations
+  context_validations: &context_validations
+    - name: check_nonempty_filtered_subset
+      dependencies:
+        - 'context$include %in% c("author", "acknowledgee")'
+
+  # COI specific validations
+  coi_validations: &coi_validations
+    - name: check_coi
+      dependencies:
+        - '"Conflict of interest" %in% colnames(contributors_table)'

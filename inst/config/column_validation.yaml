@@ -1,56 +1,56 @@
-rules:
-  minimal:
-    operator: "AND"
-    columns:
-        - Firstname
-        - Middle name
-        - Surname
-        - Order in publication
-        - Author/Acknowledgee
-    severity: "warning"
+column_config:
+  rules:
+    minimal:
+      operator: "AND"
+      columns:
+          - Firstname
+          - Middle name
+          - Surname
+          - Order in publication
+      severity: "warning"
+      
+    credit:
+      operator: "AND"
+      columns:
+          - Conceptualization
+          - Data curation
+          - Formal analysis
+          - Funding acquisition
+          - Investigation
+          - Methodology
+          - Project administration
+          - Resources
+          - Software
+          - Supervision
+          - Validation
+          - Visualization
+          - Writing - original draft
+          - Writing - review & editing
+      severity: "warning"
+
+    title:
+      operator: "AND"
+      columns:
+        - Corresponding author?
+        - Email address
+      severity: "warning"
     
-  credit:
-    operator: "AND"
-    columns:
-        - Conceptualization
-        - Data curation
-        - Formal analysis
-        - Funding acquisition
-        - Investigation
-        - Methodology
-        - Project administration
-        - Resources
-        - Software
-        - Supervision
-        - Validation
-        - Visualization
-        - Writing - original draft
-        - Writing - review & editing
-    severity: "warning"
+    affiliations:
+      operator: "OR"
+      columns:
+        - Primary affiliation
+        - Secondary affiliation
+      regex: "^Affiliation \\d+$"
+      severity: "warning"
 
-  title:
-    operator: "AND"
-    columns:
-      - Corresponding author?
-      - Email address
-    severity: "warning"
-  
-  affiliations:
-    operator: "OR"
-    columns:
-      - Primary affiliation
-      - Secondary affiliation
-    regex: "^Affiliation \\d+$"
-    severity: "warning"
+    funding:
+      operator: "AND"
+      columns:
+        - Funding
+      severity: "warning"
 
-  funding:
-    operator: "AND"
-    columns:
-      - Funding
-    severity: "warning"
-
-  coi:
-    operator: "AND"
-    columns:
-      - Conflict of interest
-    severity: "warning"
+    coi:
+      operator: "AND"
+      columns:
+        - Conflict of interest
+      severity: "warning"

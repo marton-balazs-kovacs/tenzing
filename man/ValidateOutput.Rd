@@ -151,13 +151,17 @@ results_ctx <- validate_output$run_validations(contributors_table, context = ctx
 \subsection{Method \code{new()}}{
 Initializes the \code{ValidateOutput} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$new(config_path)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$new(config_path, use_base_config = TRUE, validate_schema = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{config_path}}{Path to the YAML configuration file.}
+
+\item{\code{use_base_config}}{Whether to merge with base configuration (default: TRUE).}
+
+\item{\code{validate_schema}}{Whether to validate the configuration schema (default: TRUE).}
 }
 \if{html}{\out{</div>}}
 }

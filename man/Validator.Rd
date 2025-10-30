@@ -19,9 +19,9 @@ apply both column-level and data-level validation.
 }
 \section{Configurable Validations}{
 
-The class dynamically loads validation functions, allowing users to add
-custom checks. By default, the predefined functions in \code{validate_helpers.R}
-are available.
+The class loads validation functions explicitly, ensuring they are available
+in all environments. By default, the predefined functions in \code{validate_helpers.R}
+are loaded.
 }
 
 \section{Dependencies}{
@@ -113,7 +113,7 @@ print(results)
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{validations}}{A list of validation functions dynamically loaded from \code{validate_helpers.R} or custom functions.}
+\item{\code{validations}}{A list of validation functions explicitly loaded from \code{validate_helpers.R} or custom functions.}
 
 \item{\code{dependencies}}{A list of validation dependencies.}
 
@@ -129,6 +129,7 @@ print(results)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Validator-new}{\code{Validator$new()}}
+\item \href{#method-Validator-load_validation_functions}{\code{Validator$load_validation_functions()}}
 \item \href{#method-Validator-add_dependency}{\code{Validator$add_dependency()}}
 \item \href{#method-Validator-setup_validator}{\code{Validator$setup_validator()}}
 \item \href{#method-Validator-run_validations}{\code{Validator$run_validations()}}
@@ -141,11 +142,25 @@ print(results)
 \if{latex}{\out{\hypertarget{method-Validator-new}{}}}
 \subsection{Method \code{new()}}{
 Initializes the \code{Validator} class.
-Loads predefined validations from \code{validate_helpers.R} and allows for adding custom validations.
+Loads validation functions explicitly from \code{validate_helpers.R} and allows for adding custom validations.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Validator$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Validator-load_validation_functions"></a>}}
+\if{latex}{\out{\hypertarget{method-Validator-load_validation_functions}{}}}
+\subsection{Method \code{load_validation_functions()}}{
+Loads validation functions explicitly.
+This ensures all validation functions are available in all environments.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Validator$load_validation_functions()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A list of validation functions
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-add_dependency"></a>}}

@@ -27,7 +27,7 @@ The \code{regex} field in the YAML configuration allows \strong{pattern-based ma
 
 \section{YAML Configuration}{
 
-The validator reads a YAML file (e.g., \code{inst/config/columnvalidator_example.yaml}) that defines:
+The validator reads a YAML file (e.g., \code{inst/config/column_validation.yaml}) that defines:
 \itemize{
 \item \strong{Rules} specifying required columns.
 \item \strong{Operators} (\code{AND}, \code{OR}, \code{NOT}) for column validation.
@@ -75,7 +75,7 @@ If required columns are missing, the validation process halts, returning \strong
 
 \preformatted{
 # Load a column validation config
-config <- yaml::read_yaml("inst/config/columnvalidator_example.yaml")
+config <- yaml::read_yaml("inst/config/column_validation.yaml")
 
 # Create a ColumnValidator instance
 column_validator <- ColumnValidator$new(config_input = config$column_config)

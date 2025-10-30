@@ -15,7 +15,7 @@
 #' The `regex` field in the YAML configuration allows **pattern-based matching**.
 #'
 #' @section YAML Configuration:
-#' The validator reads a YAML file (e.g., `inst/config/columnvalidator_example.yaml`) that defines:
+#' The validator reads a YAML file (e.g., `inst/config/column_validation.yaml`) that defines:
 #' \itemize{
 #'   \item **Rules** specifying required columns.
 #'   \item **Operators** (`AND`, `OR`, `NOT`) for column validation.
@@ -59,7 +59,7 @@
 #' @section Usage:
 #' \preformatted{
 #' # Load a column validation config
-#' config <- yaml::read_yaml("inst/config/columnvalidator_example.yaml")
+#' config <- yaml::read_yaml("inst/config/column_validation.yaml")
 #' 
 #' # Create a ColumnValidator instance
 #' column_validator <- ColumnValidator$new(config_input = config$column_config)
@@ -168,7 +168,7 @@ ColumnValidator <- R6::R6Class(
       # If validation passes
       return(list(
         type = "success",
-        message = glue::glue("All column requirements satisfied.")
+        message = "All column requirements satisfied."
       ))
     }
   )

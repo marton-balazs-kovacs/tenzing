@@ -54,16 +54,9 @@ check_missing_surname <- function(contributors_table) {
       tibble::rownames_to_column(var = "rowname") %>%
       dplyr::filter(is.na(.data$Surname))
     
-    list(
-      type = "warning",
-      message = glue::glue(
-        "The Surname is missing for row numbers: ",
-        glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
-      )
-    )
+    validation_missing_values("Surname", as.numeric(missing$rowname), "warning")
   } else {
-    list(type = "success",
-         message = "There are no missing surnames.")
+    validation_success("There are no missing surnames.")
   }
 }
 
@@ -84,15 +77,9 @@ check_missing_firstname <- function(contributors_table) {
       tibble::rownames_to_column(var = "rowname") %>% 
       dplyr::filter(is.na(.data$Firstname))
     
-    list(
-      type = "warning",
-      message = glue::glue("The firstname is missing for row number: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
-    )
+    validation_missing_values("Firstname", as.numeric(missing$rowname), "warning")
   } else{
-    list(
-      type = "success",
-      message = "There are no missing firstnames."
-    )
+    validation_success("There are no missing firstnames.")
   }
 }
 
