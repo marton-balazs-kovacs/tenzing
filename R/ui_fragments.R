@@ -1,12 +1,7 @@
-#' UI Fragment Components
-#' 
-#' Reusable UI components extracted from app_ui.R for better maintainability.
-#' All UI text is kept inline within functions for easier editing.
-#'
-#' @keywords internal
-#' @noRd
-#' @importFrom shiny tagList div h1 h3 wellPanel HTML tags
-#' @importFrom htmltools tagAppendAttributes
+# UI Fragment Components
+# 
+# Reusable UI components extracted from app_ui.R for better maintainability.
+# All UI text is kept inline within functions for easier editing.
 
 #' Create a help icon widget
 #' 

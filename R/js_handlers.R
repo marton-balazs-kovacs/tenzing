@@ -1,12 +1,8 @@
-#' JavaScript Handler Wrappers
-#' 
-#' Wrapper functions for JavaScript invocations via golem::invoke_js().
-#' These functions provide a consistent interface and make it easier to
-#' maintain JavaScript calls throughout the application.
-#'
-#' @keywords internal
-#' @noRd
-#' @importFrom golem invoke_js
+# JavaScript Handler Wrappers
+# 
+# Wrapper functions for JavaScript invocations via golem::invoke_js().
+# These functions provide a consistent interface and make it easier to
+# maintain JavaScript calls throughout the application.
 
 #' Disable buttons by selector
 #' 

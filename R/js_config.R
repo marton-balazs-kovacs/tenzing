@@ -1,10 +1,6 @@
-#' JavaScript Resource Configuration
-#' 
-#' Functions for managing JavaScript resources and external libraries.
-#'
-#' @keywords internal
-#' @noRd
-#' @importFrom shiny tagList tags HTML addResourcePath
+# JavaScript Resource Configuration
+# 
+# Functions for managing JavaScript resources and external libraries.
 
 #' Add external JavaScript libraries
 #' 
