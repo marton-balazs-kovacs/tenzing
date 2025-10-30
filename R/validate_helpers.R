@@ -24,16 +24,16 @@ check_affiliation_consistency <- function(contributors_table) {
   # If both systems are detected, raise an error
   if (has_legacy_affiliations && has_affiliation_n) {
     return(
-      list(type = "warning",
-           message = "Both legacy columns ('Primary affiliation' or 'Secondary affiliation') and 'Affiliation {n}' columns are present. Please use only one format for consistent results.")
+      validation_warning(
+        "Both legacy columns ('Primary affiliation' or 'Secondary affiliation') and 'Affiliation {n}' columns are present. Please use only one format for consistent results."
+      )
     )
   }
   
   # If only one system is detected, return success
-  return(list(
-    type = "success",
-    message = "Affiliation column names are used consistently."
-  ))
+  return(
+    validation_success("Affiliation column names are used consistently.")
+  )
 }
 
 #' Check for Missing Surnames
@@ -107,17 +107,15 @@ check_duplicate_names <- function(contributors_table) {
     dplyr::filter(.data$n > 1)
   
   if (nrow(duplicate) != 0) {
-    list(
-      type = "warning",
-      message = glue::glue("The contributors_table has the following duplicate names: ",
-                           glue::glue_collapse(stringr::str_to_title(duplicate$Names),
-                           sep = ", ", last = " and "))
+    validation_warning(
+      glue::glue(
+        "The contributors_table has the following duplicate names: ",
+        glue::glue_collapse(stringr::str_to_title(duplicate$Names), sep = ", ", last = " and ")
+      ),
+      details = list(duplicate_names = duplicate$Names)
     )
   } else {
-    list(
-      type = "success",
-      message = "There are no duplicate names in the contributors_table."
-    )
+    validation_success("There are no duplicate names in the contributors_table.")
   }
 }
 
@@ -139,15 +137,14 @@ check_missing_order <- function(contributors_table) {
     dplyr::filter(is.na(.data$`Order in publication`))
   
   if (nrow(missing) != 0) {
-    list(
-      type = "error",
-      message = glue::glue("The contributors_table has the following missing order numbers: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
+    validation_error(
+      glue::glue(
+        "The contributors_table has the following missing order numbers: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
+      ),
+      affected_rows = as.numeric(missing$rowname)
     )
   } else {
-    list(
-      type = "success",
-      message = "There are no missing values in the order of publication."
-    )
+    validation_success("There are no missing values in the order of publication.")
   }
 }
 
@@ -172,15 +169,14 @@ check_duplicate_order <- function(contributors_table) {
     dplyr::filter(.data$n > 1)
   
   if (!shared_first & nrow(duplicate) != 0) {
-    list(
-      type = "error",
-      message = glue::glue("The order number is duplicated for the following: ", glue::glue_collapse(duplicate$`Order in publication`, sep = ", ", last = " and "))
+    validation_error(
+      glue::glue(
+        "The order number is duplicated for the following: ", glue::glue_collapse(duplicate$`Order in publication`, sep = ", ", last = " and ")
+      ),
+      details = list(duplicated_orders = duplicate$`Order in publication`)
     )
   } else {
-    list(
-      type = "success",
-      message = "There are no duplicated order numbers in the contributors_table."
-    )
+    validation_success("There are no duplicated order numbers in the contributors_table.")
   }
 }
 
@@ -224,19 +220,16 @@ check_affiliation <- function(contributors_table) {
   
   # Return warning if there are rows with missing affiliations
   if (nrow(missing_rows) > 0) {
-    list(
-      type = "warning",
-      message = glue::glue(
+    validation_warning(
+      glue::glue(
         "There is no affiliation provided for the following row number(s): ",
         glue::glue_collapse(missing_rows$rowname, sep = ", ", last = " and ")
-      )
+      ),
+      affected_rows = as.numeric(missing_rows$rowname)
     )
   } else {
     # Success if all rows have at least one affiliation
-    list(
-      type = "success",
-      message = "There are no missing affiliations in the contributors_table."
-    )
+    validation_success("There are no missing affiliations in the contributors_table.")
   }
 }
 
@@ -252,13 +245,9 @@ check_affiliation <- function(contributors_table) {
 #' \item{message}{An informative message indicating whether a corresponding author is missing.}
 check_missing_corresponding <- function(contributors_table) {
   if (any(contributors_table$`Corresponding author?`)) {
-    list(
-      type = "success",
-      message = "There is at least one author indicated as corresponding author.")
+    validation_success("There is at least one author indicated as corresponding author.")
   } else {
-    list(
-      type = "warning",
-      message = "There is no indication of a corresponding author.")
+    validation_warning("There is no indication of a corresponding author.")
   }
 }
 
@@ -280,13 +269,12 @@ check_missing_email <- function(contributors_table) {
     dplyr::filter(.data$`Corresponding author?` == TRUE)
   
   if (all(is.na(corresponding$`Email address`))) {
-    list(
-      type = "warning",
-      message = glue::glue("There is no email address provided for the corresponding author(s): ", glue::glue_collapse(corresponding$rowname, sep = ", ", last = " and ")))
+    validation_warning(
+      glue::glue("There is no email address provided for the corresponding author(s): ", glue::glue_collapse(corresponding$rowname, sep = ", ", last = " and ")),
+      affected_rows = as.numeric(corresponding$rowname)
+    )
   } else {
-    list(
-      type = "success",
-      message = "There are email addresses provided for all corresponding authors.")
+    validation_success("There are email addresses provided for all corresponding authors.")
   }
 }
 
@@ -311,13 +299,15 @@ check_credit <- function(contributors_table) {
                      dplyr::all_vars(. == FALSE))
   
   if (nrow(missing) != 0) {
-    list(
-      type = "warning",
-      message = glue::glue("No CRediT categories are indicated for the row number(s) that follow, although tenzing will still provide other outputs: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")))
+    validation_warning(
+      glue::glue(
+        "No CRediT categories are indicated for the row number(s) that follow, although tenzing will still provide other outputs: ",
+        glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
+      ),
+      affected_rows = as.numeric(missing$rowname)
+    )
   } else {
-    list(
-      type = "success",
-      message = "All authors have at least one CRediT statement checked.")
+    validation_success("All authors have at least one CRediT statement checked.")
   }
 }
 
@@ -338,15 +328,12 @@ check_coi <- function(contributors_table) {
       tibble::rownames_to_column(var = "rowname") %>% 
       dplyr::filter(is.na(.data[["Conflict of interest"]]))
     
-    list(
-      type = "warning",
-      message = glue::glue("The conflict of interest statement is missing for row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and "))
+    validation_warning(
+      glue::glue("The conflict of interest statement is missing for row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")),
+      affected_rows = as.numeric(missing$rowname)
     )
   } else {
-    list(
-      type = "success",
-      message = "There are no missing conflict of interest statements."
-    )
+    validation_success("There are no missing conflict of interest statements.")
   }
 }
 
@@ -378,17 +365,15 @@ check_duplicate_initials <- function(contributors_table) {
     dplyr::filter(.data$n > 1)
   
   if (nrow(duplicate) != 0) {
-    list(
-      type = "warning",
-      message = glue::glue( "There are duplicate initials (full last names will be used to disambiguate them): ",
-                            glue::glue_collapse(toupper(duplicate$Initials),
-                            sep = ", ", last = " and ") )
+    validation_warning(
+      glue::glue(
+        "There are duplicate initials (full last names will be used to disambiguate them): ",
+        glue::glue_collapse(toupper(duplicate$Initials), sep = ", ", last = " and ")
+      ),
+      details = list(duplicate_initials = duplicate$Initials)
     )
   } else {
-    list(
-      type = "success",
-      message = "There are no duplicate initials in the contributors_table."
-    )
+    validation_success("There are no duplicate initials in the contributors_table.")
   }
 }
 
@@ -403,10 +388,7 @@ check_author_acknowledgee_values <- function(contributors_table) {
   allowed <- c("Author", "Acknowledgment only", "Don't agree to be named")
   
   if (!"Author/Acknowledgee" %in% names(contributors_table)) {
-    return(list(
-      type = "warning",
-      message = "Column 'Author/Acknowledgee' is missing."
-    ))
+    return(validation_warning("Column 'Author/Acknowledgee' is missing."))
   }
   
   invalid <-
@@ -417,17 +399,20 @@ check_author_acknowledgee_values <- function(contributors_table) {
   
   if (nrow(invalid) > 0) {
     bad_vals <- invalid %>% dplyr::distinct(.data$`Author/Acknowledgee`) %>% dplyr::pull()
-    return(list(
-      type = "warning",
-      message = glue::glue(
-        "Unrecognized values in 'Author/Acknowledgee': {glue::glue_collapse(bad_vals, sep = ', ', last = ' and ')}. ",
-        "Rows: {glue::glue_collapse(invalid$rowname, sep = ', ', last = ' and ')}. ",
-        "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
+    return(
+      validation_warning(
+        glue::glue(
+          "Unrecognized values in 'Author/Acknowledgee': {glue::glue_collapse(bad_vals, sep = ', ', last = ' and ')}. ",
+          "Rows: {glue::glue_collapse(invalid$rowname, sep = ', ', last = ' and ')}. ",
+          "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
+        ),
+        affected_rows = as.numeric(invalid$rowname),
+        details = list(bad_values = bad_vals, allowed_values = allowed)
       )
-    ))
+    )
   }
   
-  list(type = "success", message = "All 'Author/Acknowledgee' values are valid.")
+  validation_success("All 'Author/Acknowledgee' values are valid.")
 }
 
 #' Check that only Authors are marked as Corresponding
@@ -441,12 +426,14 @@ check_corresponding_non_author <- function(contributors_table) {
   needed <- c("Author/Acknowledgee", "Corresponding author?")
   missing_cols <- setdiff(needed, names(contributors_table))
   if (length(missing_cols) > 0) {
-    return(list(
-      type = "warning",
-      message = glue::glue(
-        "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+    return(
+      validation_warning(
+        glue::glue(
+          "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+        ),
+        details = list(missing_columns = missing_cols)
       )
-    ))
+    )
   }
   
   offenders <-
@@ -458,16 +445,18 @@ check_corresponding_non_author <- function(contributors_table) {
                   .data$`Author/Acknowledgee` != "Author")
   
   if (nrow(offenders) > 0) {
-    return(list(
-      type = "warning",
-      message = glue::glue(
-        "Non-author rows are marked as corresponding author. Row number(s): ",
-        "{glue::glue_collapse(offenders$rowname, sep = ', ', last = ' and ')}."
+    return(
+      validation_warning(
+        glue::glue(
+          "Non-author rows are marked as corresponding author. Row number(s): ",
+          "{glue::glue_collapse(offenders$rowname, sep = ', ', last = ' and ')}."
+        ),
+        affected_rows = as.numeric(offenders$rowname)
       )
-    ))
+    )
   }
   
-  list(type = "success", message = "Only authors are marked as corresponding.")
+  validation_success("Only authors are marked as corresponding.")
 }
 
 #' Check missing Author/Acknowledgee where names are present
@@ -482,12 +471,14 @@ check_missing_author_acknowledgee <- function(contributors_table) {
   needed <- c("Author/Acknowledgee", "Firstname", "Surname")
   missing_cols <- setdiff(needed, names(contributors_table))
   if (length(missing_cols) > 0) {
-    return(list(
-      type = "warning",
-      message = glue::glue(
-        "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+    return(
+      validation_warning(
+        glue::glue(
+          "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
+        ),
+        details = list(missing_columns = missing_cols)
       )
-    ))
+    )
   }
   
   # helper to treat blanks as missing
@@ -516,16 +507,18 @@ check_missing_author_acknowledgee <- function(contributors_table) {
     dplyr::pull(.data$rowname)
   
   if (length(missing_rows) > 0) {
-    return(list(
-      type = "warning",
-      message = glue::glue(
-        "Missing 'Author/Acknowledgee' value for row number(s) with names: ",
-        "{glue::glue_collapse(missing_rows, sep = ', ', last = ' and ')}."
+    return(
+      validation_warning(
+        glue::glue(
+          "Missing 'Author/Acknowledgee' value for row number(s) with names: ",
+          "{glue::glue_collapse(missing_rows, sep = ', ', last = ' and ')}."
+        ),
+        affected_rows = as.numeric(missing_rows)
       )
-    ))
+    )
   }
   
-  list(type = "success", message = "All named rows have 'Author/Acknowledgee' filled.")
+  validation_success("All named rows have 'Author/Acknowledgee' filled.")
 }
 
 #' Check Non-Empty Filtered Contributor Subset
@@ -548,17 +541,14 @@ check_missing_author_acknowledgee <- function(contributors_table) {
 check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
   if (nrow(contributors_table) == 0) {
     include <- context$include %||% "the selected group"
-    list(
-      type = "error",
-      message = glue::glue(
+    validation_error(
+      glue::glue(
         "No rows remain after filtering by '{include}' and excluding 'Don't agree to be named'."
-      )
+      ),
+      details = list(include = include)
     )
   } else {
-    list(
-      type = "success",
-      message = "Contributors subset is non-empty after filtering."
-    )
+    validation_success("Contributors subset is non-empty after filtering.")
   }
 }
 
@@ -590,21 +580,12 @@ check_roles_present <- function(contributors_table) {
   )
   
   if (length(role_cols) == 0) {
-    return(list(
-      type = "error",
-      message = "No CRediT role columns were found in the contributors table."
-    ))
+    return(validation_error("No CRediT role columns were found in the contributors table."))
   }
   
   if (all(contributors_table[role_cols] == FALSE, na.rm = TRUE)) {
-    list(
-      type = "error",
-      message = "There are no CRediT roles checked for any of the contributors."
-    )
+    validation_error("There are no CRediT roles checked for any of the contributors.")
   } else {
-    list(
-      type = "success",
-      message = "At least one contributor has a CRediT role checked."
-    )
+    validation_success("At least one contributor has a CRediT role checked.")
   }
 }
