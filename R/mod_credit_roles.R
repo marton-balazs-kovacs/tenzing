@@ -8,6 +8,7 @@
 #' @keywords internal
 #' @export
 #' @importFrom shiny NS tagList
+#' @importFrom tenzing toggle
 mod_credit_roles_ui <- function(id){
   tagList(
     div(
@@ -169,35 +170,20 @@ mod_credit_roles_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         rclipboard::rclipboardSetup(),
-        
         # -------- Authors block --------
         h3("Author contributions"),
         div(
           class = "toggle-row",
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "initials"), label = "Full names", inline = TRUE),
-            span("Initials")
-          ),
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "order_by"), label = "Contributor names", inline = TRUE),
-            span("Roles")
-          ),
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "pub_desc"), label = "Desc", inline = TRUE),
-            span("Asc")
-          )
+          toggle(ns, "initials", "Full names", "Initials"),
+          toggle(ns, "order_by", "Contributor names", "Roles"),
+          toggle(ns, "pub_desc", "Desc", "Asc")
         ),
-        hr(style= "margin-top:5px; margin-bottom:10px;"),
+        hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_auth")),
         # Authors validation card
         mod_validation_card_ui(ns("validation_card_auth")),
-        
         # -------- Acknowledgees block (conditional) --------
         uiOutput(NS(id, "ack_section")),
-        
         easyClose = FALSE,
         footer = tagList(
           div(
@@ -226,27 +212,14 @@ mod_credit_roles_server <- function(id, input_data){
     output$ack_section <- renderUI({
       req(modal_open())
       if (!has_ack()) return(NULL)
-      
       tagList(
         hr(),
         h3("Acknowledgee contributions"),
         div(
           class = "toggle-row",
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "initials_ack"), label = "Full names", inline = TRUE),
-            span("Initials")
-          ),
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "order_by_ack"), label = "Contributor names", inline = TRUE),
-            span("Roles")
-          ),
-          div(
-            class = "toggle-item",
-            shinyWidgets::materialSwitch(NS(id, "pub_desc_ack"), label = "Desc", inline = TRUE),
-            span("Asc")
-          )
+          toggle(ns, "initials_ack", "Full names", "Initials"),
+          toggle(ns, "order_by_ack", "Contributor names", "Roles"),
+          toggle(ns, "pub_desc_ack", "Desc", "Asc")
         ),
         hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_ack")),

@@ -467,16 +467,35 @@
 .toggle-row {
   display: flex !important;
   flex-direction: row !important;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;   /* Align all items to the left */
+  align-items: center;           /* Vertically center items in row */
+  flex-wrap: nowrap;             /* Prevent wrapping to new rows */
+  gap: 24px;                    /* Consistent gap between toggles */
 }
 
 .toggle-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  white-space: nowrap;
+  gap: 8px;
+}
+.toggle-label, .toggle-label-secondary {
+  font-size: 10px;
+  margin: 0 3px;
+  cursor: pointer;
+  line-height: 1;
+  vertical-align: middle;
+}
+.toggle-item span {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+}
+.material-switch > label {
+  font-size: 10px !important;
+}
+.toggle-item .material-switch {
+  display: flex;
+  align-items: center;
 }
 
 /* Support popup: tenzing */
