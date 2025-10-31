@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1 20151215//EN" "JATS-archivearticle1.dtd">
+<!---
+Expected Schematron Errors
+
+-->
+<article article-type="other" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" dtd-version="1.1" xml:lang="en">
+    <front>
+        <article-meta>
+            <permissions>
+                <copyright-statement>&#x000a9; 2019 JATS4R</copyright-statement>
+                <copyright-year>2019</copyright-year>
+                <copyright-holder>JATS4R</copyright-holder>
+                <license>
+                    <ali:license_ref>http://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+                    <license-p>This is an open access article distributed under the terms of the
+                        <ext-link ext-link-type="uri"
+                            xlink:href="http://creativecommons.org/licenses/by/4.0/">Creative
+                            Commons Attribution License</ext-link>, which permits unrestricted use,
+                        distribution, and reproduction in any medium, provided the original author
+                        and source are credited.</license-p>
+                </license>
+            </permissions>
+        </article-meta>
+    </front>
+    <body>
+        <fig-group id="fig1">
+            <label>Figure 1</label>
+            <fig id="fig1a">
+                <label>Figure 1A</label>
+                <graphic/>
+            </fig>
+            <!-- Expect error: Images in <fig> should be captured using <graphic>. This <fig> does not have a <graphic>. -->
+            <fig id="fig1b">
+                <label>Figure 1B</label>
+                <media/>
+            </fig>
+        </fig-group>
+        <!-- Expect error:
+        <fig-group> should have more than 1 child <fig> with a label and/or caption. This one has 1.
+        <fig-group> should have a <label> and/or a <caption> with a child <title> and/or <p> which is not empty.
+        -->
+        <fig-group>
+            <fig id="fig2a">
+                <label>Figure 2A</label>
+                <caption><title/></caption>
+                <graphic/>
+            </fig>
+        </fig-group>
+        <!-- Expect error: 
+        <table-wrap-group> should have more than 1 child <table-wrap> with a label and/or caption. This one has 0.
+        -->
+        <table-wrap-group id="table1">
+            <label>Table 1.</label>
+            <table-wrap id="table1.1"/>
+            <table-wrap id="table1.2"/>
+        </table-wrap-group>
+        <!-- Expect warning: <disp-formula-group> has no id attribute. -->
+        <disp-formula-group>
+            <label>Equation 1</label>
+            <disp-formula>
+                <label>Equation 1A</label>
+            </disp-formula>
+            <disp-formula>
+                <label>Equation 1B</label>
+            </disp-formula>
+        </disp-formula-group>
+        <!-- Expect warning: <fig> has no non-empty label, but its caption begins with what looks like a label 'Figure 2. '. -->
+        <fig id="fig3">
+            <label/>
+            <caption><title>Figure 3. Here is a title</title></caption>
+            <graphic/>
+        </fig>
+        <!-- Expect warning: <table-wrap> has no non-empty label, but its caption begins with what looks like a label 'Supplement'. -->
+        <table-wrap id="sup1">
+            <caption><p>Supplemental table 1. Here is a legend</p></caption>
+            <table/>
+        </table-wrap>
+        <!-- Expect error: <boxed-text> has no non-empty label, but its caption begins with what looks like a label 'Box 1. Her'. -->
+        <boxed-text id="box1">
+            <caption><title>Box 1. Here is a title</title></caption>
+        </boxed-text>
+        <!-- Expect error: <fig> has an xml:lang attribute, whose value (french) is not one of the IETF RFC 5646 values. -->
+        <fig id="fr1" xml:lang="french">
+            <!-- Expect error: <object-id pub-id-type="doi"> must contain a valid doi. 'https//doi.org/192983.u489302jifbf' is not a valid doi. -->
+            <object-id pub-id-type="doi">https//doi.org/192983.u489302jifbf</object-id>
+            <caption><title>Table 1. Voici un titre</title></caption>
+            <graphic/>
+        </fig>
+        <fig id="fr2" xml:lang="fr">
+            <object-id pub-id-type="doi">10.1489302/jifbf</object-id>
+            <label>Fig 2</label>
+            <graphic/>
+        </fig>
+    </body>
+    <back/>
+</article>

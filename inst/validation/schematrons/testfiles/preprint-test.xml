@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1 20151215//EN" "JATS-archivearticle1.dtd">
+<!---
+Expected Schematron Errors
+- <element-citation publication-type="preprint"> must include either an <ext-link> or a <pub-id>.
+- <element-citation publication-type="preprint"> must include an <article-title>.
+- <element-citation publication-type="preprint"> must include a <source>.
+- <person-group> in <mixed-citation publication-type="preprint"> must have the attribute person-group-type.
+- <mixed-citation publication-type="preprint"> must include a <person-group>.
+- <date> in <mixed-citation publication-type="preprint"> must either have an @iso-8601-date with an iso-8601 date, or contain a <year> whose contents are an integer. The @iso-8601-date, 2018c-10-16 is not in one of the formats 0000, 0000-00, or 0000-00-00.
+
+Expected Schematron Warnings
+- <element-citation publication-type="preprint"> doesn't contain an accessed date (<date-in-citation content-type="access-date">).
+-->
+<article article-type="other" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" dtd-version="1.1" xml:lang="en">
+    <front>
+        <article-meta>
+            <permissions>
+                <copyright-statement>&#x000a9; 2019 JATS4R</copyright-statement>
+                <copyright-year>2019</copyright-year>
+                <copyright-holder>JATS4R</copyright-holder>
+                <license>
+                    <ali:license_ref>http://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+                    <license-p>This is an open access article distributed under the terms of the
+                        <ext-link ext-link-type="uri"
+                            xlink:href="http://creativecommons.org/licenses/by/4.0/">Creative
+                            Commons Attribution License</ext-link>, which permits unrestricted use,
+                        distribution, and reproduction in any medium, provided the original author
+                        and source are credited.</license-p>
+                </license>
+            </permissions>
+        </article-meta>
+    </front>
+    <body>
+        <p/>
+    </body>
+    <back>
+        <ref-list>
+            <ref id="bib1">
+                <!-- Expect warning <element-citation publication-type="preprint"> doesn't contain an accessed date (<date-in-citation content-type="access-date">). -->
+                <element-citation publication-type="preprint">
+                    <person-group person-group-type="author">
+                        <name><surname>Bloss</surname><given-names>CS</given-names></name>
+                        <name><surname>Wineinger</surname><given-names>NE</given-names></name>
+                        <name><surname>Peters</surname><given-names>M</given-names></name>
+                        <name><surname>Boeldt</surname><given-names>DL</given-names></name>
+                        <name><surname>Ariniello</surname><given-names>L</given-names></name>
+                        <name><surname>Kim</surname><given-names>JY</given-names></name>
+                        <name><surname>Sheard</surname><given-names>J</given-names></name>
+                        <name><surname>Komatireddy</surname><given-names>R</given-names></name>
+                        <name><surname>Barrett</surname><given-names>P</given-names></name>
+                        <name><surname>Topol</surname><given-names>EJ</given-names></name>
+                    </person-group>
+                    <year iso-8601-date="2016">2016</year>
+                    <article-title>A prospective randomized trial examining health care utilization in individuals using multiple smartphone-enabled biosensors</article-title>
+                    <source>bioRxiv</source>
+                    <pub-id pub-id-type="doi">10.1101/029983</pub-id>
+                </element-citation>
+            </ref>
+            <ref id="bib2">
+                <!-- Expect error <element-citation publication-type="preprint"> must include either an <ext-link> or a <pub-id>.  -->
+                <element-citation publication-type="preprint">
+                    <person-group person-group-type="author">
+                        <name><surname>Hu</surname><given-names>X</given-names></name>
+                        <name><surname>Chen</surname><given-names>D</given-names></name>
+                        <name><surname>Wu</surname><given-names>L</given-names></name>
+                        <name><surname>He</surname><given-names>G</given-names></name>
+                        <name><surname>Ye</surname><given-names>W</given-names></name>
+                    </person-group>
+                    <date date-type="published" iso-8601-date="2020-03-02">
+                        <day>2</day>
+                        <month>March</month>
+                        <year>2020</year>
+                    </date>
+                    <article-title>Low Serum Cholesterol Level Among Patients with COVID-19 Infection in Wenzhou, China</article-title>
+                    <source>SSRN</source>
+                    <date-in-citation content-type="access-date">2020 June 29</date-in-citation>
+                </element-citation>
+            </ref>
+            <ref id="bib3">
+                <!-- Expect error 
+                        - <element-citation publication-type="preprint"> must include an <article-title>.
+                        - <element-citation publication-type="preprint"> must include a <source>.
+                 -->
+                <element-citation publication-type="preprint">
+                    <person-group person-group-type="author">
+                        <name><surname>Hu</surname><given-names>X</given-names></name>
+                        <name><surname>Chen</surname><given-names>D</given-names></name>
+                        <name><surname>Wu</surname><given-names>L</given-names></name>
+                        <name><surname>He</surname><given-names>G</given-names></name>
+                        <name><surname>Ye</surname><given-names>W</given-names></name>
+                    </person-group>
+                    <date date-type="published" iso-8601-date="2020-03-02">
+                        <day>2</day>
+                        <month>March</month>
+                        <year>2020</year>
+                    </date>
+                    <pub-id pub-id-type="doi">10.2139/ssrn.3544826</pub-id>
+                    <date-in-citation content-type="access-date">2020 June 29</date-in-citation>
+                </element-citation>
+            </ref>
+            <ref id="bib4">
+                <mixed-citation publication-type="preprint">
+                    <!-- Expect error <person-group> in <mixed-citation publication-type="preprint"> must have the attribute person-group-type. -->
+                    <person-group>
+                    <string-name>
+                        <surname>Jana</surname>, <given-names>S.</given-names>
+                    </string-name>, and
+                    <string-name>
+                        <surname>Mandal</surname>, <given-names>S.</given-names>
+                    </string-name>
+                    </person-group>
+                    (<year>2020</year>). 
+                    <article-title>A comparative study of endoscopic and conventional septoplasty</article-title>. 
+                    <source>Therapoid</source>.
+                    <ext-link ext-link-type="uri" xlink:href="https://therapoid.net/en/preprint/manuscript-27/">https://therapoid.net/en/preprint/manuscript-27/</ext-link>. 
+                    <date-in-citation content-type="access-date">2020 June 29</date-in-citation>.
+                </mixed-citation>
+            </ref>
+            <ref id="bib5">
+                <!-- Expect error <mixed-citation publication-type="preprint"> must include a <person-group>. -->
+                <mixed-citation publication-type="preprint">
+                    <string-name>
+                        <surname>Gazal</surname>, <given-names>S.</given-names>
+                    </string-name>, 
+                    <string-name>
+                        <surname>Marquez-Luna</surname>, <given-names>C.</given-names>
+                    </string-name>, 
+                    <string-name>
+                        <surname>Finucane</surname>, <given-names>H. K.</given-names>
+                    </string-name>, and 
+                    <string-name>
+                        <surname>Price</surname>, <given-names>A. L.</given-names>
+                    </string-name> 
+                    <!-- Expect error <date> in <mixed-citation publication-type="preprint"> must either have an @iso-8601-date with an iso-8601 date, or contain a <year> whose contents are an integer. The @iso-8601-date, 2018c-10-16 is not in one of the formats 0000, 0000-00, or 0000-00-00. -->
+                    (<date date-type="published" iso-8601-date="2018c-10-16">
+                        <day>16</day> 
+                        <month>October</month> 
+                        <year>2018c</year>
+                    </date>). 
+                    <article-title>Reconciling S-LDSC and LDAK models and functional enrichment estimates</article-title>.
+                    <source>bioRxiv</source>.
+                    <pub-id pub-id-type="doi">10.1101/256412</pub-id>.
+                    <date-in-citation content-type="access-date">2020 June 29</date-in-citation>.
+                </mixed-citation>
+            </ref>
+        </ref-list>
+    </back>
+</article>
+

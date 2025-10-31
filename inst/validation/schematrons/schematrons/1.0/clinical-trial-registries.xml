@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registries>
+  <registry doi="10.18810/utn" title="Uniform Trial Number" subtitle="UTN"/>
+  <registry doi="10.18810/clinical-trials-gov" title="ClinicalTrials.gov" subtitle="ClinicalTrials.gov"/>
+  <registry doi="10.18810/isrctn" title="ISRCTN.org" subtitle="ISRCTN"/>
+  <registry doi="10.18810/anzctr" title="Australian New Zealand Clinical Trials Registry" subtitle="ANZCTR"/>
+  <registry doi="10.18810/drks" title="German Clinical Trials Register" subtitle="DRKS"/>
+  <registry doi="10.18810/chictr" title="Chinese Clinical Trial Registry" subtitle="ChiCTR"/>
+  <registry doi="10.18810/rebec" title="Brazilian Clinical Trials Registry" other-title="Registro Brasileiro de Ensaios Clínicos" subtitle="ReBec"/>
+  <registry doi="10.18810/dutch-trial-register" title="Netherlands National Trial Register" subtitle="NTR"/>
+  <registry doi="10.18810/clinical-trial-registry-india" title="Clinical Trials Registry India" subtitle="CTRI"/>
+  <registry doi="10.18810/umin-japan" title="UMIN Japan" subtitle="UMIN"/>
+  <registry doi="10.18810/pactr" title="Pan African Clinical Trial Registry" subtitle="PACTR"/>
+  <registry doi="10.18810/slctr" title="Sri Lanka Clinical Trials Registry" subtitle="SLCTR"/>
+  <registry doi="10.18810/jma" title="Japan Medical Association Clinical Trial Registry" subtitle="JMACCT"/>
+  <registry doi="10.18810/irct" title="Iranian Registry of Clinical Trials" subtitle="IRCT"/>
+  <registry doi="10.18810/cris" title="Clinical Research Information Service, Republic of Korea" subtitle="CRiS"/>
+  <registry doi="10.18810/rpec" title="Cuban Public Registry of Clinical Trials" subtitle="RPCEC"/>
+  <registry doi="10.18810/euctr" title="EU Clinical Trials Register" subtitle="EU-CTR"/>
+  <registry doi="10.18810/jprn" title="Japan Primary Registries Network" subtitle="JPRN"/>
+  <registry doi="10.18810/tctr" title="Thai Clinical Trials Registry" subtitle="TCTR"/>
+</registries>

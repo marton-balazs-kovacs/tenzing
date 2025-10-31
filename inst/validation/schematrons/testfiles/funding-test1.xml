@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1 20151215//EN" "JATS-archivearticle1.dtd">
+<!---
+Expected Schematron Errors
+- There can only be 1 <funding-group> within <article-meta>. This one has 2
+- The value of <institution institution-id-type="doi"> must start with "10", meaning that it has to be a doi. http://dx.doi.org/10.13039/100000054 does not.
+- The value of <award-id award-id-type='doi'> starts with something other than "10", meaning that it is not a doi - U54 CA209971.
+- No <funding-source> or <support-source> found within <award-group>.
+-->
+<article article-type="other" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" dtd-version="1.1">
+    <front>
+        <!-- Expect error There can only be 1 <funding-group> within <article-meta>. This one has 2 -->
+        <article-meta>
+            <permissions>
+                <copyright-statement>&#x000a9; 2019 JATS4R</copyright-statement>
+                <copyright-year>2019</copyright-year>
+                <copyright-holder>JATS4R</copyright-holder>
+                <license>
+                    <ali:license_ref>http://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+                    <license-p>This is an open access article distributed under the terms of the
+                        <ext-link ext-link-type="uri"
+                            xlink:href="http://creativecommons.org/licenses/by/4.0/">Creative
+                            Commons Attribution License</ext-link>, which permits unrestricted use,
+                        distribution, and reproduction in any medium, provided the original author
+                        and source are credited.</license-p>
+                </license>
+            </permissions>
+            <funding-group>
+                <award-group id="fund1">
+                    <funding-source>
+                        <institution-wrap>
+                            <institution-id institution-id-type="doi">10.13039/100000054</institution-id>
+                            <institution>National Cancer Institute</institution>
+                        </institution-wrap>
+                    </funding-source>
+                    <award-id>U54 CA209971</award-id>
+                    <principal-award-recipient>
+                        <name><surname>Englemant</surname><given-names>Fred F.</given-names></name>
+                    </principal-award-recipient>
+                </award-group>
+                <award-group id="fund2">
+                    <funding-source>
+                        <institution-wrap>
+                            <!-- Expect Error The value of <institution institution-id-type="doi"> must start with "10", meaning that it has to be a doi. http://dx.doi.org/10.13039/100000054 does not. -->
+                            <institution-id institution-id-type="doi">http://dx.doi.org/10.13039/100000054</institution-id>
+                            <institution>Chan Zuckerberg Biohub</institution>
+                        </institution-wrap>
+                    </funding-source>
+                    <!-- Expect error 
+The value of <award-id award-id-type='doi'> starts with something other than "10", meaning that it is not a doi - U54 CA209971. -->
+                    <award-id award-id-type="doi">U54 CA209971</award-id>
+                    <principal-award-recipient>
+                        <name><surname>Englemant</surname><given-names>Fred F.</given-names></name>
+                    </principal-award-recipient>
+                </award-group>
+                <funding-statement>The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication.</funding-statement>
+            </funding-group>
+            <funding-group>
+                <!-- Expect Error No <funding-source> or <support-source> found within <award-group>. -->
+                <award-group/>
+            </funding-group>
+        </article-meta>
+    </front>
+    <body>
+    </body>
+</article>

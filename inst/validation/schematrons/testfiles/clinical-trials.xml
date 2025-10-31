@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD v1.1 20151215//EN" "JATS-archivearticle1.dtd">
+<!---
+Expected Schematron Errors
+
+-->
+<article article-type="other" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" dtd-version="1.1" xml:lang="en">
+    <front>
+        <article-meta>
+            <permissions>
+                <copyright-statement>&#x000a9; 2019 JATS4R</copyright-statement>
+                <copyright-year>2019</copyright-year>
+                <copyright-holder>JATS4R</copyright-holder>
+                <license>
+                    <ali:license_ref>http://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+                    <license-p>This is an open access article distributed under the terms of the
+                        <ext-link ext-link-type="uri"
+                            xlink:href="http://creativecommons.org/licenses/by/4.0/">Creative
+                            Commons Attribution License</ext-link>, which permits unrestricted use,
+                        distribution, and reproduction in any medium, provided the original author
+                        and source are credited.</license-p>
+                </license>
+            </permissions>
+            <abstract>
+                <sec id="abs3-9">
+                    <title>Clinical trial registration</title>
+                    <!-- Expect error:
+                        Clinical trial links in <related-object source-id-type="crossref-doi"> must have a source-id attribute with a value which is one of the WHO-approved registry DOIs. '10.18810' is not one of the WHO-approved registry DOIs.
+                        Clinical trial <related-object> elements must have a document-id-type attribute with a value which is either 'clinical-trial-number' or 'doi'. '' is not either of those.
+                    -->
+                    <related-object content-type="pre-results" source-type="clinical-trials-registry" source-id="10.18810" source-id-type="crossref-doi" document-id="NCT02968459" xlink:href="https://clinicaltrials.gov/show/NCT02968459">
+                        This study is registered with ClinicalTrials.gov as NCT02968459.
+                    </related-object>
+                    <!--
+                    Expect error: More than one <related-object> with the attribute document-id="NCT02968459" exists in the document.
+                    Expect warning: Clinical trial links in <related-object source-id-type="registry-name"> must have a source-id attribute with a value which is one of the WHO-approved registry names. 'UNT' is not one of the WHO-approved registry names. 
+                    -->
+                    <related-object content-type="pre-results" source-type="clinical-trials-registry" source-id="UNT" source-id-type="registry-name" document-id="NCT02968459" document-id-type="clinical-trial-number" xlink:href="https://clinicaltrials.gov/show/NCT02968459">
+                        This study is registered with ClinicalTrials.gov as NCT02968459.
+                    </related-object>
+                    <!-- Expect error:
+                        Clinical trial <related-object has a document-id-type='doi' attribute, but the document-id attribute value is not a doi - ISRCTN98371961.
+                        -->
+                    <related-object source-type="clinical-trials-registry" source-id="10.18810/isrctn" source-id-type="crossref-doi" document-id="ISRCTN98371961" document-id-type="doi" xlink:href="https://www.isrctn.com/ISRCTN98371961">
+                        Clinical Trial Registration: This study is registered with ISRCTN as ISRCTN98371961.
+                    </related-object>
+                    <!-- Expect error
+                    Clinical trial <related-object> elements must have a source-id-type attribute with a value which is 'crossref-doi' or 'registry-name', depending what's in the source-id attribute.
+                    Clinical trial <related-object> elements must have a document-id attribute with a value which is the clinical trial number as provided in the clinical trial registry.
+                    Clinical trial <related-object> elements must have a document-id-type attribute with a value which is either 'clinical-trial-number' or 'doi'. '' is not either of those.
+                    -->
+                    <related-object content-type="pre-results" xlink:href="https://www.isrctn.com/ISRCTN98371962">
+                        Clinical Trial Registration: This study is registered with ISRCTN as ISRCTN98371962.
+                    </related-object>
+                    <!-- Expect error: document-id attribute on <related-object> has more than 1 value "NCT02968451 NCT02968452". Each clinical trial number should be captured in its own <related-object> element. 
+                    Expect warning: Clinical trial links in <related-object> should have source-type="clinical-trials-registry" attribute.
+                    -->
+                    <related-object content-type="pre-result" source-id="10.18810/clinical-trials-gov" source-id-type="crossref-doi" document-id="NCT02968451 NCT02968452" document-id-type="clinical-trial-number" xlink:href="https://clinicaltrials.gov/show/NCT02968451">This study is registered with ClinicalTrials.gov as NCT02968451 and NCT02968452.
+                    </related-object>
+                </sec>
+            </abstract>
+        </article-meta>
+    </front>
+    <body/>
+    <back/>
+</article>

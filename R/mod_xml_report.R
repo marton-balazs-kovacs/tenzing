@@ -52,12 +52,17 @@ mod_xml_report_server <- function(id, input_data){
       id = "validation_card",
       contributors_table = input_data,
       validate_output_instance = validate_output_instance,
-      trigger = modal_open
+      trigger = modal_open,
+      context = reactive({
+        list(include = "author")
+      })
     )
     
     observe({
       req(modal_open())
-      if (has_errors()) {
+      # Safely check for errors, ensuring we get TRUE/FALSE, never NA
+      errors <- tryCatch(isTRUE(has_errors()), error = function(e) FALSE)
+      if (errors) {
         golem::invoke_js("disable", paste0("#", ns("report")))
         golem::invoke_js("hideid", ns("clip"))
         golem::invoke_js("add_tooltip",
@@ -77,18 +82,35 @@ mod_xml_report_server <- function(id, input_data){
       req(input_data(), modal_open())
 
       # Create output
-      if (has_errors()) {
+      # Safely check for errors, ensuring we get TRUE/FALSE, never NA
+      errors <- tryCatch(isTRUE(has_errors()), error = function(e) FALSE)
+      
+      if (errors) {
         "The output cannot be generated. See 'Table Validation' for more information."
       } else {
-        print_xml(contributors_table = input_data())
+        # Wrap in tryCatch to handle any runtime errors gracefully
+        result <- tryCatch({
+          print_xml(contributors_table = input_data(), full_document = TRUE)
+        }, error = function(e) {
+          paste0("Error generating XML: ", conditionMessage(e))
+        })
+        result
       } 
     })
 
     ## Create preview
     output$jats_xml <- renderUI({
+      xml_output <- to_print()
+      # Handle both XML nodeset and character strings
+      if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
+        xml_str <- as.character(xml_output)
+      } else {
+        xml_str <- as.character(xml_output)
+      }
+      
       tagList(
         tagAppendAttributes(
-          tags$code(as.character(to_print())),
+          tags$code(xml_str),
           class = "language-xml"
         ),
         tags$script("Prism.highlightAll()")
@@ -105,22 +127,45 @@ mod_xml_report_server <- function(id, input_data){
       
       # Set content of the file
       content = function(file) {
-        xml2::write_xml(to_print(), file, options = "format")}
+        xml_output <- to_print()
+        # Only write XML if it's actually an XML object
+        if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
+          xml2::write_xml(xml_output, file, options = "format")
+        } else {
+          # If it's an error message, write it as text
+          writeLines(as.character(xml_output), file)
+        }
+      }
     )
     
     # Add clipboard buttons
     output$clip <- renderUI({
+      xml_output <- to_print()
+      # Convert XML to character if needed
+      if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
+        clip_text <- as.character(xml_output)
+      } else {
+        clip_text <- as.character(xml_output)
+      }
+      
       rclipboard::rclipButton(
         inputId = "clip_btn",
         label = "Copy output to clipboard", 
-        clipText = to_print(), 
+        clipText = clip_text, 
         icon = icon("clipboard"),
         modal = TRUE,
         class = "btn-download")
     })
     
     ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_print()))
+    observeEvent(input$clip_btn, {
+      xml_output <- to_print()
+      if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
+        clipr::write_clip(as.character(xml_output))
+      } else {
+        clipr::write_clip(as.character(xml_output))
+      }
+    })
     
     # Build modal
     modal <- function() {

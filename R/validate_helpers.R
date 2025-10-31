@@ -266,7 +266,7 @@ check_missing_email <- function(contributors_table) {
   corresponding <-
     contributors_table %>%
     tibble::rownames_to_column(var = "rowname") %>% 
-    dplyr::filter(.data$`Corresponding author?` == TRUE)
+    dplyr::filter(!is.na(.data$`Corresponding author?`) & .data$`Corresponding author?` == TRUE)
   
   if (all(is.na(corresponding$`Email address`))) {
     validation_warning(
@@ -296,7 +296,7 @@ check_credit <- function(contributors_table) {
     contributors_table %>% 
     tibble::rownames_to_column(var = "rowname") %>% 
     dplyr::filter_at(dplyr::vars(dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)),
-                     dplyr::all_vars(. == FALSE))
+                     dplyr::all_vars(is.na(.) | . == FALSE))
   
   if (nrow(missing) != 0) {
     validation_warning(
@@ -583,7 +583,16 @@ check_roles_present <- function(contributors_table) {
     return(validation_error("No CRediT role columns were found in the contributors table."))
   }
   
-  if (all(contributors_table[role_cols] == FALSE, na.rm = TRUE)) {
+  # Check if any role is TRUE (excluding NA values)
+  has_any_role <- any(sapply(role_cols, function(col) {
+    if (col %in% colnames(contributors_table)) {
+      any(contributors_table[[col]] == TRUE, na.rm = TRUE)
+    } else {
+      FALSE
+    }
+  }))
+  
+  if (!has_any_role) {
     validation_error("There are no CRediT roles checked for any of the contributors.")
   } else {
     validation_success("At least one contributor has a CRediT role checked.")

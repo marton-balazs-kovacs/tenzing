@@ -4,20 +4,28 @@
 \alias{print_xml}
 \title{Generate an XML document of the contributions}
 \usage{
-print_xml(contributors_table)
+print_xml(contributors_table, full_document = FALSE)
 }
 \arguments{
 \item{contributors_table}{validated contributors_table}
+
+\item{full_document}{Logical. If \code{TRUE}, generates a complete valid JATS XML
+document with placeholder metadata. If \code{FALSE} (default), returns only
+the contributor-related XML fragments (\verb{<contrib-group>}, \verb{<aff>},
+\verb{<funding-group>}, \verb{<author-notes>}) that can be embedded in an existing
+JATS document.}
 }
 \value{
-The function returns an xml nodeset containing the contributors
-listed for each CRediT role they partake in.
+If \code{full_document = FALSE} (default), returns an xml nodeset
+containing the contributor-related fragments. If \code{full_document = TRUE},
+returns a complete valid JATS XML document with XML declaration and DOCTYPE.
 }
 \description{
-The function generates an XML nodeset that contains the contributors' name,
-affiliation, and their CRediT roles with a structure outlined in the
-JATS 1.2 DTD specifications (eLife). The output is generated from an
-\code{contributors_table} based on the \code{\link[=contributors_table_template]{contributors_table_template()}}.
+The function generates an XML document that contains the contributors' name,
+affiliation, CRediT roles, funding information, and conflict of interest
+statements with a structure outlined in the JATS DTD specifications.
+The output is generated from a \code{contributors_table} based on the
+\code{\link[=contributors_table_template]{contributors_table_template()}}.
 }
 \section{Warning}{
 
@@ -32,6 +40,7 @@ example_contributors_table <- read_contributors_table(
 contributors_table = system.file("extdata",
 "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
 print_xml(contributors_table = example_contributors_table)
+print_xml(contributors_table = example_contributors_table, full_document = TRUE)
 
 }
 \seealso{

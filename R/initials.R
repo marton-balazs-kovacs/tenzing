@@ -81,9 +81,12 @@ abbreviate_middle_names_df <- function(contributors_table) {
     dplyr::rowwise() %>% 
     dplyr::mutate(
       `Middle name` = dplyr::if_else(
-        is.na(.data$`Middle name`),
+        is.na(.data$`Middle name`) | .data$`Middle name` == "",
         NA_character_,
-        abbreviate(.data$`Middle name`, collapse = " ")
+        {
+          abbrev_result <- abbreviate(.data$`Middle name`, collapse = " ")
+          if (is.null(abbrev_result)) NA_character_ else abbrev_result
+        }
       )
     ) %>%
     dplyr::ungroup()

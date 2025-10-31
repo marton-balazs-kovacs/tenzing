@@ -1,0 +1,11 @@
+{
+  "name": "@jats4r/schematrons",
+  "version": "0.0.16",
+  "files": [
+    "schematrons"
+  ],
+  "main": "schematrons/1.0/jats4r.sch",
+  "publishConfig": {
+    "access": "public"
+  }
+}

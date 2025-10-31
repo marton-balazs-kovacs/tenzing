@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD with MathML3 v1.2 20190208//EN" "JATS-archivearticle1-mathml3.dtd">
+<!---
+Expected Schematron Errors
+- <institution vocab="open-funder-registry"> in JATS 1.2 must have an @vocab-identifier="10.13039/open-funder-registry".
+- <institution vocab="open-funder-registry"> in JATS 1.2 must have @institution-id-type="doi".
+- Only 1 person or organisation is allowed in <principal-award-recipient>. This one contains more than 1 name, string-name, institution, or institution-wrap.
+- There can only be 1 <funding-group> within <front-stub>. This one has 2
+-->
+<article article-type="other" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali="http://www.niso.org/schemas/ali/1.0/" dtd-version="1.2">
+    <front>
+        <article-meta>
+            <permissions>
+                <copyright-statement>&#x000a9; 2019 JATS4R</copyright-statement>
+                <copyright-year>2019</copyright-year>
+                <copyright-holder>JATS4R</copyright-holder>
+                <license>
+                    <ali:license_ref>http://creativecommons.org/licenses/by/4.0/</ali:license_ref>
+                    <license-p>This is an open access article distributed under the terms of the
+                        <ext-link ext-link-type="uri"
+                            xlink:href="http://creativecommons.org/licenses/by/4.0/">Creative
+                            Commons Attribution License</ext-link>, which permits unrestricted use,
+                        distribution, and reproduction in any medium, provided the original author
+                        and source are credited.</license-p>
+                </license>
+            </permissions>
+        </article-meta>
+        <funding-group>
+            <award-group id="ag1">
+                <funding-source>
+                    <institution-wrap>
+                        <!-- Expect Error
+<institution vocab="open-funder-registry"> in JATS 1.2 must have an @vocab-identifier="10.13039/open-funder-registry". -->
+                        <institution-id institution-id-type="doi" vocab="open-funder-registry">10.13039/100006538</institution-id>
+                        <institution>School of Medicine, Vanderbilt University</institution>
+                    </institution-wrap>
+                </funding-source>
+                <award-id>DP-0123456</award-id>
+                <principal-award-recipient>
+                    <name>
+                        <surname>Carberry</surname>
+                        <given-names>Josiah Stinkney</given-names>
+                    </name>
+                    <contrib-id contrib-id-type="orcid" authenticated="true">
+                        https://orcid.org/0000-0002-1825-0097</contrib-id>
+                </principal-award-recipient>
+            </award-group>
+            <award-group id="ag2">
+                <funding-source country="US">
+                    <institution-wrap>
+                        <institution>Brown University</institution>
+                        <!-- Expect Errors
+                                - <institution vocab="open-funder-registry"> in JATS 1.2 must have @institution-id-type="doi".
+                                - The value of <institution vocab="open-funder-registry"> in JATS 1.2 must start with '10.13039/'.
+                        -->
+                        <institution-id vocab="open-funder-registry" vocab-identifier="10.13039/open-funder-registry">https://doi.org.10.13039/100006418</institution-id>
+                    </institution-wrap>
+                </funding-source>
+                <award-id>9924356</award-id>
+                <!-- Expect Error Only 1 person or organisation is allowed in <principal-award-recipient>. This one contains more than 1 name, string-name, institution, or institution-wrap. -->
+                <principal-award-recipient>
+                    <contrib-id contrib-id-type="orcid" authenticated="true">
+                        https://orcid.org/0000-0002-1825-0097</contrib-id>
+                    <string-name>
+                        <given-names>Josiah Stinkney</given-names>
+                        <surname>Carberry</surname>
+                    </string-name>
+                    <string-name>
+                        <given-names>Josiah Stinkney</given-names>
+                        <surname>Carberry</surname>
+                    </string-name>
+                </principal-award-recipient>
+            </award-group>
+            <funding-statement>The funders had no role in study design; collection, analysis, and interpretation of data; writing the article; and or the decision to submit to the journal.</funding-statement>
+        </funding-group>
+    </front>
+    <body>
+    </body>
+    <sub-article>
+        <!-- Expect Error There can only be 1 <funding-group> within <front-stub>. This one has 2 -->
+        <front-stub>
+            <funding-group/>
+            <funding-group/>
+        </front-stub>
+    </sub-article>
+</article>
