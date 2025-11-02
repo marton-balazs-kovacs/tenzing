@@ -84,31 +84,30 @@ print_xml <- function(contributors_table, full_document = FALSE) {
   
   if (full_document) {
     # Create complete JATS document structure
-    doc <- xml2::xml_new_root(.value = "article",
-                               .attrs = c(
-                                 "xmlns:xlink" = "http://www.w3.org/1999/xlink",
-                                 "xmlns:mml" = "http://www.w3.org/1998/Math/MathML",
-                                 "xmlns:ali" = "http://www.niso.org/schemas/ali/1.0/",
-                                 "dtd-version" = "1.3",
-                                 "article-type" = "research-article"
-                               ))
+    doc <- xml2::xml_new_root(.value = "article")
+    doc %>% xml2::xml_set_attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    doc %>% xml2::xml_set_attr("xmlns:mml", "http://www.w3.org/1998/Math/MathML")
+    doc %>% xml2::xml_set_attr("xmlns:ali", "http://www.niso.org/schemas/ali/1.0/")
+    doc %>% xml2::xml_set_attr("dtd-version", "1.3")
+    doc %>% xml2::xml_set_attr("article-type", "research-article")
     
     front <- doc %>% xml2::xml_add_child("front")
     
     # Journal metadata (placeholder)
     journal_meta <- front %>% xml2::xml_add_child("journal-meta")
-    journal_meta %>% xml2::xml_add_child("journal-id", "tenzing-placeholder",
-                                         .attrs = c("journal-id-type" = "publisher-id"))
+    journal_id_node <- journal_meta %>% xml2::xml_add_child("journal-id", "tenzing-placeholder")
+    journal_id_node %>% xml2::xml_set_attr("journal-id-type", "publisher-id")
     journal_title_group <- journal_meta %>% xml2::xml_add_child("journal-title-group")
     journal_title_group %>% xml2::xml_add_child("journal-title", "Tenzing (placeholder)")
-    journal_meta %>% xml2::xml_add_child("issn", "0000-0000", .attrs = c("pub-type" = "ppub"))
+    issn_node <- journal_meta %>% xml2::xml_add_child("issn", "0000-0000")
+    issn_node %>% xml2::xml_set_attr("pub-type", "ppub")
     publisher <- journal_meta %>% xml2::xml_add_child("publisher")
     publisher %>% xml2::xml_add_child("publisher-name", "Tenzing")
     
     # Article metadata
     article_meta_wrapper <- front %>% xml2::xml_add_child("article-meta")
-    article_meta_wrapper %>% xml2::xml_add_child("article-id", "tenzing-000000",
-                                                  .attrs = c("pub-id-type" = "publisher-id"))
+    article_id_node <- article_meta_wrapper %>% xml2::xml_add_child("article-id", "tenzing-000000")
+    article_id_node %>% xml2::xml_set_attr("pub-id-type", "publisher-id")
     title_group <- article_meta_wrapper %>% xml2::xml_add_child("title-group")
     title_group %>% xml2::xml_add_child("article-title", "Author list only")
     
@@ -134,15 +133,17 @@ print_xml <- function(contributors_table, full_document = FALSE) {
     permissions_node %>% xml2::xml_add_child("copyright-statement", "© 2025 The Authors")
     permissions_node %>% xml2::xml_add_child("copyright-year", "2025")
     permissions_node %>% xml2::xml_add_child("copyright-holder", "The Authors")
-    license_node <- permissions_node %>% xml2::xml_add_child("license", 
-                                                               .attrs = c(
-                                                                 "license-type" = "open-access",
-                                                                 "xlink:href" = "https://creativecommons.org/licenses/by/4.0/"
-                                                               ))
+    license_node <- permissions_node %>% xml2::xml_add_child("license")
+    license_node %>% xml2::xml_set_attr("license-type", "open-access")
+    license_node %>% xml2::xml_set_attr("xlink:href", "https://creativecommons.org/licenses/by/4.0/")
     # Add ali:license_ref using proper namespace
-    license_ref_node <- xml2::xml_new_root("license_ref", 
-                                           .value = "https://creativecommons.org/licenses/by/4.0/",
-                                           .ns = c("ali" = "http://www.niso.org/schemas/ali/1.0/"))
+    # xml2 doesn't handle namespaced elements well, so we construct it as XML and parse
+    # Create a temporary wrapper to parse the namespaced element
+    wrapper_xml <- paste0('<wrapper xmlns:ali="http://www.niso.org/schemas/ali/1.0/">',
+                          '<ali:license_ref>https://creativecommons.org/licenses/by/4.0/</ali:license_ref>',
+                          '</wrapper>')
+    wrapper_doc <- xml2::read_xml(wrapper_xml)
+    license_ref_node <- xml2::xml_children(wrapper_doc)[[1]]
     xml2::xml_add_child(license_node, license_ref_node)
     license_node %>% xml2::xml_add_child("license-p", "This work is licensed under a Creative Commons Attribution 4.0 International License.")
     
@@ -188,7 +189,9 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
                     -.data$`Given-names`, -.data$Surname) %>%
     dplyr::filter(!is.na(.data$Included) & .data$Included == TRUE) %>%
       dplyr::select(-.data$Included) %>%
-      dplyr::mutate(group_id = dplyr::group_indices(., .data$Surname, .data$`Given-names`)) %>%
+      dplyr::group_by(.data$Surname, .data$`Given-names`) %>%
+      dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
+      dplyr::ungroup() %>%
       dplyr::left_join(., credit_taxonomy, by = "CRediT Taxonomy")
   
   # Create contrib-group root
@@ -217,27 +220,51 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
           which(affiliation_data %in% stats::na.omit(unlist(authors_only[., affiliation_cols_full]))),
           collapse = ","
         )
-      )
+      ),
+      # Add row number to preserve original order for tie-breaking
+      original_row = dplyr::row_number()
     ) %>%
     dplyr::select(.data$`Given-names`, .data$Surname, 
                   .data$`Order in publication`, 
                   .data$`Corresponding author?`,
                   .data$`Email address`,
                   .data$`ORCID iD`,
-                  .data$affiliation_ids) %>%
-    dplyr::distinct()
+                  .data$affiliation_ids,
+                  .data$original_row) %>%
+    # Group by name and take first occurrence to avoid duplicates
+    dplyr::group_by(.data$`Given-names`, .data$Surname) %>%
+    dplyr::slice(1) %>%
+    dplyr::ungroup()
   
-  # Process each unique contributor
-  unique_contribs <- unique(contrib_with_roles$group_id)
+  # Process each unique contributor - order by publication order
+  # First get unique contributors with their metadata
+  unique_contribs_df <- contrib_with_roles %>%
+    dplyr::select(.data$group_id, .data$`Given-names`, .data$Surname) %>%
+    dplyr::distinct() %>%
+    dplyr::left_join(
+      contrib_order %>% 
+        dplyr::select(.data$`Given-names`, .data$Surname, .data$`Order in publication`, .data$original_row),
+      by = c("Given-names", "Surname")
+    ) %>%
+    # Order by publication order, then by original row to preserve CSV order for ties
+    dplyr::arrange(.data$`Order in publication`, .data$original_row)
   
-  for (group_id in unique_contribs) {
-    contributor <- dplyr::filter(contrib_with_roles, .data$group_id == group_id)
-    contrib_meta <- dplyr::filter(contrib_order, 
-                                  .data$`Given-names` == unique(contributor$`Given-names`)[1] &
-                                  .data$Surname == unique(contributor$Surname)[1])
+  for (i in 1:nrow(unique_contribs_df)) {
+    row <- unique_contribs_df[i, ]
+    group_id <- row$group_id
+    given_names <- row$`Given-names`
+    surname <- row$Surname
     
-    surname <- unique(contributor$Surname)
-    given_names <- unique(contributor$`Given-names`)
+    # Filter roles for this specific contributor by name (more reliable than group_id)
+    contributor <- dplyr::filter(contrib_with_roles, 
+                                 .data$`Given-names` == given_names &
+                                 .data$Surname == surname)
+    contrib_meta <- dplyr::filter(contrib_order, 
+                                  .data$`Given-names` == given_names &
+                                  .data$Surname == surname) %>%
+      dplyr::slice(1)  # Take first match to avoid duplicates
+    
+    # surname and given_names already extracted from unique_contribs_df
     
     # Map CRediT terms for proper formatting (en-dash for Writing roles)
     credit_term_map <- function(term) {
@@ -251,6 +278,9 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
     # Create contrib node
     contrib_node <- xml2::xml_new_root(.value = "contrib")
     
+    # Add contrib-type attribute (required by JATS)
+    contrib_node %>% xml2::xml_set_attr("contrib-type", "author")
+    
     # Add corresponding author attribute
     if (nrow(contrib_meta) > 0 && 
         !is.na(contrib_meta$`Corresponding author?`[1]) && 
@@ -258,19 +288,18 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
       contrib_node %>% xml2::xml_set_attr("corresp", "yes")
     }
     
-    # Add name
+    # Add name with nested structure (not attributes)
     name_node <- contrib_node %>% xml2::xml_add_child("name")
-    name_node %>% xml2::xml_set_attr("surname", surname)
-    name_node %>% xml2::xml_set_attr("given-names", given_names)
+    name_node %>% xml2::xml_add_child("surname", surname)
+    name_node %>% xml2::xml_add_child("given-names", given_names)
     
     # Add affiliation references
     if (nrow(contrib_meta) > 0 && !is.na(contrib_meta$affiliation_ids) && contrib_meta$affiliation_ids != "") {
       aff_ids <- as.numeric(stringr::str_split(contrib_meta$affiliation_ids, ",")[[1]])
       for (aff_id in aff_ids) {
-        contrib_node %>% xml2::xml_add_child("xref", .attrs = c(
-          "ref-type" = "aff",
-          "rid" = paste0("aff", aff_id)
-        ))
+        xref_node <- contrib_node %>% xml2::xml_add_child("xref")
+        xref_node %>% xml2::xml_set_attr("ref-type", "aff")
+        xref_node %>% xml2::xml_set_attr("rid", paste0("aff", aff_id))
       }
     }
     
@@ -281,12 +310,11 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
       # Convert http to https for vocab URLs
       credit_url <- stringr::str_replace(credit_url, "^http://", "https://")
       
-      contrib_node %>% xml2::xml_add_child("role", .attrs = c(
-        "vocab" = "credit",
-        "vocab-identifier" = "https://credit.niso.org/",
-        "vocab-term" = credit_term,
-        "vocab-term-identifier" = credit_url
-      ))
+      role_node <- contrib_node %>% xml2::xml_add_child("role")
+      role_node %>% xml2::xml_set_attr("vocab", "credit")
+      role_node %>% xml2::xml_set_attr("vocab-identifier", "https://credit.niso.org/")
+      role_node %>% xml2::xml_set_attr("vocab-term", credit_term)
+      role_node %>% xml2::xml_set_attr("vocab-term-identifier", credit_url)
     }
     
     # Add email if present
@@ -300,10 +328,8 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
     if (nrow(contrib_meta) > 0 && 
         !is.na(contrib_meta$`ORCID iD`) && 
         contrib_meta$`ORCID iD` != "") {
-      contrib_node %>% xml2::xml_add_child("contrib-id", contrib_meta$`ORCID iD`,
-                                           .attrs = c(
-                                             "contrib-id-type" = "orcid"
-                                           ))
+      contrib_id_node <- contrib_node %>% xml2::xml_add_child("contrib-id", contrib_meta$`ORCID iD`)
+      contrib_id_node %>% xml2::xml_set_attr("contrib-id-type", "orcid")
     }
     
     # Add to contrib-group
@@ -328,21 +354,94 @@ generate_affiliations <- function(affiliation_data) {
     aff_id <- paste0("aff", i)
     aff_text <- affiliation_data[i]
     
-    # Simple parsing: split by comma and use as institution
-    # For more sophisticated parsing, this could be enhanced
+    # Parse affiliation: split by comma
     aff_parts <- stringr::str_split(aff_text, ",")[[1]] %>% 
       stringr::str_trim() %>%
       stringr::str_subset(".+")
     
-    aff_node <- xml2::xml_new_root(.value = "aff", .attrs = c("id" = aff_id))
+    aff_node <- xml2::xml_new_root(.value = "aff")
+    aff_node %>% xml2::xml_set_attr("id", aff_id)
     aff_node %>% xml2::xml_add_child("label", as.character(i))
     
-    # Add institution elements (simplified - could be enhanced with proper parsing)
     if (length(aff_parts) > 0) {
-      # Try to detect address components (simple heuristics)
-      # For now, add all parts as institutions
-      for (part in aff_parts) {
-        aff_node %>% xml2::xml_add_child("institution", part)
+      # Heuristic parsing: assume structure is institution(s), city, state, country
+      # Try to identify common patterns
+      parts <- aff_parts
+      n_parts <- length(parts)
+      
+      # Simple heuristic: last 1-3 parts are likely location (city, state/province, country)
+      # Everything before is institutions
+      if (n_parts >= 2) {
+        # Try to identify country codes/names (typically last part)
+        last_part <- parts[n_parts]
+        country_codes <- c("US", "UK", "GB", "CA", "AU", "DE", "FR", "IT", "ES", "NL", "BE", "CH", "AT", "SE", "NO", "DK", "FI", "PL", "CZ", "HU", "RO", "GR", "PT", "IE")
+        country_names <- c("United States", "United Kingdom", "Canada", "Australia", "Germany", "France", "Italy", "Spain", "Netherlands", "Belgium", "Switzerland", "Austria", "Sweden", "Norway", "Denmark", "Finland", "Poland", "Czech Republic", "Hungary", "Romania", "Greece", "Portugal", "Ireland")
+        
+        is_country <- last_part %in% c(country_codes, country_names) || 
+                      stringr::str_length(last_part) <= 2 ||
+                      last_part %in% c("Hungary", "Hungary", "USA")
+        
+        if (is_country && n_parts >= 2) {
+          # We have at least country
+          institutions <- parts[1:(n_parts - 1)]
+          
+          # Add institutions
+          for (inst in institutions) {
+            aff_node %>% xml2::xml_add_child("institution", inst)
+          }
+          
+          # Create addr-line with location info
+          addr_line <- aff_node %>% xml2::xml_add_child("addr-line")
+          
+          # Try to identify city (typically second-to-last)
+          # and state (third-to-last, if present)
+          if (n_parts >= 3) {
+            city_part <- parts[n_parts - 1]
+            # Check if there's a state (typically third-to-last)
+            state_part <- NULL
+            if (n_parts >= 4) {
+              potential_state <- parts[n_parts - 2]
+              # Common US state names/abbreviations
+              us_states <- c("Kansas", "California", "New York", "Texas", "Florida", "Alabama", "Alaska", "Arizona", "Arkansas", "Colorado", "Connecticut", "Delaware", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming")
+              if (potential_state %in% us_states || stringr::str_length(potential_state) == 2) {
+                state_part <- potential_state
+              }
+            }
+            
+            # Add city
+            addr_line %>% xml2::xml_add_child("city", city_part)
+            
+            # Add state if identified
+            if (!is.null(state_part)) {
+              addr_line %>% xml2::xml_add_child("state", state_part)
+            }
+          }
+          
+          # Add country with proper code if known
+          country_code <- NULL
+          if (last_part == "US" || last_part == "USA") {
+            country_code <- "US"
+          } else if (last_part == "UK" || last_part == "United Kingdom") {
+            country_code <- "GB"
+          } else if (last_part == "Hungary") {
+            country_code <- "HU"
+          } else if (last_part %in% country_codes) {
+            country_code <- last_part
+          }
+          
+          country_node <- addr_line %>% xml2::xml_add_child("country", last_part)
+          if (!is.null(country_code)) {
+            country_node %>% xml2::xml_set_attr("country", country_code)
+          }
+        } else {
+          # Fallback: treat all as institutions
+          for (part in parts) {
+            aff_node %>% xml2::xml_add_child("institution", part)
+          }
+        }
+      } else {
+        # Only one part - treat as institution
+        aff_node %>% xml2::xml_add_child("institution", parts[1])
       }
     } else {
       aff_node %>% xml2::xml_add_child("institution", aff_text)
@@ -417,8 +516,8 @@ generate_author_notes <- function(contributors_table) {
       ))
     
     if (nrow(corresp_authors) > 0) {
-      corresp_node <- author_notes %>% xml2::xml_add_child("corresp", 
-                                                           .attrs = c("id" = "cor1"))
+      corresp_node <- author_notes %>% xml2::xml_add_child("corresp")
+      corresp_node %>% xml2::xml_set_attr("id", "cor1")
       corresp_text <- paste0("Correspondence to: ")
       corresp_node %>% xml2::xml_set_text(corresp_text)
       # Add first corresponding author's email
@@ -453,8 +552,8 @@ generate_author_notes <- function(contributors_table) {
         dplyr::summarise(out = glue::glue_collapse(.data$out, sep = " ")) %>%
         dplyr::pull(.data$out)
       
-      fn_node <- author_notes %>% xml2::xml_add_child("fn", 
-                                                       .attrs = c("fn-type" = "coi-statement"))
+      fn_node <- author_notes %>% xml2::xml_add_child("fn")
+      fn_node %>% xml2::xml_set_attr("fn-type", "coi-statement")
       fn_node %>% xml2::xml_add_child("p", coi_text)
     }
   }

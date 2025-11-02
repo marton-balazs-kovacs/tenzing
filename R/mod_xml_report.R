@@ -9,7 +9,8 @@
 #'
 #' @keywords internal
 #' @export 
-#' @importFrom shiny NS tagList 
+#' @importFrom shiny NS tagList
+#' @importFrom stringr str_detect str_locate str_sub 
 mod_xml_report_ui <- function(id){
 
   tagList(
@@ -130,7 +131,26 @@ mod_xml_report_server <- function(id, input_data){
         xml_output <- to_print()
         # Only write XML if it's actually an XML object
         if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
-          xml2::write_xml(xml_output, file, options = "format")
+          # Convert to character first
+          xml_string <- as.character(xml_output)
+          # Add DOCTYPE declaration for full documents
+          doctype <- paste0('<!DOCTYPE article\n',
+                           '  PUBLIC \'-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN\'\n',
+                           '  \'https://jats.nlm.nih.gov/publishing/1.3/JATS-journalpublishing1-3.dtd\'>\n')
+          # Insert DOCTYPE after XML declaration
+          if (stringr::str_detect(xml_string, '^<\\?xml')) {
+            # Find the end of the XML declaration (first >)
+            xml_decl_end <- stringr::str_locate(xml_string, '\\?>')[1, "end"]
+            if (!is.na(xml_decl_end)) {
+              xml_string <- paste0(
+                stringr::str_sub(xml_string, 1, xml_decl_end),
+                "\n",
+                doctype,
+                stringr::str_sub(xml_string, xml_decl_end + 1)
+              )
+            }
+          }
+          writeLines(xml_string, file)
         } else {
           # If it's an error message, write it as text
           writeLines(as.character(xml_output), file)
