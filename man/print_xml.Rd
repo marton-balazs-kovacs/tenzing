@@ -7,7 +7,8 @@
 print_xml(
   contributors_table,
   full_document = FALSE,
-  include_acknowledgees = FALSE
+  include_acknowledgees = FALSE,
+  include_orcid = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,10 @@ JATS document.}
 \item{include_acknowledgees}{Logical. If \code{TRUE}, includes contributors with
 "Acknowledgment only" in the \code{Author/Acknowledgee} column as a separate
 \verb{<contrib-group content-type="acknowledgees">} section. Defaults to \code{FALSE}.}
+
+\item{include_orcid}{Logical. If \code{TRUE} (default), includes ORCID IDs in the
+XML output as \verb{<contrib-id contrib-id-type="orcid">} elements. If \code{FALSE},
+ORCID IDs are excluded from the output.}
 }
 \value{
 If \code{full_document = FALSE} (default), returns an xml nodeset
@@ -49,6 +54,7 @@ contributors_table = system.file("extdata",
 "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
 print_xml(contributors_table = example_contributors_table)
 print_xml(contributors_table = example_contributors_table, full_document = TRUE)
+print_xml(contributors_table = example_contributors_table, include_orcid = FALSE)
 
 }
 \seealso{

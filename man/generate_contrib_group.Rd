@@ -8,7 +8,8 @@ generate_contrib_group(
   contrib_data,
   affiliation_data,
   authors_only,
-  contrib_type = "author"
+  contrib_type = "author",
+  include_orcid = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ generate_contrib_group(
 \item{authors_only}{full authors table for metadata}
 
 \item{contrib_type}{character. Either "author" (default) or "acknowledgee"}
+
+\item{include_orcid}{Logical. If \code{TRUE} (default), includes ORCID IDs in the output.}
 }
 \description{
 Generate contrib-group XML node

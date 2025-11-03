@@ -55,7 +55,12 @@ mod_xml_report_server <- function(id, input_data){
       validate_output_instance = validate_output_instance,
       trigger = modal_open,
       context = reactive({
-        list(include = "author")
+        # Get include_orcid toggle value, defaulting to TRUE if not initialized
+        incl_orcid <- tryCatch(isTRUE(input$include_orcid), error = function(e) TRUE)
+        list(
+          include = "author",
+          include_orcid = incl_orcid
+        )
       })
     )
     
@@ -92,13 +97,15 @@ mod_xml_report_server <- function(id, input_data){
         # Get toggle values, defaulting to FALSE if not yet initialized
         full_doc <- tryCatch(isTRUE(input$full_document), error = function(e) FALSE)
         incl_ack <- tryCatch(isTRUE(input$include_acknowledgees), error = function(e) FALSE)
+        incl_orcid <- tryCatch(isTRUE(input$include_orcid), error = function(e) TRUE)  # Default to TRUE
         
         # Wrap in tryCatch to handle any runtime errors gracefully
         result <- tryCatch({
           print_xml(
             contributors_table = input_data(), 
             full_document = full_doc,
-            include_acknowledgees = incl_ack
+            include_acknowledgees = incl_ack,
+            include_orcid = incl_orcid
           )
         }, error = function(e) {
           paste0("Error generating XML: ", conditionMessage(e))
@@ -210,7 +217,8 @@ mod_xml_report_server <- function(id, input_data){
         div(
           style = "margin-bottom: 15px;",
           toggle(ns, "full_document", "Generate full article"),
-          toggle(ns, "include_acknowledgees", "Include acknowledgements")
+          toggle(ns, "include_acknowledgees", "Include acknowledgements"),
+          toggle(ns, "include_orcid", "Include ORCID IDs")
         ),
         uiOutput(NS(id, "jats_xml"), container = pre),
         easyClose = FALSE,

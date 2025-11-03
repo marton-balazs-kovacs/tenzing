@@ -74,3 +74,7 @@ validation_config:
   - name: check_coi
     dependencies:
     - '"Conflict of interest" %in% colnames(contributors_table)'
+  - name: check_missing_orcid
+    dependencies:
+    - '"ORCID iD" %in% colnames(contributors_table)'
+    - 'is.null(context$include_orcid) || isTRUE(context$include_orcid)'

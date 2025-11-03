@@ -278,6 +278,41 @@ check_missing_email <- function(contributors_table) {
   }
 }
 
+#' Check for Missing ORCID IDs
+#'
+#' This function checks for missing values in the `ORCID iD` column of the 
+#' `contributors_table` and returns a warning if any ORCID IDs are missing.
+#' 
+#' If the `ORCID iD` column does not exist, the function returns a success message
+#' since ORCID IDs are optional.
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating the row numbers with missing ORCID IDs, if any.}
+check_missing_orcid <- function(contributors_table) {
+  # Check if ORCID iD column exists
+  if (!"ORCID iD" %in% colnames(contributors_table)) {
+    return(validation_success("ORCID iD column is not present in the contributors_table."))
+  }
+  
+  # Find rows with missing ORCID IDs (NA or empty string after trimming)
+  missing <-
+    contributors_table %>%
+    tibble::rownames_to_column(var = "rowname") %>%
+    dplyr::mutate(
+      `ORCID iD` = stringr::str_trim(.data$`ORCID iD`, side = "both")
+    ) %>%
+    dplyr::filter(is.na(.data$`ORCID iD`) | .data$`ORCID iD` == "")
+  
+  if (nrow(missing) > 0) {
+    return(validation_missing_values("ORCID iD", as.numeric(missing$rowname), "warning"))
+  } else {
+    return(validation_success("There are no missing ORCID IDs in the contributors_table."))
+  }
+}
+
 #' Check for Contributors with No CRediT Roles
 #'
 #' This function checks whether each contributor has at least one CRediT taxonomy role 

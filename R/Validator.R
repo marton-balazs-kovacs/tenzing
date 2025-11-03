@@ -126,6 +126,7 @@ Validator <- R6::R6Class(
         check_missing_surname = check_missing_surname,
         check_missing_corresponding = check_missing_corresponding,
         check_missing_email = check_missing_email,
+        check_missing_orcid = check_missing_orcid,
         check_duplicate_names = check_duplicate_names,
         check_affiliation_consistency = check_affiliation_consistency,
         check_missing_order = check_missing_order,

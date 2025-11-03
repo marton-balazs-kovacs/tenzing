@@ -23,6 +23,9 @@
 #' @param include_acknowledgees Logical. If `TRUE`, includes contributors with 
 #'   "Acknowledgment only" in the `Author/Acknowledgee` column as a separate 
 #'   `<contrib-group content-type="acknowledgees">` section. Defaults to `FALSE`.
+#' @param include_orcid Logical. If `TRUE` (default), includes ORCID IDs in the 
+#'   XML output as `<contrib-id contrib-id-type="orcid">` elements. If `FALSE`, 
+#'   ORCID IDs are excluded from the output.
 #' 
 #' @return If `full_document = FALSE` (default), returns an xml nodeset 
 #'   containing the contributor-related fragments. If `full_document = TRUE`, 
@@ -34,10 +37,11 @@
 #' "contributors_table_example.csv", package = "tenzing", mustWork = TRUE))
 #' print_xml(contributors_table = example_contributors_table)
 #' print_xml(contributors_table = example_contributors_table, full_document = TRUE)
+#' print_xml(contributors_table = example_contributors_table, include_orcid = FALSE)
 #' 
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
-print_xml <- function(contributors_table, full_document = FALSE, include_acknowledgees = FALSE) {
+print_xml <- function(contributors_table, full_document = FALSE, include_acknowledgees = FALSE, include_orcid = TRUE) {
   # Filter to authors only (exclude "Acknowledgment only" and "Don't agree to be named")
   authors_only <- contributors_table %>%
     dplyr::filter(.data$`Author/Acknowledgee` == "Author")
@@ -87,7 +91,7 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
     )
   
   # Generate XML fragments
-  contrib_group_node <- generate_contrib_group(contrib_data, affiliation_data, authors_only)
+  contrib_group_node <- generate_contrib_group(contrib_data, affiliation_data, authors_only, include_orcid = include_orcid)
   
   # Generate acknowledgee contrib-group if requested
   acknowledgee_group_node <- NULL
@@ -113,7 +117,8 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
       acknowledgee_data, 
       affiliation_data, 
       acknowledgees_only, 
-      contrib_type = "acknowledgee"
+      contrib_type = "acknowledgee",
+      include_orcid = include_orcid
     )
   }
   
@@ -233,9 +238,10 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
 #' @param affiliation_data vector of unique affiliations
 #' @param authors_only full authors table for metadata
 #' @param contrib_type character. Either "author" (default) or "acknowledgee"
+#' @param include_orcid Logical. If `TRUE` (default), includes ORCID IDs in the output.
 #' 
 #' @keywords internal
-generate_contrib_group <- function(contrib_data, affiliation_data, authors_only, contrib_type = "author") {
+generate_contrib_group <- function(contrib_data, affiliation_data, authors_only, contrib_type = "author", include_orcid = TRUE) {
   # Prepare CRediT role data (for all contributors, even if they have no roles)
   # This ensures we can look up roles for any contributor
   contrib_roles_lookup <- contrib_data %>%
@@ -402,8 +408,9 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only,
       contrib_node %>% xml2::xml_add_child("email", contrib_meta$`Email address`)
     }
     
-    # Add ORCID if present
-    if (nrow(contrib_meta) > 0 && 
+    # Add ORCID if present and include_orcid is TRUE
+    if (include_orcid &&
+        nrow(contrib_meta) > 0 && 
         "ORCID iD" %in% colnames(contrib_meta) &&
         !is.na(contrib_meta$`ORCID iD`[1]) && 
         contrib_meta$`ORCID iD`[1] != "") {
