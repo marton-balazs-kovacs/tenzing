@@ -4,7 +4,12 @@
 \alias{generate_contrib_group}
 \title{Generate contrib-group XML node}
 \usage{
-generate_contrib_group(contrib_data, affiliation_data, authors_only)
+generate_contrib_group(
+  contrib_data,
+  affiliation_data,
+  authors_only,
+  contrib_type = "author"
+)
 }
 \arguments{
 \item{contrib_data}{preprocessed contributors table with affiliations}
@@ -12,6 +17,8 @@ generate_contrib_group(contrib_data, affiliation_data, authors_only)
 \item{affiliation_data}{vector of unique affiliations}
 
 \item{authors_only}{full authors table for metadata}
+
+\item{contrib_type}{character. Either "author" (default) or "acknowledgee"}
 }
 \description{
 Generate contrib-group XML node

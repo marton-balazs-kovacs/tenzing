@@ -20,6 +20,9 @@
 #'   the contributor-related XML fragments (`<contrib-group>`, `<aff>`, 
 #'   `<funding-group>`, `<author-notes>`) that can be embedded in an existing 
 #'   JATS document.
+#' @param include_acknowledgees Logical. If `TRUE`, includes contributors with 
+#'   "Acknowledgment only" in the `Author/Acknowledgee` column as a separate 
+#'   `<contrib-group content-type="acknowledgees">` section. Defaults to `FALSE`.
 #' 
 #' @return If `full_document = FALSE` (default), returns an xml nodeset 
 #'   containing the contributor-related fragments. If `full_document = TRUE`, 
@@ -34,13 +37,20 @@
 #' 
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
-print_xml <- function(contributors_table, full_document = FALSE) {
+print_xml <- function(contributors_table, full_document = FALSE, include_acknowledgees = FALSE) {
   # Filter to authors only (exclude "Acknowledgment only" and "Don't agree to be named")
   authors_only <- contributors_table %>%
     dplyr::filter(.data$`Author/Acknowledgee` == "Author")
   
   if (nrow(authors_only) == 0) {
     stop("No authors found in the contributors_table.")
+  }
+  
+  # Filter acknowledgees if requested
+  acknowledgees_only <- NULL
+  if (include_acknowledgees) {
+    acknowledgees_only <- contributors_table %>%
+      dplyr::filter(.data$`Author/Acknowledgee` == "Acknowledgment only")
   }
   
   # Extract unique affiliations in row-by-row order
@@ -78,6 +88,35 @@ print_xml <- function(contributors_table, full_document = FALSE) {
   
   # Generate XML fragments
   contrib_group_node <- generate_contrib_group(contrib_data, affiliation_data, authors_only)
+  
+  # Generate acknowledgee contrib-group if requested
+  acknowledgee_group_node <- NULL
+  if (include_acknowledgees && !is.null(acknowledgees_only) && nrow(acknowledgees_only) > 0) {
+    # Prepare acknowledgee data with affiliations and roles
+    acknowledgee_data <- acknowledgees_only %>%
+      abbreviate_middle_names_df() %>%
+      dplyr::mutate(`Given-names` = dplyr::if_else(
+        is.na(.data$`Middle name`),
+        .data$Firstname,
+        paste(.data$Firstname, .data$`Middle name`)
+      )) %>%
+      dplyr::mutate(
+        affiliation_ids = purrr::map_chr(
+          dplyr::row_number(),
+          ~ paste(
+            which(affiliation_data %in% stats::na.omit(unlist(acknowledgees_only[., affiliation_cols]))),
+            collapse = ","
+          )
+        )
+      )
+    acknowledgee_group_node <- generate_contrib_group(
+      acknowledgee_data, 
+      affiliation_data, 
+      acknowledgees_only, 
+      contrib_type = "acknowledgee"
+    )
+  }
+  
   aff_nodes <- generate_affiliations(affiliation_data)
   funding_group_node <- generate_funding_group(authors_only)
   author_notes_node <- generate_author_notes(authors_only)
@@ -114,8 +153,18 @@ print_xml <- function(contributors_table, full_document = FALSE) {
     # Add contributor-related elements
     # Clone contrib-group by copying all children
     contrib_group_clone <- article_meta_wrapper %>% xml2::xml_add_child("contrib-group")
+    contrib_group_clone %>% xml2::xml_set_attr("content-type", "authors")
     for (child in xml2::xml_children(contrib_group_node)) {
       xml2::xml_add_child(contrib_group_clone, child)
+    }
+    
+    # Add acknowledgee contrib-group if present
+    if (!is.null(acknowledgee_group_node)) {
+      acknowledgee_group_clone <- article_meta_wrapper %>% xml2::xml_add_child("contrib-group")
+      acknowledgee_group_clone %>% xml2::xml_set_attr("content-type", "acknowledgees")
+      for (child in xml2::xml_children(acknowledgee_group_node)) {
+        xml2::xml_add_child(acknowledgee_group_clone, child)
+      }
     }
     
     for (aff_node in aff_nodes) {
@@ -157,6 +206,11 @@ print_xml <- function(contributors_table, full_document = FALSE) {
     article_meta <- xml2::xml_new_root(.value = "article-meta")
     article_meta %>% xml2::xml_add_child(contrib_group_node)
     
+    # Add acknowledgee contrib-group if present
+    if (!is.null(acknowledgee_group_node)) {
+      article_meta %>% xml2::xml_add_child(acknowledgee_group_node)
+    }
+    
     for (aff_node in aff_nodes) {
       article_meta %>% xml2::xml_add_child(aff_node)
     }
@@ -178,24 +232,28 @@ print_xml <- function(contributors_table, full_document = FALSE) {
 #' @param contrib_data preprocessed contributors table with affiliations
 #' @param affiliation_data vector of unique affiliations
 #' @param authors_only full authors table for metadata
+#' @param contrib_type character. Either "author" (default) or "acknowledgee"
 #' 
 #' @keywords internal
-generate_contrib_group <- function(contrib_data, affiliation_data, authors_only) {
-  # Prepare CRediT role data
-  contrib_with_roles <- contrib_data %>%
+generate_contrib_group <- function(contrib_data, affiliation_data, authors_only, contrib_type = "author") {
+  # Prepare CRediT role data (for all contributors, even if they have no roles)
+  # This ensures we can look up roles for any contributor
+  contrib_roles_lookup <- contrib_data %>%
     dplyr::select(.data$`Given-names`, .data$Surname, 
                     dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)) %>%
       tidyr::gather(key = "CRediT Taxonomy", value = "Included",
                     -.data$`Given-names`, -.data$Surname) %>%
     dplyr::filter(!is.na(.data$Included) & .data$Included == TRUE) %>%
       dplyr::select(-.data$Included) %>%
-      dplyr::group_by(.data$Surname, .data$`Given-names`) %>%
-      dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
-      dplyr::ungroup() %>%
       dplyr::left_join(., credit_taxonomy, by = "CRediT Taxonomy")
   
   # Create contrib-group root
   contrib_group <- xml2::xml_new_root(.value = "contrib-group")
+  
+  # Set content-type attribute based on contrib_type
+  if (contrib_type == "acknowledgee") {
+    contrib_group %>% xml2::xml_set_attr("content-type", "acknowledgees")
+  }
   
   # Get contributor order and other metadata
   # Use the same affiliation column detection as main function
@@ -223,42 +281,56 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
       ),
       # Add row number to preserve original order for tie-breaking
       original_row = dplyr::row_number()
-    ) %>%
-    dplyr::select(.data$`Given-names`, .data$Surname, 
-                  .data$`Order in publication`, 
-                  .data$`Corresponding author?`,
-                  .data$`Email address`,
-                  .data$`ORCID iD`,
-                  .data$affiliation_ids,
-                  .data$original_row) %>%
+    )
+  
+  # Select available columns (acknowledgees might not have all author columns)
+  select_cols <- c("Given-names", "Surname", "affiliation_ids", "original_row")
+  optional_cols <- c("Order in publication", "Corresponding author?", "Email address", "ORCID iD")
+  select_cols <- c(select_cols, intersect(optional_cols, colnames(contrib_order)))
+  
+  contrib_order <- contrib_order %>%
+    dplyr::select(dplyr::all_of(select_cols)) %>%
     # Group by name and take first occurrence to avoid duplicates
     dplyr::group_by(.data$`Given-names`, .data$Surname) %>%
     dplyr::slice(1) %>%
     dplyr::ungroup()
   
   # Process each unique contributor - order by publication order
-  # First get unique contributors with their metadata
-  unique_contribs_df <- contrib_with_roles %>%
-    dplyr::select(.data$group_id, .data$`Given-names`, .data$Surname) %>%
-    dplyr::distinct() %>%
-    dplyr::left_join(
-      contrib_order %>% 
-        dplyr::select(.data$`Given-names`, .data$Surname, .data$`Order in publication`, .data$original_row),
-      by = c("Given-names", "Surname")
-    ) %>%
-    # Order by publication order, then by original row to preserve CSV order for ties
-    dplyr::arrange(.data$`Order in publication`, .data$original_row)
+  # Include ALL contributors (even without roles) for both authors and acknowledgees
+  # Use all unique contributors from contrib_order
+  unique_contribs_df <- contrib_order %>%
+    dplyr::select(.data$`Given-names`, .data$Surname, .data$original_row)
   
-  for (i in 1:nrow(unique_contribs_df)) {
+  join_cols <- c("Given-names", "Surname", "original_row")
+  if ("Order in publication" %in% colnames(contrib_order)) {
+    unique_contribs_df <- unique_contribs_df %>%
+      dplyr::left_join(
+        contrib_order %>% 
+          dplyr::select(.data$`Given-names`, .data$Surname, .data$`Order in publication`),
+        by = c("Given-names", "Surname")
+      )
+    join_cols <- c(join_cols, "Order in publication")
+  }
+  
+  # Order by publication order if available, otherwise by original row
+  if ("Order in publication" %in% colnames(unique_contribs_df)) {
+    unique_contribs_df <- unique_contribs_df %>%
+      dplyr::arrange(.data$`Order in publication`, .data$original_row)
+  } else {
+    unique_contribs_df <- unique_contribs_df %>%
+      dplyr::arrange(.data$original_row)
+  }
+  
+  for (i in seq_len(nrow(unique_contribs_df))) {
     row <- unique_contribs_df[i, ]
-    group_id <- row$group_id
     given_names <- row$`Given-names`
     surname <- row$Surname
     
-    # Filter roles for this specific contributor by name (more reliable than group_id)
-    contributor <- dplyr::filter(contrib_with_roles, 
-                                 .data$`Given-names` == given_names &
-                                 .data$Surname == surname)
+    # Filter roles for this specific contributor by name
+    # This will be empty if the contributor has no roles (which is OK for acknowledgees)
+    contributor_roles <- dplyr::filter(contrib_roles_lookup, 
+                                       .data$`Given-names` == given_names &
+                                       .data$Surname == surname)
     contrib_meta <- dplyr::filter(contrib_order, 
                                   .data$`Given-names` == given_names &
                                   .data$Surname == surname) %>%
@@ -279,10 +351,12 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
     contrib_node <- xml2::xml_new_root(.value = "contrib")
     
     # Add contrib-type attribute (required by JATS)
-    contrib_node %>% xml2::xml_set_attr("contrib-type", "author")
+    contrib_node %>% xml2::xml_set_attr("contrib-type", contrib_type)
     
-    # Add corresponding author attribute
-    if (nrow(contrib_meta) > 0 && 
+    # Add corresponding author attribute (only for authors)
+    if (contrib_type == "author" && 
+        nrow(contrib_meta) > 0 && 
+        "Corresponding author?" %in% colnames(contrib_meta) &&
         !is.na(contrib_meta$`Corresponding author?`[1]) && 
         isTRUE(contrib_meta$`Corresponding author?`[1])) {
       contrib_node %>% xml2::xml_set_attr("corresp", "yes")
@@ -303,22 +377,26 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
       }
     }
     
-    # Add CRediT roles
-    for (i in seq_len(nrow(contributor))) {
-      credit_term <- credit_term_map(contributor$`CRediT Taxonomy`[i])
-      credit_url <- contributor$url[i]
-      # Convert http to https for vocab URLs
-      credit_url <- stringr::str_replace(credit_url, "^http://", "https://")
-      
-      role_node <- contrib_node %>% xml2::xml_add_child("role")
-      role_node %>% xml2::xml_set_attr("vocab", "credit")
-      role_node %>% xml2::xml_set_attr("vocab-identifier", "https://credit.niso.org/")
-      role_node %>% xml2::xml_set_attr("vocab-term", credit_term)
-      role_node %>% xml2::xml_set_attr("vocab-term-identifier", credit_url)
+    # Add CRediT roles (only if they exist)
+    # For acknowledgees, it's OK to have no roles - the contrib node will just have name/affiliations
+    if (nrow(contributor_roles) > 0) {
+      for (j in seq_len(nrow(contributor_roles))) {
+        credit_term <- credit_term_map(contributor_roles$`CRediT Taxonomy`[j])
+        credit_url <- contributor_roles$url[j]
+        # Convert http to https for vocab URLs
+        credit_url <- stringr::str_replace(credit_url, "^http://", "https://")
+        
+        role_node <- contrib_node %>% xml2::xml_add_child("role")
+        role_node %>% xml2::xml_set_attr("vocab", "credit")
+        role_node %>% xml2::xml_set_attr("vocab-identifier", "https://credit.niso.org/")
+        role_node %>% xml2::xml_set_attr("vocab-term", credit_term)
+        role_node %>% xml2::xml_set_attr("vocab-term-identifier", credit_url)
+      }
     }
     
     # Add email if present
     if (nrow(contrib_meta) > 0 && 
+        "Email address" %in% colnames(contrib_meta) &&
         !is.na(contrib_meta$`Email address`) && 
         contrib_meta$`Email address` != "") {
       contrib_node %>% xml2::xml_add_child("email", contrib_meta$`Email address`)
@@ -326,6 +404,7 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only)
     
     # Add ORCID if present
     if (nrow(contrib_meta) > 0 && 
+        "ORCID iD" %in% colnames(contrib_meta) &&
         !is.na(contrib_meta$`ORCID iD`) && 
         contrib_meta$`ORCID iD` != "") {
       contrib_id_node <- contrib_node %>% xml2::xml_add_child("contrib-id", contrib_meta$`ORCID iD`)

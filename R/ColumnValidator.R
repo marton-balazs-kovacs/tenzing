@@ -127,9 +127,13 @@ ColumnValidator <- R6::R6Class(
         
         matched_columns <- colnames(contributors_table)[grepl(regex, colnames(contributors_table))]
         
-        # If regex does not match any columns, explicitly track it as a missing requirement
+        # For OR operator, only add actual matched columns (not the regex pattern)
+        # For AND operator, if regex doesn't match, add regex pattern to track missing requirement
         if (length(matched_columns) == 0) {
-          matched_columns <- regex  # Keep the regex label for error messages
+          if (operator == "AND") {
+            matched_columns <- regex  # Keep the regex label for error messages in AND case
+          }
+          # For OR operator, don't add regex pattern - let explicit columns be checked instead
         }
   
         # Ensure matched columns are appended to required columns

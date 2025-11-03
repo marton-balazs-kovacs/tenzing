@@ -42,9 +42,9 @@ mod_xml_report_server <- function(id, input_data){
     modal_open <- reactiveVal(FALSE)
     
     # Validation ---------------------------
-    # Initialize ValidateOutput with the title validation config
+    # Initialize ValidateOutput with the xml validation config
     validate_output_instance <- ValidateOutput$new(
-      config_path = system.file("config/credit_validation.yaml", package = "tenzing")
+      config_path = system.file("config/xml_validation.yaml", package = "tenzing")
     )
     
     # Initialize validation card logic only when modal is open
@@ -89,9 +89,17 @@ mod_xml_report_server <- function(id, input_data){
       if (errors) {
         "The output cannot be generated. See 'Table Validation' for more information."
       } else {
+        # Get toggle values, defaulting to FALSE if not yet initialized
+        full_doc <- tryCatch(isTRUE(input$full_document), error = function(e) FALSE)
+        incl_ack <- tryCatch(isTRUE(input$include_acknowledgees), error = function(e) FALSE)
+        
         # Wrap in tryCatch to handle any runtime errors gracefully
         result <- tryCatch({
-          print_xml(contributors_table = input_data(), full_document = TRUE)
+          print_xml(
+            contributors_table = input_data(), 
+            full_document = full_doc,
+            include_acknowledgees = incl_ack
+          )
         }, error = function(e) {
           paste0("Error generating XML: ", conditionMessage(e))
         })
@@ -129,25 +137,30 @@ mod_xml_report_server <- function(id, input_data){
       # Set content of the file
       content = function(file) {
         xml_output <- to_print()
+        # Get toggle value to determine if DOCTYPE should be added
+        full_doc <- tryCatch(isTRUE(input$full_document), error = function(e) FALSE)
+        
         # Only write XML if it's actually an XML object
         if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
           # Convert to character first
           xml_string <- as.character(xml_output)
-          # Add DOCTYPE declaration for full documents
-          doctype <- paste0('<!DOCTYPE article\n',
-                           '  PUBLIC \'-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN\'\n',
-                           '  \'https://jats.nlm.nih.gov/publishing/1.3/JATS-journalpublishing1-3.dtd\'>\n')
-          # Insert DOCTYPE after XML declaration
-          if (stringr::str_detect(xml_string, '^<\\?xml')) {
-            # Find the end of the XML declaration (first >)
-            xml_decl_end <- stringr::str_locate(xml_string, '\\?>')[1, "end"]
-            if (!is.na(xml_decl_end)) {
-              xml_string <- paste0(
-                stringr::str_sub(xml_string, 1, xml_decl_end),
-                "\n",
-                doctype,
-                stringr::str_sub(xml_string, xml_decl_end + 1)
-              )
+          # Add DOCTYPE declaration only for full documents
+          if (full_doc) {
+            doctype <- paste0('<!DOCTYPE article\n',
+                             '  PUBLIC \'-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN\'\n',
+                             '  \'https://jats.nlm.nih.gov/publishing/1.3/JATS-journalpublishing1-3.dtd\'>\n')
+            # Insert DOCTYPE after XML declaration
+            if (stringr::str_detect(xml_string, '^<\\?xml')) {
+              # Find the end of the XML declaration (first >)
+              xml_decl_end <- stringr::str_locate(xml_string, '\\?>')[1, "end"]
+              if (!is.na(xml_decl_end)) {
+                xml_string <- paste0(
+                  stringr::str_sub(xml_string, 1, xml_decl_end),
+                  "\n",
+                  doctype,
+                  stringr::str_sub(xml_string, xml_decl_end + 1)
+                )
+              }
             }
           }
           writeLines(xml_string, file)
@@ -194,6 +207,11 @@ mod_xml_report_server <- function(id, input_data){
         h3("JATS XML"),
         hr(),
         p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
+        div(
+          style = "margin-bottom: 15px;",
+          toggle(ns, "full_document", "Generate full article"),
+          toggle(ns, "include_acknowledgees", "Include acknowledgements")
+        ),
         uiOutput(NS(id, "jats_xml"), container = pre),
         easyClose = FALSE,
         footer = tagList(

@@ -4,7 +4,11 @@
 \alias{print_xml}
 \title{Generate an XML document of the contributions}
 \usage{
-print_xml(contributors_table, full_document = FALSE)
+print_xml(
+  contributors_table,
+  full_document = FALSE,
+  include_acknowledgees = FALSE
+)
 }
 \arguments{
 \item{contributors_table}{validated contributors_table}
@@ -14,6 +18,10 @@ document with placeholder metadata. If \code{FALSE} (default), returns only
 the contributor-related XML fragments (\verb{<contrib-group>}, \verb{<aff>},
 \verb{<funding-group>}, \verb{<author-notes>}) that can be embedded in an existing
 JATS document.}
+
+\item{include_acknowledgees}{Logical. If \code{TRUE}, includes contributors with
+"Acknowledgment only" in the \code{Author/Acknowledgee} column as a separate
+\verb{<contrib-group content-type="acknowledgees">} section. Defaults to \code{FALSE}.}
 }
 \value{
 If \code{full_document = FALSE} (default), returns an xml nodeset
