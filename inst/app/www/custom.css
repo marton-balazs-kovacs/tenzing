@@ -471,6 +471,7 @@
   align-items: center;           /* Vertically center items in row */
   flex-wrap: nowrap;             /* Prevent wrapping to new rows */
   gap: 24px;                    /* Consistent gap between toggles */
+  margin-bottom: 15px;          /* Add bottom margin for spacing */
 }
 
 .toggle-item {
@@ -478,24 +479,50 @@
   align-items: center;
   gap: 8px;
 }
+
 .toggle-label, .toggle-label-secondary {
   font-size: 10px;
   margin: 0 3px;
   cursor: pointer;
   line-height: 1;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;           /* Vertically center label text */
+  height: 100%;                  /* Match height of container */
 }
+
 .toggle-item span {
   font-size: 10px;
   display: flex;
   align-items: center;
 }
+
+.material-switch {
+  display: flex;
+  align-items: center;           /* Vertically center the switch */
+  margin: 0;                      /* Remove any default margins */
+}
+
 .material-switch > label {
   font-size: 10px !important;
+  display: flex;
+  margin: 0;                      /* Remove any default margins */
 }
+
 .toggle-item .material-switch {
   display: flex;
   align-items: center;
+}
+
+/* Remove form-group margin that causes misalignment in toggles */
+.toggle-item .form-group,
+.toggle-row .form-group {
+  margin-bottom: 0 !important;
+}
+
+/* Fix material-switch circle alignment */
+.material-switch .switch,
+.material-switch label.switch {
+  top: 0 !important;
 }
 
 /* Support popup: tenzing */
