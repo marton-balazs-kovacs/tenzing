@@ -405,9 +405,11 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only,
     # Add ORCID if present
     if (nrow(contrib_meta) > 0 && 
         "ORCID iD" %in% colnames(contrib_meta) &&
-        !is.na(contrib_meta$`ORCID iD`) && 
-        contrib_meta$`ORCID iD` != "") {
-      contrib_id_node <- contrib_node %>% xml2::xml_add_child("contrib-id", contrib_meta$`ORCID iD`)
+        !is.na(contrib_meta$`ORCID iD`[1]) && 
+        contrib_meta$`ORCID iD`[1] != "") {
+      # Normalize ORCID ID to full URI format (https://orcid.org/...)
+      orcid_id <- normalize_orcid_id(contrib_meta$`ORCID iD`[1])
+      contrib_id_node <- contrib_node %>% xml2::xml_add_child("contrib-id", orcid_id)
       contrib_id_node %>% xml2::xml_set_attr("contrib-id-type", "orcid")
     }
     
@@ -638,4 +640,40 @@ generate_author_notes <- function(contributors_table) {
   }
   
   return(author_notes)
+}
+
+#' Normalize ORCID ID to full URI format
+#' 
+#' Converts ORCID IDs to the standard JATS XML 1.3 format:
+#' https://orcid.org/0000-0002-1825-0097
+#' 
+#' Handles various input formats:
+#' - Just the ID: "0000-0002-1825-0097" -> "https://orcid.org/0000-0002-1825-0097"
+#' - Already full URL: "https://orcid.org/0000-0002-1825-0097" -> unchanged
+#' - HTTP instead of HTTPS: "http://orcid.org/0000-0002-1825-0097" -> "https://orcid.org/0000-0002-1825-0097"
+#' 
+#' @param orcid_id character. ORCID ID in any format
+#' 
+#' @return character. Normalized ORCID ID as full URI
+#' 
+#' @keywords internal
+normalize_orcid_id <- function(orcid_id) {
+  if (is.na(orcid_id) || orcid_id == "") {
+    return(orcid_id)
+  }
+  
+  # Remove whitespace
+  orcid_id <- stringr::str_trim(orcid_id)
+  
+  # If already a full URL (http:// or https://), extract just the ID part
+  if (stringr::str_detect(orcid_id, "^https?://orcid\\.org/")) {
+    # Extract ID from URL
+    orcid_id <- stringr::str_replace(orcid_id, "^https?://orcid\\.org/", "")
+  }
+  
+  # Remove any trailing slash
+  orcid_id <- stringr::str_replace(orcid_id, "/$", "")
+  
+  # Return as full HTTPS URI
+  paste0("https://orcid.org/", orcid_id)
 }
