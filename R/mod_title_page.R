@@ -175,7 +175,7 @@ mod_title_page_server <- function(id, input_data){
     output$clip <- renderUI({
       rclipboard::rclipButton(
         inputId = "clip_btn", 
-        label = "Copy output to clipboard", 
+        label = "Copy plaintext to clipboard", 
         clipText = to_clip(),
         icon = icon("clipboard"),
         modal = TRUE,
