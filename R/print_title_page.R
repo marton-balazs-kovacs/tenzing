@@ -182,7 +182,7 @@ print_title_page <- function(contributors_table,
         sup_content_rmd = stringr::str_replace_all(sup_content, "\\*", "\\\\*"),
         contrib = dplyr::case_when(
           sup_content_rmd == "" ~ display_name,
-          TRUE ~ paste0(display_name, " ^", sup_content_rmd, "^")
+          TRUE ~ paste0(display_name, "\u200A^", sup_content_rmd, "^")
         )
       )
   } else if (identical(text_format, "html")) {

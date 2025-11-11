@@ -49,11 +49,17 @@ mod_title_page_server <- function(id, input_data){
     
     # Initialize validation card logic only when modal is open
     # Use mod_validation_card_server to handle validation and get error status
+    include_orcid_toggle <- reactive({
+      req(modal_open())
+      isTRUE(input$include_orcid)
+    })
+    
     has_errors <- mod_validation_card_server(
       id = "validation_card",
       contributors_table = input_data,
       validate_output_instance = validate_output_instance,
-      trigger = modal_open
+      trigger = modal_open,
+      context = reactive(list(include_orcid = include_orcid_toggle()))
     )
     
     observe({
@@ -70,11 +76,6 @@ mod_title_page_server <- function(id, input_data){
         golem::invoke_js("reable", paste0("#", ns("report")))
         golem::invoke_js("showid", ns("clip"))
       }
-    })
-    
-    include_orcid_toggle <- reactive({
-      req(modal_open())
-      isTRUE(input$include_orcid)
     })
     
     orcid_style <- reactive({
