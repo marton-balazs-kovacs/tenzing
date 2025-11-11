@@ -120,6 +120,7 @@ mod_show_spreadsheet_server <- function(id, input_data) {
     # Build modal
     modal <- function() {
       modalDialog(
+        size = "l",
         easyClose = TRUE,
         DT::dataTableOutput(NS(id, "table")),
         footer = modalButton("Close"),

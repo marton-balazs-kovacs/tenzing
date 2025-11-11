@@ -169,6 +169,7 @@ mod_credit_roles_server <- function(id, input_data){
     # Modal ---------------------------------------------------------------------
     modal <- function() {
       modalDialog(
+        size = "l",
         # -------- Authors block --------
         h3("Author contributions"),
         div(

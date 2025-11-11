@@ -86,6 +86,7 @@ mod_conflict_statement_server <- function(id, input_data){
     ## Build modal
     modal <- function() {
       modalDialog(
+        size = "l",
         h3("Conflict of interest statement"),
         # Toggle between initials and full names
         div(

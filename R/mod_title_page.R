@@ -111,6 +111,7 @@ mod_title_page_server <- function(id, input_data){
     ## Build modal
     modal <- function() {
       modalDialog(
+        size = "l",
         h3("Contributors' affiliation page", style = "color: #d45f68;"),
         div(
           class = "toggle-row",

@@ -89,17 +89,17 @@ print_title_page <- function(contributors_table,
         if (identical(format, "html")) {
           return(paste0(
             nm,
-            ' <a href="', orcid_id,
+            '<a href="', orcid_id,
             '" target="_blank" rel="noopener noreferrer" title="ORCID profile">',
             '<img src="www/ORCID-iD_icon_unauth_16x16.png" alt="ORCID iD" ',
-            'style="margin-left:4px; vertical-align:text-bottom;" /></a>'
+            'style="margin-left:3px; vertical-align:text-bottom;" /></a>'
           ))
         }
         
         if (identical(format, "rmd")) {
           return(paste0(
             nm,
-            ' [![ORCID iD](ORCID-iD_icon_unauth_16x16.png)](', orcid_id, ')'
+            '[![ORCID iD](ORCID-iD_icon_unauth_16x16.png){style="vertical-align:text-bottom;"}](', orcid_id, ')'
           ))
         }
         

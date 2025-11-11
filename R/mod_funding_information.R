@@ -84,6 +84,7 @@ mod_funding_information_server <- function(id, input_data){
     ## Build modal
     modal <- function() {
       modalDialog(
+        size = "l",
         h3("Funding information"),
         # Toggle between initials and full names
         div(

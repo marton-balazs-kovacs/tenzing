@@ -150,6 +150,7 @@ mod_show_yaml_server <- function(id, input_data) {
     # Build modal
     modal <- function() {
       modalDialog(
+        size = "l",
         h3(HTML("<code>papaja</code>"), "YAML"),
         hr(),
         p(
