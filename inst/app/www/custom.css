@@ -478,8 +478,8 @@
 
 .toggle-row {
   display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: stretch;
   width: 100%;
   gap: 16px;
@@ -496,6 +496,12 @@
   border-radius: 20px;
   flex: 1 1 0;
   min-width: 0;
+}
+
+.toggle-row .toggle-control:only-child {
+  flex: 0 0 auto;
+  max-width: 320px;
+  align-items: flex-start;
 }
 
 .toggle-control-label {
@@ -531,6 +537,10 @@
 .toggle-control .toggle-label-secondary {
   color: #7ec4ad;
   font-weight: 600;
+}
+
+.toggle-row .toggle-control:only-child .toggle-item {
+  justify-content: flex-start;
 }
 
 .preview-wrapper {
