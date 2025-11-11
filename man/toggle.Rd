@@ -4,7 +4,7 @@
 \alias{toggle}
 \title{toggle}
 \usage{
-toggle(ns, inputId, left_label, right_label = NULL)
+toggle(ns, inputId, left_label, right_label = NULL, value = FALSE)
 }
 \arguments{
 \item{ns}{namespacing/shiny ns function}

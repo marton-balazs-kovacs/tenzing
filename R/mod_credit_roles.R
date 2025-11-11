@@ -181,7 +181,7 @@ mod_credit_roles_server <- function(id, input_data){
           toggle(ns, "initials", "Full names", "Initials"),
           toggle(ns, "order_by", "Roles", "Contributor names"),
           toggle(ns, "pub_desc", "Desc", "Asc"),
-          toggle(ns, "include_orcid", "Include ORCID"),
+          toggle(ns, "include_orcid", "Include ORCID", value = TRUE),
           toggle(ns, "orcid_style_text", "Badge", "Text")
         ),
         hr(style = "margin-top:5px; margin-bottom:10px;"),

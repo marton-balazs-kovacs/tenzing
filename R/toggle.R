@@ -9,14 +9,15 @@
 #' @importFrom shiny div tags
 #' @importFrom shinyWidgets materialSwitch
 
-toggle <- function(ns, inputId, left_label, right_label = NULL) {
+toggle <- function(ns, inputId, left_label, right_label = NULL, value = FALSE) {
   shiny::div(
     class = "toggle-item",
     shiny::tags$label(left_label, `for` = ns(inputId), class = "toggle-label"),
     shinyWidgets::materialSwitch(
       inputId = ns(inputId),
       label = NULL,
-      inline = TRUE
+      inline = TRUE,
+      value = value
     ),
     if (!is.null(right_label)) shiny::tags$label(right_label, `for` = ns(inputId), class = "toggle-label-secondary")
   )
