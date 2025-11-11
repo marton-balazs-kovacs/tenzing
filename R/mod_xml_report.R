@@ -178,39 +178,52 @@ mod_xml_report_server <- function(id, input_data){
       }
     )
     
-    # Add clipboard buttons
-    output$clip <- renderUI({
+    clipboard_payload <- reactive({
+      req(modal_open())
       xml_output <- to_print()
-      # Convert XML to character if needed
-      if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
-        clip_text <- as.character(xml_output)
+      xml_str <- if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
+        as.character(xml_output)
       } else {
-        clip_text <- as.character(xml_output)
+        as.character(xml_output)
       }
       
-      rclipboard::rclipButton(
-        inputId = "clip_btn",
-        label = "Copy output to clipboard", 
-        clipText = clip_text, 
-        icon = icon("clipboard"),
-        modal = TRUE,
-        class = "btn-download")
+      list(
+        html = paste0(
+          "<pre><code class=\"language-xml\">",
+          htmltools::htmlEscape(xml_str),
+          "</code></pre>"
+        ),
+        text = xml_str
+      )
     })
     
-    ## Workaround for execution within RStudio version < 1.2
+    # Add clipboard buttons
+    output$clip <- renderUI({
+      actionButton(
+        inputId = ns("clip_btn"),
+        label = "Copy output to clipboard", 
+        icon = icon("clipboard"),
+        class = "btn-download"
+      )
+    })
+    
     observeEvent(input$clip_btn, {
-      xml_output <- to_print()
-      if (inherits(xml_output, "xml_document") || inherits(xml_output, "xml_node")) {
-        clipr::write_clip(as.character(xml_output))
-      } else {
-        clipr::write_clip(as.character(xml_output))
+      req(modal_open())
+      if (isTRUE(has_errors())) {
+        return(NULL)
       }
+      payload <- clipboard_payload()
+      copy_to_clipboard(
+        session = session,
+        html = payload$html,
+        text = payload$text,
+        status_input = ns("clipboard_status")
+      )
     })
     
     # Build modal
     modal <- function() {
       modalDialog(
-        rclipboard::rclipboardSetup(),
         h3("JATS XML"),
         hr(),
         p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),

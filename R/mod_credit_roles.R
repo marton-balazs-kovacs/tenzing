@@ -169,7 +169,6 @@ mod_credit_roles_server <- function(id, input_data){
     # Modal ---------------------------------------------------------------------
     modal <- function() {
       modalDialog(
-        rclipboard::rclipboardSetup(),
         # -------- Authors block --------
         h3("Author contributions"),
         div(
@@ -327,16 +326,80 @@ mod_credit_roles_server <- function(id, input_data){
       paste(parts, collapse = "\n\n")
     })
     
+    clipboard_payload <- reactive({
+      req(modal_open())
+      
+      text_value <- to_clip()
+      
+      html_parts <- list()
+      if (!isTRUE(has_errors_auth()) && nrow(authors_df()) > 0) {
+        html_parts <- c(
+          html_parts,
+          paste0(
+            "<h3>Author contributions</h3>",
+            print_credit_roles(
+              contributors_table = input_data(),
+              text_format = "html",
+              initials = isTRUE(input$initials),
+              order_by = order(),
+              include = "author",
+              pub_order = pub_order()
+            )
+          )
+        )
+      }
+      
+      if (has_ack() && !isTRUE(has_errors_ack()) && nrow(acks_df()) > 0) {
+        html_parts <- c(
+          html_parts,
+          paste0(
+            "<h3>Acknowledgee contributions</h3>",
+            print_credit_roles(
+              contributors_table = input_data(),
+              text_format = "html",
+              initials = isTRUE(input$initials_ack),
+              order_by = order_ack(),
+              include = "acknowledgment",
+              pub_order = pub_order_ack()
+            )
+          )
+        )
+      }
+      
+      html_value <- if (length(html_parts) > 0) {
+        paste(html_parts, collapse = "<br><br>")
+      } else {
+        paste0("<p>", htmltools::htmlEscape(text_value), "</p>")
+      }
+      
+      list(
+        html = html_value,
+        text = text_value
+      )
+    })
+    
     output$clip <- renderUI({
-      rclipboard::rclipButton(
-        inputId = "clip_btn",
+      actionButton(
+        inputId = ns("clip_btn"),
         label = "Copy output to clipboard",
-        clipText = to_clip(),
         icon = icon("clipboard"),
-        modal = TRUE,
         class = "btn-download"
       )
     })
-    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
+    
+    observeEvent(input$clip_btn, {
+      req(modal_open())
+      if (disable_all()) {
+        return(NULL)
+      }
+      
+      payload <- clipboard_payload()
+      copy_to_clipboard(
+        session = session,
+        html = payload$html,
+        text = payload$text,
+        status_input = ns("clipboard_status")
+      )
+    })
   })
 }

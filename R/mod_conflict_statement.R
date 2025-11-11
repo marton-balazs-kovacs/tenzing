@@ -86,7 +86,6 @@ mod_conflict_statement_server <- function(id, input_data){
     ## Build modal
     modal <- function() {
       modalDialog(
-        rclipboard::rclipboardSetup(),
         h3("Conflict of interest statement"),
         # Toggle between initials and full names
         div(
@@ -182,18 +181,39 @@ mod_conflict_statement_server <- function(id, input_data){
     
     # Clip ---------------------------
     ## Add clipboard buttons
+    clipboard_payload <- reactive({
+      req(modal_open())
+      text_value <- to_download_and_clip()
+      html_value <- paste0("<p>", htmltools::htmlEscape(text_value), "</p>")
+      
+      list(
+        html = html_value,
+        text = text_value
+      )
+    })
+    
     output$clip <- renderUI({
-      rclipboard::rclipButton(
-        inputId = "clip_btn", 
+      actionButton(
+        inputId = ns("clip_btn"), 
         label = "Copy output to clipboard", 
-        clipText =  to_download_and_clip(), 
         icon = icon("clipboard"),
-        modal = TRUE,
         class = "btn-download")
     })
     
-    ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_download_and_clip()))
+    observeEvent(input$clip_btn, {
+      req(modal_open())
+      if (has_errors()) {
+        return(NULL)
+      }
+      
+      payload <- clipboard_payload()
+      copy_to_clipboard(
+        session = session,
+        html = payload$html,
+        text = payload$text,
+        status_input = ns("clipboard_status")
+      )
+    })
   })
  
 }

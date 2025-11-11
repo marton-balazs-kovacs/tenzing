@@ -32,6 +32,7 @@ add_custom_js_files <- function() {
     tags$script(src = "www/sweet_alert.js"),
     tags$script(src = "www/tooltip.js"),
     tags$script(src = "www/custom.js"),
+    tags$script(src = "www/clipboard.js"),
     tags$script(src = "www/collapsible.js"),
     tags$script(src = "www/update_card_styles.js"),
     # Change window title

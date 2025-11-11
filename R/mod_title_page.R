@@ -86,7 +86,6 @@ mod_title_page_server <- function(id, input_data){
     ## Build modal
     modal <- function() {
       modalDialog(
-        rclipboard::rclipboardSetup(),
         h3("Contributors' affiliation page", style = "color: #d45f68;"),
         hr(style = "border-color: #d45f68;"),
         uiOutput(NS(id, "preview")),
@@ -94,7 +93,8 @@ mod_title_page_server <- function(id, input_data){
         footer = tagList(
           mod_validation_card_ui(ns("validation_card")),
           div(style = "display: inline-block",
-              uiOutput(session$ns("clip"))) %>%
+              uiOutput(session$ns("clip"))
+          ) %>%
             tagAppendAttributes(# Track click event with Matomo
               onclick = "_paq.push(['trackEvent', 'Output', 'Click clip', 'Title information'])"),
           div(
@@ -162,28 +162,39 @@ mod_title_page_server <- function(id, input_data){
     )
     
     # Clip ---------------------------
-    ## Set up output text to clip
-    to_clip <- reactive({
+    clipboard_payload <- reactive({
+      req(modal_open())
       if (has_errors()) {
-        ""
-      } else {
-        print_title_page(contributors_table = input_data(), text_format = "raw") 
+        return(list(html = NULL, text = "")) 
       }
+      
+      list(
+        html = print_title_page(contributors_table = input_data(), text_format = "html"),
+        text = print_title_page(contributors_table = input_data(), text_format = "raw")
+      )
     })
     
-    ## Add clipboard buttons
     output$clip <- renderUI({
-      rclipboard::rclipButton(
-        inputId = "clip_btn", 
-        label = "Copy output to clipboard", 
-        clipText = to_clip(),
+      actionButton(
+        inputId = ns("clip_btn"),
+        label = "Copy output to clipboard",
         icon = icon("clipboard"),
-        modal = TRUE,
-        class = "btn-download")
+        class = "btn-download"
+      )
     })
     
-    ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$clip_btn, clipr::write_clip(to_clip()))
+    observeEvent(input$clip_btn, {
+      req(modal_open())
+      req(!has_errors())
+      
+      payload <- clipboard_payload()
+      copy_to_clipboard(
+        session = session,
+        html = payload$html,
+        text = payload$text,
+        status_input = ns("clipboard_status")
+      )
+    })
   })
 }
     

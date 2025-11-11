@@ -110,23 +110,46 @@ mod_show_yaml_server <- function(id, input_data) {
     )
 
     # Add clipboard buttons
+    yaml_clip_payload <- reactive({
+      req(modal_open())
+      yaml_text <- author_yaml()
+      
+      list(
+        html = paste0(
+          "<pre><code class=\"language-yaml\">",
+          htmltools::htmlEscape(yaml_text),
+          "</code></pre>"
+        ),
+        text = yaml_text
+      )
+    })
+    
     output$yaml_clip <- renderUI({
-      rclipboard::rclipButton(
-        inputId = "yaml_clip_btn",
+      actionButton(
+        inputId = ns("yaml_clip_btn"),
         label = "Copy YAML to clipboard",
-        clipText = author_yaml(),
         icon = icon("clipboard"),
-        modal = TRUE,
         class = "btn-download")
     })
     
-    ## Workaround for execution within RStudio version < 1.2
-    observeEvent(input$yaml_clip_btn, clipr::write_clip(author_yaml()))
+    observeEvent(input$yaml_clip_btn, {
+      req(modal_open())
+      if (has_errors()) {
+        return(NULL)
+      }
+      
+      payload <- yaml_clip_payload()
+      copy_to_clipboard(
+        session = session,
+        html = payload$html,
+        text = payload$text,
+        status_input = ns("clipboard_status")
+      )
+    })
     
     # Build modal
     modal <- function() {
       modalDialog(
-        rclipboard::rclipboardSetup(),
         h3(HTML("<code>papaja</code>"), "YAML"),
         hr(),
         p(
