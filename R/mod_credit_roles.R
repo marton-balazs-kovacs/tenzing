@@ -176,56 +176,18 @@ mod_credit_roles_server <- function(id, input_data){
         size = "l",
         # -------- Authors block --------
         shiny::tags$h3("Author contributions", class = "credit-section-heading"),
-        div(
-          class = "card settings-card",
-          style = "border: 2px solid #7ec4ad; border-radius: 8px; width: 100%; margin-bottom: 1em;",
+        settings_card(
+          ns = ns,
+          id = "settings_auth",
+          title = "Settings",
+          collapsed = FALSE,
           div(
-            class = "card-header collapsible-header settings-header",
-            `data-target` = ns("settings_auth"),
-            `data-collapsed` = "false",
-            style = "cursor: pointer;",
-            shiny::tags$p(
-              "Settings ",
-              shiny::tags$i(class = "fas fa-chevron-up"),
-              class = "settings-header-text",
-              style = "text-align: left; font-weight: 900; margin: 10px"
-            )
-          ),
-          div(
-            id = ns("settings_auth"),
-            class = "collapsible-content settings-content",
-            style = "visibility: visible; height: auto; overflow: hidden; padding-left: 10px; padding-right: 10px;",
-            shiny::div(
-              class = "settings-content-inner",
-              div(
-                class = "toggle-row",
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Name format", class = "toggle-control-label"),
-                  toggle(ns, "initials", "Full names", "Initials")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Show ORCID", class = "toggle-control-label"),
-                  toggle(ns, "include_orcid", "No", "Yes", value = TRUE)
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("ORCID style", class = "toggle-control-label"),
-                  toggle(ns, "orcid_style_text", "Badge", "Text")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Sort by", class = "toggle-control-label"),
-                  toggle(ns, "order_by", "Roles", "Names")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Publication order", class = "toggle-control-label"),
-                  toggle(ns, "pub_desc", "Desc", "Asc")
-                )
-              )
-            )
+            class = "toggle-row",
+            toggle(ns, "initials", "Full names", "Initials", title = "Name format"),
+            toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
+            toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style"),
+            toggle(ns, "order_by", "Roles", "Names", title = "Sort by"),
+            toggle(ns, "pub_desc", "Desc", "Asc", title = "Publication order")
           )
         ),
         uiOutput(NS(id, "preview_auth")),
@@ -263,56 +225,18 @@ mod_credit_roles_server <- function(id, input_data){
       if (!has_ack()) return(NULL)
       tagList(
         shiny::tags$h3("Acknowledgee contributions", class = "credit-section-heading"),
-        div(
-          class = "card settings-card",
-          style = "border: 2px solid #7ec4ad; border-radius: 8px; width: 100%; margin-bottom: 1em;",
+        settings_card(
+          ns = ns,
+          id = "settings_ack",
+          title = "Settings",
+          collapsed = TRUE,
           div(
-            class = "card-header collapsible-header settings-header",
-            `data-target` = ns("settings_ack"),
-            `data-collapsed` = "true",
-            style = "cursor: pointer;",
-            shiny::tags$p(
-              "Settings ",
-              shiny::tags$i(class = "fas fa-chevron-down"),
-              class = "settings-header-text",
-              style = "text-align: left; font-weight: 900; margin: 10px"
-            )
-          ),
-          div(
-            id = ns("settings_ack"),
-            class = "collapsible-content settings-content",
-            style = "visibility: hidden; height: 0; overflow: hidden; padding-left: 10px; padding-right: 10px;",
-            shiny::div(
-              class = "settings-content-inner",
-              div(
-                class = "toggle-row",
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Name format", class = "toggle-control-label"),
-                  toggle(ns, "initials_ack", "Full names", "Initials")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Show ORCID", class = "toggle-control-label"),
-                  toggle(ns, "include_orcid_ack", "No", "Yes", value = TRUE)
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("ORCID style", class = "toggle-control-label"),
-                  toggle(ns, "orcid_style_text_ack", "Badge", "Text")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Sort by", class = "toggle-control-label"),
-                  toggle(ns, "order_by_ack", "Roles", "Names")
-                ),
-                div(
-                  class = "toggle-control",
-                  shiny::tags$label("Publication order", class = "toggle-control-label"),
-                  toggle(ns, "pub_desc_ack", "Desc", "Asc")
-                )
-              )
-            )
+            class = "toggle-row",
+            toggle(ns, "initials_ack", "Full names", "Initials", title = "Name format"),
+            toggle(ns, "include_orcid_ack", "No", "Yes", value = TRUE, title = "Show ORCID"),
+            toggle(ns, "orcid_style_text_ack", "Badge", "Text", title = "ORCID style"),
+            toggle(ns, "order_by_ack", "Roles", "Names", title = "Sort by"),
+            toggle(ns, "pub_desc_ack", "Desc", "Asc", title = "Publication order")
           )
         ),
         uiOutput(NS(id, "preview_ack")),
