@@ -4,7 +4,12 @@
 \alias{print_title_page}
 \title{Generate title page}
 \usage{
-print_title_page(contributors_table, text_format = "rmd")
+print_title_page(
+  contributors_table,
+  text_format = "rmd",
+  include_orcid = FALSE,
+  orcid_style = c("badge", "text")
+)
 }
 \arguments{
 \item{contributors_table}{validated contributors_table}

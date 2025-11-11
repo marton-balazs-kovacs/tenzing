@@ -72,6 +72,23 @@ mod_title_page_server <- function(id, input_data){
       }
     })
     
+    include_orcid_toggle <- reactive({
+      req(modal_open())
+      isTRUE(input$include_orcid)
+    })
+    
+    orcid_style <- reactive({
+      req(modal_open())
+      if (!isTRUE(input$include_orcid)) {
+        return("badge")
+      }
+      if (isTRUE(input$orcid_style_text)) {
+        "text"
+      } else {
+        "badge"
+      }
+    })
+    
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
@@ -79,7 +96,14 @@ mod_title_page_server <- function(id, input_data){
       if (has_errors()) {
         "The output cannot be generated. See 'Table Validation' for more information."
       } else {
-        HTML(print_title_page(contributors_table = input_data(), text_format = "html"))
+        HTML(
+          print_title_page(
+            contributors_table = input_data(),
+            text_format = "html",
+            include_orcid = include_orcid_toggle(),
+            orcid_style = orcid_style()
+          )
+        )
       }
     })
     
@@ -87,6 +111,11 @@ mod_title_page_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         h3("Contributors' affiliation page", style = "color: #d45f68;"),
+        div(
+          class = "toggle-row",
+          toggle(ns, "include_orcid", "Include ORCID information"),
+          toggle(ns, "orcid_style_text", "Badge with link", "Plain text")
+        ),
         hr(style = "border-color: #d45f68;"),
         uiOutput(NS(id, "preview")),
         easyClose = FALSE,
@@ -129,7 +158,12 @@ mod_title_page_server <- function(id, input_data){
     ## Restructure dataframe for the contributors affiliation output
     to_download <- reactive({
       req(!has_errors())
-      print_title_page(contributors_table = input_data(), text_format = "rmd")
+      print_title_page(
+        contributors_table = input_data(),
+        text_format = "rmd",
+        include_orcid = include_orcid_toggle(),
+        orcid_style = orcid_style()
+      )
     })
     
     ## Set up parameters to pass to Rmd document
@@ -169,8 +203,18 @@ mod_title_page_server <- function(id, input_data){
       }
       
       list(
-        html = print_title_page(contributors_table = input_data(), text_format = "html"),
-        text = print_title_page(contributors_table = input_data(), text_format = "raw")
+        html = print_title_page(
+          contributors_table = input_data(),
+          text_format = "html",
+          include_orcid = include_orcid_toggle(),
+          orcid_style = orcid_style()
+        ),
+        text = print_title_page(
+          contributors_table = input_data(),
+          text_format = "raw",
+          include_orcid = include_orcid_toggle(),
+          orcid_style = orcid_style()
+        )
       )
     })
     

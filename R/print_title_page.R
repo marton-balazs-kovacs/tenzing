@@ -29,9 +29,13 @@
 #' 
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
-print_title_page <- function(contributors_table, text_format = "rmd") {
+print_title_page <- function(contributors_table,
+                             text_format = "rmd",
+                             include_orcid = FALSE,
+                             orcid_style = c("badge", "text")) {
   # Defining global variables
   . = NULL
+  orcid_style <- match.arg(orcid_style)
   
   # Validation ---------------------------
   ## Check if there are shared first authors
@@ -49,6 +53,11 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     numbered_affiliation_cols # Add numbered affiliation columns
   )
   
+  # Ensure ORCID column exists
+  if (!"ORCID iD" %in% colnames(contributors_table)) {
+    contributors_table[["ORCID iD"]] <- NA_character_
+  }
+  
   # Restructure dataframe for the contributors affiliation output ---------------------------
   clean_names_contributors_table <-
     contributors_table %>%
@@ -57,7 +66,50 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
       is.na(.data$`Middle name`),
       paste(.data$Firstname, .data$Surname),
       paste(.data$Firstname, .data$`Middle name`, .data$Surname)
-    ))
+    )) %>%
+    dplyr::mutate(
+      orcid_normalized = dplyr::if_else(
+        include_orcid & !is.na(.data$`ORCID iD`) & .data$`ORCID iD` != "",
+        normalize_orcid_id(.data$`ORCID iD`),
+        NA_character_
+      )
+    )
+
+  format_with_orcid <- function(name, orcid_uri, format, style) {
+    mapply(
+      function(nm, orcid_id) {
+        if (is.null(orcid_id) || is.na(orcid_id) || orcid_id == "") {
+          return(nm)
+        }
+        
+        if (identical(style, "text")) {
+          return(paste0(nm, " (", orcid_id, ")"))
+        }
+        
+        if (identical(format, "html")) {
+          return(paste0(
+            nm,
+            ' <a href="', orcid_id,
+            '" target="_blank" rel="noopener noreferrer" title="ORCID profile">',
+            '<img src="www/ORCID-iD_icon_unauth_16x16.png" alt="ORCID iD" ',
+            'style="margin-left:4px; vertical-align:text-bottom;" /></a>'
+          ))
+        }
+        
+        if (identical(format, "rmd")) {
+          return(paste0(
+            nm,
+            ' [![ORCID iD](ORCID-iD_icon_unauth_16x16.png)](', orcid_id, ')'
+          ))
+        }
+        
+        paste0(nm, " (", orcid_id, ")")
+      },
+      name,
+      orcid_uri,
+      USE.NAMES = FALSE
+    )
+  }
   
   # Ensure missing "Corresponding author?" is handled gracefully
   if (!"Corresponding author?" %in% colnames(contributors_table)) {
@@ -102,25 +154,58 @@ print_title_page <- function(contributors_table, text_format = "rmd") {
     ))
   
   # Modify data for printing contributor information ---------------------------
-  contrib_print <- 
-    contrib_affil_data %>% 
-    dplyr::select(-.data$affiliation) %>% 
+  contrib_entries <-
+    contrib_affil_data %>%
+    dplyr::select(-.data$affiliation) %>%
     dplyr::mutate(affiliation_no = as.character(.data$affiliation_no)) %>%
-    dplyr::group_by(.data$`Order in publication`, .data$Name, .data$`Corresponding author?`) %>% 
-    dplyr::summarise(affiliation_no = stringr::str_c(na.omit(.data$affiliation_no), collapse = ",")) %>% 
-    dplyr::mutate(affiliation_no = dplyr::case_when(
-      shared_first & .data$`Order in publication` == 1 & .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "*\u2020"),  # Shared first & corresponding
-      shared_first & .data$`Order in publication` == 1 ~ paste0(.data$affiliation_no, "*"),  # Shared first only
-      .data$`Corresponding author?` ~ paste0(.data$affiliation_no, "\u2020"),  # Corresponding only
-      TRUE ~ .data$affiliation_no
-    )) %>% 
-    # Format output string according to the text_format argument
-    dplyr::transmute(contrib = dplyr::case_when(
-      text_format == "rmd" ~ glue::glue("{Name}^{affiliation_no}^"), # R Markdown superscript
-      TRUE ~ paste0(Name, superscript(affiliation_no, text_format))
-    )) %>% 
-    # Collapse contributor names to one string
-    dplyr::pull(.data$contrib) %>% 
+    dplyr::group_by(.data$`Order in publication`, .data$Name, .data$`Corresponding author?`, .data$orcid_normalized) %>%
+    dplyr::summarise(affiliation_no = stringr::str_c(na.omit(.data$affiliation_no), collapse = ","), .groups = "drop") %>%
+    dplyr::mutate(
+      affiliation_no = dplyr::na_if(affiliation_no, ""),
+      marker = dplyr::case_when(
+        shared_first & .data$`Order in publication` == 1 & .data$`Corresponding author?` ~ "*\u2020",
+        shared_first & .data$`Order in publication` == 1 ~ "*",
+        .data$`Corresponding author?` ~ "\u2020",
+        TRUE ~ ""
+      ),
+      sup_content = dplyr::case_when(
+        is.na(affiliation_no) & marker == "" ~ "",
+        is.na(affiliation_no) ~ marker,
+        TRUE ~ paste0(affiliation_no, marker)
+      ),
+      display_name = format_with_orcid(Name, orcid_normalized, text_format, orcid_style)
+    )
+  
+  contrib_entries <- if (identical(text_format, "rmd")) {
+    contrib_entries %>%
+      dplyr::mutate(
+        sup_content_rmd = stringr::str_replace_all(sup_content, "\\*", "\\\\*"),
+        contrib = dplyr::case_when(
+          sup_content_rmd == "" ~ display_name,
+          TRUE ~ paste0(display_name, " ^", sup_content_rmd, "^")
+        )
+      )
+  } else if (identical(text_format, "html")) {
+    contrib_entries %>%
+      dplyr::mutate(
+        contrib = dplyr::case_when(
+          sup_content == "" ~ display_name,
+          TRUE ~ paste0(display_name, superscript(sup_content, text_format))
+        )
+      )
+  } else {
+    contrib_entries %>%
+      dplyr::mutate(
+        contrib = dplyr::case_when(
+          sup_content == "" ~ display_name,
+          TRUE ~ paste0(display_name, " ", superscript(sup_content, text_format))
+        )
+      )
+  }
+  
+  contrib_print <-
+    contrib_entries %>%
+    dplyr::pull(.data$contrib) %>%
     glue::glue_collapse(., sep = ", ")
   
   # Modify data for printing the affiliations ---------------------------

@@ -39,3 +39,7 @@ validation_config:
     - '"Email address" %in% colnames(contributors_table)'
   - name: check_affiliation
   - name: check_affiliation_consistency
+  - name: check_missing_orcid
+    dependencies:
+    - '"ORCID iD" %in% colnames(contributors_table)'
+    - 'is.null(context$include_orcid) || isTRUE(context$include_orcid)'
