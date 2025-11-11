@@ -112,13 +112,22 @@ mod_title_page_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         size = "l",
-        h3("Contributors' affiliation page", style = "color: #d45f68;"),
-        div(
-          class = "toggle-row",
-          toggle(ns, "include_orcid", "Include ORCID", value = TRUE),
-          toggle(ns, "orcid_style_text", "Badge with link", "Plain text")
+        shiny::tags$h3("Contributors' affiliation page", class = "credit-section-heading"),
+        settings_card(
+          ns = ns,
+          id = "settings_title_page",
+          title = "Settings",
+          collapsed = FALSE,
+          div(
+            class = "toggle-row",
+            toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
+            toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style")
+          )
         ),
-        uiOutput(NS(id, "preview")),
+        div(
+          class = "preview-wrapper",
+          uiOutput(NS(id, "preview"))
+        ),
         easyClose = FALSE,
         footer = tagList(
           mod_validation_card_ui(ns("validation_card")),

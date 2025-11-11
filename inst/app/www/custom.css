@@ -483,7 +483,6 @@
   align-items: stretch;
   width: 100%;
   gap: 16px;
-  margin-bottom: 4px;
 }
 
 .toggle-control {
@@ -532,6 +531,10 @@
 .toggle-control .toggle-label-secondary {
   color: #7ec4ad;
   font-weight: 600;
+}
+
+.preview-wrapper {
+  margin: 12px 25px;
 }
 
 .credit-section-heading {

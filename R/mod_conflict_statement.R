@@ -87,17 +87,21 @@ mod_conflict_statement_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         size = "l",
-        h3("Conflict of interest statement"),
-        # Toggle between initials and full names
-        div(
-          shinyWidgets::materialSwitch(
-            NS(id, "initials"),
-            label = "Full names",
-            inline = TRUE),
-          span("Initials")
+        h3("Conflict of interest statement", class = "credit-section-heading"),
+        settings_card(
+          ns = ns,
+          id = "settings_conflict",
+          title = "Settings",
+          collapsed = FALSE,
+          div(
+            class = "toggle-row",
+            toggle(ns, "initials", "Full names", "Initials", title = "Name format")
+          )
         ),
-        hr(),
-        uiOutput(NS(id, "preview")),
+        div(
+          class = "preview-wrapper",
+          uiOutput(NS(id, "preview"))
+        ),
         easyClose = FALSE,
         footer = tagList(
           mod_validation_card_ui(ns("validation_card")),

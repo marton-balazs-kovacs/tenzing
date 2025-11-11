@@ -151,8 +151,7 @@ mod_show_yaml_server <- function(id, input_data) {
     modal <- function() {
       modalDialog(
         size = "l",
-        h3(HTML("<code>papaja</code>"), "YAML"),
-        hr(),
+        h3(HTML("<code>papaja</code>"), "YAML", class = "credit-section-heading"),
         p(
           HTML("<code>papaja</code>"), "is an R package that provides document formats to produce complete APA manuscripts from R Markdown in PDF- and DOCX-format. The package also provides helper functions that facilitate reporting statistics, tables, and plots.",
           a("Find out more about ", HTML("<code>papaja</code>"), href = "https://github.com/crsh/papaja")

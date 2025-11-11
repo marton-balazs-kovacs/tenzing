@@ -85,17 +85,21 @@ mod_funding_information_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         size = "l",
-        h3("Funding information"),
-        # Toggle between initials and full names
-        div(
-          shinyWidgets::materialSwitch(
-            NS(id, "initials"),
-            label = "Full names",
-            inline = TRUE),
-          span("Initials")
+        h3("Funding information", class = "credit-section-heading"),
+        settings_card(
+          ns = ns,
+          id = "settings_funding",
+          title = "Settings",
+          collapsed = FALSE,
+          div(
+            class = "toggle-row",
+            toggle(ns, "initials", "Full names", "Initials", title = "Name format")
+          )
         ),
-        hr(),
-        uiOutput(NS(id, "preview")),
+        div(
+          class = "preview-wrapper",
+          uiOutput(NS(id, "preview"))
+        ),
         easyClose = FALSE,
         footer = tagList(
           mod_validation_card_ui(ns("validation_card")),

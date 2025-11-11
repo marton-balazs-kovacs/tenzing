@@ -4,7 +4,14 @@
 \alias{toggle}
 \title{toggle}
 \usage{
-toggle(ns, inputId, left_label, right_label = NULL, value = FALSE)
+toggle(
+  ns,
+  inputId,
+  left_label,
+  right_label = NULL,
+  value = FALSE,
+  title = NULL
+)
 }
 \arguments{
 \item{ns}{namespacing/shiny ns function}
@@ -14,6 +21,8 @@ toggle(ns, inputId, left_label, right_label = NULL, value = FALSE)
 \item{left_label}{Left hand label text}
 
 \item{right_label}{Optional right hand label text}
+
+\item{title}{Optional heading displayed above the toggle controls.}
 }
 \value{
 A shiny tagList row

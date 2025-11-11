@@ -190,7 +190,10 @@ mod_credit_roles_server <- function(id, input_data){
             toggle(ns, "pub_desc", "Desc", "Asc", title = "Publication order")
           )
         ),
-        uiOutput(NS(id, "preview_auth")),
+        div(
+          class = "preview-wrapper",
+          uiOutput(NS(id, "preview_auth"))
+        ),
         # Authors validation card
         mod_validation_card_ui(ns("validation_card_auth")),
         # -------- Acknowledgees block (conditional) --------
@@ -239,7 +242,10 @@ mod_credit_roles_server <- function(id, input_data){
             toggle(ns, "pub_desc_ack", "Desc", "Asc", title = "Publication order")
           )
         ),
-        uiOutput(NS(id, "preview_ack")),
+        div(
+          class = "preview-wrapper",
+          uiOutput(NS(id, "preview_ack"))
+        ),
         # Acknowledgees validation card
         mod_validation_card_ui(ns("validation_card_ack"))
       )
