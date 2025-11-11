@@ -65,7 +65,12 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
     numbered_affiliation_cols
   )
   
-  affiliation_data <- contributors_table %>%
+  affiliation_source <- authors_only
+  if (include_acknowledgees && !is.null(acknowledgees_only) && nrow(acknowledgees_only) > 0) {
+    affiliation_source <- dplyr::bind_rows(authors_only, acknowledgees_only)
+  }
+  
+  affiliation_data <- affiliation_source %>%
     dplyr::select(all_of(affiliation_cols)) %>%
     tidyr::pivot_longer(cols = everything(), values_to = "affiliation") %>%
     dplyr::filter(!is.na(affiliation)) %>%
@@ -123,7 +128,11 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
   }
   
   aff_nodes <- generate_affiliations(affiliation_data)
-  funding_group_node <- generate_funding_group(authors_only)
+  funding_group_source <- authors_only
+  if (include_acknowledgees && !is.null(acknowledgees_only) && nrow(acknowledgees_only) > 0) {
+    funding_group_source <- dplyr::bind_rows(authors_only, acknowledgees_only)
+  }
+  funding_group_node <- generate_funding_group(funding_group_source)
   author_notes_node <- generate_author_notes(authors_only)
   
   if (full_document) {
