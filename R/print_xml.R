@@ -590,7 +590,7 @@ generate_funding_group <- function(contributors_table) {
 generate_author_notes <- function(contributors_table) {
   has_corresp <- "Email address" %in% colnames(contributors_table) &&
     "Corresponding author?" %in% colnames(contributors_table)
-  has_coi <- "Conflict of interest" %in% colnames(contributors_table)
+  has_coi <- "Declares" %in% colnames(contributors_table)
   
   if (!has_corresp && !has_coi) {
     return(NULL)
@@ -625,26 +625,26 @@ generate_author_notes <- function(contributors_table) {
   # Add conflict of interest statement
   if (has_coi) {
     coi_data <- contributors_table %>%
-      dplyr::filter(!is.na(.data$`Conflict of interest`) &
-                    .data$`Conflict of interest` != "") %>%
+      dplyr::filter(!is.na(.data$`Declares`) &
+                    .data$`Declares` != "") %>%
       abbreviate_middle_names_df() %>%
       dplyr::mutate(Name = dplyr::if_else(
         is.na(.data$`Middle name`),
         paste(.data$Firstname, .data$Surname),
         paste(.data$Firstname, .data$`Middle name`, .data$Surname)
       )) %>%
-      dplyr::select(.data$Name, .data$`Conflict of interest`) %>%
+      dplyr::select(.data$Name, .data$`Declares`) %>%
       dplyr::distinct()
     
     if (nrow(coi_data) > 0) {
       # Group by COI statement
       coi_grouped <- coi_data %>%
-        dplyr::group_by(.data$`Conflict of interest`) %>%
+        dplyr::group_by(.data$`Declares`) %>%
         dplyr::summarise(Names = glue_oxford_collapse(.data$Name), .groups = "drop")
       
       coi_text <- coi_grouped %>%
         dplyr::transmute(
-          out = glue::glue("{Names} {dplyr::if_else(dplyr::n() > 1, 'declare', 'declares')} {`Conflict of interest`}.")
+          out = glue::glue("{Names} {dplyr::if_else(dplyr::n() > 1, 'declare', 'declares')} {`Declares`}.")
         ) %>%
         dplyr::summarise(out = glue::glue_collapse(.data$out, sep = " ")) %>%
         dplyr::pull(.data$out)

@@ -69,7 +69,7 @@ mod_conflict_statement_server <- function(id, input_data){
     # Preview ---------------------------
     ## Render preview
     output$preview <- renderUI({
-      if (all(is.na(input_data()[["Conflict of interest"]]))) {
+      if (all(is.na(input_data()[["Declares"]]))) {
         "There are no conflict of interest statements provided for any of the contributors."
       } else if (has_errors()) {
         "The output cannot be generated. See 'Table Validation' for more information."
@@ -144,7 +144,7 @@ mod_conflict_statement_server <- function(id, input_data){
     
     ## Restructure dataframe for the output
     to_download_and_clip <- reactive({
-      if(all(is.na(input_data()[["Conflict of interest"]])) | has_errors()) {
+      if(all(is.na(input_data()[["Declares"]])) | has_errors()) {
         "There are no conflict of interest statements provided for any of the contributors."
       } else {
         print_conflict_statement(contributors_table = input_data(), initials = input$initials)

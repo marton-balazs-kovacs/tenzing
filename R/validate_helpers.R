@@ -357,11 +357,11 @@ check_credit <- function(contributors_table) {
 #' \item{type}{Type of validation result: "success" or "warning".}
 #' \item{message}{An informative message indicating the rows missing a conflict of interest statement.}
 check_coi <- function(contributors_table) {
-  if (any(is.na(contributors_table[, "Conflict of interest"]))) {
+  if (any(is.na(contributors_table[, "Declares"]))) {
     missing <-
       contributors_table %>%
       tibble::rownames_to_column(var = "rowname") %>% 
-      dplyr::filter(is.na(.data[["Conflict of interest"]]))
+      dplyr::filter(is.na(.data[["Declares"]]))
     
     validation_warning(
       glue::glue("The conflict of interest statement is missing for row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")),

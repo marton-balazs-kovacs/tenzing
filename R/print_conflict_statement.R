@@ -20,7 +20,7 @@
 #' @importFrom rlang .data
 print_conflict_statement <- function(contributors_table, initials = FALSE) {
   # Validate input ---------------------------
-  if (all(is.na(contributors_table[["Conflict of interest"]]))) stop("There are no conflict of interest statements provided for any of the contributors.")
+  if (all(is.na(contributors_table[["Declares"]]))) stop("There are no conflict of interest statements provided for any of the contributors.")
   
   # Restructure dataframe ---------------------------
   if (initials) {
@@ -42,9 +42,9 @@ print_conflict_statement <- function(contributors_table, initials = FALSE) {
   
   coi_data <- 
     coi_data %>% 
-    dplyr::select(.data$Name, .data[["Conflict of interest"]]) %>% 
-    dplyr::filter(!is.na(.data[["Conflict of interest"]]) & .data[["Conflict of interest"]] != "") %>% 
-    dplyr::group_by(.data[["Conflict of interest"]]) %>% 
+    dplyr::select(.data$Name, .data[["Declares"]]) %>% 
+    dplyr::filter(!is.na(.data[["Declares"]]) & .data[["Declares"]] != "") %>% 
+    dplyr::group_by(.data[["Declares"]]) %>% 
     dplyr::summarise(Names = glue_oxford_collapse(.data$Name),
                      n_names = dplyr::n())
   
@@ -52,7 +52,7 @@ print_conflict_statement <- function(contributors_table, initials = FALSE) {
   res <-
     coi_data %>% 
     dplyr::transmute(
-      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'declare', 'declares')} {`Conflict of interest`}")) %>% 
+      out = glue::glue("{Names} {dplyr::if_else(n_names > 1, 'declare', 'declares')} {`Declares`}")) %>% 
     dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "; ")) %>% 
     dplyr::mutate(out = stringr::str_c(.data$out, "."))
   

@@ -34,7 +34,7 @@ A dataframe with 3 rows and 22 variables:
 \item{Funding}{character, name of the funds, blank if not applicable}
 \item{ORCID iD}{character, ORCID iD of the contributor}
 \item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author, multiple corresponding authors are allowed}
-\item{'Conflict of interest'}{character, conflict of interest statement of the contributor}
+\item{'Declares'}{character, conflict of interest statement of the contributor}
 }
 }
 \source{

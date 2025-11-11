@@ -68,7 +68,7 @@ base_column_rules:
   coi: &coi_rule
     operator: "AND"
     columns:
-      - Conflict of interest
+      - Declares
     severity: "warning"
 
 # Common validation functions
@@ -115,4 +115,4 @@ base_validation_functions:
   coi_validations: &coi_validations
     - name: check_coi
       dependencies:
-        - '"Conflict of interest" %in% colnames(contributors_table)'
+        - '"Declares" %in% colnames(contributors_table)'

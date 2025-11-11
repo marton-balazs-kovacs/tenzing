@@ -52,5 +52,5 @@ column_config:
     coi:
       operator: "AND"
       columns:
-        - Conflict of interest
+        - Declares
       severity: "warning"
