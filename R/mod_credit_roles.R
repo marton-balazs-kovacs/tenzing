@@ -179,7 +179,7 @@ mod_credit_roles_server <- function(id, input_data){
         div(
           class = "toggle-row",
           toggle(ns, "initials", "Full names", "Initials"),
-          toggle(ns, "order_by", "Contributor names", "Roles"),
+          toggle(ns, "order_by", "Roles", "Contributor names"),
           toggle(ns, "pub_desc", "Desc", "Asc"),
           toggle(ns, "include_orcid", "Include ORCID"),
           toggle(ns, "orcid_style_text", "Badge", "Text")
@@ -224,7 +224,7 @@ mod_credit_roles_server <- function(id, input_data){
         div(
           class = "toggle-row",
           toggle(ns, "initials_ack", "Full names", "Initials"),
-          toggle(ns, "order_by_ack", "Contributor names", "Roles"),
+          toggle(ns, "order_by_ack", "Roles", "Contributor names"),
           toggle(ns, "pub_desc_ack", "Desc", "Asc"),
           toggle(ns, "include_orcid_ack", "Include ORCID badges"),
           toggle(ns, "orcid_style_text_ack", "Badge", "Text")

@@ -221,17 +221,29 @@ mod_title_page_server <- function(id, input_data){
     })
     
     output$clip <- renderUI({
-      actionButton(
+      badge_selected <- isTRUE(include_orcid_toggle()) && identical(orcid_style(), "badge")
+      btn <- actionButton(
         inputId = ns("clip_btn"),
         label = "Copy output to clipboard",
         icon = icon("clipboard"),
-        class = "btn-download"
+        class = "btn-download",
+        disabled = badge_selected
       )
+      if (badge_selected) {
+        btn <- btn %>%
+          tagAppendAttributes(
+            title = "Output cannot be copied with the badges."
+          )
+      }
+      btn
     })
     
     observeEvent(input$clip_btn, {
       req(modal_open())
       req(!has_errors())
+      if (isTRUE(include_orcid_toggle()) && identical(orcid_style(), "badge")) {
+        return(NULL)
+      }
       
       payload <- clipboard_payload()
       copy_to_clipboard(
