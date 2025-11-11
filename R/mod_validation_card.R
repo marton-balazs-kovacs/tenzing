@@ -5,7 +5,7 @@ mod_validation_card_ui <- function(id) {
     shiny::div(
       id = ns("validation_card"),
       class = "card",
-      style = "border: 2px solid; border-radius: 8px; width: 100%; margin-bottom: 1em;",
+      style = "border: 2px solid; border-radius: 8px; width: 100%; margin: 12px 0 1em;",
       shiny::div(
         id = ns("validation_header"),
         class = "card-header collapsible-header",

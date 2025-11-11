@@ -118,7 +118,6 @@ mod_title_page_server <- function(id, input_data){
           toggle(ns, "include_orcid", "Include ORCID", value = TRUE),
           toggle(ns, "orcid_style_text", "Badge with link", "Plain text")
         ),
-        hr(style = "border-color: #d45f68;"),
         uiOutput(NS(id, "preview")),
         easyClose = FALSE,
         footer = tagList(

@@ -280,6 +280,12 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(84, 200, 155, 1);
 }
 
+/* Remove the “hr” look above the modal footer buttons */
+.modal-footer {
+  border-top: none;
+  padding-top: 12px;   /* tweak or drop if you want tighter spacing */
+}
+
 #about_modal-open_about {
   margin-right: 10px;
   color: #D45F68; 
@@ -471,29 +477,90 @@
 }
 
 .toggle-row {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: flex-start;   /* Align all items to the left */
-  align-items: center;           /* Vertically center items in row */
-  flex-wrap: nowrap;             /* Prevent wrapping to new rows */
-  gap: 24px;                    /* Consistent gap between toggles */
-  margin-bottom: 15px;          /* Add bottom margin for spacing */
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.toggle-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 9px 9px;
+  background-color: #f8f9fb;
+  border-radius: 20px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.toggle-control-label {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #d45f68;
+  margin: 0;
 }
 
 .toggle-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 12px;
 }
 
 .toggle-label, .toggle-label-secondary {
   font-size: 10px;
-  /* margin: 0 3px;*/
   cursor: pointer;
   line-height: 1;
   display: flex;
-  align-items: center;           /* Vertically center label text */
-  height: 100%;                  /* Match height of container */
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 32px;
+}
+
+.toggle-control .toggle-label {
+  color: #7ec4ad;
+  font-weight: 600;
+}
+
+.toggle-control .toggle-label-secondary {
+  color: #7ec4ad;
+  font-weight: 600;
+}
+
+.credit-section-heading {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #d45f68;
+}
+
+.settings-card {
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.settings-card .card-header {
+  border-bottom: none;
+}
+
+.settings-header-text {
+  color: #7ec4ad;
+}
+
+.settings-content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.settings-content-inner {
+  padding-bottom: 10px;
 }
 
 .toggle-item span {
@@ -540,7 +607,7 @@
   padding: 10px;
   background: #edbfc2;   /* requested color */
   border: none;           /* no border */
-  border-radius: 15px;
+  border-radius: 20px;
   z-index: 9999;
   color: inherit;
   font-size: 14px;

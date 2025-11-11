@@ -175,16 +175,59 @@ mod_credit_roles_server <- function(id, input_data){
       modalDialog(
         size = "l",
         # -------- Authors block --------
-        h3("Author contributions"),
+        shiny::tags$h3("Author contributions", class = "credit-section-heading"),
         div(
-          class = "toggle-row",
-          toggle(ns, "initials", "Full names", "Initials"),
-          toggle(ns, "order_by", "Roles", "Contributor names"),
-          toggle(ns, "pub_desc", "Desc", "Asc"),
-          toggle(ns, "include_orcid", "Include ORCID", value = TRUE),
-          toggle(ns, "orcid_style_text", "Badge", "Text")
+          class = "card settings-card",
+          style = "border: 2px solid #7ec4ad; border-radius: 8px; width: 100%; margin-bottom: 1em;",
+          div(
+            class = "card-header collapsible-header settings-header",
+            `data-target` = ns("settings_auth"),
+            `data-collapsed` = "false",
+            style = "cursor: pointer;",
+            shiny::tags$p(
+              "Settings ",
+              shiny::tags$i(class = "fas fa-chevron-up"),
+              class = "settings-header-text",
+              style = "text-align: left; font-weight: 900; margin: 10px"
+            )
+          ),
+          div(
+            id = ns("settings_auth"),
+            class = "collapsible-content settings-content",
+            style = "visibility: visible; height: auto; overflow: hidden; padding-left: 10px; padding-right: 10px;",
+            shiny::div(
+              class = "settings-content-inner",
+              div(
+                class = "toggle-row",
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Name format", class = "toggle-control-label"),
+                  toggle(ns, "initials", "Full names", "Initials")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Show ORCID", class = "toggle-control-label"),
+                  toggle(ns, "include_orcid", "No", "Yes", value = TRUE)
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("ORCID style", class = "toggle-control-label"),
+                  toggle(ns, "orcid_style_text", "Badge", "Text")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Sort by", class = "toggle-control-label"),
+                  toggle(ns, "order_by", "Roles", "Names")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Publication order", class = "toggle-control-label"),
+                  toggle(ns, "pub_desc", "Desc", "Asc")
+                )
+              )
+            )
+          )
         ),
-        hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_auth")),
         # Authors validation card
         mod_validation_card_ui(ns("validation_card_auth")),
@@ -219,17 +262,59 @@ mod_credit_roles_server <- function(id, input_data){
       req(modal_open())
       if (!has_ack()) return(NULL)
       tagList(
-        hr(),
-        h3("Acknowledgee contributions"),
+        shiny::tags$h3("Acknowledgee contributions", class = "credit-section-heading"),
         div(
-          class = "toggle-row",
-          toggle(ns, "initials_ack", "Full names", "Initials"),
-          toggle(ns, "order_by_ack", "Roles", "Contributor names"),
-          toggle(ns, "pub_desc_ack", "Desc", "Asc"),
-          toggle(ns, "include_orcid_ack", "Include ORCID badges"),
-          toggle(ns, "orcid_style_text_ack", "Badge", "Text")
+          class = "card settings-card",
+          style = "border: 2px solid #7ec4ad; border-radius: 8px; width: 100%; margin-bottom: 1em;",
+          div(
+            class = "card-header collapsible-header settings-header",
+            `data-target` = ns("settings_ack"),
+            `data-collapsed` = "true",
+            style = "cursor: pointer;",
+            shiny::tags$p(
+              "Settings ",
+              shiny::tags$i(class = "fas fa-chevron-down"),
+              class = "settings-header-text",
+              style = "text-align: left; font-weight: 900; margin: 10px"
+            )
+          ),
+          div(
+            id = ns("settings_ack"),
+            class = "collapsible-content settings-content",
+            style = "visibility: hidden; height: 0; overflow: hidden; padding-left: 10px; padding-right: 10px;",
+            shiny::div(
+              class = "settings-content-inner",
+              div(
+                class = "toggle-row",
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Name format", class = "toggle-control-label"),
+                  toggle(ns, "initials_ack", "Full names", "Initials")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Show ORCID", class = "toggle-control-label"),
+                  toggle(ns, "include_orcid_ack", "No", "Yes", value = TRUE)
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("ORCID style", class = "toggle-control-label"),
+                  toggle(ns, "orcid_style_text_ack", "Badge", "Text")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Sort by", class = "toggle-control-label"),
+                  toggle(ns, "order_by_ack", "Roles", "Names")
+                ),
+                div(
+                  class = "toggle-control",
+                  shiny::tags$label("Publication order", class = "toggle-control-label"),
+                  toggle(ns, "pub_desc_ack", "Desc", "Asc")
+                )
+              )
+            )
+          )
         ),
-        hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_ack")),
         # Acknowledgees validation card
         mod_validation_card_ui(ns("validation_card_ack"))
@@ -353,7 +438,7 @@ mod_credit_roles_server <- function(id, input_data){
         html_parts <- c(
           html_parts,
           paste0(
-            "<h3>Author contributions</h3>",
+            '<h3 class="credit-section-heading">Author contributions</h3>',
             print_credit_roles(
               contributors_table = input_data(),
               text_format = "html",
@@ -372,7 +457,7 @@ mod_credit_roles_server <- function(id, input_data){
         html_parts <- c(
           html_parts,
           paste0(
-            "<h3>Acknowledgee contributions</h3>",
+            '<h3 class="credit-section-heading">Acknowledgee contributions</h3>',
             print_credit_roles(
               contributors_table = input_data(),
               text_format = "html",
