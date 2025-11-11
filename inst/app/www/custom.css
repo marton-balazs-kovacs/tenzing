@@ -482,7 +482,7 @@
 
 .toggle-label, .toggle-label-secondary {
   font-size: 10px;
-  margin: 0 3px;
+  /* margin: 0 3px;*/
   cursor: pointer;
   line-height: 1;
   display: flex;
@@ -523,6 +523,7 @@
 .material-switch .switch,
 .material-switch label.switch {
   top: 0 !important;
+  width: 25px !important;
 }
 
 /* Support popup: tenzing */

@@ -232,7 +232,7 @@ mod_xml_report_server <- function(id, input_data){
           class = "toggle-row",
           toggle(ns, "full_document", "Generate full article"),
           toggle(ns, "include_acknowledgees", "Include acknowledgements"),
-          toggle(ns, "include_orcid", "Include ORCID IDs")
+          toggle(ns, "include_orcid", "Include ORCID")
         ),
         hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "jats_xml"), container = pre),

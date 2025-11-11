@@ -10,7 +10,9 @@ print_credit_roles(
   initials = FALSE,
   order_by = "role",
   include = c("author", "acknowledgment"),
-  pub_order = c("asc", "desc")
+  pub_order = c("asc", "desc"),
+  include_orcid = FALSE,
+  orcid_style = c("badge", "text")
 )
 }
 \arguments{
@@ -33,6 +35,13 @@ Rows with "Don't agree to be named" are always excluded.
 }}
 
 \item{pub_order}{Character. "asc" (default) or "desc" for \verb{Order in publication}.}
+
+\item{include_orcid}{Logical. If \code{TRUE}, append ORCID information after contributor names
+(as badges for HTML/Rmd, or plain text for raw output). Defaults to \code{FALSE}.}
+
+\item{orcid_style}{Character. When ORCID inclusion is enabled, choose \code{"badge"} (default)
+to render the ORCID icon with a link, or \code{"text"} to render the normalized ORCID URL
+in parentheses after the name.}
 }
 \value{
 The function returns a string containing the CRediT roles

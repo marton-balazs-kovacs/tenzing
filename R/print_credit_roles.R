@@ -26,6 +26,11 @@
 #'   - "acknowledgment" (keep rows where `Author/Acknowledgee` == "Acknowledgment only")
 #'   Rows with "Don't agree to be named" are always excluded.
 #' @param pub_order Character. "asc" (default) or "desc" for `Order in publication`.
+#' @param include_orcid Logical. If `TRUE`, append ORCID information after contributor names
+#'   (as badges for HTML/Rmd, or plain text for raw output). Defaults to `FALSE`.
+#' @param orcid_style Character. When ORCID inclusion is enabled, choose `"badge"` (default)
+#'   to render the ORCID icon with a link, or `"text"` to render the normalized ORCID URL
+#'   in parentheses after the name.
 #' 
 #' @return The function returns a string containing the CRediT roles
 #'   with the contributors listed for each role they partake in.
@@ -43,10 +48,13 @@ print_credit_roles <-  function(
     initials = FALSE,
     order_by = "role",
     include = c("author", "acknowledgment"),
-    pub_order = c("asc", "desc")
+    pub_order = c("asc", "desc"),
+    include_orcid = FALSE,
+    orcid_style = c("badge", "text")
     ) {
   include   <- match.arg(include)
   pub_order <- match.arg(pub_order)
+  orcid_style <- match.arg(orcid_style)
   # get CRediT column names
   role_cols <- dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)
   
@@ -56,11 +64,56 @@ print_credit_roles <-  function(
   
   # Coerce and filter upfront ---------------------------------------------------
   has_author_ack <- "Author/Acknowledgee" %in% names(contributors_table)
+  if (!"ORCID iD" %in% names(contributors_table)) {
+    contributors_table[["ORCID iD"]] <- NA_character_
+  }
+
   ct <- contributors_table %>%
     dplyr::mutate(
       # make sure the ordering column is numeric; NA for unparseable
-      `Order in publication` = suppressWarnings(as.numeric(.data$`Order in publication`))
+      `Order in publication` = suppressWarnings(as.numeric(.data$`Order in publication`)),
+      orcid_normalized = dplyr::if_else(
+        include_orcid & !is.na(.data$`ORCID iD`) & .data$`ORCID iD` != "",
+        normalize_orcid_id(.data$`ORCID iD`),
+        NA_character_
+      )
     )
+  format_with_orcid <- function(name, orcid_uri, format, style) {
+    mapply(
+      function(nm, orcid_id) {
+        if (!include_orcid || is.null(orcid_id) || is.na(orcid_id) || orcid_id == "") {
+          return(nm)
+        }
+
+        if (identical(style, "text")) {
+          return(paste0(nm, " (", orcid_id, ")"))
+        }
+
+        if (identical(format, "html")) {
+          return(paste0(
+            nm,
+            '<a href="', orcid_id,
+            '" target="_blank" rel="noopener noreferrer" title="ORCID profile">',
+            '<img src="www/ORCID-iD_icon_unauth_16x16.png" alt="ORCID iD" ',
+            'style="margin-left:3px; vertical-align:text-bottom;" /></a>'
+          ))
+        }
+
+        if (identical(format, "rmd")) {
+          return(paste0(
+            nm,
+            '[![ORCID iD](ORCID-iD_icon_unauth_16x16.png){style="vertical-align:text-bottom; margin-left:3px;"}](', orcid_id, ')'
+          ))
+        }
+
+        paste0(nm, " (", orcid_id, ")")
+      },
+      name,
+      orcid_uri,
+      USE.NAMES = FALSE
+    )
+  }
+
   
   if (has_author_ack) {
     ct <- ct %>%
@@ -95,6 +148,7 @@ print_credit_roles <-  function(
       dplyr::select(
         .data$Name,
         .data$`Order in publication`,
+        .data$orcid_normalized,
         dplyr::all_of(role_cols)
         )
   } else {
@@ -111,14 +165,20 @@ print_credit_roles <-  function(
       dplyr::select(
         .data$Name,
         .data$`Order in publication`,
+        .data$orcid_normalized,
         dplyr::all_of(role_cols)
       )
   }
+
+  roles_data <- roles_data %>%
+    dplyr::mutate(
+      Name_fmt = format_with_orcid(.data$Name, .data$orcid_normalized, text_format, orcid_style)
+    )
   
   # Restructure dataframe for the credit roles output ---------------------------
   roles_long <-
     roles_data %>% 
-    tidyr::gather(key = "CRediT Taxonomy", value = "Included", -c(.data$Name, .data$`Order in publication`)) %>% 
+    tidyr::gather(key = "CRediT Taxonomy", value = "Included", -c(.data$Name, .data$`Order in publication`, .data$orcid_normalized, .data$Name_fmt)) %>% 
     dplyr::filter(.data$Included == TRUE) %>% 
     dplyr::select(-.data$Included)
   
@@ -150,7 +210,7 @@ print_credit_roles <-  function(
     roles_grouped <-
       roles_long %>%
       dplyr::group_by(.data$`CRediT Taxonomy`) %>%
-      dplyr::summarise(Names = glue_oxford_collapse(.data$Name), .groups = "drop")
+      dplyr::summarise(Names = glue_oxford_collapse(.data$Name_fmt), .groups = "drop")
   
     # Format output string according to the text_format argument ---------------------------
     if (text_format == 'rmd') {
@@ -187,25 +247,25 @@ print_credit_roles <-  function(
     # Restructure to fit the chosen order ---------------------------
     contrib_grouped <-
       roles_long %>%
-      dplyr::group_by(.data$Name) %>%
-      dplyr::summarise(Roles = glue_oxford_collapse(.data$`CRediT Taxonomy`)) %>%
+      dplyr::group_by(.data$Name, .data$Name_fmt) %>%
+      dplyr::summarise(Roles = glue_oxford_collapse(.data$`CRediT Taxonomy`), .groups = "drop") %>%
       dplyr::arrange(factor(Name, levels = name_levels))
     
     # Format output string according to the text_format argument ---------------------------
     if (text_format == 'rmd') {
       res <-
         contrib_grouped %>%
-        dplyr::transmute(out = glue::glue("**{Name}:** {Roles}.")) %>%
+        dplyr::transmute(out = glue::glue("**{Name_fmt}:** {Roles}.")) %>%
         dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "  \n"))
     } else if (text_format == "html") {
       res <-
         contrib_grouped %>%
-        dplyr::transmute(out = glue::glue("<b>{Name}:</b> {Roles}.")) %>%
+        dplyr::transmute(out = glue::glue("<b>{Name_fmt}:</b> {Roles}.")) %>%
         dplyr::summarise(out = glue::glue_collapse(.data$out, sep = "<br>"))
     } else if (text_format == "raw") {
       res <-
         contrib_grouped %>%
-        dplyr::transmute(out = glue::glue("{Name}: {Roles}.")) %>%
+        dplyr::transmute(out = glue::glue("{Name_fmt}: {Roles}.")) %>%
         dplyr::summarise(out = glue::glue_collapse(.data$out, sep = " "))
     } else {
       stop("Unknown text_format: ", text_format)

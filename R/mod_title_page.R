@@ -115,7 +115,7 @@ mod_title_page_server <- function(id, input_data){
         h3("Contributors' affiliation page", style = "color: #d45f68;"),
         div(
           class = "toggle-row",
-          toggle(ns, "include_orcid", "Include ORCID information"),
+          toggle(ns, "include_orcid", "Include ORCID"),
           toggle(ns, "orcid_style_text", "Badge with link", "Plain text")
         ),
         hr(style = "border-color: #d45f68;"),

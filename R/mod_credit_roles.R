@@ -142,7 +142,9 @@ mod_credit_roles_server <- function(id, input_data){
             initials = isTRUE(input$initials),
             order_by = order(),
             include = "author",
-            pub_order = pub_order()
+            pub_order = pub_order(),
+            include_orcid = isTRUE(input$include_orcid),
+            orcid_style = if (isTRUE(input$orcid_style_text)) "text" else "badge"
           )
         )
       }
@@ -160,7 +162,9 @@ mod_credit_roles_server <- function(id, input_data){
             initials = isTRUE(input$initials_ack),
             order_by = order_ack(),
             include = "acknowledgment",  # print fn expects 'acknowledgment'
-            pub_order = pub_order_ack()
+            pub_order = pub_order_ack(),
+            include_orcid = isTRUE(input$include_orcid_ack),
+            orcid_style = if (isTRUE(input$orcid_style_text_ack)) "text" else "badge"
           )
         )
       }
@@ -176,7 +180,9 @@ mod_credit_roles_server <- function(id, input_data){
           class = "toggle-row",
           toggle(ns, "initials", "Full names", "Initials"),
           toggle(ns, "order_by", "Contributor names", "Roles"),
-          toggle(ns, "pub_desc", "Desc", "Asc")
+          toggle(ns, "pub_desc", "Desc", "Asc"),
+          toggle(ns, "include_orcid", "Include ORCID"),
+          toggle(ns, "orcid_style_text", "Badge", "Text")
         ),
         hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_auth")),
@@ -219,7 +225,9 @@ mod_credit_roles_server <- function(id, input_data){
           class = "toggle-row",
           toggle(ns, "initials_ack", "Full names", "Initials"),
           toggle(ns, "order_by_ack", "Contributor names", "Roles"),
-          toggle(ns, "pub_desc_ack", "Desc", "Asc")
+          toggle(ns, "pub_desc_ack", "Desc", "Asc"),
+          toggle(ns, "include_orcid_ack", "Include ORCID badges"),
+          toggle(ns, "orcid_style_text_ack", "Badge", "Text")
         ),
         hr(style = "margin-top:5px; margin-bottom:10px;"),
         uiOutput(NS(id, "preview_ack")),
@@ -251,7 +259,9 @@ mod_credit_roles_server <- function(id, input_data){
           initials = isTRUE(input$initials),
           order_by = order(),
           include = "author",
-          pub_order = pub_order()
+          pub_order = pub_order(),
+          include_orcid = isTRUE(input$include_orcid),
+          orcid_style = if (isTRUE(input$orcid_style_text)) "text" else "badge"
         )
         parts <- c(parts, paste0("### Author contributions\n\n", auth_txt, "\n\n"))
       }
@@ -263,7 +273,9 @@ mod_credit_roles_server <- function(id, input_data){
           initials = isTRUE(input$initials_ack),
           order_by = order_ack(),
           include = "acknowledgment",
-          pub_order = pub_order_ack()
+          pub_order = pub_order_ack(),
+          include_orcid = isTRUE(input$include_orcid_ack),
+          orcid_style = if (isTRUE(input$orcid_style_text_ack)) "text" else "badge"
         )
         parts <- c(parts, paste0("### Acknowledgee contributions\n\n", ack_txt, "\n\n"))
       }
@@ -304,7 +316,9 @@ mod_credit_roles_server <- function(id, input_data){
           initials = isTRUE(input$initials),
           order_by = order(),
           include = "author",
-          pub_order = pub_order()
+          pub_order = pub_order(),
+          include_orcid = isTRUE(input$include_orcid),
+          orcid_style = if (isTRUE(input$orcid_style_text)) "text" else "badge"
         )
         parts <- c(parts, paste0("Author contributions: ", auth_raw))
       }
@@ -316,7 +330,9 @@ mod_credit_roles_server <- function(id, input_data){
           initials = isTRUE(input$initials_ack),
           order_by = order_ack(),
           include = "acknowledgment",
-          pub_order = pub_order_ack()
+          pub_order = pub_order_ack(),
+          include_orcid = isTRUE(input$include_orcid_ack),
+          orcid_style = if (isTRUE(input$orcid_style_text_ack)) "text" else "badge"
         )
         parts <- c(parts, paste0("Acknowledgee contributions: ", ack_raw))
       }
@@ -344,7 +360,9 @@ mod_credit_roles_server <- function(id, input_data){
               initials = isTRUE(input$initials),
               order_by = order(),
               include = "author",
-              pub_order = pub_order()
+              pub_order = pub_order(),
+              include_orcid = isTRUE(input$include_orcid),
+              orcid_style = if (isTRUE(input$orcid_style_text)) "text" else "badge"
             )
           )
         )
@@ -361,7 +379,9 @@ mod_credit_roles_server <- function(id, input_data){
               initials = isTRUE(input$initials_ack),
               order_by = order_ack(),
               include = "acknowledgment",
-              pub_order = pub_order_ack()
+              pub_order = pub_order_ack(),
+              include_orcid = isTRUE(input$include_orcid_ack),
+              orcid_style = if (isTRUE(input$orcid_style_text_ack)) "text" else "badge"
             )
           )
         )
