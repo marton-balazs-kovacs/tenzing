@@ -22,7 +22,4 @@ This function verifies that the filtered contributors table is not empty
 after applying inclusion/exclusion criteria (e.g., include = "Author",
 excluding "Don't agree to be named").
 }
-\examples{
-check_nonempty_filtered_subset(filtered_tbl, context = list(include = "author"))
-
-}
+\keyword{internal}

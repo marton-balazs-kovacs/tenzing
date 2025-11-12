@@ -25,7 +25,4 @@ This validation is equivalent to the internal check used in
 \code{print_credit_roles()} to ensure that contributors have at least one
 CRediT category marked as TRUE.
 }
-\examples{
-check_roles_present(filtered_tbl)
-
-}
+\keyword{internal}

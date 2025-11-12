@@ -505,31 +505,31 @@
 }
 
 .toggle-control-label {
-  font-size: 1rem;  /* Reduced from 1.25rem for smaller labels */
+  font-size: 12px;  /* Changed from 1rem to match toggle-label font size */
   font-weight: 800;
   color: #d45f68;
   margin: 0;
-  text-align: left;  /* Ensure left alignment */
+  text-align: left;
   width: 100%;
 }
 
 .toggle-item {
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* Changed from center to flex-start for left alignment */
-  gap: 8px;  /* Reduced from 12px for tighter spacing */
+  justify-content: flex-start;
+  gap: 14px;  /* Increased from 8px to prevent overlap between switch and labels */
 }
 
 .toggle-label, .toggle-label-secondary {
-  font-size: 10px;
+  font-size: 12px;  /* Increased from 10px for better readability */
   cursor: pointer;
   line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* Changed from center to flex-start */
+  justify-content: flex-start;
   height: 100%;
-  width: auto;  /* Changed from 32px to auto - let labels size naturally */
-  min-width: fit-content;  /* Ensure labels don't get cut off */
+  width: auto;
+  min-width: fit-content;
 }
 
 .toggle-control .toggle-label {

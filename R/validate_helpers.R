@@ -562,9 +562,7 @@ check_missing_author_acknowledgee <- function(contributors_table) {
 #' \item{type}{Type of validation result: "success" or "error".}
 #' \item{message}{A descriptive validation message.}
 #'
-#' @examples
-#' check_nonempty_filtered_subset(filtered_tbl, context = list(include = "author"))
-#'
+#' @keywords internal
 check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
   if (nrow(contributors_table) == 0) {
     include <- context$include %||% "the selected group"
@@ -596,9 +594,7 @@ check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
 #' \code{print_credit_roles()} to ensure that contributors have at least one
 #' CRediT category marked as TRUE.
 #'
-#' @examples
-#' check_roles_present(filtered_tbl)
-#'
+#' @keywords internal
 check_roles_present <- function(contributors_table) {
   # Identify role columns using credit_taxonomy
   role_cols <- intersect(
