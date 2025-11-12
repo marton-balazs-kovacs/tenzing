@@ -1,5 +1,5 @@
 #' @import shiny
-#' @import shinyjs
+#' @importFrom shinyjs useShinyjs
 app_server <- function(input, output, session) {
   # Popup for support
   mod_support_popup_server("support_popup")
