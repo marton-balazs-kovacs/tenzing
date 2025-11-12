@@ -480,42 +480,44 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: flex-start;  /* Changed from stretch to flex-start */
   width: 100%;
-  gap: 16px;
+  gap: 12px;  /* Reduced from 16px for tighter spacing */
 }
 
 .toggle-control {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 9px 9px;
+  align-items: flex-start;  /* Changed from center to flex-start for left alignment */
+  justify-content: flex-start;  /* Changed from center to flex-start */
+  gap: 8px;  /* Reduced from 12px for consistent, smaller spacing */
+  padding: 6px 10px;  /* Reduced from 9px 9px - thinner controls, less vertical padding */
   background-color: #f8f9fb;
   border-radius: 20px;
-  flex: 1 1 0;
+  flex: 0 0 auto;  /* Changed from 1 1 0 to prevent growing - toggles won't fill row */
   min-width: 0;
 }
 
 .toggle-row .toggle-control:only-child {
-  flex: 0 0 auto;
+  flex: 0 0 auto;  /* Already correct, but ensure consistency */
   max-width: 320px;
-  align-items: flex-start;
+  align-items: flex-start;  /* Already correct */
 }
 
 .toggle-control-label {
-  font-size: 1.25rem;
+  font-size: 1rem;  /* Reduced from 1.25rem for smaller labels */
   font-weight: 800;
   color: #d45f68;
   margin: 0;
+  text-align: left;  /* Ensure left alignment */
+  width: 100%;
 }
 
 .toggle-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  justify-content: flex-start;  /* Changed from center to flex-start for left alignment */
+  gap: 8px;  /* Reduced from 12px for tighter spacing */
 }
 
 .toggle-label, .toggle-label-secondary {
@@ -524,23 +526,26 @@
   line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;  /* Changed from center to flex-start */
   height: 100%;
-  width: 32px;
+  width: auto;  /* Changed from 32px to auto - let labels size naturally */
+  min-width: fit-content;  /* Ensure labels don't get cut off */
 }
 
 .toggle-control .toggle-label {
   color: #7ec4ad;
   font-weight: 600;
+  text-align: left;  /* Ensure left alignment */
 }
 
 .toggle-control .toggle-label-secondary {
   color: #7ec4ad;
   font-weight: 600;
+  text-align: left;  /* Ensure left alignment */
 }
 
 .toggle-row .toggle-control:only-child .toggle-item {
-  justify-content: flex-start;
+  justify-content: flex-start;  /* Already correct */
 }
 
 .preview-wrapper {
