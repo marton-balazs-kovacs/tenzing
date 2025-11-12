@@ -583,7 +583,6 @@ check_nonempty_filtered_subset <- function(contributors_table, context = NULL) {
 #' is checked for any contributor in the filtered dataset.
 #'
 #' @param contributors_table A dataframe containing the contributors' information.
-#' @param context Optional named list providing contextual information.
 #'
 #' @return A list containing:
 #' \item{type}{Type of validation result: "success" or "error".}

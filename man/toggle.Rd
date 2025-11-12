@@ -22,6 +22,8 @@ toggle(
 
 \item{right_label}{Optional right hand label text}
 
+\item{value}{Initial value of the switch. Default is FALSE.}
+
 \item{title}{Optional heading displayed above the toggle controls.}
 }
 \value{

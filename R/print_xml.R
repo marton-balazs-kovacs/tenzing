@@ -193,7 +193,7 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
     
     # Add permissions
     permissions_node <- article_meta_wrapper %>% xml2::xml_add_child("permissions")
-    permissions_node %>% xml2::xml_add_child("copyright-statement", "© 2025 The Authors")
+    permissions_node %>% xml2::xml_add_child("copyright-statement", "\u00A9 2025 The Authors")
     permissions_node %>% xml2::xml_add_child("copyright-year", "2025")
     permissions_node %>% xml2::xml_add_child("copyright-holder", "The Authors")
     license_node <- permissions_node %>% xml2::xml_add_child("license")
@@ -356,8 +356,8 @@ generate_contrib_group <- function(contrib_data, affiliation_data, authors_only,
     # Map CRediT terms for proper formatting (en-dash for Writing roles)
     credit_term_map <- function(term) {
       dplyr::case_when(
-        term == "Writing - original draft" ~ "Writing – original draft",
-        term == "Writing - review & editing" ~ "Writing – review & editing",
+        term == "Writing - original draft" ~ "Writing \u2013 original draft",
+        term == "Writing - review & editing" ~ "Writing \u2013 review & editing",
         TRUE ~ term
       )
     }

@@ -16,6 +16,10 @@ print_title_page(
 
 \item{text_format}{formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.}
+
+\item{include_orcid}{Logical. Whether to include ORCID iD information. Default is FALSE.}
+
+\item{orcid_style}{Character. Style for displaying ORCID iD. Either "badge" or "text". Default is "badge".}
 }
 \value{
 The output is string containing the contributors' name and

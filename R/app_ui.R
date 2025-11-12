@@ -1,4 +1,5 @@
 #' @import shiny
+#' @import markdown
 app_ui <- function() {
   tagList(
     # Leave this function for adding external resources

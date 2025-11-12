@@ -8,8 +8,6 @@ check_roles_present(contributors_table)
 }
 \arguments{
 \item{contributors_table}{A dataframe containing the contributors' information.}
-
-\item{context}{Optional named list providing contextual information.}
 }
 \value{
 A list containing:

@@ -30,7 +30,7 @@ A dataframe with 3 rows and 22 variables:
 \item{'Email address'}{character, email address of the correspondign author, optional}
 \item{'Affiliation 1'}{character, primary affiliation of the contributor}
 \item{'Affiliation 2'}{character, secondary affiliation of the contributor, blank if not applicable}
-\item{'Affiliation 3'}{character, tertiary affiliation of the contributor, blank if not applicable, more affiliation columns can be added following the "Affiliation {n}" pattern}
+\item{'Affiliation 3'}{character, tertiary affiliation of the contributor, blank if not applicable, more affiliation columns can be added following the "Affiliation \{n\}" pattern}
 \item{Funding}{character, name of the funds, blank if not applicable}
 \item{ORCID iD}{character, ORCID iD of the contributor}
 \item{'Corresponding author?'}{logical, TRUE for contributor who is the corresponding author, multiple corresponding authors are allowed}

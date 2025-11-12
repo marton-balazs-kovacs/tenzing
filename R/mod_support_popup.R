@@ -1,5 +1,14 @@
 #' Support popup (server-only; no UI function)
 #' Uses insertUI/removeUI + later; styled via CSS (.support-toast)
+#'
+#' @param id Module id (required by shiny module system)
+#' @param enable Logical or reactive logical. If FALSE, popup is never shown. Default is TRUE.
+#' @param show_prob Numeric between 0 and 1. Probability that popup will be shown. Default is 0.33.
+#' @param delay_ms Integer. Delay in milliseconds before showing popup. Default is 1500.
+#' @param dismiss_ms Integer. Delay in milliseconds before auto-dismissing popup. Default is 60000.
+#' @param donation_url Character. URL for donation link. Default is "https://opencollective.com/tenzing"
+#'
+#' @keywords internal
 mod_support_popup_server <- function(
     id,
     enable       = TRUE,
@@ -30,11 +39,11 @@ mod_support_popup_server <- function(
       ask_donation <- (as.integer(format(Sys.Date(), "%j")) %% 2) == 0
       if (ask_donation) {
         glue::glue(
-          "Please support tenzing 😊 by <br>donating ",
+          "Please support tenzing by <br>donating ",
           "<a href='{donation_url}' target='_blank' rel='noopener noreferrer'>here</a>."
         )
       } else {
-        "Please cite tenzing (references listed at bottom 😊)"
+        "Please cite tenzing (references listed at bottom)"
       }
     }
     

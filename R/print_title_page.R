@@ -16,7 +16,9 @@
 #' @param contributors_table validated contributors_table
 #' @param text_format formatting of the returned string. Possible values: "rmd", "html", "raw".
 #'   "rmd" by default.
-#' 
+#' @param include_orcid Logical. Whether to include ORCID iD information. Default is FALSE.
+#' @param orcid_style Character. Style for displaying ORCID iD. Either "badge" or "text". Default is "badge".
+#'
 #' @return The output is string containing the contributors' name and
 #'   the corresponding affiliations in the the order defined by the
 #'   `Order in publication` column of the contributors_table.
