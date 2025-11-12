@@ -5,23 +5,21 @@
 
 <!-- badges: start -->
 
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-An easy-to-use web app for researchers, tenzing generates
+Tenzing, an easy-to-use web-based app, allows researchers to generate
 reports about the contribution of each team member on a project using
-CRediT. Researchers typically paste these reports into their journal manuscripts. JATS-XML can also be generated, for publishers to
-incorporate into article metadata.
+CRediT, for insertion into their manuscripts and for publishers to
+potentially incorporate into article metadata.
 
 [CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a
 taxonomy of 14 categories of contributions to scientific scholarly
 output. Each researcher can indicate which category they contributed to
 in a scholarly project.
 
-Tenzing is a Shiny app programmed with R. There is also an R package version.
-
-Tenzing is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
+The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
 one of the two individuals who reached the summit of Mount Everest for
 the first time. Despite his essential contribution, he received less
 credit than his partner, the New Zealand mountaineer Edmund Hillary.
@@ -30,16 +28,18 @@ credit than his partner, the New Zealand mountaineer Edmund Hillary.
 
 Tenzing can:
 
--   read all the necessary contributorship information from one file
-    (.csv, .tsv or .xlsx)
--   create a report of the contributions
--   create the contributors’ affiliation information, designed for
-    inclusion in the first page of a manuscript
--   create JATS XML with the contributions, suitable for publishers to
-    include in metadata
--   create a YAML output that will automatically add the contributorship
-    information to the `papaja`package used by some researchers to write
-    APA-formatted manuscripts
+- read all the necessary contributorship information from one file
+  (.csv, .tsv or .xlsx)
+- create a report of the contributions
+- create the contributors’ affiliation information, designed for
+  inclusion in the first page of a manuscript
+- create JATS XML with the contributions, suitable for publishers to
+  include in metadata
+- create a YAML output that will automatically add the contributorship
+  information to the `papaja`package used by some researchers to write
+  APA-formatted manuscripts
+- create a funding acknowledgment section
+- create a conflict of interest statement
 
 ## Usage
 
@@ -76,7 +76,9 @@ from R in `vignette("local_use")`.
 
 ## Contribution
 
-We are open to new ideas and feature requests. You can see already-requested features [in the Github Issues](https://github.com/marton-balazs-kovacs/tenzing/issues?q=is%3Aissue%20state%3Aopen%20label%3Aenhancement).
+We are open to new ideas and feature requests. We think Tenzing has the
+potential to make additional contributorship-related tasks easy for
+researchers.
 
 Please note that the ‘tenzing’ project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,

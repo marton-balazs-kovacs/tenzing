@@ -34,6 +34,8 @@ Tenzing can:
 * create the contributors' affiliation information, designed for inclusion in the first page of a manuscript
 * create JATS XML with the contributions, suitable for publishers to include in metadata
 * create a YAML output that will automatically add the contributorship information to the `papaja`package used by some researchers to write APA-formatted manuscripts
+* create a funding acknowledgment section
+* create a conflict of interest statement
 
 ## Usage
 
