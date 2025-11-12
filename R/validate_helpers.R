@@ -332,7 +332,7 @@ check_credit <- function(contributors_table) {
     formatted_rows <- format_affected_rows(missing)
     validation_warning(
       glue::glue(
-        "No CRediT categories are indicated for the following, although tenzing will still provide other outputs: {formatted_rows}"
+        "No CRediT roles are indicated for the following contributors, so they are not included in this output: {formatted_rows}"
       ),
       affected_rows = seq_len(nrow(missing))
     )
