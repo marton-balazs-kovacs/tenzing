@@ -4,18 +4,18 @@ output: html_document
 ---
 
 ### 1. Create your contributors table
-* Once you are at the contributors template, click USE TEMPLATE
-* Fill it out (consider sharing it with your collaborators to do so).
+* Once you are at the contributors template, click USE TEMPLATE.
+* Fill it out – consider sending it to your collaborators so they can enter their information.
 
-### 2. A) Upload your contributors table file (after downloading it), or B) Paste its url
-A. Upload your contributors table in a .csv, .tsv or .xlsx format.
-  - Click "Local file", then “Browse”, and locate your contributors table on your computer.
+### 2. A) Upload your contributors table after downloading it, or B) Paste its url
+A. Upload your contributors table in .csv, .tsv or .xlsx format.
+  - Click "Local file", then “Browse” to locate your contributors table on your computer.
 
 B. Share the URL via Google Drive, and click "Upload from URL".
   - To ensure the URL is public so that tenzing can access it, in your copy go to _File->Share with others_. Set _General access_ to _Anyone with the link_.
   
 ### 3. Generate an output
-* Select the associated button to choose one of the available outputs, which are:
+* Select the associated button for one of the outputs, which are:
   - "contributions text": A list of the contributions 
   - "contributor list with affiliations": The contributor names and affiliations (useful for your manuscript's title page)
   - "JATS-XML": JATS XML, the machine-readable version of the contributions
