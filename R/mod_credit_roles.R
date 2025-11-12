@@ -176,19 +176,13 @@ mod_credit_roles_server <- function(id, input_data){
         size = "l",
         # -------- Authors block --------
         shiny::tags$h3("Author contributions", class = "credit-section-heading"),
-        settings_card(
-          ns = ns,
-          id = "settings_auth",
-          title = "Settings",
-          collapsed = FALSE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "initials", "Full names", "Initials", title = "Name format"),
-            toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
-            toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style"),
-            toggle(ns, "order_by", "Roles", "Names", title = "Sort by"),
-            toggle(ns, "pub_desc", "Desc", "Asc", title = "Publication order")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "initials", "Full names", "Initials", title = "Name format"),
+          toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
+          toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style"),
+          toggle(ns, "order_by", "Roles", "Names", title = "Sort by"),
+          toggle(ns, "pub_desc", "Desc", "Asc", title = "Publication order")
         ),
         div(
           class = "preview-wrapper",
@@ -228,19 +222,13 @@ mod_credit_roles_server <- function(id, input_data){
       if (!has_ack()) return(NULL)
       tagList(
         shiny::tags$h3("Acknowledgee contributions", class = "credit-section-heading"),
-        settings_card(
-          ns = ns,
-          id = "settings_ack",
-          title = "Settings",
-          collapsed = TRUE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "initials_ack", "Full names", "Initials", title = "Name format"),
-            toggle(ns, "include_orcid_ack", "No", "Yes", value = TRUE, title = "Show ORCID"),
-            toggle(ns, "orcid_style_text_ack", "Badge", "Text", title = "ORCID style"),
-            toggle(ns, "order_by_ack", "Roles", "Names", title = "Sort by"),
-            toggle(ns, "pub_desc_ack", "Desc", "Asc", title = "Publication order")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "initials_ack", "Full names", "Initials", title = "Name format"),
+          toggle(ns, "include_orcid_ack", "No", "Yes", value = TRUE, title = "Show ORCID"),
+          toggle(ns, "orcid_style_text_ack", "Badge", "Text", title = "ORCID style"),
+          toggle(ns, "order_by_ack", "Roles", "Names", title = "Sort by"),
+          toggle(ns, "pub_desc_ack", "Desc", "Asc", title = "Publication order")
         ),
         div(
           class = "preview-wrapper",

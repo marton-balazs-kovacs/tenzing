@@ -5,14 +5,14 @@
 \title{Format affected rows for display}
 \usage{
 format_affected_rows(
-  affected_rows,
+  filtered_df,
   max_display = 10,
   collapse_sep = ", ",
   last_sep = " and "
 )
 }
 \arguments{
-\item{affected_rows}{Vector of row numbers or identifiers.}
+\item{filtered_df}{A dataframe containing the filtered rows to format.}
 
 \item{max_display}{Maximum number of rows to display (default: 10).}
 
@@ -24,5 +24,6 @@ format_affected_rows(
 Formatted string of affected rows.
 }
 \description{
-Format affected rows for display
+Takes a filtered dataframe and formats row identifiers for each row,
+then collapses them with appropriate separators and capping.
 }

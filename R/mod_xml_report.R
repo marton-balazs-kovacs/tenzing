@@ -227,17 +227,11 @@ mod_xml_report_server <- function(id, input_data){
         size = "l",
         h3("JATS XML", class = "credit-section-heading"),
         p("The Journal Article Tag Suite (JATS) is an XML format used to describe scientific literature published online.", a("Find out more about JATS XML", href = "https://en.wikipedia.org/wiki/Journal_Article_Tag_Suite")),
-        settings_card(
-          ns = ns,
-          id = "settings_xml",
-          title = "Settings",
-          collapsed = FALSE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "full_document", "No", "Yes", value = TRUE, title = "Generate full article"),
-            toggle(ns, "include_acknowledgees", "No", "Yes", value = TRUE, title = "Show acknowledgements"),
-            toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "full_document", "No", "Yes", value = TRUE, title = "Generate full article"),
+          toggle(ns, "include_acknowledgees", "No", "Yes", value = TRUE, title = "Show acknowledgements"),
+          toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID")
         ),
         uiOutput(NS(id, "jats_xml"), container = pre),
         easyClose = FALSE,

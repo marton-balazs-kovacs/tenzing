@@ -88,15 +88,9 @@ mod_conflict_statement_server <- function(id, input_data){
       modalDialog(
         size = "l",
         h3("Conflict of interest statement", class = "credit-section-heading"),
-        settings_card(
-          ns = ns,
-          id = "settings_conflict",
-          title = "Settings",
-          collapsed = FALSE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "initials", "Full names", "Initials", title = "Name format")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "initials", "Full names", "Initials", title = "Name format")
         ),
         div(
           class = "preview-wrapper",

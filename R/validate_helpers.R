@@ -51,10 +51,9 @@ check_missing_surname <- function(contributors_table) {
   if (any(is.na(contributors_table[, "Surname"]))) {
     missing <-
       contributors_table %>%
-      tibble::rownames_to_column(var = "rowname") %>%
       dplyr::filter(is.na(.data$Surname))
     
-    validation_missing_values("Surname", as.numeric(missing$rowname), "warning")
+    validation_missing_values("Surname", missing, "warning")
   } else {
     validation_success("There are no missing surnames.")
   }
@@ -74,10 +73,9 @@ check_missing_firstname <- function(contributors_table) {
   if (any(is.na(contributors_table[, "Firstname"]))) {
     missing <-
       contributors_table %>%
-      tibble::rownames_to_column(var = "rowname") %>% 
       dplyr::filter(is.na(.data$Firstname))
     
-    validation_missing_values("Firstname", as.numeric(missing$rowname), "warning")
+    validation_missing_values("Firstname", missing, "warning")
   } else{
     validation_success("There are no missing firstnames.")
   }
@@ -133,15 +131,15 @@ check_duplicate_names <- function(contributors_table) {
 check_missing_order <- function(contributors_table) {
   missing <-
     contributors_table %>% 
-    tibble::rownames_to_column(var = "rowname") %>%
     dplyr::filter(is.na(.data$`Order in publication`))
   
   if (nrow(missing) != 0) {
+    formatted_rows <- format_affected_rows(missing)
     validation_error(
       glue::glue(
-        "The contributors_table has the following missing order numbers: ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
+        "The contributors_table has the following missing order numbers: {formatted_rows}"
       ),
-      affected_rows = as.numeric(missing$rowname)
+      affected_rows = seq_len(nrow(missing))
     )
   } else {
     validation_success("There are no missing values in the order of publication.")
@@ -208,7 +206,6 @@ check_affiliation <- function(contributors_table) {
   # Get rows with missing affiliation values
   missing_rows <- 
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>%
     dplyr::mutate_at(
       dplyr::vars(dplyr::all_of(cols_to_check)),
       list(~ as.character(stringr::str_trim(tolower(.), side = "both")))
@@ -220,12 +217,12 @@ check_affiliation <- function(contributors_table) {
   
   # Return warning if there are rows with missing affiliations
   if (nrow(missing_rows) > 0) {
+    formatted_rows <- format_affected_rows(missing_rows)
     validation_warning(
       glue::glue(
-        "There is no affiliation provided for the following row number(s): ",
-        glue::glue_collapse(missing_rows$rowname, sep = ", ", last = " and ")
+        "There is no affiliation provided for: {formatted_rows}"
       ),
-      affected_rows = as.numeric(missing_rows$rowname)
+      affected_rows = seq_len(nrow(missing_rows))
     )
   } else {
     # Success if all rows have at least one affiliation
@@ -265,13 +262,13 @@ check_missing_corresponding <- function(contributors_table) {
 check_missing_email <- function(contributors_table) {
   corresponding <-
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>% 
     dplyr::filter(!is.na(.data$`Corresponding author?`) & .data$`Corresponding author?` == TRUE)
   
   if (all(is.na(corresponding$`Email address`))) {
+    formatted_rows <- format_affected_rows(corresponding)
     validation_warning(
-      glue::glue("There is no email address provided for the corresponding author(s): ", glue::glue_collapse(corresponding$rowname, sep = ", ", last = " and ")),
-      affected_rows = as.numeric(corresponding$rowname)
+      glue::glue("There is no email address provided for the corresponding author(s): {formatted_rows}"),
+      affected_rows = seq_len(nrow(corresponding))
     )
   } else {
     validation_success("There are email addresses provided for all corresponding authors.")
@@ -300,14 +297,13 @@ check_missing_orcid <- function(contributors_table) {
   # Find rows with missing ORCID IDs (NA or empty string after trimming)
   missing <-
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>%
     dplyr::mutate(
       `ORCID iD` = stringr::str_trim(.data$`ORCID iD`, side = "both")
     ) %>%
     dplyr::filter(is.na(.data$`ORCID iD`) | .data$`ORCID iD` == "")
   
   if (nrow(missing) > 0) {
-    return(validation_missing_values("ORCID iD", as.numeric(missing$rowname), "warning"))
+    return(validation_missing_values("ORCID iD", missing, "warning"))
   } else {
     return(validation_success("There are no missing ORCID IDs in the contributors_table."))
   }
@@ -329,17 +325,16 @@ check_credit <- function(contributors_table) {
   
   missing <-
     contributors_table %>% 
-    tibble::rownames_to_column(var = "rowname") %>% 
     dplyr::filter_at(dplyr::vars(dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)),
                      dplyr::all_vars(is.na(.) | . == FALSE))
   
   if (nrow(missing) != 0) {
+    formatted_rows <- format_affected_rows(missing)
     validation_warning(
       glue::glue(
-        "No CRediT categories are indicated for the row number(s) that follow, although tenzing will still provide other outputs: ",
-        glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")
+        "No CRediT categories are indicated for the following, although tenzing will still provide other outputs: {formatted_rows}"
       ),
-      affected_rows = as.numeric(missing$rowname)
+      affected_rows = seq_len(nrow(missing))
     )
   } else {
     validation_success("All authors have at least one CRediT statement checked.")
@@ -360,12 +355,12 @@ check_coi <- function(contributors_table) {
   if (any(is.na(contributors_table[, "Declares"]))) {
     missing <-
       contributors_table %>%
-      tibble::rownames_to_column(var = "rowname") %>% 
       dplyr::filter(is.na(.data[["Declares"]]))
     
+    formatted_rows <- format_affected_rows(missing)
     validation_warning(
-      glue::glue("The conflict of interest statement is missing for row number(s): ", glue::glue_collapse(missing$rowname, sep = ", ", last = " and ")),
-      affected_rows = as.numeric(missing$rowname)
+      glue::glue("The conflict of interest statement is missing for: {formatted_rows}"),
+      affected_rows = seq_len(nrow(missing))
     )
   } else {
     validation_success("There are no missing conflict of interest statements.")
@@ -428,20 +423,20 @@ check_author_acknowledgee_values <- function(contributors_table) {
   
   invalid <-
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>%
     dplyr::mutate(`Author/Acknowledgee` = as.character(.data$`Author/Acknowledgee`)) %>%
     dplyr::filter(!is.na(.data$`Author/Acknowledgee`) & !(.data$`Author/Acknowledgee` %in% allowed))
   
   if (nrow(invalid) > 0) {
     bad_vals <- invalid %>% dplyr::distinct(.data$`Author/Acknowledgee`) %>% dplyr::pull()
+    formatted_rows <- format_affected_rows(invalid)
     return(
       validation_warning(
         glue::glue(
           "Unrecognized values in 'Author/Acknowledgee': {glue::glue_collapse(bad_vals, sep = ', ', last = ' and ')}. ",
-          "Rows: {glue::glue_collapse(invalid$rowname, sep = ', ', last = ' and ')}. ",
+          "Affected: {formatted_rows}. ",
           "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
         ),
-        affected_rows = as.numeric(invalid$rowname),
+        affected_rows = seq_len(nrow(invalid)),
         details = list(bad_values = bad_vals, allowed_values = allowed)
       )
     )
@@ -473,20 +468,19 @@ check_corresponding_non_author <- function(contributors_table) {
   
   offenders <-
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>%
     # treat NA as FALSE
     dplyr::mutate(`Corresponding author?` = dplyr::coalesce(.data$`Corresponding author?`, FALSE)) %>%
     dplyr::filter(.data$`Corresponding author?` == TRUE,
                   .data$`Author/Acknowledgee` != "Author")
   
   if (nrow(offenders) > 0) {
+    formatted_rows <- format_affected_rows(offenders)
     return(
       validation_warning(
         glue::glue(
-          "Non-author rows are marked as corresponding author. Row number(s): ",
-          "{glue::glue_collapse(offenders$rowname, sep = ', ', last = ' and ')}."
+          "Non-author rows are marked as corresponding author: {formatted_rows}."
         ),
-        affected_rows = as.numeric(offenders$rowname)
+        affected_rows = seq_len(nrow(offenders))
       )
     )
   }
@@ -526,7 +520,6 @@ check_missing_author_acknowledgee <- function(contributors_table) {
   
   df <-
     contributors_table %>%
-    tibble::rownames_to_column(var = "rowname") %>%
     dplyr::mutate(
       Firstname = trim_na(.data$Firstname),
       Surname   = trim_na(.data$Surname),
@@ -538,17 +531,16 @@ check_missing_author_acknowledgee <- function(contributors_table) {
     dplyr::filter(
       ( !is.na(.data$Firstname) | !is.na(.data$Surname) ) &
         is.na(.data$`Author/Acknowledgee`)
-    ) %>%
-    dplyr::pull(.data$rowname)
+    )
   
-  if (length(missing_rows) > 0) {
+  if (nrow(missing_rows) > 0) {
+    formatted_rows <- format_affected_rows(missing_rows)
     return(
       validation_warning(
         glue::glue(
-          "Missing 'Author/Acknowledgee' value for row number(s) with names: ",
-          "{glue::glue_collapse(missing_rows, sep = ', ', last = ' and ')}."
+          "Missing 'Author/Acknowledgee' value for: {formatted_rows}."
         ),
-        affected_rows = as.numeric(missing_rows)
+        affected_rows = seq_len(nrow(missing_rows))
       )
     )
   }

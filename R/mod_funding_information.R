@@ -86,15 +86,9 @@ mod_funding_information_server <- function(id, input_data){
       modalDialog(
         size = "l",
         h3("Funding information", class = "credit-section-heading"),
-        settings_card(
-          ns = ns,
-          id = "settings_funding",
-          title = "Settings",
-          collapsed = FALSE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "initials", "Full names", "Initials", title = "Name format")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "initials", "Full names", "Initials", title = "Name format")
         ),
         div(
           class = "preview-wrapper",

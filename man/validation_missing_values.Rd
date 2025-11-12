@@ -4,12 +4,12 @@
 \alias{validation_missing_values}
 \title{Create a validation result for missing values}
 \usage{
-validation_missing_values(column_name, missing_rows, severity = "warning")
+validation_missing_values(column_name, missing_rows_df, severity = "warning")
 }
 \arguments{
 \item{column_name}{Name of the column with missing values.}
 
-\item{missing_rows}{Vector of row numbers with missing values.}
+\item{missing_rows_df}{A dataframe containing the rows with missing values.}
 
 \item{severity}{Severity level: "warning" or "error" (default: "warning").}
 }

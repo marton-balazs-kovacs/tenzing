@@ -113,16 +113,10 @@ mod_title_page_server <- function(id, input_data){
       modalDialog(
         size = "l",
         shiny::tags$h3("Contributors' affiliation page", class = "credit-section-heading"),
-        settings_card(
-          ns = ns,
-          id = "settings_title_page",
-          title = "Settings",
-          collapsed = FALSE,
-          div(
-            class = "toggle-row",
-            toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
-            toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style")
-          )
+        div(
+          class = "toggle-row",
+          toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),
+          toggle(ns, "orcid_style_text", "Badge", "Text", title = "ORCID style")
         ),
         div(
           class = "preview-wrapper",
