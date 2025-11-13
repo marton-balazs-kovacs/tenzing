@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,8 +39,7 @@
 
       <div class="section-desc"><p>Functions to use the shiny app</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -56,8 +55,7 @@
 
       <div class="section-desc"><p>Functions to load and test your contributors table</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -68,19 +66,22 @@
 
         </dt>
         <dd>Template for the contributors table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="read_contributors_table.html">read_contributors_table()</a></code>
 
         </dt>
         <dd>Read the filled out contributors_table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="validate_contributors_table.html">validate_contributors_table()</a></code>
 
         </dt>
         <dd>Validating the contributors table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="clean_contributors_table.html">clean_contributors_table()</a></code>
 
@@ -91,8 +92,7 @@
 
       <div class="section-desc"><p>Functions to generate outputs</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -103,31 +103,36 @@
 
         </dt>
         <dd>Generate title page</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_credit_roles.html">print_credit_roles()</a></code>
 
         </dt>
         <dd>Generate report of the contributions with CRedit</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_xml.html">print_xml()</a></code>
 
         </dt>
         <dd>Generate an XML document of the contributions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_yaml.html">print_yaml()</a></code>
 
         </dt>
         <dd>Generate an YAML document of the contributions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_funding.html">print_funding()</a></code>
 
         </dt>
         <dd>Generate human readable report of the funding information</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="print_conflict_statement.html">print_conflict_statement()</a></code>
 
@@ -138,8 +143,7 @@
 
       <div class="section-desc"><p>Functions to turn full names into initials</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -150,13 +154,15 @@
 
         </dt>
         <dd>Add initials to the contributors_table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="abbreviate.html">abbreviate()</a></code>
 
         </dt>
         <dd>Abbreviate names</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="abbreviate_middle_names_df.html">abbreviate_middle_names_df()</a></code>
 
@@ -167,8 +173,7 @@
 
       <div class="section-desc"><p>Classes to manage table validation</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -179,13 +184,15 @@
 
         </dt>
         <dd>Validator Class for Contributors Table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="ColumnValidator.html">ColumnValidator</a></code>
 
         </dt>
         <dd>ColumnValidator Class for Contributors Table</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="ValidateOutput.html">ValidateOutput</a></code>
 
@@ -196,8 +203,7 @@
 
       <div class="section-desc"><p>Functions for custom validation checks</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -208,79 +214,154 @@
 
         </dt>
         <dd>Check for Missing Affiliations</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_affiliation_consistency.html">check_affiliation_consistency()</a></code>
 
         </dt>
         <dd>Check affiliation columns for consistency</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="check_author_acknowledgee_missing.html">check_author_acknowledgee_missing()</a></code>
+
+        </dt>
+        <dd>Warn when 'Author/Acknowledgee' column is missing</dd>
+
+        <dt>
+
+          <code><a href="check_author_acknowledgee_values.html">check_author_acknowledgee_values()</a></code>
+
+        </dt>
+        <dd>Check allowed values in Author/Acknowledgee</dd>
+
+        <dt>
 
           <code><a href="check_coi.html">check_coi()</a></code>
 
         </dt>
         <dd>Check for Missing Conflict of Interest Statements</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="check_corresponding_non_author.html">check_corresponding_non_author()</a></code>
+
+        </dt>
+        <dd>Check that only Authors are marked as Corresponding</dd>
+
+        <dt>
 
           <code><a href="check_credit.html">check_credit()</a></code>
 
         </dt>
         <dd>Check for Contributors with No CRediT Roles</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_duplicate_initials.html">check_duplicate_initials()</a></code>
 
         </dt>
         <dd>Check for Duplicate Initials</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_duplicate_names.html">check_duplicate_names()</a></code>
 
         </dt>
         <dd>Check for Duplicate Names</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_duplicate_order.html">check_duplicate_order()</a></code>
 
         </dt>
         <dd>Check for Duplicate Order Numbers</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="check_missing_author_acknowledgee.html">check_missing_author_acknowledgee()</a></code>
+
+        </dt>
+        <dd>Check missing Author/Acknowledgee where names are present</dd>
+
+        <dt>
 
           <code><a href="check_missing_corresponding.html">check_missing_corresponding()</a></code>
 
         </dt>
         <dd>Check for Missing Corresponding Author</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_missing_email.html">check_missing_email()</a></code>
 
         </dt>
         <dd>Check for Missing Emails for Corresponding Authors</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_missing_firstname.html">check_missing_firstname()</a></code>
 
         </dt>
         <dd>Check for Missing First Names</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="check_missing_orcid.html">check_missing_orcid()</a></code>
+
+        </dt>
+        <dd>Check for Missing ORCID IDs</dd>
+
+        <dt>
 
           <code><a href="check_missing_order.html">check_missing_order()</a></code>
 
         </dt>
         <dd>Check for Missing Values in the Order of Publication</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_missing_surname.html">check_missing_surname()</a></code>
 
         </dt>
         <dd>Check for Missing Surnames</dd>
       </dl></div><div class="section level2">
+      <h2 id="configuration">Configuration<a class="anchor" aria-label="anchor" href="#configuration"></a></h2>
+
+      <div class="section-desc"><p>Functions for managing validation configurations</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="clear_config_cache.html">clear_config_cache()</a></code>
+
+        </dt>
+        <dd>Clear configuration cache</dd>
+
+        <dt>
+
+          <code><a href="get_cache_stats.html">get_cache_stats()</a></code>
+
+        </dt>
+        <dd>Get cache statistics</dd>
+
+        <dt>
+
+          <code><a href="validate_config_schema.html">validate_config_schema()</a></code>
+
+        </dt>
+        <dd>Validate YAML configuration structure</dd>
+      </dl></div><div class="section level2">
       <h2 id="rename">Rename<a class="anchor" aria-label="anchor" href="#rename"></a></h2>
 
       <div class="section-desc"><p>Functions and datafiles that were renamed</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -301,7 +382,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

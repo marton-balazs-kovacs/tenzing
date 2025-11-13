@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,26 @@
       <small>Source: <a href="https://github.com/marton-balazs-kovacs/tenzing/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.0" id="tenzing-040">tenzing 0.4.0<a class="anchor" aria-label="anchor" href="#tenzing-040"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
+<ul><li>Added the option to include acknowledged contributors and those who do not want to be named in the paper to the contributors table.</li>
+<li>Contributor statements are now generated separately for acknowledgees and authors.</li>
+<li>Acknowledgees are now listed in the JATS 1.3 XML output with affiliations and CRediT roles.</li>
+<li>Funding and conflict of interest statements are now included in the JATS 1.3 XML output.</li>
+<li>Full article JATS 1.3 XML can optionally be generated with mock data so the output can be validated with the J4R Validator: <a href="https://jats4r-validator.niso.org/" class="external-link uri">https://jats4r-validator.niso.org/</a>.</li>
+<li>ORCID iDs can be included with an unauthorized ORCID badge (with hyperlink) or as plain text in the contributors statement, title page, and JATS 1.3 XML outputs.</li>
+<li>Added additional conditional validators for the new outputs.</li>
+<li>Added additional validation helpers for creating and exploring validation config files.</li>
+<li>Added more opportunities to customize the outputs with toggle switches.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
+<ul><li>Superscript formatting in the downloaded title page output has been fixed.</li>
+<li>The app now produces valid JATS 1.3 XML.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="tenzing-020">tenzing 0.2.0<a class="anchor" aria-label="anchor" href="#tenzing-020"></a></h2>
 <div class="section level3">
@@ -69,7 +89,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

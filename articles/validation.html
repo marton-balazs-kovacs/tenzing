@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,13 +146,29 @@ has a valid ORCID ID.</p>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="configuring-validation-with-yaml">2. Configuring Validation with YAML<a class="anchor" aria-label="anchor" href="#configuring-validation-with-yaml"></a>
+<h2 id="understanding-the-configuration-system">2. Understanding the Configuration System<a class="anchor" aria-label="anchor" href="#understanding-the-configuration-system"></a>
 </h2>
-<p>Once you define your validation function, you need to tell
-<strong>tenzing</strong> to use it. This is done by specifying the
-validation in a <code>YAML</code> configuration file.</p>
+<p><strong>tenzing</strong> uses a clean, consistent configuration
+system where all validation files follow the same structure:</p>
+<ul>
+<li>
+<strong>General column validation</strong>:
+<code>column_validation.yaml</code> for comprehensive column
+checking</li>
+<li>
+<strong>Output-specific validation</strong>: Files like
+<code>title_validation.yaml</code> for specific output types<br>
+</li>
+<li>
+<strong>Consistent structure</strong>: All configs use
+<code>column_config</code> and <code>validation_config</code>
+sections</li>
+<li>
+<strong>Easy customization</strong>: You can create custom
+configurations or extend existing ones</li>
+</ul>
 <p><strong>tenzing</strong> includes a set of predefined validation
-helpers in <code>R/validation_helpers.R</code>. These include: -
+helpers in <code>R/validate_helpers.R</code>. These include: -
 <code>check_missing_order</code> – Ensures that all contributors have an
 order in the publication. - <code>check_duplicate_order</code> – Ensures
 no duplicate order numbers unless multiple first authors exist. -
@@ -163,114 +179,77 @@ Ensures only one affiliation format is used. - Many more…</p>
 <p>These functions are automatically available when setting up
 validation in <strong>tenzing</strong>.</p>
 <div class="section level3">
-<h3 id="writing-custom-dependencies">Writing Custom Dependencies<a class="anchor" aria-label="anchor" href="#writing-custom-dependencies"></a>
+<h3 id="understanding-general-vs-output-specific-validation">Understanding General vs Output-Specific Validation<a class="anchor" aria-label="anchor" href="#understanding-general-vs-output-specific-validation"></a>
 </h3>
-<p>Some validations should only run if other conditions are met. You can
-define dependencies in the <code>YAML</code> configuration file.</p>
+<p><strong>tenzing</strong> uses two types of validation:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>General Column Validation</strong>
+(<code>column_validation.yaml</code>):
+<ul>
+<li>Checks all possible columns that might be needed across different
+outputs</li>
+<li>Runs before any output-specific validation</li>
+</ul>
+</li>
+<li>
+<strong>Output-Specific Validation</strong> (e.g.,
+<code>title_validation.yaml</code>):
+<ul>
+<li>Checks columns and data specific to a particular output type</li>
+<li>Used by <code>ValidateOutput</code> class for detailed
+validation</li>
+<li>Runs after general column validation passes</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="using-predefined-configuration-files">Using Predefined Configuration Files<a class="anchor" aria-label="anchor" href="#using-predefined-configuration-files"></a>
+</h3>
+<p><strong>tenzing</strong> provides ready-to-use configuration files
+for common output types:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># List available configuration files</span></span>
+<span><span class="va">config_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">config_dir</span>, pattern <span class="op">=</span> <span class="st">"*_validation\\.yaml$"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "base_validation.yaml"    "coi_validation.yaml"    </span></span>
+<span><span class="co">#&gt; [3] "column_validation.yaml"  "credit_validation.yaml" </span></span>
+<span><span class="co">#&gt; [5] "funding_validation.yaml" "title_validation.yaml"  </span></span>
+<span><span class="co">#&gt; [7] "xml_validation.yaml"     "yaml_validation.yaml"</span></span></code></pre></div>
+<p>Each configuration file specifies both: 1. <strong>Column validation
+rules</strong>: Which columns are required 2. <strong>Data validation
+functions</strong>: Which checks to perform</p>
 <div class="section level4">
-<h4 id="example-adding-orcid-validation-in-configvalidator_vignette_example-yaml">Example: Adding ORCID Validation in
-<code>config/validator_vignette_example.yaml</code><a class="anchor" aria-label="anchor" href="#example-adding-orcid-validation-in-configvalidator_vignette_example-yaml"></a>
+<h4 id="example-using-the-title-page-configuration">Example: Using the Title Page Configuration<a class="anchor" aria-label="anchor" href="#example-using-the-title-page-configuration"></a>
 </h4>
-<pre><code><span><span class="va">validation_config</span><span class="op">:</span></span>
-<span>  <span class="va">validations</span><span class="op">:</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_missing_order</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_duplicate_order</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_missing_surname</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_missing_firstname</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_duplicate_initials</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_missing_corresponding</span></span>
-<span>      <span class="va">dependencies</span><span class="op">:</span></span>
-<span>        <span class="op">-</span> <span class="st">'"Corresponding author?" %in% colnames(contributors_table)'</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_missing_email</span></span>
-<span>      <span class="va">dependencies</span><span class="op">:</span></span>
-<span>        <span class="op">-</span> <span class="st">'"Corresponding author?" %in% colnames(contributors_table)'</span></span>
-<span>        <span class="op">-</span> <span class="st">'self$results[["check_missing_corresponding"]]$type == "success"'</span></span>
-<span>        <span class="op">-</span> <span class="st">'"Email address" %in% colnames(contributors_table)'</span></span>
-<span>    <span class="op">-</span> <span class="va">name</span><span class="op">:</span> <span class="va">check_orcid</span></span>
-<span>      <span class="va">dependencies</span><span class="op">:</span></span>
-<span>        <span class="op">-</span> <span class="st">'"ORCID" %in% colnames(contributors_table)'</span></span></code></pre>
-<p>In this configuration:</p>
-<ul>
-<li>The <code>check_orcid</code> validation will only run if the column
-<code>"ORCID"</code> exists.</li>
-<li>The <code>check_missing_email</code> validation will only run if a
-corresponding author is specified and their email column exists.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="running-custom-validations">3. Running Custom Validations<a class="anchor" aria-label="anchor" href="#running-custom-validations"></a>
-</h2>
-<p>Once you have added the validation rule, you can run it using
-<strong>tenzing’s</strong> validation pipeline.</p>
-<div class="section level3">
-<h3 id="step-1-load-the-configuration">Step 1: Load the Configuration<a class="anchor" aria-label="anchor" href="#step-1-load-the-configuration"></a>
-</h3>
+<p>The <code>title_validation.yaml</code> file includes validation for
+title page outputs:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/validator_vignette_example.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Load the title validation configuration</span></span>
+<span><span class="va">title_config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="va">title_config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">title_config_path</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="step-2-initialize-the-validator-class">Step 2: Initialize the <code>Validator</code> class<a class="anchor" aria-label="anchor" href="#step-2-initialize-the-validator-class"></a>
-</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/Validator.html">Validator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># View the column rules</span></span>
+<span><span class="va">title_config</span><span class="op">$</span><span class="va">column_config</span><span class="op">$</span><span class="va">rules</span></span>
 <span></span>
-<span><span class="va">validator</span><span class="op">$</span><span class="fu">setup_validator</span><span class="op">(</span><span class="va">config_file</span><span class="op">$</span><span class="va">validation_config</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># View the validation functions</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">title_config</span><span class="op">$</span><span class="va">validation_config</span><span class="op">$</span><span class="va">validations</span>, <span class="st">"name"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level3">
-<h3 id="step-3-run-validations-on-your-data">Step 3: Run Validations on Your Data<a class="anchor" aria-label="anchor" href="#step-3-run-validations-on-your-data"></a>
+<h3 id="creating-custom-configurations">Creating Custom Configurations<a class="anchor" aria-label="anchor" href="#creating-custom-configurations"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="step-4-inspect-the-validation-results">Step 4: Inspect the Validation Results<a class="anchor" aria-label="anchor" href="#step-4-inspect-the-validation-results"></a>
-</h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $check_missing_corresponding</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $check_missing_email</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $check_missing_corresponding</span></span>
-<span><span class="co">#&gt; [1] "There is at least one author indicated as corresponding author."</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $check_missing_email</span></span>
-<span><span class="co">#&gt; [1] "There are email addresses provided for all corresponding authors."</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="understanding-the-validator-class">4. Understanding the <code>Validator</code> Class<a class="anchor" aria-label="anchor" href="#understanding-the-validator-class"></a>
-</h2>
-<p>The <code>Validator</code> class in <strong>tenzing</strong> is
-responsible for running all validation checks.</p>
-<p>Key Features of <code>Validator</code></p>
-<ul>
-<li>It dynamically loads validation functions from
-<code>validation_helpers.R</code>.</li>
-<li>It allows adding dependencies between validation rules.</li>
-<li>It executes only the specified validations from the
-configuration.</li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="ensuring-required-columns-exist-with-columnvalidator">5. Ensuring Required Columns Exist with ColumnValidator<a class="anchor" aria-label="anchor" href="#ensuring-required-columns-exist-with-columnvalidator"></a>
-</h2>
-<p>The <code>ColumnValidator</code> class ensures that all necessary
-columns are present before running validations.</p>
-<div class="section level3">
-<h3 id="example-configuring-required-columns">Example: Configuring Required Columns<a class="anchor" aria-label="anchor" href="#example-configuring-required-columns"></a>
-</h3>
-<p>In <code>config/columnvalidator_example.yaml</code>:</p>
+<p>You can create your own validation configuration file with custom
+rules and validations.</p>
+<div class="section level4">
+<h4 id="example-creating-a-custom-configuration-with-orcid-validation">Example: Creating a Custom Configuration with ORCID Validation<a class="anchor" aria-label="anchor" href="#example-creating-a-custom-configuration-with-orcid-validation"></a>
+</h4>
+<p>First, create a YAML configuration file (e.g.,
+<code>my_custom_validation.yaml</code>):</p>
 <pre><code>column_config:
   rules:
-    minimal:
+    minimal_rule:
       operator: "AND"
       columns:
         - Firstname
@@ -278,139 +257,466 @@ columns are present before running validations.</p>
         - Surname
         - Order in publication
       severity: "error"
-    affiliation:
-      operator: "OR"  # Either legacy OR regex-based affiliation columns must be present
-      columns:
-        - Primary affiliation
-        - Secondary affiliation  # Legacy columns
-      regex: "^Affiliation [0-9]+$"  # Regex-based columns
-      severity: "error"  # Make sure it's required for validation to pass
-    title:
+    orcid_rule:
       operator: "AND"
       columns:
-        - Corresponding author?
-        - Email address
-      severity: "warning"</code></pre>
+        - ORCID
+      severity: "warning"
+
+validation_config:
+  validations:
+    - name: check_missing_order
+    - name: check_duplicate_order
+    - name: check_missing_surname
+    - name: check_missing_firstname
+    - name: check_duplicate_initials
+    - name: check_duplicate_names
+    - name: check_orcid
+      dependencies:
+        - '"ORCID" %in% colnames(contributors_table)'</code></pre>
+</div>
+<div class="section level4">
+<h4 id="writing-custom-dependencies">Writing Custom Dependencies<a class="anchor" aria-label="anchor" href="#writing-custom-dependencies"></a>
+</h4>
+<p>Some validations should only run if other conditions are met. You can
+define dependencies in the <code>YAML</code> configuration file.</p>
+<p>In the example above: - The <code>check_orcid</code> validation will
+only run if the column <code>"ORCID"</code> exists. - Dependencies can
+check for column existence, previous validation results, or context
+variables.</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="running-validations">3. Running Validations<a class="anchor" aria-label="anchor" href="#running-validations"></a>
+</h2>
+<p>You can run validations using <strong>tenzing’s</strong> validation
+pipeline in two ways:</p>
+<div class="section level3">
+<h3 id="method-1-using-validateoutput-recommended">Method 1: Using ValidateOutput (Recommended)<a class="anchor" aria-label="anchor" href="#method-1-using-validateoutput-recommended"></a>
+</h3>
+<p>The <code>ValidateOutput</code> class is the easiest way to run
+validations, as it handles both column and data validation
+automatically.</p>
+<div class="section level4">
+<h4 id="step-1-initialize-validateoutput-with-a-configuration">Step 1: Initialize ValidateOutput with a Configuration<a class="anchor" aria-label="anchor" href="#step-1-initialize-validateoutput-with-a-configuration"></a>
+</h4>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Use a predefined configuration</span></span>
+<span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">validate_output</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_path <span class="op">=</span> <span class="va">config_path</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="step-2-run-validations">Step 2: Run Validations<a class="anchor" aria-label="anchor" href="#step-2-run-validations"></a>
+</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validate_output</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">my_contributors_table</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="step-3-inspect-the-validation-results">Step 3: Inspect the Validation Results<a class="anchor" aria-label="anchor" href="#step-3-inspect-the-validation-results"></a>
+</h4>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># View validation types</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  minimal_rule              affiliation_rule </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;                    title_rule           check_missing_order </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;         check_duplicate_order         check_missing_surname </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;       check_missing_firstname      check_duplicate_initials </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;         check_duplicate_names   check_missing_corresponding </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;           check_missing_email             check_affiliation </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt; check_affiliation_consistency           check_missing_orcid </span></span>
+<span><span class="co">#&gt;                     "success"                     "warning"</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># View validation messages</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                                                       minimal_rule </span></span>
+<span><span class="co">#&gt;                                               "All column requirements satisfied." </span></span>
+<span><span class="co">#&gt;                                                                   affiliation_rule </span></span>
+<span><span class="co">#&gt;                                               "All column requirements satisfied." </span></span>
+<span><span class="co">#&gt;                                                                         title_rule </span></span>
+<span><span class="co">#&gt;                                               "All column requirements satisfied." </span></span>
+<span><span class="co">#&gt;                                                                check_missing_order </span></span>
+<span><span class="co">#&gt;                         "There are no missing values in the order of publication." </span></span>
+<span><span class="co">#&gt;                                                              check_duplicate_order </span></span>
+<span><span class="co">#&gt;                 "There are no duplicated order numbers in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                              check_missing_surname </span></span>
+<span><span class="co">#&gt;                                                   "There are no missing surnames." </span></span>
+<span><span class="co">#&gt;                                                            check_missing_firstname </span></span>
+<span><span class="co">#&gt;                                                 "There are no missing firstnames." </span></span>
+<span><span class="co">#&gt;                                                           check_duplicate_initials </span></span>
+<span><span class="co">#&gt;                       "There are no duplicate initials in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                              check_duplicate_names </span></span>
+<span><span class="co">#&gt;                          "There are no duplicate names in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                        check_missing_corresponding </span></span>
+<span><span class="co">#&gt;                  "There is at least one author indicated as corresponding author." </span></span>
+<span><span class="co">#&gt;                                                                check_missing_email </span></span>
+<span><span class="co">#&gt;                "There are email addresses provided for all corresponding authors." </span></span>
+<span><span class="co">#&gt;                                                                  check_affiliation </span></span>
+<span><span class="co">#&gt;                     "There are no missing affiliations in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                      check_affiliation_consistency </span></span>
+<span><span class="co">#&gt;                                  "Affiliation column names are used consistently." </span></span>
+<span><span class="co">#&gt;                                                                check_missing_orcid </span></span>
+<span><span class="co">#&gt; "The ORCID iD is missing for: Smith (order 1), Luthor (order 2) and Pan (order 4)"</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="method-2-using-validator-directly">Method 2: Using Validator Directly<a class="anchor" aria-label="anchor" href="#method-2-using-validator-directly"></a>
+</h3>
+<p>For more control, you can use the <code>Validator</code> class
+directly.</p>
+<div class="section level4">
+<h4 id="step-1-load-the-configuration">Step 1: Load the Configuration<a class="anchor" aria-label="anchor" href="#step-1-load-the-configuration"></a>
+</h4>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="step-2-initialize-the-validator-class">Step 2: Initialize the <code>Validator</code> class<a class="anchor" aria-label="anchor" href="#step-2-initialize-the-validator-class"></a>
+</h4>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/Validator.html">Validator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">validator</span><span class="op">$</span><span class="fu">setup_validator</span><span class="op">(</span><span class="va">config_file</span><span class="op">$</span><span class="va">validation_config</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="step-3-run-validations-on-your-data">Step 3: Run Validations on Your Data<a class="anchor" aria-label="anchor" href="#step-3-run-validations-on-your-data"></a>
+</h4>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="step-4-inspect-the-validation-results">Step 4: Inspect the Validation Results<a class="anchor" aria-label="anchor" href="#step-4-inspect-the-validation-results"></a>
+</h4>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           check_missing_order         check_duplicate_order </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;         check_missing_surname       check_missing_firstname </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;      check_duplicate_initials         check_duplicate_names </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;   check_missing_corresponding           check_missing_email </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;             check_affiliation check_affiliation_consistency </span></span>
+<span><span class="co">#&gt;                     "success"                     "success" </span></span>
+<span><span class="co">#&gt;           check_missing_orcid </span></span>
+<span><span class="co">#&gt;                     "warning"</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                                                check_missing_order </span></span>
+<span><span class="co">#&gt;                         "There are no missing values in the order of publication." </span></span>
+<span><span class="co">#&gt;                                                              check_duplicate_order </span></span>
+<span><span class="co">#&gt;                 "There are no duplicated order numbers in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                              check_missing_surname </span></span>
+<span><span class="co">#&gt;                                                   "There are no missing surnames." </span></span>
+<span><span class="co">#&gt;                                                            check_missing_firstname </span></span>
+<span><span class="co">#&gt;                                                 "There are no missing firstnames." </span></span>
+<span><span class="co">#&gt;                                                           check_duplicate_initials </span></span>
+<span><span class="co">#&gt;                       "There are no duplicate initials in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                              check_duplicate_names </span></span>
+<span><span class="co">#&gt;                          "There are no duplicate names in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                        check_missing_corresponding </span></span>
+<span><span class="co">#&gt;                  "There is at least one author indicated as corresponding author." </span></span>
+<span><span class="co">#&gt;                                                                check_missing_email </span></span>
+<span><span class="co">#&gt;                "There are email addresses provided for all corresponding authors." </span></span>
+<span><span class="co">#&gt;                                                                  check_affiliation </span></span>
+<span><span class="co">#&gt;                     "There are no missing affiliations in the contributors_table." </span></span>
+<span><span class="co">#&gt;                                                      check_affiliation_consistency </span></span>
+<span><span class="co">#&gt;                                  "Affiliation column names are used consistently." </span></span>
+<span><span class="co">#&gt;                                                                check_missing_orcid </span></span>
+<span><span class="co">#&gt; "The ORCID iD is missing for: Smith (order 1), Luthor (order 2) and Pan (order 4)"</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="understanding-the-validation-classes">4. Understanding the Validation Classes<a class="anchor" aria-label="anchor" href="#understanding-the-validation-classes"></a>
+</h2>
+<div class="section level3">
+<h3 id="the-validator-class">The <code>Validator</code> Class<a class="anchor" aria-label="anchor" href="#the-validator-class"></a>
+</h3>
+<p>The <code>Validator</code> class in <strong>tenzing</strong> is
+responsible for running all data validation checks.</p>
+<p>Key Features of <code>Validator</code>:</p>
+<ul>
+<li>It loads validation functions explicitly from
+<code>validate_helpers.R</code>, ensuring they work in all
+environments.</li>
+<li>It allows adding dependencies between validation rules.</li>
+<li>It executes only the specified validations from the
+configuration.</li>
+<li>It supports context-aware validation for dynamic UI states.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="the-columnvalidator-class">The <code>ColumnValidator</code> Class<a class="anchor" aria-label="anchor" href="#the-columnvalidator-class"></a>
+</h3>
+<p>The <code>ColumnValidator</code> class ensures that all necessary
+columns are present before running validations.</p>
+<p>Key Features of <code>ColumnValidator</code>:</p>
+<ul>
+<li>Supports logical operators: <code>AND</code>, <code>OR</code>,
+<code>NOT</code> for column requirements.</li>
+<li>Supports regex patterns for dynamically named columns.</li>
+<li>Supports severity levels: <code>error</code> or
+<code>warning</code>.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="the-validateoutput-class">The <code>ValidateOutput</code> Class<a class="anchor" aria-label="anchor" href="#the-validateoutput-class"></a>
+</h3>
+<p>The <code>ValidateOutput</code> class integrates both
+<code>ColumnValidator</code> and <code>Validator</code> into a single,
+easy-to-use interface.</p>
+<p>Key Features of <code>ValidateOutput</code>:</p>
+<ul>
+<li>Automatically runs column validation before data validation.</li>
+<li>Returns only column validation errors if critical columns are
+missing.</li>
+<li>Supports optional context parameters for dynamic validation.</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="column-validation-examples">5. Column Validation Examples<a class="anchor" aria-label="anchor" href="#column-validation-examples"></a>
+</h2>
+<p>The <code>ColumnValidator</code> class ensures that all necessary
+columns are present before running validations.</p>
+<div class="section level3">
+<h3 id="example-understanding-column-validation-rules">Example: Understanding Column Validation Rules<a class="anchor" aria-label="anchor" href="#example-understanding-column-validation-rules"></a>
+</h3>
+<p>Let’s examine the column validation rules in the title
+configuration:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View the column rules</span></span>
+<span><span class="va">config</span><span class="op">$</span><span class="va">column_config</span><span class="op">$</span><span class="va">rules</span></span>
+<span><span class="co">#&gt; $minimal_rule</span></span>
+<span><span class="co">#&gt; $minimal_rule$operator</span></span>
+<span><span class="co">#&gt; [1] "AND"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $minimal_rule$columns</span></span>
+<span><span class="co">#&gt; [1] "Firstname"            "Middle name"          "Surname"             </span></span>
+<span><span class="co">#&gt; [4] "Order in publication"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $minimal_rule$severity</span></span>
+<span><span class="co">#&gt; [1] "error"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $affiliation_rule</span></span>
+<span><span class="co">#&gt; $affiliation_rule$operator</span></span>
+<span><span class="co">#&gt; [1] "OR"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $affiliation_rule$columns</span></span>
+<span><span class="co">#&gt; [1] "Primary affiliation"   "Secondary affiliation"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $affiliation_rule$regex</span></span>
+<span><span class="co">#&gt; [1] "^Affiliation [0-9]+$"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $affiliation_rule$severity</span></span>
+<span><span class="co">#&gt; [1] "error"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $title_rule</span></span>
+<span><span class="co">#&gt; $title_rule$operator</span></span>
+<span><span class="co">#&gt; [1] "AND"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $title_rule$columns</span></span>
+<span><span class="co">#&gt; [1] "Corresponding author?" "Email address"        </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $title_rule$severity</span></span>
+<span><span class="co">#&gt; [1] "warning"</span></span></code></pre></div>
+<p>The configuration defines several rules:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong><code>minimal_rule</code></strong>: Requires basic
+contributor information (Firstname, Middle name, Surname, Order in
+publication) with <code>AND</code> operator (all must be
+present).</p></li>
+<li><p><strong><code>affiliation_rule</code></strong>: Requires at least
+one affiliation column (using <code>OR</code> operator) and supports
+both legacy columns (<code>Primary affiliation</code>,
+<code>Secondary affiliation</code>) and regex-based columns matching
+<code>^Affiliation [0-9]+$</code>.</p></li>
+<li><p><strong><code>title_rule</code></strong>: Requires corresponding
+author information (Both <code>Corresponding author?</code> and
+<code>Email address</code> must be present).</p></li>
+</ol>
 </div>
 <div class="section level3">
 <h3 id="using-regex-to-validate-column-names">Using Regex to Validate Column Names<a class="anchor" aria-label="anchor" href="#using-regex-to-validate-column-names"></a>
 </h3>
-<p>You can also define <strong>regex-based column validation</strong> to
-match dynamically named columns.</p>
+<p>You can define <strong>regex-based column validation</strong> to
+match dynamically named columns, which is useful for scenarios like
+multiple affiliation columns.</p>
 <div class="section level4">
-<h4 id="example-using-regex-for-affiliation-columns">Example: Using Regex for Affiliation Columns<a class="anchor" aria-label="anchor" href="#example-using-regex-for-affiliation-columns"></a>
+<h4 id="example-regex-for-affiliation-columns">Example: Regex for Affiliation Columns<a class="anchor" aria-label="anchor" href="#example-regex-for-affiliation-columns"></a>
 </h4>
-<pre><code>column_config:
-  rules:
-    affiliation:
-      operator: "OR"
-      columns:
-        - Primary affiliation
-        - Secondary affiliation
-      regex: "^Affiliation [0-9]+$"
-      severity: "error"</code></pre>
+<p>The affiliation rule uses both legacy columns and regex:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">affiliation_rule</span><span class="kw">:</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="at">  </span><span class="fu">operator</span><span class="kw">:</span><span class="at"> </span><span class="st">"OR"</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="at">  </span><span class="fu">columns</span><span class="kw">:</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Primary affiliation</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> Secondary affiliation</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="at">  </span><span class="fu">regex</span><span class="kw">:</span><span class="at"> </span><span class="st">"^Affiliation [0-9]+$"</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="at">  </span><span class="fu">severity</span><span class="kw">:</span><span class="at"> </span><span class="st">"error"</span></span></code></pre></div>
 <p>This configuration: - Requires at least one affiliation column. -
-Allows dynamic affiliation columns (e.g., <code>Affiliation 1</code>,
-<code>Affiliation 2</code>, etc.). - Fails validation if no affiliation
-column exists.</p>
+Matches legacy columns (<code>Primary affiliation</code>,
+<code>Secondary affiliation</code>). - Matches dynamic columns (e.g.,
+<code>Affiliation 1</code>, <code>Affiliation 2</code>, etc.) using
+regex. - Fails validation if no affiliation column exists.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="running-the-columnvalidator">Running the ColumnValidator<a class="anchor" aria-label="anchor" href="#running-the-columnvalidator"></a>
+<h3 id="running-columnvalidator-independently">Running ColumnValidator Independently<a class="anchor" aria-label="anchor" href="#running-columnvalidator-independently"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/columnvalidator_example.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<p>You can run column validation independently to check column
+requirements:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">column_validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ColumnValidator.html">ColumnValidator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_input <span class="op">=</span> <span class="va">config_file</span><span class="op">$</span><span class="va">column_config</span><span class="op">)</span></span>
+<span><span class="va">column_validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ColumnValidator.html">ColumnValidator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_input <span class="op">=</span> <span class="va">config</span><span class="op">$</span><span class="va">column_config</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">column_results</span> <span class="op">&lt;-</span> <span class="va">column_validator</span><span class="op">$</span><span class="fu">validate_columns</span><span class="op">(</span><span class="va">my_contributors_table</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">column_results</span></span>
-<span><span class="co">#&gt; $minimal</span></span>
-<span><span class="co">#&gt; $minimal$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $minimal$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation</span></span>
-<span><span class="co">#&gt; $affiliation$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title</span></span>
-<span><span class="co">#&gt; $title$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span></code></pre></div>
+<span><span class="co"># View results</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">column_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     minimal_rule affiliation_rule       title_rule </span></span>
+<span><span class="co">#&gt;        "success"        "success"        "success"</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">column_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                         minimal_rule                     affiliation_rule </span></span>
+<span><span class="co">#&gt; "All column requirements satisfied." "All column requirements satisfied." </span></span>
+<span><span class="co">#&gt;                           title_rule </span></span>
+<span><span class="co">#&gt; "All column requirements satisfied."</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="bringing-it-all-together-with-validateoutput">6. Bringing It All Together with ValidateOutput<a class="anchor" aria-label="anchor" href="#bringing-it-all-together-with-validateoutput"></a>
+<h2 id="using-validateoutput-for-complete-validation">6. Using ValidateOutput for Complete Validation<a class="anchor" aria-label="anchor" href="#using-validateoutput-for-complete-validation"></a>
 </h2>
 <p>The <code>ValidateOutput</code> class integrates both
-<code>Validator</code> and <code>ColumnValidator</code>.</p>
+<code>ColumnValidator</code> and <code>Validator</code> into a unified
+validation pipeline.</p>
 <div class="section level3">
-<h3 id="how-it-works">How It Works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
+<h3 id="how-validateoutput-works">How ValidateOutput Works<a class="anchor" aria-label="anchor" href="#how-validateoutput-works"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li><p>Reads the configuration file.</p></li>
-<li><p>Runs ColumnValidator to check required columns.</p></li>
-<li><p>Runs Validator to check data integrity.</p></li>
-<li><p>Returns the combined results.</p></li>
+<li><p>Reads the configuration file (either from a path or with base
+config merging).</p></li>
+<li><p>Runs <code>ColumnValidator</code> to check required columns
+(stops early if critical columns are missing).</p></li>
+<li><p>Runs <code>Validator</code> to check data integrity (only if
+column validation passes).</p></li>
+<li><p>Returns the combined results from both validation
+stages.</p></li>
 </ol>
 </div>
 <div class="section level3">
-<h3 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
+<h3 id="example-using-predefined-configurations">Example: Using Predefined Configurations<a class="anchor" aria-label="anchor" href="#example-using-predefined-configurations"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">validate_output_instance</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_path <span class="op">=</span> <span class="va">config_path</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Title page validation</span></span>
+<span><span class="va">title_config</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
+<span><span class="va">validate_output</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_path <span class="op">=</span> <span class="va">title_config</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validate_output_instance</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">my_contributors_table</span><span class="op">)</span></span>
+<span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validate_output</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">my_contributors_table</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">validate_results</span></span>
-<span><span class="co">#&gt; $minimal</span></span>
-<span><span class="co">#&gt; $minimal$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $minimal$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation</span></span>
-<span><span class="co">#&gt; $affiliation$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title</span></span>
-<span><span class="co">#&gt; $title$type</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title$message</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span></code></pre></div>
+<span><span class="co"># Check for any errors</span></span>
+<span><span class="va">has_errors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span> <span class="op">==</span> <span class="st">"error"</span><span class="op">)</span></span>
+<span><span class="va">has_errors</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-using-context-aware-validation">Example: Using Context-Aware Validation<a class="anchor" aria-label="anchor" href="#example-using-context-aware-validation"></a>
+</h3>
+<p>Some validations can use context information (e.g., user selections
+in a Shiny app):</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create context for filtering</span></span>
+<span><span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>include <span class="op">=</span> <span class="st">"author"</span>, order_by <span class="op">=</span> <span class="st">"contributor"</span>, pub_order <span class="op">=</span> <span class="st">"asc"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run validation with context</span></span>
+<span><span class="va">validate_results</span> <span class="op">&lt;-</span> <span class="va">validate_output</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span></span>
+<span>  <span class="va">my_contributors_table</span>, </span>
+<span>  context <span class="op">=</span> <span class="va">context</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The context allows validations to react to dynamic UI states, such
+as: - Filtering by author vs. acknowledgee - Different ordering
+preferences - User-selected output options</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="summary">7. Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+<h2 id="configuration-management">7. Configuration Management<a class="anchor" aria-label="anchor" href="#configuration-management"></a>
+</h2>
+<div class="section level3">
+<h3 id="configuration-utilities">Configuration Utilities<a class="anchor" aria-label="anchor" href="#configuration-utilities"></a>
+</h3>
+<p><strong>tenzing</strong> provides utility functions for configuration
+management:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Clear configuration cache</span></span>
+<span><span class="fu"><a href="../reference/clear_config_cache.html">clear_config_cache</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get cache statistics</span></span>
+<span><span class="fu"><a href="../reference/get_cache_stats.html">get_cache_stats</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate configuration schema</span></span>
+<span><span class="fu"><a href="../reference/validate_config_schema.html">validate_config_schema</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="best-practices">Best Practices<a class="anchor" aria-label="anchor" href="#best-practices"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Start with predefined configurations</strong>: Use
+<code>title_validation.yaml</code>, <code>credit_validation.yaml</code>,
+etc., as starting points.</p></li>
+<li><p><strong>Use the two-tier approach</strong>: Run general column
+validation first, then output-specific validation.</p></li>
+<li><p><strong>Use dependencies wisely</strong>: Only add dependencies
+when validations truly depend on each other or column presence.</p></li>
+<li><p><strong>Test your configurations</strong>: Ensure your custom
+validations work correctly before using them in production.</p></li>
+</ol>
+</div>
+</div>
+<div class="section level2">
+<h2 id="summary">8. Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
 <ul>
-<li>Define custom validation functions in
-<code>validation_helpers.R</code>.</li>
-<li>Add custom validations to <code>YAML</code> configuration
-files.</li>
-<li>Use <code>Validator</code> to run content-based checks.</li>
-<li>Use <code>ColumnValidator</code> to enforce required columns.</li>
-<li>Use <code>ValidateOutput</code> to integrate everything.</li>
+<li>
+<strong>Define custom validation functions</strong> that return
+lists with <code>type</code> and <code>message</code>.</li>
+<li>
+<strong>Use the two-tier validation approach</strong>: General
+column validation first, then output-specific validation.</li>
+<li>
+<strong>Use predefined configuration files</strong> for common
+output types (title, credit, yaml, etc.).</li>
+<li>
+<strong>Create custom YAML configurations</strong> following the
+consistent <code>column_config</code> and <code>validation_config</code>
+structure.</li>
+<li>
+<strong>Use <code>ColumnValidator</code></strong> to enforce
+required columns before data validation.</li>
+<li>
+<strong>Use <code>Validator</code></strong> to run content-based
+validation checks.</li>
+<li>
+<strong>Use <code>ValidateOutput</code></strong> for the easiest
+integration of column and data validation.</li>
+<li>
+<strong>Leverage the clean configuration system</strong> for
+consistency and maintainability.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -424,7 +730,7 @@ files.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

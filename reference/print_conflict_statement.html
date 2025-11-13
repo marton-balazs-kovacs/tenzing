@@ -9,7 +9,7 @@ The output is generated from an contributors_table based on the contributors_tab
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,11 +68,11 @@ names in the output</p></dd>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other output functions:
-<code><a href="print_credit_roles.html">print_credit_roles</a>()</code>,
-<code><a href="print_funding.html">print_funding</a>()</code>,
-<code><a href="print_title_page.html">print_title_page</a>()</code>,
-<code><a href="print_xml.html">print_xml</a>()</code>,
-<code><a href="print_yaml.html">print_yaml</a>()</code></p></div>
+<code><a href="print_credit_roles.html">print_credit_roles()</a></code>,
+<code><a href="print_funding.html">print_funding()</a></code>,
+<code><a href="print_title_page.html">print_title_page()</a></code>,
+<code><a href="print_xml.html">print_xml()</a></code>,
+<code><a href="print_yaml.html">print_yaml()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -80,17 +80,17 @@ names in the output</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_contributors_table.html">read_contributors_table</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>contributors_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,</span></span>
 <span class="r-in"><span><span class="st">"contributors_table_example.csv"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">3</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">26</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">5</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">28</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> ","</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span>  (9): Firstname, Middle name, Surname, Affiliation 1, Affiliation 2, Aff...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span> (11): Author/Acknowledgee, Firstname, Middle name, Surname, Affiliation ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">dbl</span>  (1): Order in publication</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="r-in"><span><span class="fu">print_conflict_statement</span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">example_contributors_table</span>, initials <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "John M. Smith, Marton Kovacs, and Lex W. Luthor declare no competing interest."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -103,7 +103,7 @@ names in the output</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -9,7 +9,7 @@ Validator Class for Contributors Table"><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,17 +48,18 @@ Validator Class for Contributors Table"><meta property="og:image" content="https
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The <code>Validator</code> class runs a set of user-defined validation functions on
 a contributors table. It allows for configuring which validations should
-be executed, handling dependencies between validations, and storing results.</p>
-<p>This class is used in conjunction with the <code>ValidateOutput</code> class to
-apply both column and general table validations.</p>
+be executed, handling dependencies between validations, evaluating
+context-aware conditions, and storing results.</p>
+<p>This class is used in conjunction with the <code><a href="ValidateOutput.html">ValidateOutput</a></code> class to
+apply both column-level and data-level validation.</p>
     </div>
     <div class="section level2">
     <h2 id="configurable-validations">Configurable Validations<a class="anchor" aria-label="anchor" href="#configurable-validations"></a></h2>
 
 
-<p>The class dynamically loads validation functions, allowing users to add
-custom checks. By default, the predefined functions in <code>validate_helpers.R</code>
-are available.</p>
+<p>The class loads validation functions explicitly, ensuring they are available
+in all environments. By default, the predefined functions in <code>validate_helpers.R</code>
+are loaded.</p>
     </div>
     <div class="section level2">
     <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a></h2>
@@ -66,8 +67,22 @@ are available.</p>
 
 <p>Some validations depend on the presence of specific columns or successful
 execution of other validations. These dependencies are defined in a YAML
-config file.</p>
+config file and evaluated dynamically during runtime.</p>
     </div>
+    <div class="section level2">
+    <h2 id="context-aware-validation">Context-Aware Validation<a class="anchor" aria-label="anchor" href="#context-aware-validation"></a></h2>
+
+
+<p>The validator supports an optional <strong>context</strong> parameter, which can hold
+additional information about the environment in which validation is run.</p>
+<p>This allows validation logic and dependency conditions to react to dynamic
+UI states or user selections (e.g., <code>"include" = "author"</code>, <code>"order" = "desc"</code>).</p>
+<p>The <code>context</code> object is a named list accessible inside dependencies and
+validation functions, enabling conditional validation rules.</p>
+<p>Example use cases:</p><ul><li><p>Running separate validations for authors vs. acknowledgees.</p></li>
+<li><p>Changing which checks run depending on toggle inputs in a Shiny app.</p></li>
+<li><p>Adjusting severity or skipping certain checks dynamically.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="yaml-configuration">YAML Configuration<a class="anchor" aria-label="anchor" href="#yaml-configuration"></a></h2>
 
@@ -86,6 +101,9 @@ validation_config:
         - '"Corresponding author?" <!-- %in% colnames(contributors_table)' -->
         - 'self$results[["check_missing_corresponding"]]$type == "success"'
         - '"Email address" <!-- %in% colnames(contributors_table)' -->
+    - name: check_subset_specific_rule
+      dependencies:
+        - 'context$include == "author"'
 </code></pre></div>
 
     </div>
@@ -100,18 +118,33 @@ validation_config:
 <span><span class="co"># Configure which validations should run</span></span>
 <span><span class="va">validator</span><span class="op">$</span><span class="fu">setup_validator</span><span class="op">(</span><span class="va">validation_config</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Run the validations on a contributors table</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Run the validations on a contributors table with optional context</span></span>
+<span><span class="va">context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>include <span class="op">=</span> <span class="st">"author"</span>, order_by <span class="op">=</span> <span class="st">"desc"</span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span>, context <span class="op">=</span> <span class="va">context</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Access validation results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
 
     </div>
     <div class="section level2">
+    <h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a></h2>
+
+
+<ul><li><p>If no <code>context</code> is provided, all validations run as before (backward-compatible).</p></li>
+<li><p>Validation helpers can optionally define a <code>context</code> argument to access contextual data.</p></li>
+<li><p>Within YAML dependency conditions, the <code>context</code> object is automatically available.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="ValidateOutput.html">ValidateOutput</a></code> which integrates this class for validation.</p></div>
+    <div class="dont-index">
+<ul><li><p><code><a href="ValidateOutput.html">ValidateOutput</a></code> — integrates the <code>Validator</code> and <code>ColumnValidator</code> classes.</p></li>
+<li><p><code><a href="ColumnValidator.html">ColumnValidator</a></code> — ensures required columns exist before data validations.</p></li>
+</ul></div>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
     <p></p><div class="r6-fields"><dl><dt><code>validations</code></dt>
-<dd><p>A list of validation functions dynamically loaded from <code>validate_helpers.R</code> or custom functions.</p></dd>
+<dd><p>A list of validation functions explicitly loaded from <code>validate_helpers.R</code> or custom functions.</p></dd>
 
 
 <dt><code>dependencies</code></dt>
@@ -126,6 +159,10 @@ validation_config:
 <dd><p>The subset of validations to execute, defined in the YAML config.</p></dd>
 
 
+<dt><code>context</code></dt>
+<dd><p>hold runtime context parameters (UI/state toggles etc.)</p></dd>
+
+
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -135,6 +172,7 @@ validation_config:
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-Validator-new"><code>Validator$new()</code></a></p></li>
+<li><p><a href="#method-Validator-load_validation_functions"><code>Validator$load_validation_functions()</code></a></p></li>
 <li><p><a href="#method-Validator-add_dependency"><code>Validator$add_dependency()</code></a></p></li>
 <li><p><a href="#method-Validator-setup_validator"><code>Validator$setup_validator()</code></a></p></li>
 <li><p><a href="#method-Validator-run_validations"><code>Validator$run_validations()</code></a></p></li>
@@ -143,16 +181,29 @@ validation_config:
 </ul></div><p></p><hr><a id="method-Validator-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Initializes the <code>Validator</code> class.
-Loads predefined validations from <code>validate_helpers.R</code> and allows for adding custom validations.</p><div class="section">
+Loads validation functions explicitly from <code>validate_helpers.R</code> and allows for adding custom validations.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Validator.html">Validator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
+</div><p></p><hr><a id="method-Validator-load_validation_functions"></a><div class="section">
+<h3 id="method-load-validation-functions-">Method <code>load_validation_functions()</code><a class="anchor" aria-label="anchor" href="#method-load-validation-functions-"></a></h3>
+<p>Loads validation functions explicitly.
+This ensures all validation functions are available in all environments.</p><div class="section">
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">load_validation_functions</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>A list of validation functions</p>
+</div>
+
 </div><p></p><hr><a id="method-Validator-add_dependency"></a><div class="section">
 <h3 id="method-add-dependency-">Method <code>add_dependency()</code><a class="anchor" aria-label="anchor" href="#method-add-dependency-"></a></h3>
 <p>Adds dependencies for a validation.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">add_dependency</span><span class="op">(</span><span class="va">validation_name</span>, <span class="va">conditions</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -172,7 +223,7 @@ Loads predefined validations from <code>validate_helpers.R</code> and allows for
 </div><p></p><hr><a id="method-Validator-setup_validator"></a><div class="section">
 <h3 id="method-setup-validator-">Method <code>setup_validator()</code><a class="anchor" aria-label="anchor" href="#method-setup-validator-"></a></h3>
 <p>Configures the validator with the subset of validations to execute.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">setup_validator</span><span class="op">(</span><span class="va">validation_config</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -188,8 +239,8 @@ Loads predefined validations from <code>validate_helpers.R</code> and allows for
 </div><p></p><hr><a id="method-Validator-run_validations"></a><div class="section">
 <h3 id="method-run-validations-">Method <code>run_validations()</code><a class="anchor" aria-label="anchor" href="#method-run-validations-"></a></h3>
 <p>Runs the specified validations on the provided contributors table.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span>, context <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -198,17 +249,21 @@ Loads predefined validations from <code>validate_helpers.R</code> and allows for
 <dd><p>A dataframe containing contributor data.</p></dd>
 
 
+<dt><code>context</code></dt>
+<dd><p>Optional context parameters for dynamic validation.</p></dd>
+
+
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>A list of validation results.</p>
 </div>
 
 </div><p></p><hr><a id="method-Validator-should_run"></a><div class="section">
 <h3 id="method-should-run-">Method <code>should_run()</code><a class="anchor" aria-label="anchor" href="#method-should-run-"></a></h3>
 <p>Determines whether a validation should be executed based on dependencies.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">should_run</span><span class="op">(</span><span class="va">validation_name</span>, <span class="va">contributors_table</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -225,14 +280,14 @@ Loads predefined validations from <code>validate_helpers.R</code> and allows for
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
+<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>TRUE if the validation should run, FALSE otherwise.</p>
 </div>
 
 </div><p></p><hr><a id="method-Validator-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Validator</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -258,7 +313,7 @@ Loads predefined validations from <code>validate_helpers.R</code> and allows for
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

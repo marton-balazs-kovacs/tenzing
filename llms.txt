@@ -1,0 +1,212 @@
+# tenzing
+
+Tenzing, an easy-to-use web-based app, allows researchers to generate
+reports about the contribution of each team member on a project using
+CRediT, for insertion into their manuscripts and for publishers to
+potentially incorporate into article metadata.
+
+[CRediT](http://credit.niso.org/) (Contributor Roles Taxonomy) is a
+taxonomy of 14 categories of contributions to scientific scholarly
+output. Each researcher can indicate which category they contributed to
+in a scholarly project.
+
+The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was
+one of the two individuals who reached the summit of Mount Everest for
+the first time. Despite his essential contribution, he received less
+credit than his partner, the New Zealand mountaineer Edmund Hillary.
+
+## Features
+
+Tenzing can:
+
+- read all the necessary contributorship information from one file
+  (.csv, .tsv or .xlsx)
+- create a report of the contributions
+- create the contributors’ affiliation information, designed for
+  inclusion in the first page of a manuscript
+- create JATS XML with the contributions, suitable for publishers to
+  include in metadata
+- create a YAML output that will automatically add the contributorship
+  information to the `papaja`package used by some researchers to write
+  APA-formatted manuscripts
+- create a funding acknowledgment section
+- create a conflict of interest statement
+
+## Usage
+
+Tenzing can be used either via the web app or via R.
+
+### Using the web app
+
+You can use the app at <https://tenzing.club/>.
+
+You can alternatively run the app locally on your own computer by
+following these instructions:
+
+Install the development version (tenzing is not available from CRAN)
+from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/tenzing")
+```
+
+Running the app.
+
+``` r
+tenzing::run_app()
+```
+
+You can read more on how to use the `tenzing` app in
+[`vignette("app_use")`](https://marton-balazs-kovacs.github.io/tenzing/articles/app_use.md).
+
+### Using the package
+
+You can read more on how to use the `tenzing` package to create reports
+from R in
+[`vignette("local_use")`](https://marton-balazs-kovacs.github.io/tenzing/articles/local_use.md).
+
+## Contribution
+
+We are open to new ideas and feature requests. We think Tenzing has the
+potential to make additional contributorship-related tasks easy for
+researchers.
+
+Please note that the ‘tenzing’ project is released with a [Contributor
+Code of
+Conduct](https://marton-balazs-kovacs.github.io/tenzing/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
+
+# Package index
+
+## Shiny App
+
+Functions to use the shiny app
+
+- [`run_app()`](https://marton-balazs-kovacs.github.io/tenzing/reference/run_app.md)
+  : Run the Shiny Application
+
+## Contributors table
+
+Functions to load and test your contributors table
+
+- [`contributors_table_template`](https://marton-balazs-kovacs.github.io/tenzing/reference/contributors_table_template.md)
+  : Template for the contributors table
+- [`read_contributors_table()`](https://marton-balazs-kovacs.github.io/tenzing/reference/read_contributors_table.md)
+  : Read the filled out contributors_table
+- [`validate_contributors_table()`](https://marton-balazs-kovacs.github.io/tenzing/reference/validate_contributors_table.md)
+  : Validating the contributors table
+- [`clean_contributors_table()`](https://marton-balazs-kovacs.github.io/tenzing/reference/clean_contributors_table.md)
+  : Delete empty rows of the contributors_table
+
+## Generate Output
+
+Functions to generate outputs
+
+- [`print_title_page()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_title_page.md)
+  : Generate title page
+- [`print_credit_roles()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_credit_roles.md)
+  : Generate report of the contributions with CRedit
+- [`print_xml()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_xml.md)
+  : Generate an XML document of the contributions
+- [`print_yaml()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_yaml.md)
+  : Generate an YAML document of the contributions
+- [`print_funding()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_funding.md)
+  : Generate human readable report of the funding information
+- [`print_conflict_statement()`](https://marton-balazs-kovacs.github.io/tenzing/reference/print_conflict_statement.md)
+  : Generate human readable report of the conflict of interest
+  statements
+
+## Initials
+
+Functions to turn full names into initials
+
+- [`add_initials()`](https://marton-balazs-kovacs.github.io/tenzing/reference/add_initials.md)
+  : Add initials to the contributors_table
+- [`abbreviate()`](https://marton-balazs-kovacs.github.io/tenzing/reference/abbreviate.md)
+  : Abbreviate names
+- [`abbreviate_middle_names_df()`](https://marton-balazs-kovacs.github.io/tenzing/reference/abbreviate_middle_names_df.md)
+  : Abbreviate middle names in a dataframe
+
+## Validation Classes
+
+Classes to manage table validation
+
+- [`Validator`](https://marton-balazs-kovacs.github.io/tenzing/reference/Validator.md)
+  : Validator Class for Contributors Table
+- [`ColumnValidator`](https://marton-balazs-kovacs.github.io/tenzing/reference/ColumnValidator.md)
+  : ColumnValidator Class for Contributors Table
+- [`ValidateOutput`](https://marton-balazs-kovacs.github.io/tenzing/reference/ValidateOutput.md)
+  : ValidateOutput Class for Contributors Table Validation
+
+## Validation Helpers
+
+Functions for custom validation checks
+
+- [`check_affiliation()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_affiliation.md)
+  : Check for Missing Affiliations
+- [`check_affiliation_consistency()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_affiliation_consistency.md)
+  : Check affiliation columns for consistency
+- [`check_author_acknowledgee_missing()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_missing.md)
+  : Warn when 'Author/Acknowledgee' column is missing
+- [`check_author_acknowledgee_values()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_values.md)
+  : Check allowed values in Author/Acknowledgee
+- [`check_coi()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi.md)
+  : Check for Missing Conflict of Interest Statements
+- [`check_corresponding_non_author()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_corresponding_non_author.md)
+  : Check that only Authors are marked as Corresponding
+- [`check_credit()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_credit.md)
+  : Check for Contributors with No CRediT Roles
+- [`check_duplicate_initials()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_initials.md)
+  : Check for Duplicate Initials
+- [`check_duplicate_names()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_names.md)
+  : Check for Duplicate Names
+- [`check_duplicate_order()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_order.md)
+  : Check for Duplicate Order Numbers
+- [`check_missing_author_acknowledgee()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_author_acknowledgee.md)
+  : Check missing Author/Acknowledgee where names are present
+- [`check_missing_corresponding()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_corresponding.md)
+  : Check for Missing Corresponding Author
+- [`check_missing_email()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_email.md)
+  : Check for Missing Emails for Corresponding Authors
+- [`check_missing_firstname()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_firstname.md)
+  : Check for Missing First Names
+- [`check_missing_orcid()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_orcid.md)
+  : Check for Missing ORCID IDs
+- [`check_missing_order()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_order.md)
+  : Check for Missing Values in the Order of Publication
+- [`check_missing_surname()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_surname.md)
+  : Check for Missing Surnames
+
+## Configuration
+
+Functions for managing validation configurations
+
+- [`clear_config_cache()`](https://marton-balazs-kovacs.github.io/tenzing/reference/clear_config_cache.md)
+  : Clear configuration cache
+- [`get_cache_stats()`](https://marton-balazs-kovacs.github.io/tenzing/reference/get_cache_stats.md)
+  : Get cache statistics
+- [`validate_config_schema()`](https://marton-balazs-kovacs.github.io/tenzing/reference/validate_config_schema.md)
+  : Validate YAML configuration structure
+
+## Rename
+
+Functions and datafiles that were renamed
+
+- [`validate_infosheet()`](https://marton-balazs-kovacs.github.io/tenzing/reference/rename.md)
+  [`read_infosheet()`](https://marton-balazs-kovacs.github.io/tenzing/reference/rename.md)
+  [`clean_infosheet()`](https://marton-balazs-kovacs.github.io/tenzing/reference/rename.md)
+  [`print_roles_readable()`](https://marton-balazs-kovacs.github.io/tenzing/reference/rename.md)
+  [`print_contrib_affil()`](https://marton-balazs-kovacs.github.io/tenzing/reference/rename.md)
+  **\[deprecated\]** : Functions renamed in tenzing 0.2.0
+
+# Articles
+
+### All vignettes
+
+- [Using tenzing as a shiny
+  app](https://marton-balazs-kovacs.github.io/tenzing/articles/app_use.md):
+- [Using tenzing as a
+  package](https://marton-balazs-kovacs.github.io/tenzing/articles/local_use.md):
+- [Custom Validation in
+  tenzing](https://marton-balazs-kovacs.github.io/tenzing/articles/validation.md):

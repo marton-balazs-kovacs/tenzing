@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,10 +111,10 @@ table template.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"contributors_table_example.csv"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">my_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_contributors_table.html">read_contributors_table</a></span><span class="op">(</span>contributors_table_path <span class="op">=</span> <span class="va">file_path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">3</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">26</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">5</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">28</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span>  (9): Firstname, Middle name, Surname, Affiliation 1, Affiliation 2, Aff...</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (11): Author/Acknowledgee, Firstname, Middle name, Surname, Affiliation ...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span>  (1): Order in publication</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -185,13 +185,13 @@ be fixed before generating output.</li>
 <p>You can check the status of each validation:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $minimal</span></span>
+<span><span class="co">#&gt; $minimal_rule</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation</span></span>
+<span><span class="co">#&gt; $affiliation_rule</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; $title_rule</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_order</span></span>
@@ -209,31 +209,34 @@ be fixed before generating output.</li>
 <span><span class="co">#&gt; $check_duplicate_initials</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_duplicate_names</span></span>
+<span><span class="co">#&gt; [1] "success"</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_corresponding</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_email</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $check_duplicate_names</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_affiliation</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_affiliation_consistency</span></span>
-<span><span class="co">#&gt; [1] "success"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "success"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_missing_orcid</span></span>
+<span><span class="co">#&gt; [1] "warning"</span></span></code></pre></div>
 <p>And review the detailed messages for failed checks:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $minimal</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
+<span><span class="co">#&gt; $minimal_rule</span></span>
+<span><span class="co">#&gt; [1] "All column requirements satisfied."</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $affiliation</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
+<span><span class="co">#&gt; $affiliation_rule</span></span>
+<span><span class="co">#&gt; [1] "All column requirements satisfied."</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $title</span></span>
-<span><span class="co">#&gt; All column requirements satisfied.</span></span>
+<span><span class="co">#&gt; $title_rule</span></span>
+<span><span class="co">#&gt; [1] "All column requirements satisfied."</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_order</span></span>
 <span><span class="co">#&gt; [1] "There are no missing values in the order of publication."</span></span>
@@ -250,20 +253,23 @@ be fixed before generating output.</li>
 <span><span class="co">#&gt; $check_duplicate_initials</span></span>
 <span><span class="co">#&gt; [1] "There are no duplicate initials in the contributors_table."</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_duplicate_names</span></span>
+<span><span class="co">#&gt; [1] "There are no duplicate names in the contributors_table."</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_corresponding</span></span>
 <span><span class="co">#&gt; [1] "There is at least one author indicated as corresponding author."</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_email</span></span>
 <span><span class="co">#&gt; [1] "There are email addresses provided for all corresponding authors."</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $check_duplicate_names</span></span>
-<span><span class="co">#&gt; [1] "There are no duplicate names in the contributors_table."</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_affiliation</span></span>
 <span><span class="co">#&gt; [1] "There are no missing affiliations in the contributors_table."</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_affiliation_consistency</span></span>
-<span><span class="co">#&gt; [1] "Affiliation column names are used consistently."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Affiliation column names are used consistently."</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_missing_orcid</span></span>
+<span><span class="co">#&gt; [1] "The ORCID iD is missing for: Smith (order 1), Luthor (order 2) and Pan (order 4)"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -288,18 +294,18 @@ function will list the contributions after the name of each researcher,
 instead of listing the appropriate names after each CRediT role.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_credit_roles.html">print_credit_roles</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">TRUE</span>, order_by <span class="op">=</span> <span class="st">"contributor"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; **J.M.S.:** Data curation, Funding acquisition, and Project administration.  </span></span>
-<span><span class="co">#&gt; **L.W.L.:** Data curation, Project administration, Resources, Writing - original draft, and Writing - review &amp; editing.  </span></span>
-<span><span class="co">#&gt; **M.K.:** Conceptualization, Funding acquisition, Methodology, and Supervision.</span></span></code></pre></div>
+<span><span class="co">#&gt; **M.K.:** Conceptualization, Funding acquisition, Methodology, and Supervision.  </span></span>
+<span><span class="co">#&gt; **J.M.S.:** Funding acquisition and Resources.  </span></span>
+<span><span class="co">#&gt; **L.W.L.:** Data curation, Project administration, Resources, Writing - original draft, and Writing - review &amp; editing.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-the-contributors-affiliation-page">Create the contributors’ affiliation page<a class="anchor" aria-label="anchor" href="#create-the-contributors-affiliation-page"></a>
 </h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_title_page.html">print_title_page</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt; John M. Smith^1,2*†^, Marton Kovacs^1,3,4*^, Lex W. Luthor^2,5^</span></span>
+<span><span class="co">#&gt; John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^</span></span>
 <span><span class="co">#&gt;    </span></span>
-<span><span class="co">#&gt; ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Department of Psychology, ^4^Institute for Interstellar Relations, Oxbridge University, UK, ^5^Metropolis University                       </span></span>
+<span><span class="co">#&gt; ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University, ^7^The University of Sydney, ^8^Neverland                       </span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt; *John M. Smith and Marton Kovacs are shared first authors. ^†^ Correspondence should be addressed to John M. Smith; E-mail: some@email.com.</span></span></code></pre></div>
 </div>
@@ -310,10 +316,16 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_xml.html">print_xml</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_document}</span></span>
-<span><span class="co">#&gt; &lt;contrib-group&gt;</span></span>
-<span><span class="co">#&gt; [1] &lt;contrib&gt;\n  &lt;name surname="Kovacs" given-names="Marton"/&gt;\n  &lt;role vocab ...</span></span>
-<span><span class="co">#&gt; [2] &lt;contrib&gt;\n  &lt;name surname="Luthor" given-names="Lex W."/&gt;\n  &lt;role vocab ...</span></span>
-<span><span class="co">#&gt; [3] &lt;contrib&gt;\n  &lt;name surname="Smith" given-names="John M."/&gt;\n  &lt;role vocab ...</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;article-meta&gt;</span></span>
+<span><span class="co">#&gt; [1] &lt;contrib-group&gt;\n  &lt;contrib contrib-type="author" corresp="yes"&gt;\n    &lt;na ...</span></span>
+<span><span class="co">#&gt; [2] &lt;aff id="aff1"&gt;\n  &lt;label&gt;1&lt;/label&gt;\n  &lt;institution&gt;Institute of Psycholo ...</span></span>
+<span><span class="co">#&gt; [3] &lt;aff id="aff2"&gt;\n  &lt;label&gt;2&lt;/label&gt;\n  &lt;institution&gt;LexCorp&lt;/institution&gt; ...</span></span>
+<span><span class="co">#&gt; [4] &lt;aff id="aff3"&gt;\n  &lt;label&gt;3&lt;/label&gt;\n  &lt;institution&gt;Institute for Interst ...</span></span>
+<span><span class="co">#&gt; [5] &lt;aff id="aff4"&gt;\n  &lt;label&gt;4&lt;/label&gt;\n  &lt;institution&gt;Department of Psychol ...</span></span>
+<span><span class="co">#&gt; [6] &lt;aff id="aff5"&gt;\n  &lt;label&gt;5&lt;/label&gt;\n  &lt;institution&gt;tenzing.club&lt;/institu ...</span></span>
+<span><span class="co">#&gt; [7] &lt;aff id="aff6"&gt;\n  &lt;label&gt;6&lt;/label&gt;\n  &lt;institution&gt;Metropolis University ...</span></span>
+<span><span class="co">#&gt; [8] &lt;author-notes&gt;\n  &lt;corresp id="cor1"&gt;Correspondence to: &lt;email&gt;some@email ...</span></span>
+<span><span class="co">#&gt; [9] &lt;funding-group&gt;\n  &lt;award-group&gt;\n    &lt;funding-source&gt;\n      &lt;institutio ...</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-a-yaml-document-containing-the-contributors-informtation">Create a YAML document containing the contributors informtation<a class="anchor" aria-label="anchor" href="#create-a-yaml-document-containing-the-contributors-informtation"></a>
@@ -322,7 +334,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>papaja</code> package.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_yaml.html">print_yaml</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2'\n    role:\n      - Formal analysis\n      - Visualization\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,3,4'\n    role:\n      - Data curation\n      - Methodology\n      - .na.character\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,5'\n    role:\n      - Formal analysis\n      - Funding acquisition\n      - Software\n      - Supervision\n      - .na.character\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Department of Psychology\n  - id: 4\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 5\n    institution: Metropolis University\n"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Visualization\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Data curation\n      - Methodology\n      - .na.character\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Formal analysis\n      - Funding acquisition\n      - Software\n      - Supervision\n      - .na.character\n    corresponding: no\n  Alex O. Holcombe:\n    name: Alex O. Holcombe\n    affiliation: '7'\n    role:\n      - Conceptualization\n      - .na.character\n    corresponding: no\n  Peter Pan:\n    name: Peter Pan\n    affiliation: '8'\n    role: .na.character\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n  - id: 7\n    institution: The University of Sydney\n  - id: 8\n    institution: Neverland\n"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-funding-acknowledgements-section">Create funding acknowledgements section<a class="anchor" aria-label="anchor" href="#create-funding-acknowledgements-section"></a>
@@ -331,7 +343,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>initials</code> argument <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_funding.html">print_funding</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "A.O.H. was supported by Australian Fund; J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-a-conflict-of-interest-statement">Create a conflict of interest statement<a class="anchor" aria-label="anchor" href="#create-a-conflict-of-interest-statement"></a>
@@ -340,7 +352,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>initials</code> argument <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_conflict_statement.html">print_conflict_statement</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "John M. Smith, Marton Kovacs, and Lex W. Luthor declare no competing interest."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -354,7 +366,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

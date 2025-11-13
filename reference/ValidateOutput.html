@@ -9,7 +9,7 @@ ValidateOutput Class for Contributors Table Validation"><meta property="og:image
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,12 +46,13 @@ ValidateOutput Class for Contributors Table Validation"><meta property="og:image
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The <code>ValidateOutput</code> class runs both <strong>column-based validation</strong> (ensuring required columns exist)
-and <strong>data-based validation</strong> (checking correctness of values) for a contributors table.</p>
+    <p>The <code>ValidateOutput</code> class runs both <strong>column-based validation</strong> (ensuring
+required columns exist) and <strong>data-based validation</strong> (checking correctness of
+values) for a contributors table.</p>
 <p>It integrates two validation classes:</p><ul><li><p><strong><code><a href="ColumnValidator.html">ColumnValidator</a></code></strong>: Ensures required columns are present.</p></li>
 <li><p><strong><code><a href="Validator.html">Validator</a></code></strong>: Runs content-based validation checks on contributor data.</p></li>
-</ul><p>This validation process is <strong>configured via a YAML file</strong>. The <code>inst/config/</code> package di contains predefined YAML configuration files
-for each of the six output types.</p>
+</ul><p>This validation process is <strong>configured via a YAML file</strong>. The <code>inst/config/</code>
+package directory contains predefined YAML configuration files for each output type.</p>
     </div>
     <div class="section level2">
     <h2 id="column-validation">Column Validation<a class="anchor" aria-label="anchor" href="#column-validation"></a></h2>
@@ -134,14 +135,17 @@ validation_config:
 
 <div class="sourceCode"><pre><code><span></span>
 <span><span class="co"># Load a validation configuration file</span></span>
-<span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="st">"inst/config/title_validation.yaml"</span></span>
+<span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a ValidateOutput instance</span></span>
 <span><span class="va">validate_output</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_path <span class="op">=</span> <span class="va">config_path</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Run validation on the contributors table</span></span>
+<span><span class="co"># Run validation on the contributors table (no context)</span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">validate_output</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># Or run with a context (e.g., UI presets for an output)</span></span>
+<span><span class="va">ctx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>include <span class="op">=</span> <span class="st">"author"</span>, order_by <span class="op">=</span> <span class="st">"contributor"</span>, pub_order <span class="op">=</span> <span class="st">"asc"</span><span class="op">)</span></span>
+<span><span class="va">results_ctx</span> <span class="op">&lt;-</span> <span class="va">validate_output</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span>, context <span class="op">=</span> <span class="va">ctx</span><span class="op">)</span></span></code></pre></div>
 
     </div>
     <div class="section level2">
@@ -177,13 +181,21 @@ validation_config:
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Initializes the <code>ValidateOutput</code> class.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/ValidateOutput.html">ValidateOutput</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">config_path</span>, use_base_config <span class="op">=</span> <span class="cn">TRUE</span>, validate_schema <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>config_path</code></dt>
 <dd><p>Path to the YAML configuration file.</p></dd>
+
+
+<dt><code>use_base_config</code></dt>
+<dd><p>Whether to merge with base configuration (default: TRUE).</p></dd>
+
+
+<dt><code>validate_schema</code></dt>
+<dd><p>Whether to validate the configuration schema (default: TRUE).</p></dd>
 
 
 </dl><p></p></div>
@@ -193,7 +205,7 @@ validation_config:
 <h3 id="method-run-validations-">Method <code>run_validations()</code><a class="anchor" aria-label="anchor" href="#method-run-validations-"></a></h3>
 <p>Runs both column and data validation on a contributors table.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ValidateOutput</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">ValidateOutput</span><span class="op">$</span><span class="fu">run_validations</span><span class="op">(</span><span class="va">contributors_table</span>, context <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -202,11 +214,18 @@ validation_config:
 <dd><p>A dataframe containing contributor data.</p></dd>
 
 
+<dt><code>context</code></dt>
+<dd><p>Optional named list providing contextual information
+for validations (e.g., <code>list(include = "author", order_by = "role", pub_order = "asc")</code>).
+This is made available to validations via the <code>Validator</code> and can be used in
+YAML <code>dependencies</code> as <code>context$...</code>.</p></dd>
+
+
 </dl><p></p></div>
 </div>
 <div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>A list of validation results, each containing:</p><ul><li><p><code>type</code>: <code>"error"</code>, <code>"warning"</code>, or <code>"success"</code>.</p></li>
+<p>A named list of validation results. Each element is a list with:</p><ul><li><p><code>type</code>: <code>"error"</code>, <code>"warning"</code>, or <code>"success"</code>.</p></li>
 <li><p><code>message</code>: A descriptive validation message.</p></li>
 </ul></div>
 
@@ -239,7 +258,7 @@ validation_config:
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

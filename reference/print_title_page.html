@@ -13,7 +13,7 @@ return the output string as rmarkdown or html formatted text or without any form
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,12 @@ return the output string as rmarkdown or html formatted text or without any form
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">print_title_page</span><span class="op">(</span><span class="va">contributors_table</span>, text_format <span class="op">=</span> <span class="st">"rmd"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">print_title_page</span><span class="op">(</span></span>
+<span>  <span class="va">contributors_table</span>,</span>
+<span>  text_format <span class="op">=</span> <span class="st">"rmd"</span>,</span>
+<span>  include_orcid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  orcid_style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"badge"</span>, <span class="st">"text"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -65,6 +70,14 @@ return the output string as rmarkdown or html formatted text or without any form
 <dt id="arg-text-format">text_format<a class="anchor" aria-label="anchor" href="#arg-text-format"></a></dt>
 <dd><p>formatting of the returned string. Possible values: "rmd", "html", "raw".
 "rmd" by default.</p></dd>
+
+
+<dt id="arg-include-orcid">include_orcid<a class="anchor" aria-label="anchor" href="#arg-include-orcid"></a></dt>
+<dd><p>Logical. Whether to include ORCID iD information. Default is FALSE.</p></dd>
+
+
+<dt id="arg-orcid-style">orcid_style<a class="anchor" aria-label="anchor" href="#arg-orcid-style"></a></dt>
+<dd><p>Character. Style for displaying ORCID iD. Either "badge" or "text". Default is "badge".</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -85,11 +98,11 @@ validating it.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other output functions:
-<code><a href="print_conflict_statement.html">print_conflict_statement</a>()</code>,
-<code><a href="print_credit_roles.html">print_credit_roles</a>()</code>,
-<code><a href="print_funding.html">print_funding</a>()</code>,
-<code><a href="print_xml.html">print_xml</a>()</code>,
-<code><a href="print_yaml.html">print_yaml</a>()</code></p></div>
+<code><a href="print_conflict_statement.html">print_conflict_statement()</a></code>,
+<code><a href="print_credit_roles.html">print_credit_roles()</a></code>,
+<code><a href="print_funding.html">print_funding()</a></code>,
+<code><a href="print_xml.html">print_xml()</a></code>,
+<code><a href="print_yaml.html">print_yaml()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -97,19 +110,19 @@ validating it.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_contributors_table.html">read_contributors_table</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>contributors_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,</span></span>
 <span class="r-in"><span><span class="st">"contributors_table_example.csv"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">3</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">26</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">5</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">28</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> ","</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span>  (9): Firstname, Middle name, Surname, Affiliation 1, Affiliation 2, Aff...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span> (11): Author/Acknowledgee, Firstname, Middle name, Surname, Affiliation ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">dbl</span>  (1): Order in publication</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="r-in"><span><span class="fu">print_title_page</span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">example_contributors_table</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> John M. Smith^1,2*†^, Marton Kovacs^1,3,4*^, Lex W. Luthor^2,5^</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Department of Psychology, ^4^Institute for Interstellar Relations, Oxbridge University, UK, ^5^Metropolis University                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University, ^7^The University of Sydney, ^8^Neverland                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> *John M. Smith and Marton Kovacs are shared first authors. ^†^ Correspondence should be addressed to John M. Smith; E-mail: some@email.com.</span>
 <span class="r-in"><span></span></span>
@@ -124,7 +137,7 @@ validating it.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,11 +65,9 @@
 </div>
 <!-- badges: start -->
 
-<!-- badges: end -->
-<p>An easy-to-use web app for researchers, tenzing generates reports about the contribution of each team member on a project using CRediT. Researchers typically paste these reports into their journal manuscripts. JATS-XML can also be generated, for publishers to incorporate into article metadata.</p>
+<p>Tenzing, an easy-to-use web-based app, allows researchers to generate reports about the contribution of each team member on a project using CRediT, for insertion into their manuscripts and for publishers to potentially incorporate into article metadata.</p>
 <p><a href="http://credit.niso.org/" class="external-link">CRediT</a> (Contributor Roles Taxonomy) is a taxonomy of 14 categories of contributions to scientific scholarly output. Each researcher can indicate which category they contributed to in a scholarly project.</p>
-<p>Tenzing is a Shiny app programmed with R. There is also an R package version.</p>
-<p>Tenzing is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, he received less credit than his partner, the New Zealand mountaineer Edmund Hillary.</p>
+<p>The app is named after the Nepali-Indian Sherpa Tenzing Norgay, who was one of the two individuals who reached the summit of Mount Everest for the first time. Despite his essential contribution, he received less credit than his partner, the New Zealand mountaineer Edmund Hillary.</p>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
@@ -80,6 +78,8 @@
 <li>create the contributors’ affiliation information, designed for inclusion in the first page of a manuscript</li>
 <li>create JATS XML with the contributions, suitable for publishers to include in metadata</li>
 <li>create a YAML output that will automatically add the contributorship information to the <code>papaja</code>package used by some researchers to write APA-formatted manuscripts</li>
+<li>create a funding acknowledgment section</li>
+<li>create a conflict of interest statement</li>
 </ul>
 </div>
 <div class="section level2">
@@ -109,7 +109,7 @@
 <div class="section level2">
 <h2 id="contribution">Contribution<a class="anchor" aria-label="anchor" href="#contribution"></a>
 </h2>
-<p>We are open to new ideas and feature requests. You can see already-requested features <a href="https://github.com/marton-balazs-kovacs/tenzing/issues?q=is%3Aissue%20state%3Aopen%20label%3Aenhancement" class="external-link">in the Github Issues</a>.</p>
+<p>We are open to new ideas and feature requests. We think Tenzing has the potential to make additional contributorship-related tasks easy for researchers.</p>
 <p>Please note that the ‘tenzing’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
@@ -156,7 +156,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
 
@@ -169,7 +169,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

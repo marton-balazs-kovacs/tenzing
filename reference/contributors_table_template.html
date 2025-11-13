@@ -13,7 +13,7 @@ provided in the shiny app."><meta property="og:image" content="https://marton-ba
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,10 @@ provided in the shiny app.</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A dataframe with 3 rows and 22 variables:</p><dl><dt>'Order in publication'</dt>
+    <p>A dataframe with 3 rows and 22 variables:</p><dl><dt>'Author/Acknowledgee'</dt>
+<dd><p>character, whether the contributor is an 'Author', 'Acknowledgment only', or 'Don't agree to be named'</p></dd>
+
+<dt>'Order in publication'</dt>
 <dd><p>numeric, used to order the contributors for all outputs, shared first authorship is allowed</p></dd>
 
 <dt>Firstname</dt>
@@ -110,6 +113,9 @@ provided in the shiny app.</p>
 <dt>'Writing - review &amp; editing'</dt>
 <dd><p>logical, CREdiT role</p></dd>
 
+<dt>Note</dt>
+<dd><p>character, optional comments for the contributor</p></dd>
+
 <dt>'Email address'</dt>
 <dd><p>character, email address of the correspondign author, optional</p></dd>
 
@@ -120,7 +126,7 @@ provided in the shiny app.</p>
 <dd><p>character, secondary affiliation of the contributor, blank if not applicable</p></dd>
 
 <dt>'Affiliation 3'</dt>
-<dd><p>character, tertiary affiliation of the contributor, blank if not applicable, more affiliation columns can be added following the "Affiliation n" pattern</p></dd>
+<dd><p>character, tertiary affiliation of the contributor, blank if not applicable, more affiliation columns can be added following the "Affiliation {n}" pattern</p></dd>
 
 <dt>Funding</dt>
 <dd><p>character, name of the funds, blank if not applicable</p></dd>
@@ -131,7 +137,7 @@ provided in the shiny app.</p>
 <dt>'Corresponding author?'</dt>
 <dd><p>logical, TRUE for contributor who is the corresponding author, multiple corresponding authors are allowed</p></dd>
 
-<dt>'Conflict of interest'</dt>
+<dt>'Declares'</dt>
 <dd><p>character, conflict of interest statement of the contributor</p></dd>
 
 
@@ -159,7 +165,7 @@ of contributors while using the package.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

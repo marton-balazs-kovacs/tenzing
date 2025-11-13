@@ -15,7 +15,7 @@ rmarkdown or html formatted text or without any formatting."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">tenzing</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,11 @@ rmarkdown or html formatted text or without any formatting.</p>
 <span>  <span class="va">contributors_table</span>,</span>
 <span>  text_format <span class="op">=</span> <span class="st">"rmd"</span>,</span>
 <span>  initials <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  order_by <span class="op">=</span> <span class="st">"role"</span></span>
+<span>  order_by <span class="op">=</span> <span class="st">"role"</span>,</span>
+<span>  include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"author"</span>, <span class="st">"acknowledgment"</span><span class="op">)</span>,</span>
+<span>  pub_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"asc"</span>, <span class="st">"desc"</span><span class="op">)</span>,</span>
+<span>  include_orcid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  orcid_style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"badge"</span>, <span class="st">"text"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,6 +88,28 @@ names in the output</p></dd>
 <dd><p>Character. Whether the contributing authors listed for each role ("role"), or
 the roles are listed after the name of each contributor ("contributor").</p></dd>
 
+
+<dt id="arg-include">include<a class="anchor" aria-label="anchor" href="#arg-include"></a></dt>
+<dd><p>Character. Filter which people to include:</p><ul><li><p>"author" (keep rows where <code>Author/Acknowledgee</code> == "Author")</p></li>
+<li><p>"acknowledgment" (keep rows where <code>Author/Acknowledgee</code> == "Acknowledgment only")
+Rows with "Don't agree to be named" are always excluded.</p></li>
+</ul></dd>
+
+
+<dt id="arg-pub-order">pub_order<a class="anchor" aria-label="anchor" href="#arg-pub-order"></a></dt>
+<dd><p>Character. "asc" (default) or "desc" for <code>Order in publication</code>.</p></dd>
+
+
+<dt id="arg-include-orcid">include_orcid<a class="anchor" aria-label="anchor" href="#arg-include-orcid"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, append ORCID information after contributor names
+(as badges for HTML/Rmd, or plain text for raw output). Defaults to <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-orcid-style">orcid_style<a class="anchor" aria-label="anchor" href="#arg-orcid-style"></a></dt>
+<dd><p>Character. When ORCID inclusion is enabled, choose <code>"badge"</code> (default)
+to render the ORCID icon with a link, or <code>"text"</code> to render the normalized ORCID URL
+in parentheses after the name.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -102,11 +128,11 @@ validating it.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other output functions:
-<code><a href="print_conflict_statement.html">print_conflict_statement</a>()</code>,
-<code><a href="print_funding.html">print_funding</a>()</code>,
-<code><a href="print_title_page.html">print_title_page</a>()</code>,
-<code><a href="print_xml.html">print_xml</a>()</code>,
-<code><a href="print_yaml.html">print_yaml</a>()</code></p></div>
+<code><a href="print_conflict_statement.html">print_conflict_statement()</a></code>,
+<code><a href="print_funding.html">print_funding()</a></code>,
+<code><a href="print_title_page.html">print_title_page()</a></code>,
+<code><a href="print_xml.html">print_xml()</a></code>,
+<code><a href="print_yaml.html">print_yaml()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -114,10 +140,10 @@ validating it.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_contributors_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_contributors_table.html">read_contributors_table</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>contributors_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,</span></span>
 <span class="r-in"><span><span class="st">"contributors_table_example.csv"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">3</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">26</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">5</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">28</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> ","</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span>  (9): Firstname, Middle name, Surname, Affiliation 1, Affiliation 2, Aff...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span> (11): Author/Acknowledgee, Firstname, Middle name, Surname, Affiliation ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">dbl</span>  (1): Order in publication</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">lgl</span> (16): Conceptualization, Data curation, Formal analysis, Funding acquisi...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -125,11 +151,11 @@ validating it.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 <span class="r-in"><span><span class="fu">print_credit_roles</span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">example_contributors_table</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Conceptualization:** Marton Kovacs.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> **Data curation:** John M. Smith and Lex W. Luthor.  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> **Data curation:** Lex W. Luthor.  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Funding acquisition:** John M. Smith and Marton Kovacs.  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Methodology:** Marton Kovacs.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> **Project administration:** John M. Smith and Lex W. Luthor.  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> **Resources:** Lex W. Luthor.  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> **Project administration:** Lex W. Luthor.  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> **Resources:** John M. Smith and Lex W. Luthor.  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Supervision:** Marton Kovacs.  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Writing - original draft:** Lex W. Luthor.  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> **Writing - review &amp; editing:** Lex W. Luthor.</span>
@@ -145,7 +171,7 @@ validating it.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
