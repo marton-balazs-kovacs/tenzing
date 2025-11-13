@@ -32,3 +32,4 @@ A shiny tagList row
 \description{
 Generates a toggle switch row with a label, a shinyWidgets materialSwitch, and an optional right label, with robust flexbox alignment.
 }
+\keyword{internal}

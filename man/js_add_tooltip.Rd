@@ -14,3 +14,4 @@ js_add_tooltip(selector, message)
 \description{
 Add tooltip to element
 }
+\keyword{internal}

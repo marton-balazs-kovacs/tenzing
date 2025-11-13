@@ -15,3 +15,4 @@ TRUE if valid, FALSE otherwise
 \description{
 Validate validation configuration schema
 }
+\keyword{internal}

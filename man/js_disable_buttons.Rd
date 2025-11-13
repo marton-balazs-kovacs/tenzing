@@ -12,3 +12,4 @@ js_disable_buttons(selector)
 \description{
 Disable buttons by selector
 }
+\keyword{internal}

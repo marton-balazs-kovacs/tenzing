@@ -19,3 +19,4 @@ A standardized error validation result.
 \description{
 Create an error validation result
 }
+\keyword{internal}

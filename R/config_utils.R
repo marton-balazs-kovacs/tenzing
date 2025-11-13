@@ -3,7 +3,11 @@
 #' This module provides utilities for managing validation configurations,
 #' including loading base configurations and merging them with specific configs.
 
-# Configuration cache
+#' Configuration cache environment
+#'
+#' Internal environment used for caching validation configurations.
+#'
+#' @keywords internal
 .config_cache <- new.env()
 
 #' Load and merge validation configuration
@@ -16,6 +20,7 @@
 #' @param base_config_path Path to the base configuration file (optional)
 #' @param use_cache Whether to use caching (default: TRUE)
 #' @return Merged configuration list
+#' @keywords internal
 #' @export
 load_validation_config <- function(config_path, base_config_path = NULL, use_cache = TRUE) {
   # Create cache key
@@ -109,6 +114,7 @@ validate_config_schema <- function(config) {
 #'
 #' @param column_config Column configuration to validate
 #' @return TRUE if valid, FALSE otherwise
+#' @keywords internal
 #' @export
 validate_column_config_schema <- function(column_config) {
   if (!is.list(column_config)) {
@@ -170,6 +176,7 @@ validate_column_config_schema <- function(column_config) {
 #'
 #' @param validation_config Validation configuration to validate
 #' @return TRUE if valid, FALSE otherwise
+#' @keywords internal
 #' @export
 validate_validation_config_schema <- function(validation_config) {
   if (!is.list(validation_config)) {

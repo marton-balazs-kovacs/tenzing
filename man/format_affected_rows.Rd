@@ -27,3 +27,4 @@ Formatted string of affected rows.
 Takes a filtered dataframe and formats row identifiers for each row,
 then collapses them with appropriate separators and capping.
 }
+\keyword{internal}

@@ -12,3 +12,4 @@ HTML tags for analytics script
 \description{
 Adds Matomo analytics tracking script.
 }
+\keyword{internal}

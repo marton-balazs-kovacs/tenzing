@@ -12,3 +12,4 @@ HTML tag for navbar header
 \description{
 Create navbar header
 }
+\keyword{internal}

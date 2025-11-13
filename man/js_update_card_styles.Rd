@@ -18,3 +18,4 @@ js_update_card_styles(card_id, header_text_id, text_color, border_color)
 \description{
 Update validation card styles
 }
+\keyword{internal}

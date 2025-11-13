@@ -21,3 +21,4 @@ HTML tag for step panel
 \description{
 Create a step panel
 }
+\keyword{internal}

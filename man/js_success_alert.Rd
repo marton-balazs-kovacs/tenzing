@@ -12,3 +12,4 @@ js_success_alert(message = "")
 \description{
 Show success alert
 }
+\keyword{internal}

@@ -7,6 +7,7 @@
 #' Adds SweetAlert2 and Prism.js libraries.
 #' 
 #' @return HTML tags for JavaScript libraries
+#' @keywords internal
 add_js_libraries <- function() {
   tagList(
     # SweetAlert2
@@ -27,6 +28,7 @@ add_js_libraries <- function() {
 #' Adds application-specific JavaScript files.
 #' 
 #' @return HTML tags for custom JavaScript files
+#' @keywords internal
 add_custom_js_files <- function() {
   tagList(
     tags$script(src = "www/sweet_alert.js"),
@@ -45,6 +47,7 @@ add_custom_js_files <- function() {
 #' Adds application CSS stylesheet.
 #' 
 #' @return HTML tags for CSS files
+#' @keywords internal
 add_css_resources <- function() {
   tags$link(
     rel = "stylesheet",
@@ -58,6 +61,7 @@ add_css_resources <- function() {
 #' Adds Matomo analytics tracking script.
 #' 
 #' @return HTML tags for analytics script
+#' @keywords internal
 add_analytics_script <- function() {
   HTML("<script>
   var _paq = window._paq = window._paq || [];
@@ -79,6 +83,7 @@ add_analytics_script <- function() {
 #' Sets up resource paths for www directory.
 #' 
 #' @return No return value, called for side effects
+#' @keywords internal
 setup_resource_paths <- function() {
   addResourcePath(
     'www',

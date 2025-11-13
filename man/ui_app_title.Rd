@@ -12,3 +12,4 @@ HTML tag for app title
 \description{
 Create app title section
 }
+\keyword{internal}

@@ -16,3 +16,4 @@ A formatted string like "Smith (order 3)", "John (order 3)" (if surname missing)
 Formats a row identifier using surname (or firstname as fallback) and order in publication.
 Falls back gracefully when data is missing.
 }
+\keyword{internal}

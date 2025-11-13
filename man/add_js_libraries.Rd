@@ -12,3 +12,4 @@ HTML tags for JavaScript libraries
 \description{
 Adds SweetAlert2 and Prism.js libraries.
 }
+\keyword{internal}

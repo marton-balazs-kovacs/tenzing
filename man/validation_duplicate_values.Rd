@@ -19,3 +19,4 @@ A standardized validation result for duplicate values.
 \description{
 Create a validation result for duplicate values
 }
+\keyword{internal}

@@ -7,6 +7,7 @@
 #' @param value Initial value of the switch. Default is FALSE.
 #' @param title Optional heading displayed above the toggle controls.
 #' @return A shiny tagList row
+#' @keywords internal
 #' @export
 #' @importFrom shiny div tags
 #' @importFrom shinyWidgets materialSwitch

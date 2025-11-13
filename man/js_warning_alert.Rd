@@ -12,3 +12,4 @@ js_warning_alert(message)
 \description{
 Show warning alert
 }
+\keyword{internal}

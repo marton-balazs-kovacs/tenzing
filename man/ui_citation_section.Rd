@@ -12,3 +12,4 @@ HTML tag for citation section
 \description{
 Citation HTML is kept inline for easy editing.
 }
+\keyword{internal}

@@ -12,3 +12,4 @@ HTML tags for custom JavaScript files
 \description{
 Adds application-specific JavaScript files.
 }
+\keyword{internal}

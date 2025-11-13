@@ -19,3 +19,4 @@ A standardized warning validation result.
 \description{
 Create a warning validation result
 }
+\keyword{internal}

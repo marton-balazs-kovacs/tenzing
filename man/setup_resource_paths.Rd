@@ -12,3 +12,4 @@ No return value, called for side effects
 \description{
 Sets up resource paths for www directory.
 }
+\keyword{internal}

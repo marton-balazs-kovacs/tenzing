@@ -15,3 +15,4 @@ HTML tag for help icon
 \description{
 Create a help icon widget
 }
+\keyword{internal}

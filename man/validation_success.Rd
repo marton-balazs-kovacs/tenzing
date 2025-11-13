@@ -17,3 +17,4 @@ A standardized success validation result.
 \description{
 Create a success validation result
 }
+\keyword{internal}

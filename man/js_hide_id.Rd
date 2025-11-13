@@ -12,3 +12,4 @@ js_hide_id(id)
 \description{
 Hide element by ID
 }
+\keyword{internal}

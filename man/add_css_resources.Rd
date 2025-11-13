@@ -12,3 +12,4 @@ HTML tags for CSS files
 \description{
 Adds application CSS stylesheet.
 }
+\keyword{internal}

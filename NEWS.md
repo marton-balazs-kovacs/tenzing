@@ -1,3 +1,20 @@
+# tenzing 0.4.0
+
+## New features
+- Added the option to include acknowledged contributors and those who do not want to be named in the paper to the contributors table.
+- Contributor statements are now generated separately for acknowledgees and authors.
+- Acknowledgees are now listed in the JATS 1.3 XML output with affiliations and CRediT roles.
+- Funding and conflict of interest statements are now included in the JATS 1.3 XML output.
+- Full article JATS 1.3 XML can optionally be generated with mock data so the output can be validated with the J4R Validator: https://jats4r-validator.niso.org/.
+- ORCID iDs can be included with an unauthorized ORCID badge (with hyperlink) or as plain text in the contributors statement, title page, and JATS 1.3 XML outputs.
+- Added additional conditional validators for the new outputs.
+- Added additional validation helpers for creating and exploring validation config files.
+- Added more opportunities to customize the outputs with toggle switches.
+
+## Bug fixes
+- Superscript formatting in the downloaded title page output has been fixed.
+- The app now produces valid JATS 1.3 XML.
+
 # tenzing 0.2.0
 
 ## Renamed functions

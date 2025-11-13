@@ -13,3 +13,4 @@ js_enable_buttons(selector)
 Note: The underlying JS handler is named "reable" (typo) but this wrapper
 provides the correct name "enable" for better clarity.
 }
+\keyword{internal}

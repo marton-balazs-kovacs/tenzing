@@ -12,3 +12,4 @@ js_show_id(id)
 \description{
 Show element by ID
 }
+\keyword{internal}

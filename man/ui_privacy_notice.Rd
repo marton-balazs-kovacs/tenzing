@@ -12,3 +12,4 @@ HTML tag for privacy notice
 \description{
 Privacy notice HTML is kept inline for easy editing.
 }
+\keyword{internal}

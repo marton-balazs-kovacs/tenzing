@@ -36,3 +36,4 @@ Create a standardized validation result
 This function creates a standardized validation result with consistent
 structure, formatting, and optional metadata.
 }
+\keyword{internal}

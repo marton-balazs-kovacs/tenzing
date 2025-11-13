@@ -13,5 +13,9 @@ An object of class \code{environment} of length 0.
 \description{
 This module provides utilities for managing validation configurations,
 including loading base configurations and merging them with specific configs.
+Configuration cache environment
 }
-\keyword{datasets}
+\details{
+Internal environment used for caching validation configurations.
+}
+\keyword{internal}

@@ -12,3 +12,4 @@ js_remove_tooltip(selector)
 \description{
 Remove tooltip from element
 }
+\keyword{internal}

@@ -7,6 +7,7 @@
 #' 
 #' @param help_text Tooltip text to display
 #' @return HTML tag for help icon
+#' @keywords internal
 ui_help_icon <- function(help_text) {
   div(
     class = "help-icon-container",
@@ -22,6 +23,7 @@ ui_help_icon <- function(help_text) {
 #' @param help_text Help text for tooltip
 #' @param content Panel content (UI elements)
 #' @return HTML tag for step panel
+#' @keywords internal
 ui_step_panel <- function(number, title, help_text, content) {
   div(
     class = "main-steps-container",
@@ -49,6 +51,7 @@ ui_step_panel <- function(number, title, help_text, content) {
 #' Citation HTML is kept inline for easy editing.
 #' 
 #' @return HTML tag for citation section
+#' @keywords internal
 ui_citation_section <- function() {
   HTML(
     "<p><b>Citation:</b></br>
@@ -63,6 +66,7 @@ ui_citation_section <- function() {
 #' Privacy notice HTML is kept inline for easy editing.
 #' 
 #' @return HTML tag for privacy notice
+#' @keywords internal
 ui_privacy_notice <- function() {
   HTML(
     "<p><b>Privacy:</b><BR>
@@ -73,6 +77,7 @@ ui_privacy_notice <- function() {
 #' Create navbar header
 #' 
 #' @return HTML tag for navbar header
+#' @keywords internal
 ui_navbar_header <- function() {
   tagList(
     div(
@@ -91,6 +96,7 @@ ui_navbar_header <- function() {
 #' Create app title section
 #' 
 #' @return HTML tag for app title
+#' @keywords internal
 ui_app_title <- function() {
   list(
     div(

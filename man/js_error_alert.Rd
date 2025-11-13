@@ -14,3 +14,4 @@ js_error_alert(error, warning = "")
 \description{
 Show error alert
 }
+\keyword{internal}

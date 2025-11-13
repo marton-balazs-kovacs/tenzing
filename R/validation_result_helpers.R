@@ -15,6 +15,7 @@
 #' @param affected_rows Optional vector of row numbers or identifiers affected.
 #' @param timestamp Optional POSIXct timestamp (defaults to current time).
 #' @return A list with standardized validation result structure.
+#' @keywords internal
 #' @export
 create_validation_result <- function(type, message, details = NULL, affected_rows = NULL, timestamp = NULL) {
   # Validate type
@@ -47,6 +48,7 @@ create_validation_result <- function(type, message, details = NULL, affected_row
 #' @param message Character string with the success message.
 #' @param details Optional list with additional details.
 #' @return A standardized success validation result.
+#' @keywords internal
 #' @export
 validation_success <- function(message, details = NULL) {
   create_validation_result(
@@ -62,6 +64,7 @@ validation_success <- function(message, details = NULL) {
 #' @param affected_rows Optional vector of affected row numbers.
 #' @param details Optional list with additional details.
 #' @return A standardized warning validation result.
+#' @keywords internal
 #' @export
 validation_warning <- function(message, affected_rows = NULL, details = NULL) {
   create_validation_result(
@@ -78,6 +81,7 @@ validation_warning <- function(message, affected_rows = NULL, details = NULL) {
 #' @param affected_rows Optional vector of affected row numbers.
 #' @param details Optional list with additional details.
 #' @return A standardized error validation result.
+#' @keywords internal
 #' @export
 validation_error <- function(message, affected_rows = NULL, details = NULL) {
   create_validation_result(
@@ -95,6 +99,7 @@ validation_error <- function(message, affected_rows = NULL, details = NULL) {
 #'
 #' @param row_data A single-row dataframe containing contributor information.
 #' @return A formatted string like "Smith (order 3)", "John (order 3)" (if surname missing), "Smith", "(order 3)", or "row X".
+#' @keywords internal
 #' @export
 format_row_identifier <- function(row_data) {
   # Extract surname, firstname, and order
@@ -168,6 +173,7 @@ format_row_identifier <- function(row_data) {
 #' @param collapse_sep Separator for collapsing multiple rows (default: ", ").
 #' @param last_sep Separator for the last item (default: " and ").
 #' @return Formatted string of affected rows.
+#' @keywords internal
 #' @export
 format_affected_rows <- function(filtered_df, max_display = 10, collapse_sep = ", ", last_sep = " and ") {
   if (is.null(filtered_df) || nrow(filtered_df) == 0) {
@@ -196,6 +202,7 @@ format_affected_rows <- function(filtered_df, max_display = 10, collapse_sep = "
 #' @param missing_rows_df A dataframe containing the rows with missing values.
 #' @param severity Severity level: "warning" or "error" (default: "warning").
 #' @return A standardized validation result for missing values.
+#' @keywords internal
 #' @export
 validation_missing_values <- function(column_name, missing_rows_df, severity = "warning") {
   if (is.null(missing_rows_df) || nrow(missing_rows_df) == 0) {
@@ -225,6 +232,7 @@ validation_missing_values <- function(column_name, missing_rows_df, severity = "
 #' @param duplicate_rows List of vectors, each containing row numbers for a duplicate group.
 #' @param severity Severity level: "warning" or "error" (default: "warning").
 #' @return A standardized validation result for duplicate values.
+#' @keywords internal
 #' @export
 validation_duplicate_values <- function(column_name, duplicate_rows, severity = "warning") {
   if (length(duplicate_rows) == 0) {
@@ -271,6 +279,7 @@ validation_duplicate_values <- function(column_name, duplicate_rows, severity = 
 #' @param operator The logical operator used ("AND", "OR", "NOT").
 #' @param severity Severity level: "warning" or "error" (default: "error").
 #' @return A standardized validation result for column requirements.
+#' @keywords internal
 #' @export
 validation_missing_columns <- function(missing_columns, required_columns, operator, severity = "error") {
   if (length(missing_columns) == 0) {

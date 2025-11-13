@@ -1,6 +1,6 @@
 Package: tenzing
 Title: Documenting Contributions to Scientific Scholarly Output with CRediT
-Version: 0.3.0
+Version: 0.4.0
 Authors@R:
   c(person(given = "Marton",
            family = "Kovacs",

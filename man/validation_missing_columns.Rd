@@ -26,3 +26,4 @@ A standardized validation result for column requirements.
 \description{
 Create a validation result for column requirements
 }
+\keyword{internal}

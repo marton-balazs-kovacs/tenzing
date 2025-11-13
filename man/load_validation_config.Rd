@@ -21,3 +21,4 @@ This function loads a base configuration and merges it with a specific
 configuration file, allowing for inheritance and reduced duplication.
 Includes caching to improve performance.
 }
+\keyword{internal}
