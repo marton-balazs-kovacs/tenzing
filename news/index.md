@@ -1,5 +1,13 @@
 # Changelog
 
+## tenzing 0.4.1
+
+### Bug fixes
+
+- Fixed a rendering bug with the spreadsheet view module
+- Meaningful error message regarding “Conflict of interest” - “Declares”
+  column renaming
+
 ## tenzing 0.4.0
 
 ### New features

@@ -74,6 +74,8 @@ Functions for custom validation checks
   : Check allowed values in Author/Acknowledgee
 - [`check_coi()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi.md)
   : Check for Missing Conflict of Interest Statements
+- [`check_coi_column_rename()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi_column_rename.md)
+  : Check for Old Conflict of Interest Column Name
 - [`check_corresponding_non_author()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_corresponding_non_author.md)
   : Check that only Authors are marked as Corresponding
 - [`check_credit()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_credit.md)
