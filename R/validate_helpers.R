@@ -367,6 +367,29 @@ check_coi <- function(contributors_table) {
   }
 }
 
+#' Check for Old Conflict of Interest Column Name
+#'
+#' This function checks if the old column name "Conflict of interest" is present
+#' in the contributors table. If found, it returns a warning with instructions
+#' to update the column name to "Declares".
+#'
+#' @param contributors_table A dataframe containing the contributors' information.
+#'
+#' @return A list containing:
+#' \item{type}{Type of validation result: "success" or "warning".}
+#' \item{message}{An informative message indicating that the column name needs to be updated.}
+check_coi_column_rename <- function(contributors_table) {
+  if ("Conflict of interest" %in% colnames(contributors_table)) {
+    return(
+      validation_warning(
+        "The `Conflict of interest` column was renamed to `Declares`, please update the column name in your contributors table."
+      )
+    )
+  }
+  
+  validation_success("The Declares column name is correct.")
+}
+
 #' Check for Duplicate Initials
 #'
 #' This function checks for duplicate initials in the `contributors_table`, taking into

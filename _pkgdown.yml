@@ -58,6 +58,7 @@ reference:
   - check_author_acknowledgee_missing
   - check_author_acknowledgee_values
   - check_coi
+  - check_coi_column_rename
   - check_corresponding_non_author
   - check_credit
   - check_duplicate_initials

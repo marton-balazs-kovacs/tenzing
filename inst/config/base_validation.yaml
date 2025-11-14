@@ -113,6 +113,7 @@ base_validation_functions:
 
   # COI specific validations
   coi_validations: &coi_validations
+    - name: check_coi_column_rename
     - name: check_coi
       dependencies:
         - '"Declares" %in% colnames(contributors_table)'

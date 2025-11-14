@@ -71,6 +71,7 @@ validation_config:
   - name: check_author_acknowledgee_values
   - name: check_missing_author_acknowledgee
   - name: check_roles_present
+  - name: check_coi_column_rename
   - name: check_coi
     dependencies:
     - '"Declares" %in% colnames(contributors_table)'

@@ -21,6 +21,7 @@ validation_config:
   - name: check_missing_firstname
   - name: check_duplicate_initials
   - name: check_duplicate_names
+  - name: check_coi_column_rename
   - name: check_coi
     dependencies:
     - '"Declares" %in% colnames(contributors_table)'
