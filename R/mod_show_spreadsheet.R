@@ -123,8 +123,7 @@ mod_show_spreadsheet_server <- function(id, input_data) {
         size = "l",
         easyClose = TRUE,
         DT::dataTableOutput(NS(id, "table")),
-        footer = modalButton("Close"),
-        size = "l")
+        footer = modalButton("Close"))
     }
     
     observeEvent(input$show_data, {
