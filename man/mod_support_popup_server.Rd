@@ -10,7 +10,7 @@ mod_support_popup_server(
   enable = TRUE,
   show_prob = 0.33,
   delay_ms = 1500,
-  dismiss_ms = 60000,
+  dismiss_ms = 15000,
   donation_url = "https://opencollective.com/tenzing"
 )
 }
