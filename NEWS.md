@@ -7,7 +7,7 @@
 # tenzing 0.4.0
 
 ## New features
-- Added the option to include acknowledged contributors and those who do not want to be named in the paper to the contributors table (see our [blog post]([https://marton-balazs-kovacs.github.io/tenzing/news/index.html](https://contributorshipcollaboration.github.io/blog/release-0.4-acknowledgments/)) about the Acknowledgment features)
+- Added the option to include acknowledged contributors and those who do not want to be named in the paper to the contributors table (see our [blog post](https://contributorshipcollaboration.github.io/blog/release-0.4-acknowledgments/) about the Acknowledgment features)
 - Contributor statements are now generated separately for acknowledgees and authors.
 - Acknowledgees are now listed in the JATS 1.3 XML output with affiliations and CRediT roles.
 - Funding and conflict of interest statements are now included in the JATS 1.3 XML output.
