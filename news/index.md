@@ -14,7 +14,9 @@
 
 - Added the option to include acknowledged contributors and those who do
   not want to be named in the paper to the contributors table (see our
-  [blog post](NA) about the Acknowledgment features)
+  [blog
+  post](https://contributorshipcollaboration.github.io/blog/release-0.4-acknowledgments/)
+  about the Acknowledgment features)
 - Contributor statements are now generated separately for acknowledgees
   and authors.
 - Acknowledgees are now listed in the JATS 1.3 XML output with
