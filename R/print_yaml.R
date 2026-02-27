@@ -76,7 +76,7 @@ print_yaml <- function(contributors_table) {
   contrib_data$role <- I(
     purrr::map(
       split(contrib_data, contrib_data$name),
-      ~ names(dplyr::select(., dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)))[.x[1, -c(1:4)] == TRUE]
+      ~ names(dplyr::select(., dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)))[.x[1, ] == TRUE]
     )
   )
   
