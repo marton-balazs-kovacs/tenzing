@@ -228,7 +228,7 @@ title page outputs:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the title validation configuration</span></span>
 <span><span class="va">title_config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
-<span><span class="va">title_config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">title_config_path</span><span class="op">)</span></span>
+<span><span class="va">title_config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">title_config_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View the column rules</span></span>
 <span><span class="va">title_config</span><span class="op">$</span><span class="va">column_config</span><span class="op">$</span><span class="va">rules</span></span>
@@ -376,7 +376,7 @@ directly.</p>
 </h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
-<span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">config_file</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="step-2-initialize-the-validator-class">Step 2: Initialize the <code>Validator</code> class<a class="anchor" aria-label="anchor" href="#step-2-initialize-the-validator-class"></a>
@@ -496,7 +496,7 @@ columns are present before running validations.</p>
 configuration:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
-<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View the column rules</span></span>
 <span><span class="va">config</span><span class="op">$</span><span class="va">column_config</span><span class="op">$</span><span class="va">rules</span></span>
@@ -582,7 +582,7 @@ regex. - Fails validation if no affiliation column exists.</p>
 requirements:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"config/title_validation.yaml"</span>, package <span class="op">=</span> <span class="st">"tenzing"</span><span class="op">)</span></span>
-<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="va">config_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">column_validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ColumnValidator.html">ColumnValidator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_input <span class="op">=</span> <span class="va">config</span><span class="op">$</span><span class="va">column_config</span><span class="op">)</span></span>
 <span></span>

@@ -109,7 +109,7 @@ If required columns are missing, the validation process halts, returning <strong
 
 <div class="sourceCode"><pre><code><span></span>
 <span><span class="co"># Load a column validation config</span></span>
-<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="st">"inst/config/column_validation.yaml"</span><span class="op">)</span></span>
+<span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">read_yaml</a></span><span class="op">(</span><span class="st">"inst/config/column_validation.yaml"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a ColumnValidator instance</span></span>
 <span><span class="va">column_validator</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/ColumnValidator.html">ColumnValidator</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>config_input <span class="op">=</span> <span class="va">config</span><span class="op">$</span><span class="va">column_config</span><span class="op">)</span></span>
