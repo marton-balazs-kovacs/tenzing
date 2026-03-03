@@ -150,10 +150,13 @@ print_title_page <- function(contributors_table,
       values_to = "affiliation"
     ) %>%
     dplyr::arrange(.data$`Order in publication`) %>%
-    dplyr::mutate(affiliation_no = dplyr::case_when(
-      !is.na(affiliation) ~ suppressWarnings(dplyr::group_indices(., factor(affiliation, levels = unique(affiliation)))),
-      is.na(affiliation) ~ NA_integer_
-    ))
+    dplyr::mutate(
+      affiliation_no = dplyr::if_else(
+        is.na(affiliation),
+        NA_integer_,
+        as.integer(factor(affiliation, levels = unique(affiliation)))
+      )
+    )
   
   # Modify data for printing contributor information ---------------------------
   contrib_entries <-
