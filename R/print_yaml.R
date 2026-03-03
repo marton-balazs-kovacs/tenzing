@@ -73,10 +73,11 @@ print_yaml <- function(contributors_table) {
     dplyr::mutate(name = factor(name, levels = name))
   
   # Generate role assignments
+  credit_roles <- dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)
   contrib_data$role <- I(
     purrr::map(
       split(contrib_data, contrib_data$name),
-      ~ names(dplyr::select(., dplyr::pull(credit_taxonomy, `CRediT Taxonomy`)))[.x[1, -c(1:4)] == TRUE]
+      ~ names(dplyr::select(., dplyr::all_of(credit_roles)))[.x[1, credit_roles] == TRUE]
     )
   )
   
