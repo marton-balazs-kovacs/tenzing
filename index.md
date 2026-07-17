@@ -47,6 +47,7 @@ Install the development version (tenzing is not available from CRAN)
 from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
@@ -54,6 +55,7 @@ devtools::install_github("marton-balazs-kovacs/tenzing")
 Running the app.
 
 ``` r
+
 tenzing::run_app()
 ```
 

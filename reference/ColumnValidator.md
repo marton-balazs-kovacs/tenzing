@@ -39,6 +39,7 @@ The validator reads a YAML file (e.g.,
 
 Example:
 
+
     column_config:
       rules:
         minimal:
@@ -72,6 +73,7 @@ to perform column checks. If required columns are missing, the
 validation process halts, returning **only column validation errors**.
 
 ## Usage
+
 
     # Load a column validation config
     config <- yaml::read_yaml("inst/config/column_validation.yaml")

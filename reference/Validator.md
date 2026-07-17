@@ -58,6 +58,7 @@ The validator reads a YAML configuration file (e.g.,
 
 Example:
 
+
     validation_config:
       validations:
         - name: check_missing_corresponding
@@ -73,6 +74,7 @@ Example:
             - 'context$include == "author"'
 
 ## Usage
+
 
     # Create a Validator instance
     validator <- Validator$new()

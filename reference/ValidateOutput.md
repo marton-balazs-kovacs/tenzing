@@ -30,6 +30,7 @@ running data-based checks**. If a required column is missing,
 
 Example YAML Configuration (`inst/config/title_validation.yaml`):
 
+
     column_config:
       rules:
         minimal:
@@ -62,6 +63,7 @@ The `Validator` runs content-based validation checks **after** column
 validation passes.
 
 Example Validation Configuration (`inst/config/title_validation.yaml`):
+
 
     validation_config:
       validations:
@@ -106,6 +108,7 @@ The class runs in the following order:
     errors.
 
 ## Usage
+
 
     # Load a validation configuration file
     config_path <- system.file("config/title_validation.yaml", package = "tenzing")

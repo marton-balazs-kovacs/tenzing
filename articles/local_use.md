@@ -8,6 +8,7 @@ from R to achieve the same outputs.
 First, you have to install the package.
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
@@ -15,6 +16,7 @@ devtools::install_github("marton-balazs-kovacs/tenzing")
 Second you have to load the package.
 
 ``` r
+
 library(tenzing)
 ```
 
@@ -28,6 +30,7 @@ locally, you can write your contributors table as an xlsx file to your
 working directory from the package with the following code:
 
 ``` r
+
 # install.packages("writexl")
 writexl::write_xlsx(contributors_table_template, "my_contributors_table.xlsx")
 ```
@@ -52,6 +55,7 @@ and the share URL of the Google spreadhseet. As an example we will use
 the built in contributors table template.
 
 ``` r
+
 file_path <- system.file("extdata", "contributors_table_example.csv", package = "tenzing", mustWork = TRUE)
 my_contributors_table <- read_contributors_table(contributors_table_path = file_path)
 #> Rows: 5 Columns: 28
@@ -69,6 +73,7 @@ If the read contributors table still contains empty rows you can clean
 it with the `clean_contributors_table` function.
 
 ``` r
+
 my_contributors_table <- clean_contributors_table(my_contributors_table)
 ```
 
@@ -98,18 +103,21 @@ required structure.
 ### 1. Load the Title Page Validation Configuration
 
 ``` r
+
 config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 ```
 
 ### 2. Initialize a Validation Instance
 
 ``` r
+
 validate_output_instance <- ValidateOutput$new(config_path = config_path)
 ```
 
 ### 3. Run the Validation Checks
 
 ``` r
+
 validate_results <- validate_output_instance$run_validations(contributors_table = my_contributors_table)
 ```
 
@@ -125,6 +133,7 @@ Each check returns one of three statuses:
 You can check the status of each validation:
 
 ``` r
+
 purrr::map(validate_results, "type")
 #> $minimal_rule
 #> [1] "success"
@@ -172,6 +181,7 @@ purrr::map(validate_results, "type")
 And review the detailed messages for failed checks:
 
 ``` r
+
 purrr::map(validate_results, "message")
 #> $minimal_rule
 #> [1] "All column requirements satisfied."
@@ -237,6 +247,7 @@ each researcher, instead of listing the appropriate names after each
 CRediT role.
 
 ``` r
+
 print_credit_roles(contributors_table = my_contributors_table, initials = TRUE, order_by = "contributor")
 #> **M.K.:** Conceptualization, Funding acquisition, Methodology, and Supervision.  
 #> **J.M.S.:** Funding acquisition and Resources.  
@@ -246,6 +257,7 @@ print_credit_roles(contributors_table = my_contributors_table, initials = TRUE, 
 ### Create the contributors’ affiliation page
 
 ``` r
+
 print_title_page(contributors_table = my_contributors_table)
 #> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^
 #>    
@@ -257,6 +269,7 @@ print_title_page(contributors_table = my_contributors_table)
 ### Create a JATS formatted XML document containing the contributors information
 
 ``` r
+
 print_xml(contributors_table = my_contributors_table)
 #> {xml_document}
 #> <article-meta>
@@ -277,6 +290,7 @@ This output can be incorporated into manuscript created with the
 `papaja` package.
 
 ``` r
+
 print_yaml(contributors_table = my_contributors_table)
 #> [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Resources\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Conceptualization\n      - Funding acquisition\n      - Methodology\n      - Supervision\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Data curation\n      - Project administration\n      - Resources\n      - Writing - original draft\n      - Writing - review & editing\n    corresponding: no\n  Alex O. Holcombe:\n    name: Alex O. Holcombe\n    affiliation: '7'\n    role:\n      - Data curation\n      - Funding acquisition\n      - Investigation\n    corresponding: no\n  Peter Pan:\n    name: Peter Pan\n    affiliation: '8'\n    role: Conceptualization\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n  - id: 7\n    institution: The University of Sydney\n  - id: 8\n    institution: Neverland\n"
 ```
@@ -287,6 +301,7 @@ For this section it is possible to use initials by setting the
 `initials` argument `TRUE`.
 
 ``` r
+
 print_funding(contributors_table = my_contributors_table, initials = TRUE)
 #> [1] "A.O.H. was supported by Australian Fund; J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."
 ```
@@ -297,6 +312,7 @@ For this section it is possible to use the initials by setting the
 `initials` argument `TRUE`.
 
 ``` r
+
 print_conflict_statement(contributors_table = my_contributors_table, initials = FALSE)
 #> [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."
 ```

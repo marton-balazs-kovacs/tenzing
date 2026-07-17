@@ -35,6 +35,7 @@ Let’s say you want to create a check that ensures every contributor has
 a valid ORCID ID.
 
 ``` r
+
 #' Check for valid ORCID IDs
 #'
 #' This function checks if the ORCID IDs in the `contributors_table` are formatted correctly.
@@ -111,6 +112,7 @@ in **tenzing**.
 types:
 
 ``` r
+
 # List available configuration files
 config_dir <- system.file("config", package = "tenzing")
 list.files(config_dir, pattern = "*_validation\\.yaml$")
@@ -130,6 +132,7 @@ The `title_validation.yaml` file includes validation for title page
 outputs:
 
 ``` r
+
 # Load the title validation configuration
 title_config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 title_config <- yaml::read_yaml(title_config_path)
@@ -201,6 +204,7 @@ handles both column and data validation automatically.
 #### Step 1: Initialize ValidateOutput with a Configuration
 
 ``` r
+
 # Use a predefined configuration
 config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 
@@ -210,12 +214,14 @@ validate_output <- ValidateOutput$new(config_path = config_path)
 #### Step 2: Run Validations
 
 ``` r
+
 validate_results <- validate_output$run_validations(my_contributors_table)
 ```
 
 #### Step 3: Inspect the Validation Results
 
 ``` r
+
 # View validation types
 purrr::map_chr(validate_results, "type")
 #>                  minimal_rule              affiliation_rule 
@@ -235,6 +241,7 @@ purrr::map_chr(validate_results, "type")
 ```
 
 ``` r
+
 # View validation messages
 purrr::map_chr(validate_results, "message")
 #>                                                                       minimal_rule 
@@ -274,6 +281,7 @@ For more control, you can use the `Validator` class directly.
 #### Step 1: Load the Configuration
 
 ``` r
+
 config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 config_file <- yaml::read_yaml(config_path)
 ```
@@ -281,6 +289,7 @@ config_file <- yaml::read_yaml(config_path)
 #### Step 2: Initialize the `Validator` class
 
 ``` r
+
 validator <- Validator$new()
 
 validator$setup_validator(config_file$validation_config)
@@ -289,12 +298,14 @@ validator$setup_validator(config_file$validation_config)
 #### Step 3: Run Validations on Your Data
 
 ``` r
+
 validate_results <- validator$run_validations(contributors_table = my_contributors_table)
 ```
 
 #### Step 4: Inspect the Validation Results
 
 ``` r
+
 purrr::map_chr(validate_results, "type")
 #>           check_missing_order         check_duplicate_order 
 #>                     "success"                     "success" 
@@ -311,6 +322,7 @@ purrr::map_chr(validate_results, "type")
 ```
 
 ``` r
+
 purrr::map_chr(validate_results, "message")
 #>                                                                check_missing_order 
 #>                         "There are no missing values in the order of publication." 
@@ -384,6 +396,7 @@ present before running validations.
 Let’s examine the column validation rules in the title configuration:
 
 ``` r
+
 config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 config <- yaml::read_yaml(config_path)
 
@@ -472,6 +485,7 @@ You can run column validation independently to check column
 requirements:
 
 ``` r
+
 config_path <- system.file("config/title_validation.yaml", package = "tenzing")
 config <- yaml::read_yaml(config_path)
 
@@ -486,6 +500,7 @@ purrr::map_chr(column_results, "type")
 ```
 
 ``` r
+
 purrr::map_chr(column_results, "message")
 #>                         minimal_rule                     affiliation_rule 
 #> "All column requirements satisfied." "All column requirements satisfied." 
@@ -514,6 +529,7 @@ The `ValidateOutput` class integrates both `ColumnValidator` and
 ### Example: Using Predefined Configurations
 
 ``` r
+
 # Title page validation
 title_config <- system.file("config/title_validation.yaml", package = "tenzing")
 validate_output <- ValidateOutput$new(config_path = title_config)
@@ -532,6 +548,7 @@ Some validations can use context information (e.g., user selections in a
 Shiny app):
 
 ``` r
+
 # Create context for filtering
 context <- list(include = "author", order_by = "contributor", pub_order = "asc")
 
@@ -553,6 +570,7 @@ User-selected output options
 **tenzing** provides utility functions for configuration management:
 
 ``` r
+
 # Clear configuration cache
 clear_config_cache()
 

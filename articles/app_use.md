@@ -9,6 +9,7 @@ have to open R and install the `tenzing` package with the following
 code:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("marton-balazs-kovacs/tenzing")
 ```
@@ -16,6 +17,7 @@ devtools::install_github("marton-balazs-kovacs/tenzing")
 After the installation finishes, you can launch the app.
 
 ``` r
+
 tenzing::run_app()
 ```
 
