@@ -9,21 +9,21 @@ _tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievem
 
 <a href="http://credit.niso.org/" class="link" target='_blank'>CRediT</a> (Contributor Roles Taxonomy) is a high-level taxonomy of 14 roles that indicate some of the roles played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
 
-### Some who have recommended <i>tenzing</i>
+### Recommended by 
 
 <a href="https://sfdora.org/resource-library/?_resource_type=tools" class="link" target='_blank'>DORA</a>
 <br>
 <a href="https://www.collabra.org/" class="link" target='_blank'>Collabra: Psychology</a>
 <br>
 <a href="https://ukrn.org" class="link" target='_blank'>UKRN</a>
-
-### Contributors
-
-Marton Kovacs, Alex O. Holcombe, <A href="https://github.com/marton-balazs-kovacs/tenzing/graphs/contributors" class="link" target='_blank'>et al.</A>
+<br>
+<a href="https://nagytamas.netlify.app/">Dr. Tamas Nagy</a>: Tenzing turns a horrible academic chore into an easy task.
+<br>
+<a href="https://www.ebtox.org/people/">Dr. Paul Whaley</a>: It is super useful, I have been using it (and sending authors to it) since forever.
 
 ### Contact
 
-If you have any questions or comments, please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or contact us at <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib on Mastodon</a>.
+Questions or comments? Please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a>, email Marton: marton.balazs.kovacs at gmail.com, or contact us on Mastodon at <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib</a>.
 <br>
 Follow <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib</a> on Mastodon to see announcements about updates, our <a href="https://contributorshipcollaboration.github.io/" class="link" target='_blank'>other projects</a>, and our videocalls. You can also subscribe to <a href="https://neuromatch.social/@tenzingContrib.rss" class="link">the RSS feed</a>.
 
@@ -33,4 +33,10 @@ Kovacs, M., Holcombe, A., Aust, F., & Aczel, B. (2021). <a href="https://doi.org
 
 Holcombe, A. O., Kovacs, M., Aust, F., & Aczel, B. (2020). <a href="https://doi.org/10.1371/journal.pone.0244611" class="link" target='_blank'>Documenting contributions to scholarly articles using CRediT and tenzing</a>. *Plos one, 15*(12), e0244611. DOI:10.1371/journal.pone.0244611
 
+Holcombe, A. O., Pedersen, R., Lagisz, M., Pollo, P., Kovacs, M., & Hosseini, M. (2026). Improving acknowledgments sections to better credit research contributors. *Accountability in Research*, 2681050. https://doi.org/10.1080/08989621.2026.2681050
+
 Holcombe, A. O. (2019). <A href="https://doi.org/10.3390/publications7030048"  class="link" target='_blank'>Contributorship, Not Authorship: Use CRediT to Indicate Who Did What</A>. *Publications, 7*(3), Article 3. 
+
+### Contributors
+
+Marton Kovacs, Alex O. Holcombe, <A href="https://github.com/marton-balazs-kovacs/tenzing/graphs/contributors" class="link" target='_blank'>et al.</A>
