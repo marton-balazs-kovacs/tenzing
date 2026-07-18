@@ -39,11 +39,11 @@ mod_support_popup_server <- function(
       ask_donation <- (as.integer(format(Sys.Date(), "%j")) %% 2) == 0
       if (ask_donation) {
         glue::glue(
-          "Please support tenzing by <br>donating ",
+          "Support tenzing by <br>donating ",
           "<a href='{donation_url}' target='_blank' rel='noopener noreferrer'>here</a>."
         )
       } else {
-        "Please cite tenzing (references listed at bottom)"
+        "Please cite tenzing (references at bottom)"
       }
     }
     

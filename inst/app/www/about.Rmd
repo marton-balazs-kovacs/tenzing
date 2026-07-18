@@ -23,9 +23,10 @@ _tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievem
 
 ### Contact
 
+Follow <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib</a> on Mastodon (or subscribe to <a href="https://neuromatch.social/@tenzingContrib.rss" class="link">the RSS feed</a>) to see announcements about updates and other <a href="https://contributorshipcollaboration.github.io/" class="link" target='_blank'>Contributorship Collaboration</a> projects.
 Questions or comments? Please add an <a href="https://github.com/marton-balazs-kovacs/tenzing" class="link" target='_blank'>issue on Github</a> or email Marton: marton.balazs.kovacs at gmail.com.
 <br>
-Follow <a href="https://neuromatch.social/@tenzingContrib" class="link" target="_blank">tenzingContrib</a> on Mastodon (or subscribe to <a href="https://neuromatch.social/@tenzingContrib.rss" class="link">the RSS feed</a>) to see announcements about updates and other <a href="https://contributorshipcollaboration.github.io/" class="link" target='_blank'>Contributorship Collaboration</a> projects.
+
 
 ### Related papers
 

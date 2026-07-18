@@ -5,9 +5,9 @@ output: html_document
 
 ### 1. Create your contributors table
 * Once you are at the contributors template, click USE TEMPLATE.
-* Fill it out – consider sending it to your collaborators so they can enter their information.
+* Fill it out, or send it to your collaborators so they can enter their information.
 
-### 2. A) Upload your contributors table after downloading it, or B) Paste its url
+### 2. A) Upload your table after downloading it, or B) Paste its URL
 A. Upload your contributors table in .csv, .tsv or .xlsx format.
   - Click "Local file", then “Browse” to locate your contributors table on your computer.
 
@@ -16,7 +16,7 @@ B. Share the URL via Google Drive, and click "Upload from URL".
   
 ### 3. Generate an output
 * Select the associated button for one of the outputs, which are:
-  - "contributions text": A list of the contributions 
+  - "contributions text": A list of the contributions, including an Acknowledgments section
   - "contributor list with affiliations": The contributor names and affiliations (useful for your manuscript's title page)
   - "JATS-XML": JATS XML, the machine-readable version of the contributions
   - <a href="https://github.com/crsh/papaja" class="link" target='_blank'>papaja</a>-compatible YAML code of the contributor roles

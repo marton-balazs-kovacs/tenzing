@@ -12,7 +12,7 @@
 #' @importFrom shiny NS tagList
 mod_create_table_ui <- function(id) {
   tagList(
-    p("Duplicate and edit the ",
+    p("Use the ",
       style = "display: inline; margin-bottom: 0;"),
     a(
       href = "https://docs.google.com/spreadsheets/d/1ay8pS-ftvfzWTrKCZr6Fa0cTLg3n8KxAOOleZmuE7Hs/template/preview",
