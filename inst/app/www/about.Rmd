@@ -17,9 +17,9 @@ _tenzing_ is named after the Nepali-Indian Sherpa Tenzing Norgay, whose achievem
 <br>
 <a href="https://ukrn.org" class="link" target='_blank'>UKRN</a>
 <br>
-<a href="https://nagytamas.netlify.app/">Dr. Tamas Nagy</a>: Tenzing turns a horrible academic chore into an easy task.
+<a href="https://nagytamas.netlify.app/">Dr. Tamas Nagy</a>: *Tenzing turns a horrible academic chore into an easy task.*
 <br>
-<a href="https://www.ebtox.org/people/">Dr. Paul Whaley</a>: It is super useful, I have been using it (and sending authors to it) since forever.
+<a href="https://www.ebtox.org/people/">Dr. Paul Whaley</a>: *It is super useful, I have been using it (and sending authors to it) since forever.*
 
 ### Contact
 
