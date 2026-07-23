@@ -2,7 +2,7 @@ $( document ).ready(function() {
   Shiny.addCustomMessageHandler('success_alert', function(message) {
     Swal.fire({
       icon: 'success',
-      title: '<font style="color:#b2dcce;"> The infosheet is valid! </font>',      
+      title: '<font style="color:#b2dcce;"> Your contributors table is valid </font>',      
       timer: 2000,
       timerProgressBar: true,
       showCancelButton: false,
