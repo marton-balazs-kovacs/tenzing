@@ -18,7 +18,7 @@ mod_read_spreadsheet_ui <- function(id){
       type = "tabs",
       tabPanel(
         "URL",
-        h5("Paste the url of a shared googlesheet and click the upload button", class = "main-steps-desc"),
+        h5("Paste the URL of a shared Google Sheet and click Load from URL", class = "main-steps-desc"),
         textInput(
           NS(id, "url"),
           label = NULL,
@@ -69,7 +69,7 @@ mod_read_spreadsheet_server <- function(id) {
       if (input$which_input == "Local file") {
         paste("Process spreadsheet")
       } else if (input$which_input == "URL") {
-        paste("Upload from URL", icon("fas fa-upload", lib = "font-awesome"))
+        paste("Load from URL", icon("fas fa-upload", lib = "font-awesome"))
       }
     })
     

@@ -26,7 +26,7 @@ app_ui <- function() {
                ui_step_panel(
                  number = 2,
                  title = "Load your contributors table",
-                 help_text = "Use the share URL of the filled out contributors table and click on the upload button. OR upload your contributors table in a .csv, .tsv or .xlsx format.",
+                 help_text = "Use the share URL of the filled out contributors table and click on the load button. OR upload your contributors table in a .csv, .tsv or .xlsx format.",
                  content = tagList(
                    mod_read_spreadsheet_ui("read_spreadsheet"),
                    mod_show_spreadsheet_ui("show_spreadsheet")
@@ -38,12 +38,12 @@ app_ui <- function() {
                  title = "Generate an output",
                  help_text = "You need a valid contributors table to generate the outputs. Once you have it, click on one of the output buttons to preview and download the output.",
                  content = tagList(
-                   mod_credit_roles_ui("credit_roles"),
                    mod_title_page_ui("title_page"),
-                   mod_xml_report_ui("xml_report"),
+                   mod_credit_roles_ui("credit_roles"),
                    mod_show_yaml_ui("show_yaml"),
                    mod_funding_information_ui("funding_information"),
-                   mod_conflict_statement_ui("conflict_statement")
+                   mod_conflict_statement_ui("conflict_statement"),
+                   mod_xml_report_ui("xml_report")
                  )
                ),
                # Citation

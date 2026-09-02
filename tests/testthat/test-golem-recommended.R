@@ -5,6 +5,31 @@ library(golem)
 test_that("app ui", {
   ui <- app_ui()
   expect_shinytaglist(ui)
+
+  ui_html <- as.character(htmltools::renderTags(ui)$html)
+  output_ids <- c(
+    "title_page-show_report",
+    "credit_roles-show_report",
+    "show_yaml-show_yaml",
+    "funding_information-show_report",
+    "conflict_statement-show_report",
+    "xml_report-show_report"
+  )
+  output_positions <- vapply(
+    output_ids,
+    function(output_id) regexpr(output_id, ui_html, fixed = TRUE)[1],
+    integer(1)
+  )
+
+  expect_true(all(output_positions > 0))
+  expect_true(all(diff(output_positions) > 0))
+})
+
+test_that("URL input uses load wording", {
+  shiny::testServer(mod_read_spreadsheet_server, {
+    session$setInputs(which_input = "URL")
+    expect_match(output$upload_label, "Load from URL", fixed = TRUE)
+  })
 })
 
 test_that("app server", {
@@ -30,8 +55,6 @@ test_that("app server", {
 #     x$kill()
 #   }
 # )
-
-
 
 
 
