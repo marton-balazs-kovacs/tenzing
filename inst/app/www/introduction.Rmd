@@ -18,7 +18,7 @@ B. Share the URL via Google Drive, and click "Load from URL".
 * Select the associated button for one of the outputs, which are:
   - "contributor list with affiliations": The contributor names and affiliations (useful for your manuscript's title page)
   - "contributions text": A list of the contributions, including an Acknowledgments section
-  - <a href="https://github.com/crsh/papaja" class="link" target='_blank'>papaja</a>-compatible YAML code of the contributor roles
   - "funding information", useful for pasting into a manuscript
   - "conflict of interest statement", useful for pasting into a manuscript
+  - <a href="https://github.com/crsh/papaja" class="link" target='_blank'>papaja</a>-compatible YAML code of the contributor roles
   - "JATS-XML": JATS XML, the machine-readable version of the contributions

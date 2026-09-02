@@ -112,7 +112,7 @@ mod_title_page_server <- function(id, input_data){
     modal <- function() {
       modalDialog(
         size = "l",
-        shiny::tags$h3("Contributors' affiliation page", class = "credit-section-heading"),
+        shiny::tags$h3("Contributor list with affiliations", class = "credit-section-heading"),
         div(
           class = "toggle-row",
           toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID"),

@@ -40,9 +40,9 @@ app_ui <- function() {
                  content = tagList(
                    mod_title_page_ui("title_page"),
                    mod_credit_roles_ui("credit_roles"),
-                   mod_show_yaml_ui("show_yaml"),
                    mod_funding_information_ui("funding_information"),
                    mod_conflict_statement_ui("conflict_statement"),
+                   mod_show_yaml_ui("show_yaml"),
                    mod_xml_report_ui("xml_report")
                  )
                ),
