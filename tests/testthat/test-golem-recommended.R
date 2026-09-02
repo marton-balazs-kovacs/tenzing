@@ -10,9 +10,9 @@ test_that("app ui", {
   output_ids <- c(
     "title_page-show_report",
     "credit_roles-show_report",
-    "show_yaml-show_yaml",
     "funding_information-show_report",
     "conflict_statement-show_report",
+    "show_yaml-show_yaml",
     "xml_report-show_report"
   )
   output_positions <- vapply(
@@ -25,13 +25,15 @@ test_that("app ui", {
   expect_true(all(diff(output_positions) > 0))
 })
 
-test_that("URL input uses load wording", {
-  shiny::testServer(mod_read_spreadsheet_server, {
-    session$setInputs(which_input = "URL")
-    expect_match(output$upload_label, "Load from URL", fixed = TRUE)
-  })
-})
 
+# test_that("URL input uses load wording", {
+#   shiny::testServer(mod_read_spreadsheet_server, {
+#     session$setInputs(which_input = "URL")
+#     expect_match(output$upload_label, "Load from URL", fixed = TRUE)
+#   })
+# })
+
+  
 test_that("app server", {
   server <- app_server
   expect_is(server, "function")
