@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use Tenzing, please cite the preferred citation below."
+
+title: "Tenzing"
+
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Kovacs"
+      given-names: "M."
+    - family-names: "Holcombe"
+      given-names: "A."
+    - family-names: "Aust"
+      given-names: "F."
+    - family-names: "Aczel"
+      given-names: "B."
+  title: "Tenzing and the importance of tool development for research efficiency"
+  journal: "Information Services & Use"
+  volume: 41
+  issue: "1-2"
+  start: 123
+  end: 130
+  year: 2021
+  doi: "10.3233/ISU-210109"
+
+references:
+  - type: article
+    authors:
+      - family-names: "Holcombe"
+        given-names: "A. O."
+      - family-names: "Kovacs"
+        given-names: "M."
+      - family-names: "Aust"
+        given-names: "F."
+      - family-names: "Aczel"
+        given-names: "B."
+    title: "Documenting contributions to scholarly articles using CRediT and tenzing"
+    journal: "PLOS ONE"
+    volume: 15
+    issue: 12
+    year: 2020
+    doi: "10.1371/journal.pone.0244611"
