@@ -1,11 +1,5 @@
 # ColumnValidator Class for Contributors Table
 
-ColumnValidator Class for Contributors Table
-
-ColumnValidator Class for Contributors Table
-
-## Details
-
 The `ColumnValidator` class performs column-level validation for a
 contributors table. It ensures that required columns exist, applying
 logical validation rules such as:
@@ -99,7 +93,7 @@ which integrates this class for validation.
 
 ### Public methods
 
-- [`ColumnValidator$new()`](#method-ColumnValidator-new)
+- [`ColumnValidator$new()`](#method-ColumnValidator-initialize)
 
 - [`ColumnValidator$validate_columns()`](#method-ColumnValidator-validate_columns)
 
@@ -109,7 +103,7 @@ which integrates this class for validation.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ColumnValidator$new()`
 
 Initializes the `ColumnValidator` class.
 
@@ -125,7 +119,7 @@ Initializes the `ColumnValidator` class.
 
 ------------------------------------------------------------------------
 
-### Method `validate_columns()`
+### `ColumnValidator$validate_columns()`
 
 Validates columns in the provided contributors table.
 
@@ -149,7 +143,7 @@ A list of validation results, each containing:
 
 ------------------------------------------------------------------------
 
-### Method `check_rule()`
+### `ColumnValidator$check_rule()`
 
 Checks whether the contributors table satisfies a specific validation
 rule.
@@ -178,7 +172,7 @@ A validation result indicating whether the rule passed or failed.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ColumnValidator$clone()`
 
 The objects of this class are cloneable with this method.
 

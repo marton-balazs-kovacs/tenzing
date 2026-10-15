@@ -1,11 +1,5 @@
 # Validator Class for Contributors Table
 
-Validator Class for Contributors Table
-
-Validator Class for Contributors Table
-
-## Details
-
 The `Validator` class runs a set of user-defined validation functions on
 a contributors table. It allows for configuring which validations should
 be executed, handling dependencies between validations, evaluating
@@ -135,7 +129,7 @@ Example:
 
 ### Public methods
 
-- [`Validator$new()`](#method-Validator-new)
+- [`Validator$new()`](#method-Validator-initialize)
 
 - [`Validator$load_validation_functions()`](#method-Validator-load_validation_functions)
 
@@ -151,7 +145,7 @@ Example:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Validator$new()`
 
 Initializes the `Validator` class. Loads validation functions explicitly
 from `validate_helpers.R` and allows for adding custom validations.
@@ -162,7 +156,7 @@ from `validate_helpers.R` and allows for adding custom validations.
 
 ------------------------------------------------------------------------
 
-### Method `load_validation_functions()`
+### `Validator$load_validation_functions()`
 
 Loads validation functions explicitly. This ensures all validation
 functions are available in all environments.
@@ -177,7 +171,7 @@ A list of validation functions
 
 ------------------------------------------------------------------------
 
-### Method `add_dependency()`
+### `Validator$add_dependency()`
 
 Adds dependencies for a validation.
 
@@ -197,7 +191,7 @@ Adds dependencies for a validation.
 
 ------------------------------------------------------------------------
 
-### Method `setup_validator()`
+### `Validator$setup_validator()`
 
 Configures the validator with the subset of validations to execute.
 
@@ -213,7 +207,7 @@ Configures the validator with the subset of validations to execute.
 
 ------------------------------------------------------------------------
 
-### Method `run_validations()`
+### `Validator$run_validations()`
 
 Runs the specified validations on the provided contributors table.
 
@@ -237,7 +231,7 @@ A list of validation results.
 
 ------------------------------------------------------------------------
 
-### Method `should_run()`
+### `Validator$should_run()`
 
 Determines whether a validation should be executed based on
 dependencies.
@@ -262,7 +256,7 @@ TRUE if the validation should run, FALSE otherwise.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Validator$clone()`
 
 The objects of this class are cloneable with this method.
 

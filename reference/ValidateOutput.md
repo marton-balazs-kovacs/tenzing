@@ -1,11 +1,5 @@
 # ValidateOutput Class for Contributors Table Validation
 
-ValidateOutput Class for Contributors Table Validation
-
-ValidateOutput Class for Contributors Table Validation
-
-## Details
-
 The `ValidateOutput` class runs both **column-based validation**
 (ensuring required columns exist) and **data-based validation**
 (checking correctness of values) for a contributors table.
@@ -146,7 +140,7 @@ The class runs in the following order:
 
 ### Public methods
 
-- [`ValidateOutput$new()`](#method-ValidateOutput-new)
+- [`ValidateOutput$new()`](#method-ValidateOutput-initialize)
 
 - [`ValidateOutput$run_validations()`](#method-ValidateOutput-run_validations)
 
@@ -154,7 +148,7 @@ The class runs in the following order:
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ValidateOutput$new()`
 
 Initializes the `ValidateOutput` class.
 
@@ -178,7 +172,7 @@ Initializes the `ValidateOutput` class.
 
 ------------------------------------------------------------------------
 
-### Method `run_validations()`
+### `ValidateOutput$run_validations()`
 
 Runs both column and data validation on a contributors table.
 
@@ -210,7 +204,7 @@ A named list of validation results. Each element is a list with:
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ValidateOutput$clone()`
 
 The objects of this class are cloneable with this method.
 
