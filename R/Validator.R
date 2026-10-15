@@ -137,12 +137,9 @@ Validator <- R6::R6Class(
         check_credit = check_credit,
         check_coi = check_coi,
         check_coi_column_rename = check_coi_column_rename,
-        check_author_acknowledgee_values = check_author_acknowledgee_values,
         check_corresponding_non_author = check_corresponding_non_author,
-        check_missing_author_acknowledgee = check_missing_author_acknowledgee,
         check_nonempty_filtered_subset = check_nonempty_filtered_subset,
-        check_roles_present = check_roles_present,
-        check_author_acknowledgee_missing = check_author_acknowledgee_missing
+        check_roles_present = check_roles_present
       )
       
       # Filter out any NULL entries (functions that don't exist)

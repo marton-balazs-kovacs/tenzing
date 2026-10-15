@@ -39,6 +39,9 @@ print_title_page <- function(contributors_table,
   . = NULL
   orcid_style <- match.arg(orcid_style)
   
+  # Acknowledgees are not listed on the title page ---------------------------
+  contributors_table <- filter_authors(contributors_table, require_authors = TRUE)
+  
   # Validation ---------------------------
   ## Check if there are shared first authors
   shared_first <- nrow(contributors_table[contributors_table$`Order in publication` == 1, ]) > 1

@@ -19,6 +19,9 @@
 #' 
 #' @importFrom rlang .data
 print_funding <- function(contributors_table, initials = FALSE) {
+  # Acknowledgees are not part of the funding statement
+  contributors_table <- filter_authors(contributors_table)
+  
   # Validate input ---------------------------
   if (all(is.na(contributors_table$Funding))) stop("There is no funding information provided for any of the contributors.")
   

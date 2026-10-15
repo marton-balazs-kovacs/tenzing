@@ -22,7 +22,9 @@ JATS document.}
 
 \item{include_acknowledgees}{Logical. If \code{TRUE}, includes contributors with
 "Acknowledgment only" in the \code{Author/Acknowledgee} column as a separate
-\verb{<contrib-group content-type="acknowledgees">} section. Defaults to \code{FALSE}.}
+\verb{<contrib-group content-type="acknowledgees">} section. Defaults to \code{FALSE}.
+Ignored if the table has no \code{Author/Acknowledgee} column, in which case all
+contributors are treated as authors.}
 
 \item{include_orcid}{Logical. If \code{TRUE} (default), includes ORCID IDs in the
 XML output as \verb{<contrib-id contrib-id-type="orcid">} elements. If \code{FALSE},

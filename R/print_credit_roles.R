@@ -58,12 +58,7 @@ print_credit_roles <-  function(
   # get CRediT column names
   role_cols <- dplyr::pull(credit_taxonomy, .data$`CRediT Taxonomy`)
   
-  # Map include to the exact values in the column
-  include_value <- if (include == "author") "Author" else "Acknowledgment only"
-  
-  
   # Coerce and filter upfront ---------------------------------------------------
-  has_author_ack <- "Author/Acknowledgee" %in% names(contributors_table)
   if (!"ORCID iD" %in% names(contributors_table)) {
     contributors_table[["ORCID iD"]] <- NA_character_
   }
@@ -115,19 +110,9 @@ print_credit_roles <-  function(
   }
 
   
-  if (has_author_ack) {
-    ct <- ct %>%
-      # always exclude "Don't agree to be named"
-      dplyr::filter(.data$`Author/Acknowledgee` != "Don't agree to be named") %>%
-      # keep only the requested group
-      dplyr::filter(.data$`Author/Acknowledgee` == include_value)
-  } else {
-    # Backward compatibility: treat all rows as authors when the column is missing
-    # If caller explicitly requests acknowledgees, produce empty to trigger validation error
-    if (identical(include, "acknowledgment")) {
-      ct <- ct[0, , drop = FALSE]
-    }
-  }
+  # Keep only the requested group. Without the Author/Acknowledgee column all rows
+  # are authors, so asking for acknowledgees gives zero rows (validation error below).
+  ct <- if (include == "author") filter_authors(ct) else filter_acknowledgees(ct)
   
   # Validate input ---------------------------
   if (nrow(ct) == 0) {

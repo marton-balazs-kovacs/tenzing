@@ -65,11 +65,10 @@ validation_config:
     - '"Corresponding author?" %in% colnames(contributors_table)'
     - self$results[["check_missing_corresponding"]]$type == "success"
     - '"Email address" %in% colnames(contributors_table)'
+  - name: check_corresponding_non_author
   - name: check_affiliation
   - name: check_affiliation_consistency
   - name: check_credit
-  - name: check_author_acknowledgee_values
-  - name: check_missing_author_acknowledgee
   - name: check_roles_present
   - name: check_coi_column_rename
   - name: check_coi

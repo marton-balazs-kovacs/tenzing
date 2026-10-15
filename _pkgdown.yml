@@ -55,8 +55,6 @@ reference:
   contents:
   - check_affiliation
   - check_affiliation_consistency
-  - check_author_acknowledgee_missing
-  - check_author_acknowledgee_values
   - check_coi
   - check_coi_column_rename
   - check_corresponding_non_author
@@ -64,7 +62,7 @@ reference:
   - check_duplicate_initials
   - check_duplicate_names
   - check_duplicate_order
-  - check_missing_author_acknowledgee
+  - check_excluded_unclear_author_status
   - check_missing_corresponding
   - check_missing_email
   - check_missing_firstname

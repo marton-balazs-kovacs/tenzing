@@ -430,63 +430,21 @@ check_duplicate_initials <- function(contributors_table) {
   }
 }
 
-#' Check allowed values in Author/Acknowledgee
-#'
-#' Verifies that all entries in `Author/Acknowledgee` belong to the allowed set:
-#' "Author", "Acknowledgment only", "Don't agree to be named".
-#'
-#' @param contributors_table A dataframe of contributors.
-#' @return list(type = "success"|"warning", message = <chr>)
-check_author_acknowledgee_values <- function(contributors_table) {
-  allowed <- c("Author", "Acknowledgment only", "Don't agree to be named")
-  
-  if (!"Author/Acknowledgee" %in% names(contributors_table)) {
-    return(validation_warning("Column 'Author/Acknowledgee' is missing."))
-  }
-  
-  invalid <-
-    contributors_table %>%
-    dplyr::mutate(`Author/Acknowledgee` = as.character(.data$`Author/Acknowledgee`)) %>%
-    dplyr::filter(!is.na(.data$`Author/Acknowledgee`) & !(.data$`Author/Acknowledgee` %in% allowed))
-  
-  if (nrow(invalid) > 0) {
-    bad_vals <- invalid %>% dplyr::distinct(.data$`Author/Acknowledgee`) %>% dplyr::pull()
-    formatted_rows <- format_affected_rows(invalid)
-    return(
-      validation_warning(
-        glue::glue(
-          "Unrecognized values in 'Author/Acknowledgee': {glue::glue_collapse(bad_vals, sep = ', ', last = ' and ')}. ",
-          "Affected: {formatted_rows}. ",
-          "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
-        ),
-        affected_rows = seq_len(nrow(invalid)),
-        details = list(bad_values = bad_vals, allowed_values = allowed)
-      )
-    )
-  }
-  
-  validation_success("All 'Author/Acknowledgee' values are valid.")
-}
-
 #' Check that only Authors are marked as Corresponding
 #'
-#' Warns if any row is marked `Corresponding author? == TRUE` while
-#' `Author/Acknowledgee` is not "Author".
+#' Warns if a contributor is marked `Corresponding author? == TRUE` but is not
+#' an author (`Author/Acknowledgee` is not "Author"). Outputs that list the
+#' corresponding author only consider authors, so such a contributor would not
+#' appear as corresponding author. Run it on the table *before* any
+#' author-only filtering. Tables without the `Author/Acknowledgee` or
+#' `Corresponding author?` column give nothing to report.
 #'
 #' @param contributors_table A dataframe of contributors.
 #' @return list(type = "success"|"warning", message = <chr>)
 check_corresponding_non_author <- function(contributors_table) {
   needed <- c("Author/Acknowledgee", "Corresponding author?")
-  missing_cols <- setdiff(needed, names(contributors_table))
-  if (length(missing_cols) > 0) {
-    return(
-      validation_warning(
-        glue::glue(
-          "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
-        ),
-        details = list(missing_columns = missing_cols)
-      )
-    )
+  if (!all(needed %in% names(contributors_table))) {
+    return(validation_success("Nothing to check: all rows are treated as authors or no corresponding author is indicated."))
   }
   
   offenders <-
@@ -501,7 +459,7 @@ check_corresponding_non_author <- function(contributors_table) {
     return(
       validation_warning(
         glue::glue(
-          "Non-author rows are marked as corresponding author: {formatted_rows}."
+          "Marked as corresponding author but not an author, so they are not listed as corresponding author in this output: {formatted_rows}."
         ),
         affected_rows = seq_len(nrow(offenders))
       )
@@ -509,66 +467,6 @@ check_corresponding_non_author <- function(contributors_table) {
   }
   
   validation_success("Only authors are marked as corresponding.")
-}
-
-#' Check missing Author/Acknowledgee where names are present
-#'
-#' Warns if `Author/Acknowledgee` is missing for rows that have a name
-#' (Firstname or Surname present).
-#'
-#' @param contributors_table A dataframe of contributors.
-#' @return list(type = "success"|"warning", message = <chr>)
-check_missing_author_acknowledgee <- function(contributors_table) {
-  # Columns we rely on
-  needed <- c("Author/Acknowledgee", "Firstname", "Surname")
-  missing_cols <- setdiff(needed, names(contributors_table))
-  if (length(missing_cols) > 0) {
-    return(
-      validation_warning(
-        glue::glue(
-          "Missing required column(s) for check: {glue::glue_collapse(missing_cols, sep = ', ', last = ' and ')}."
-        ),
-        details = list(missing_columns = missing_cols)
-      )
-    )
-  }
-  
-  # helper to treat blanks as missing
-  trim_na <- function(x) {
-    y <- as.character(x)
-    y <- stringr::str_trim(y, side = "both")
-    y[y == ""] <- NA_character_
-    y
-  }
-  
-  df <-
-    contributors_table %>%
-    dplyr::mutate(
-      Firstname = trim_na(.data$Firstname),
-      Surname   = trim_na(.data$Surname),
-      `Author/Acknowledgee` = trim_na(.data$`Author/Acknowledgee`)
-    )
-  
-  missing_rows <-
-    df %>%
-    dplyr::filter(
-      ( !is.na(.data$Firstname) | !is.na(.data$Surname) ) &
-        is.na(.data$`Author/Acknowledgee`)
-    )
-  
-  if (nrow(missing_rows) > 0) {
-    formatted_rows <- format_affected_rows(missing_rows)
-    return(
-      validation_warning(
-        glue::glue(
-          "Missing 'Author/Acknowledgee' value for: {formatted_rows}."
-        ),
-        affected_rows = seq_len(nrow(missing_rows))
-      )
-    )
-  }
-  
-  validation_success("All named rows have 'Author/Acknowledgee' filled.")
 }
 
 #' Check Non-Empty Filtered Contributor Subset
@@ -644,21 +542,49 @@ check_roles_present <- function(contributors_table) {
   }
 }
 
-#' Warn when 'Author/Acknowledgee' column is missing
-#'
-#' Emits a single warning informing users that, when the column is absent,
-#' the app treats all rows as authors and that adding the column enables
-#' a separate acknowledgee statement.
-#'
-#' @param contributors_table A dataframe of contributors.
-#' @param context Optional named list (unused).
-#' @return A standardized validation result list.
-check_author_acknowledgee_missing <- function(contributors_table, context = NULL) {
-  if ("Author/Acknowledgee" %in% names(contributors_table)) {
-    return(validation_success("'Author/Acknowledgee' column is present."))
-  }
-  validation_warning(
-    "Column 'Author/Acknowledgee' is missing; all rows are treated as authors. Add this column to generate a separate acknowledgee statement."
-  )
-}
 
+#' Warn about contributors left out because of an unclear Author/Acknowledgee value
+#'
+#' Outputs that only list authors (title page, funding, conflict of interest,
+#' YAML) exclude every row whose `Author/Acknowledgee` value is not "Author".
+#' This check runs on the table *before* that filter and tells the user which
+#' named contributors were excluded because their value is blank or not one of
+#' the allowed values, so nobody disappears silently. Tables without the
+#' `Author/Acknowledgee` column are fine: all rows are treated as authors.
+#'
+#' @param contributors_table The unfiltered contributors table.
+#' @return A standardized validation result ("success" or "warning").
+check_excluded_unclear_author_status <- function(contributors_table) {
+  if (!"Author/Acknowledgee" %in% names(contributors_table)) {
+    return(validation_success("No 'Author/Acknowledgee' column; all rows are treated as authors."))
+  }
+  
+  allowed <- c("Author", "Acknowledgment only", "Don't agree to be named")
+  status <- as.character(contributors_table$`Author/Acknowledgee`)
+  
+  # Only rows that carry a name matter; fully empty rows are removed on upload
+  name_cols <- intersect(c("Firstname", "Middle name", "Surname"), names(contributors_table))
+  has_name <- if (length(name_cols) == 0) {
+    rep(TRUE, nrow(contributors_table))
+  } else {
+    Reduce(`|`, lapply(name_cols, function(col) !is.na(contributors_table[[col]])))
+  }
+  
+  unclear <- contributors_table[has_name & !(status %in% allowed), , drop = FALSE]
+  
+  if (nrow(unclear) > 0) {
+    formatted_rows <- format_affected_rows(unclear)
+    return(
+      validation_warning(
+        glue::glue(
+          "Not included in this output because their 'Author/Acknowledgee' value is blank or not recognized, ",
+          "so it is unclear whether they are authors or acknowledgees: {formatted_rows}. ",
+          "Allowed values are: {glue::glue_collapse(allowed, sep = ', ', last = ' and ')}."
+        ),
+        affected_rows = seq_len(nrow(unclear))
+      )
+    )
+  }
+  
+  validation_success("All contributors have a recognized 'Author/Acknowledgee' value.")
+}

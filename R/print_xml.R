@@ -23,6 +23,8 @@
 #' @param include_acknowledgees Logical. If `TRUE`, includes contributors with 
 #'   "Acknowledgment only" in the `Author/Acknowledgee` column as a separate 
 #'   `<contrib-group content-type="acknowledgees">` section. Defaults to `FALSE`.
+#'   Ignored if the table has no `Author/Acknowledgee` column, in which case all
+#'   contributors are treated as authors.
 #' @param include_orcid Logical. If `TRUE` (default), includes ORCID IDs in the 
 #'   XML output as `<contrib-id contrib-id-type="orcid">` elements. If `FALSE`, 
 #'   ORCID IDs are excluded from the output.
@@ -42,19 +44,13 @@
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
 print_xml <- function(contributors_table, full_document = FALSE, include_acknowledgees = FALSE, include_orcid = TRUE) {
-  # Filter to authors only (exclude "Acknowledgment only" and "Don't agree to be named")
-  authors_only <- contributors_table %>%
-    dplyr::filter(.data$`Author/Acknowledgee` == "Author")
+  # Authors only (tables without the Author/Acknowledgee column are all authors)
+  authors_only <- filter_authors(contributors_table, require_authors = TRUE)
   
-  if (nrow(authors_only) == 0) {
-    stop("No authors found in the contributors_table.")
-  }
-  
-  # Filter acknowledgees if requested
+  # Acknowledgees if requested (none when the column is absent)
   acknowledgees_only <- NULL
   if (include_acknowledgees) {
-    acknowledgees_only <- contributors_table %>%
-      dplyr::filter(.data$`Author/Acknowledgee` == "Acknowledgment only")
+    acknowledgees_only <- filter_acknowledgees(contributors_table)
   }
   
   # Extract unique affiliations in row-by-row order
@@ -84,16 +80,7 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
       is.na(.data$`Middle name`),
                                                    .data$Firstname,
       paste(.data$Firstname, .data$`Middle name`)
-    )) %>%
-    dplyr::mutate(
-      affiliation_ids = purrr::map_chr(
-        dplyr::row_number(),
-        ~ paste(
-          which(affiliation_data %in% stats::na.omit(unlist(contributors_table[., affiliation_cols]))),
-          collapse = ","
-        )
-      )
-    )
+    ))
   
   # Generate XML fragments
   contrib_group_node <- generate_contrib_group(contrib_data, affiliation_data, authors_only, include_orcid = include_orcid)
@@ -108,16 +95,7 @@ print_xml <- function(contributors_table, full_document = FALSE, include_acknowl
         is.na(.data$`Middle name`),
         .data$Firstname,
         paste(.data$Firstname, .data$`Middle name`)
-      )) %>%
-      dplyr::mutate(
-        affiliation_ids = purrr::map_chr(
-          dplyr::row_number(),
-          ~ paste(
-            which(affiliation_data %in% stats::na.omit(unlist(acknowledgees_only[., affiliation_cols]))),
-            collapse = ","
-          )
-        )
-      )
+      ))
     acknowledgee_group_node <- generate_contrib_group(
       acknowledgee_data, 
       affiliation_data, 

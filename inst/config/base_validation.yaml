@@ -101,15 +101,11 @@ base_validation_functions:
   # Credit specific validations
   credit_validations: &credit_validations
     - name: check_credit
-    - name: check_author_acknowledgee_values
-    - name: check_missing_author_acknowledgee
     - name: check_roles_present
 
   # Context-aware validations
   context_validations: &context_validations
     - name: check_nonempty_filtered_subset
-      dependencies:
-        - 'context$include %in% c("author", "acknowledgee")'
 
   # COI specific validations
   coi_validations: &coi_validations

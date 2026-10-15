@@ -13,6 +13,10 @@ check_corresponding_non_author(contributors_table)
 list(type = "success"|"warning", message = \if{html}{\out{<chr>}})
 }
 \description{
-Warns if any row is marked \verb{Corresponding author? == TRUE} while
-\code{Author/Acknowledgee} is not "Author".
+Warns if a contributor is marked \verb{Corresponding author? == TRUE} but is not
+an author (\code{Author/Acknowledgee} is not "Author"). Outputs that list the
+corresponding author only consider authors, so such a contributor would not
+appear as corresponding author. Run it on the table \emph{before} any
+author-only filtering. Tables without the \code{Author/Acknowledgee} or
+\verb{Corresponding author?} column give nothing to report.
 }

@@ -61,7 +61,9 @@ mod_xml_report_server <- function(id, input_data){
           include = "author",
           include_orcid = incl_orcid
         )
-      })
+      }),
+      # Tell the user who was left out because of an unclear status
+      extra_results = author_status_results(input_data)
     )
     
     observe({
@@ -223,6 +225,9 @@ mod_xml_report_server <- function(id, input_data){
     
     # Build modal
     modal <- function() {
+      # The acknowledgee toggle is only meaningful if the table has the column
+      has_author_acknowledgee <- "Author/Acknowledgee" %in% colnames(shiny::isolate(input_data()))
+      
       modalDialog(
         size = "l",
         h3("JATS XML", class = "credit-section-heading"),
@@ -230,7 +235,9 @@ mod_xml_report_server <- function(id, input_data){
         div(
           class = "toggle-row",
           toggle(ns, "full_document", "No", "Yes", value = TRUE, title = "Generate full article"),
-          toggle(ns, "include_acknowledgees", "No", "Yes", value = TRUE, title = "Show acknowledgements"),
+          if (has_author_acknowledgee) {
+            toggle(ns, "include_acknowledgees", "No", "Yes", value = TRUE, title = "Show acknowledgements")
+          },
           toggle(ns, "include_orcid", "No", "Yes", value = TRUE, title = "Show ORCID")
         ),
         uiOutput(NS(id, "jats_xml"), container = pre),

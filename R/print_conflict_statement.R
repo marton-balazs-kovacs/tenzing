@@ -19,6 +19,9 @@
 #' 
 #' @importFrom rlang .data
 print_conflict_statement <- function(contributors_table, initials = FALSE) {
+  # Acknowledgees are not part of the conflict of interest statement
+  contributors_table <- filter_authors(contributors_table)
+  
   # Validate input ---------------------------
   if (all(is.na(contributors_table[["Declares"]]))) stop("There are no conflict of interest statements provided for any of the contributors.")
   

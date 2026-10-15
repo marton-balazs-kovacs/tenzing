@@ -58,19 +58,11 @@ mod_credit_roles_server <- function(id, input_data){
     })
     
     # Filtered subsets ----------------------------------------------------------
-    authors_df <- reactive({
-      df <- req(input_data())
-      if (!"Author/Acknowledgee" %in% names(df)) return(df)
-      df[df$`Author/Acknowledgee` != "Don't agree to be named" &
-           df$`Author/Acknowledgee` == "Author", , drop = FALSE]
-    })
+    # NA-safe: rows with a blank/unrecognized status are in neither subset
+    # (base `[` with an NA index would turn them into all-NA rows)
+    authors_df <- reactive(filter_authors(req(input_data())))
     
-    acks_df <- reactive({
-      df <- req(input_data())
-      if (!"Author/Acknowledgee" %in% names(df)) return(df[0, , drop = FALSE])
-      df[df$`Author/Acknowledgee` != "Don't agree to be named" &
-           df$`Author/Acknowledgee` == "Acknowledgment only", , drop = FALSE]
-    })
+    acks_df <- reactive(filter_acknowledgees(req(input_data())))
     
     has_ack <- reactive({
       nrow(acks_df()) > 0
@@ -85,6 +77,9 @@ mod_credit_roles_server <- function(id, input_data){
       list(include = "acknowledgee")
     })
     
+    # A blank status concerns both sections, so report it on both cards
+    author_status <- author_status_results(input_data)
+    
     # Two independent validation cards -----------------------------------------
     # IMPORTANT: mod_validation_card_server must accept `context` and pass it to
     # ValidateOutput$run_validations(contributors_table, context).
@@ -93,7 +88,8 @@ mod_credit_roles_server <- function(id, input_data){
       contributors_table = authors_df,
       validate_output_instance = validate_output_instance,
       trigger = modal_open,
-      context = ctx_auth
+      context = ctx_auth,
+      extra_results = author_status
     )
     
     has_errors_ack <- mod_validation_card_server(
@@ -101,7 +97,8 @@ mod_credit_roles_server <- function(id, input_data){
       contributors_table = acks_df,
       validate_output_instance = validate_output_instance,
       trigger = modal_open,
-      context = ctx_ack
+      context = ctx_ack,
+      extra_results = author_status
     )
     
     # Global disable for download/clip: disable only if BOTH sections invalid OR no sections

@@ -15,6 +15,7 @@ column_config:
       severity: warning
 validation_config:
   validations:
+  - name: check_nonempty_filtered_subset
   - name: check_missing_order
   - name: check_duplicate_order
   - name: check_missing_surname

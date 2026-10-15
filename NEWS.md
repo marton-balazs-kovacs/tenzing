@@ -1,3 +1,16 @@
+# tenzing (development version)
+
+## Bug fixes
+- The contributor statement (CRediT) output no longer shows nonsense validation errors (missing order, surname and firstname for an empty "row 1") when a contributor's `Author/Acknowledgee` value is blank. Such contributors are left out and reported by name instead.
+- The title page, funding statement, conflict of interest statement and YAML outputs no longer include contributors marked "Acknowledgment only".
+- The JATS XML output no longer fails for tables without the `Author/Acknowledgee` column (all contributors are treated as authors).
+
+## Minor changes
+- The title page, YAML and JATS XML outputs now warn when someone marked as an acknowledgee is also ticked as corresponding author, since only authors are listed as corresponding.
+- All outputs that separate authors from acknowledgees (title page, funding, conflict of interest, YAML, contributor statement and JATS XML) now warn which contributors were left out because their `Author/Acknowledgee` value is blank or not recognized, instead of dropping them silently.
+- Uploading a table without the optional `Author/Acknowledgee` column now shows a (non-blocking) warning in the table check. The repeated per-output warnings about the missing column were removed.
+- The "Show acknowledgements" toggle of the JATS XML output is hidden when the table has no `Author/Acknowledgee` column.
+
 # tenzing 0.4.1
 
 ## Bug fixes

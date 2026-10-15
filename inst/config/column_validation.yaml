@@ -54,3 +54,9 @@ column_config:
       columns:
         - Declares
       severity: "warning"
+
+    author_acknowledgee:
+      operator: "AND"
+      columns:
+        - Author/Acknowledgee
+      severity: "warning"

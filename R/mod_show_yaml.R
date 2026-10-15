@@ -42,6 +42,9 @@ mod_show_yaml_server <- function(id, input_data) {
     # Reactive value to track modal state
     modal_open <- reactiveVal(FALSE)
     
+    # Authors only: what gets validated (the print functions drop acknowledgees themselves)
+    authors_data <- reactive(filter_authors(input_data()))
+    
     # Validation ---------------------------
     # Initialize ValidateOutput with the title validation config
     validate_output_instance <- ValidateOutput$new(
@@ -52,9 +55,11 @@ mod_show_yaml_server <- function(id, input_data) {
     # Use mod_validation_card_server to handle validation and get error status
     has_errors <- mod_validation_card_server(
       id = "validation_card",
-      contributors_table = input_data,
+      contributors_table = authors_data,
       validate_output_instance = validate_output_instance,
-      trigger = modal_open
+      trigger = modal_open,
+      context = reactive(list(include = "author")),
+      extra_results = author_status_results(input_data, corresponding = TRUE)
     )
     
     observe({

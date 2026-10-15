@@ -26,6 +26,9 @@
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
 print_yaml <- function(contributors_table) {
+  # Acknowledgees are not listed as authors in the YAML header
+  contributors_table <- filter_authors(contributors_table, require_authors = TRUE)
+  
   # Combine legacy and numbered affiliation columns ---------------------------
   # Identify all columns matching `Affiliation {n}` format
   # Define valid affiliation columns

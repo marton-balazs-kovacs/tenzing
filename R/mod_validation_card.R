@@ -29,13 +29,32 @@ mod_validation_card_ui <- function(id) {
   )
 }
 
+# Validation results about the Author/Acknowledgee column, to pass as `extra_results`.
+# They are computed on the unfiltered table (the card itself only sees the
+# author/acknowledgee subset of an output), so contributors that were left out of
+# the output because of an unclear status are reported instead of dropped silently.
+# `corresponding = TRUE` also reports acknowledgees marked as corresponding author,
+# for outputs that list the corresponding author.
+author_status_results <- function(input_data, corresponding = FALSE) {
+  reactive({
+    res <- list(
+      excluded_unclear_author_status = check_excluded_unclear_author_status(input_data())
+    )
+    if (corresponding) {
+      res$corresponding_non_author <- check_corresponding_non_author(input_data())
+    }
+    res
+  })
+}
+
 # Server
 mod_validation_card_server <- function(
     id,
     contributors_table,
     validate_output_instance,
     trigger = reactive(NULL),
-    context = reactive(NULL)
+    context = reactive(NULL),
+    extra_results = reactive(list())
 ) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -58,6 +77,8 @@ mod_validation_card_server <- function(
       
       # Normalize: coerce to list; ensure each entry has character type/message
       if (is.null(out)) out <- list()
+      # Results computed outside the validator (e.g. on the unfiltered table)
+      out <- c(out, extra_results())
       lapply(out, function(x) {
         if (is.null(x) || !is.list(x)) x <- list()
         x$type    <- as.character(x$type %||% "")
