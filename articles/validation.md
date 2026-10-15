@@ -224,20 +224,22 @@ validate_results <- validate_output$run_validations(my_contributors_table)
 
 # View validation types
 purrr::map_chr(validate_results, "type")
-#>                  minimal_rule              affiliation_rule 
-#>                     "success"                     "success" 
-#>                    title_rule           check_missing_order 
-#>                     "success"                     "success" 
-#>         check_duplicate_order         check_missing_surname 
-#>                     "success"                     "success" 
-#>       check_missing_firstname      check_duplicate_initials 
-#>                     "success"                     "success" 
-#>         check_duplicate_names   check_missing_corresponding 
-#>                     "success"                     "success" 
-#>           check_missing_email             check_affiliation 
-#>                     "success"                     "success" 
-#> check_affiliation_consistency           check_missing_orcid 
-#>                     "success"                     "warning"
+#>                   minimal_rule               affiliation_rule 
+#>                      "success"                      "success" 
+#>                     title_rule check_nonempty_filtered_subset 
+#>                      "success"                      "success" 
+#>            check_missing_order          check_duplicate_order 
+#>                      "success"                      "success" 
+#>          check_missing_surname        check_missing_firstname 
+#>                      "success"                      "success" 
+#>       check_duplicate_initials          check_duplicate_names 
+#>                      "success"                      "success" 
+#>    check_missing_corresponding            check_missing_email 
+#>                      "success"                      "success" 
+#>              check_affiliation  check_affiliation_consistency 
+#>                      "success"                      "success" 
+#>            check_missing_orcid 
+#>                      "warning"
 ```
 
 ``` r
@@ -250,6 +252,8 @@ purrr::map_chr(validate_results, "message")
 #>                                               "All column requirements satisfied." 
 #>                                                                         title_rule 
 #>                                               "All column requirements satisfied." 
+#>                                                     check_nonempty_filtered_subset 
+#>                                "Contributors subset is non-empty after filtering." 
 #>                                                                check_missing_order 
 #>                         "There are no missing values in the order of publication." 
 #>                                                              check_duplicate_order 
@@ -307,23 +311,25 @@ validate_results <- validator$run_validations(contributors_table = my_contributo
 ``` r
 
 purrr::map_chr(validate_results, "type")
-#>           check_missing_order         check_duplicate_order 
-#>                     "success"                     "success" 
-#>         check_missing_surname       check_missing_firstname 
-#>                     "success"                     "success" 
-#>      check_duplicate_initials         check_duplicate_names 
-#>                     "success"                     "success" 
-#>   check_missing_corresponding           check_missing_email 
-#>                     "success"                     "success" 
-#>             check_affiliation check_affiliation_consistency 
-#>                     "success"                     "success" 
-#>           check_missing_orcid 
-#>                     "warning"
+#> check_nonempty_filtered_subset            check_missing_order 
+#>                      "success"                      "success" 
+#>          check_duplicate_order          check_missing_surname 
+#>                      "success"                      "success" 
+#>        check_missing_firstname       check_duplicate_initials 
+#>                      "success"                      "success" 
+#>          check_duplicate_names    check_missing_corresponding 
+#>                      "success"                      "success" 
+#>            check_missing_email              check_affiliation 
+#>                      "success"                      "success" 
+#>  check_affiliation_consistency            check_missing_orcid 
+#>                      "success"                      "warning"
 ```
 
 ``` r
 
 purrr::map_chr(validate_results, "message")
+#>                                                     check_nonempty_filtered_subset 
+#>                                "Contributors subset is non-empty after filtering." 
 #>                                                                check_missing_order 
 #>                         "There are no missing values in the order of publication." 
 #>                                                              check_duplicate_order 

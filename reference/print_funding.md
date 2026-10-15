@@ -51,5 +51,5 @@ contributors_table = system.file("extdata",
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 print_funding(contributors_table = example_contributors_table, initials = FALSE)
-#> [1] "Alex O. Holcombe was supported by Australian Fund; John M. Smith and Lex W. Luthor were supported by Important Fund; Marton Kovacs was supported by National Funding Agency."
+#> [1] "John M. Smith and Lex W. Luthor were supported by Important Fund; Marton Kovacs was supported by National Funding Agency."
 ```

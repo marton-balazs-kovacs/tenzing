@@ -36,6 +36,22 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="tenzing-development-version">tenzing (development version)<a class="anchor" aria-label="anchor" href="#tenzing-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>The contributor statement (CRediT) output no longer shows nonsense validation errors (missing order, surname and firstname for an empty “row 1”) when a contributor’s <code>Author/Acknowledgee</code> value is blank. Such contributors are left out and reported by name instead.</li>
+<li>The title page, funding statement, conflict of interest statement and YAML outputs no longer include contributors marked “Acknowledgment only”.</li>
+<li>The JATS XML output no longer fails for tables without the <code>Author/Acknowledgee</code> column (all contributors are treated as authors).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-development-version">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-development-version"></a></h3>
+<ul><li>The title page, YAML and JATS XML outputs now warn when someone marked as an acknowledgee is also ticked as corresponding author, since only authors are listed as corresponding.</li>
+<li>All outputs that separate authors from acknowledgees (title page, funding, conflict of interest, YAML, contributor statement and JATS XML) now warn which contributors were left out because their <code>Author/Acknowledgee</code> value is blank or not recognized, instead of dropping them silently.</li>
+<li>Uploading a table without the optional <code>Author/Acknowledgee</code> column now shows a (non-blocking) warning in the table check. The repeated per-output warnings about the missing column were removed.</li>
+<li>The “Show acknowledgements” toggle of the JATS XML output is hidden when the table has no <code>Author/Acknowledgee</code> column.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.1" id="tenzing-041">tenzing 0.4.1<a class="anchor" aria-label="anchor" href="#tenzing-041"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-1"></a></h3>

@@ -51,5 +51,5 @@ contributors_table = system.file("extdata",
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 print_conflict_statement(contributors_table = example_contributors_table, initials = FALSE)
-#> [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."
+#> [1] "John M. Smith, Marton Kovacs, and Lex W. Luthor declare no competing interest."
 ```

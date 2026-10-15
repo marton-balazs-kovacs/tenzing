@@ -37,7 +37,8 @@ print_xml(
   Logical. If `TRUE`, includes contributors with "Acknowledgment only"
   in the `Author/Acknowledgee` column as a separate
   `<contrib-group content-type="acknowledgees">` section. Defaults to
-  `FALSE`.
+  `FALSE`. Ignored if the table has no `Author/Acknowledgee` column, in
+  which case all contributors are treated as authors.
 
 - include_orcid:
 

@@ -1,7 +1,11 @@
 # Check that only Authors are marked as Corresponding
 
-Warns if any row is marked `Corresponding author? == TRUE` while
-`Author/Acknowledgee` is not "Author".
+Warns if a contributor is marked `Corresponding author? == TRUE` but is
+not an author (`Author/Acknowledgee` is not "Author"). Outputs that list
+the corresponding author only consider authors, so such a contributor
+would not appear as corresponding author. Run it on the table *before*
+any author-only filtering. Tables without the `Author/Acknowledgee` or
+`Corresponding author?` column give nothing to report.
 
 ## Usage
 

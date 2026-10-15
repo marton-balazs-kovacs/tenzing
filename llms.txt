@@ -149,10 +149,6 @@ Functions for custom validation checks
   : Check for Missing Affiliations
 - [`check_affiliation_consistency()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_affiliation_consistency.md)
   : Check affiliation columns for consistency
-- [`check_author_acknowledgee_missing()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_missing.md)
-  : Warn when 'Author/Acknowledgee' column is missing
-- [`check_author_acknowledgee_values()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_values.md)
-  : Check allowed values in Author/Acknowledgee
 - [`check_coi()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi.md)
   : Check for Missing Conflict of Interest Statements
 - [`check_coi_column_rename()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi_column_rename.md)
@@ -167,8 +163,9 @@ Functions for custom validation checks
   : Check for Duplicate Names
 - [`check_duplicate_order()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_order.md)
   : Check for Duplicate Order Numbers
-- [`check_missing_author_acknowledgee()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_author_acknowledgee.md)
-  : Check missing Author/Acknowledgee where names are present
+- [`check_excluded_unclear_author_status()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_excluded_unclear_author_status.md)
+  : Warn about contributors left out because of an unclear
+  Author/Acknowledgee value
 - [`check_missing_corresponding()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_corresponding.md)
   : Check for Missing Corresponding Author
 - [`check_missing_email()`](https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_email.md)

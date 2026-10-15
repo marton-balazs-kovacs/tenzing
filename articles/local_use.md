@@ -144,6 +144,9 @@ purrr::map(validate_results, "type")
 #> $title_rule
 #> [1] "success"
 #> 
+#> $check_nonempty_filtered_subset
+#> [1] "success"
+#> 
 #> $check_missing_order
 #> [1] "success"
 #> 
@@ -191,6 +194,9 @@ purrr::map(validate_results, "message")
 #> 
 #> $title_rule
 #> [1] "All column requirements satisfied."
+#> 
+#> $check_nonempty_filtered_subset
+#> [1] "Contributors subset is non-empty after filtering."
 #> 
 #> $check_missing_order
 #> [1] "There are no missing values in the order of publication."
@@ -259,9 +265,9 @@ print_credit_roles(contributors_table = my_contributors_table, initials = TRUE, 
 ``` r
 
 print_title_page(contributors_table = my_contributors_table)
-#> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^
+#> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^
 #>    
-#> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University, ^7^The University of Sydney, ^8^Neverland                       
+#> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University                       
 #>    
 #> *John M. Smith and Marton Kovacs are shared first authors. ^†^ Correspondence should be addressed to John M. Smith; E-mail: some@email.com.
 ```
@@ -292,7 +298,7 @@ This output can be incorporated into manuscript created with the
 ``` r
 
 print_yaml(contributors_table = my_contributors_table)
-#> [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Resources\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Conceptualization\n      - Funding acquisition\n      - Methodology\n      - Supervision\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Data curation\n      - Project administration\n      - Resources\n      - Writing - original draft\n      - Writing - review & editing\n    corresponding: no\n  Alex O. Holcombe:\n    name: Alex O. Holcombe\n    affiliation: '7'\n    role:\n      - Data curation\n      - Funding acquisition\n      - Investigation\n    corresponding: no\n  Peter Pan:\n    name: Peter Pan\n    affiliation: '8'\n    role: Conceptualization\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n  - id: 7\n    institution: The University of Sydney\n  - id: 8\n    institution: Neverland\n"
+#> [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Resources\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Conceptualization\n      - Funding acquisition\n      - Methodology\n      - Supervision\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Data curation\n      - Project administration\n      - Resources\n      - Writing - original draft\n      - Writing - review & editing\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n"
 ```
 
 ### Create funding acknowledgements section
@@ -303,7 +309,7 @@ For this section it is possible to use initials by setting the
 ``` r
 
 print_funding(contributors_table = my_contributors_table, initials = TRUE)
-#> [1] "A.O.H. was supported by Australian Fund; J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."
+#> [1] "J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."
 ```
 
 ### Create a conflict of interest statement
@@ -314,5 +320,5 @@ For this section it is possible to use the initials by setting the
 ``` r
 
 print_conflict_statement(contributors_table = my_contributors_table, initials = FALSE)
-#> [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."
+#> [1] "John M. Smith, Marton Kovacs, and Lex W. Luthor declare no competing interest."
 ```

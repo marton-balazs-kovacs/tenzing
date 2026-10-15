@@ -319,20 +319,22 @@ automatically.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View validation types</span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                  minimal_rule              affiliation_rule </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;                    title_rule           check_missing_order </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;         check_duplicate_order         check_missing_surname </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;       check_missing_firstname      check_duplicate_initials </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;         check_duplicate_names   check_missing_corresponding </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;           check_missing_email             check_affiliation </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt; check_affiliation_consistency           check_missing_orcid </span></span>
-<span><span class="co">#&gt;                     "success"                     "warning"</span></span></code></pre></div>
+<span><span class="co">#&gt;                   minimal_rule               affiliation_rule </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;                     title_rule check_nonempty_filtered_subset </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;            check_missing_order          check_duplicate_order </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;          check_missing_surname        check_missing_firstname </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;       check_duplicate_initials          check_duplicate_names </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;    check_missing_corresponding            check_missing_email </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;              check_affiliation  check_affiliation_consistency </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;            check_missing_orcid </span></span>
+<span><span class="co">#&gt;                      "warning"</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View validation messages</span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
@@ -342,6 +344,8 @@ automatically.</p>
 <span><span class="co">#&gt;                                               "All column requirements satisfied." </span></span>
 <span><span class="co">#&gt;                                                                         title_rule </span></span>
 <span><span class="co">#&gt;                                               "All column requirements satisfied." </span></span>
+<span><span class="co">#&gt;                                                     check_nonempty_filtered_subset </span></span>
+<span><span class="co">#&gt;                                "Contributors subset is non-empty after filtering." </span></span>
 <span><span class="co">#&gt;                                                                check_missing_order </span></span>
 <span><span class="co">#&gt;                         "There are no missing values in the order of publication." </span></span>
 <span><span class="co">#&gt;                                                              check_duplicate_order </span></span>
@@ -397,20 +401,22 @@ directly.</p>
 </h4>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"type"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           check_missing_order         check_duplicate_order </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;         check_missing_surname       check_missing_firstname </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;      check_duplicate_initials         check_duplicate_names </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;   check_missing_corresponding           check_missing_email </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;             check_affiliation check_affiliation_consistency </span></span>
-<span><span class="co">#&gt;                     "success"                     "success" </span></span>
-<span><span class="co">#&gt;           check_missing_orcid </span></span>
-<span><span class="co">#&gt;                     "warning"</span></span></code></pre></div>
+<span><span class="co">#&gt; check_nonempty_filtered_subset            check_missing_order </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;          check_duplicate_order          check_missing_surname </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;        check_missing_firstname       check_duplicate_initials </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;          check_duplicate_names    check_missing_corresponding </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;            check_missing_email              check_affiliation </span></span>
+<span><span class="co">#&gt;                      "success"                      "success" </span></span>
+<span><span class="co">#&gt;  check_affiliation_consistency            check_missing_orcid </span></span>
+<span><span class="co">#&gt;                      "success"                      "warning"</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">validate_results</span>, <span class="st">"message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                                     check_nonempty_filtered_subset </span></span>
+<span><span class="co">#&gt;                                "Contributors subset is non-empty after filtering." </span></span>
 <span><span class="co">#&gt;                                                                check_missing_order </span></span>
 <span><span class="co">#&gt;                         "There are no missing values in the order of publication." </span></span>
 <span><span class="co">#&gt;                                                              check_duplicate_order </span></span>

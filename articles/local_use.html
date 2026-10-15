@@ -194,6 +194,9 @@ be fixed before generating output.</li>
 <span><span class="co">#&gt; $title_rule</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_nonempty_filtered_subset</span></span>
+<span><span class="co">#&gt; [1] "success"</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_order</span></span>
 <span><span class="co">#&gt; [1] "success"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -237,6 +240,9 @@ be fixed before generating output.</li>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $title_rule</span></span>
 <span><span class="co">#&gt; [1] "All column requirements satisfied."</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $check_nonempty_filtered_subset</span></span>
+<span><span class="co">#&gt; [1] "Contributors subset is non-empty after filtering."</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $check_missing_order</span></span>
 <span><span class="co">#&gt; [1] "There are no missing values in the order of publication."</span></span>
@@ -303,9 +309,9 @@ instead of listing the appropriate names after each CRediT role.</p>
 </h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_title_page.html">print_title_page</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt; John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^</span></span>
+<span><span class="co">#&gt; John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^</span></span>
 <span><span class="co">#&gt;    </span></span>
-<span><span class="co">#&gt; ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University, ^7^The University of Sydney, ^8^Neverland                       </span></span>
+<span><span class="co">#&gt; ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University                       </span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt; *John M. Smith and Marton Kovacs are shared first authors. ^†^ Correspondence should be addressed to John M. Smith; E-mail: some@email.com.</span></span></code></pre></div>
 </div>
@@ -334,7 +340,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>papaja</code> package.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_yaml.html">print_yaml</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Resources\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Conceptualization\n      - Funding acquisition\n      - Methodology\n      - Supervision\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Data curation\n      - Project administration\n      - Resources\n      - Writing - original draft\n      - Writing - review &amp; editing\n    corresponding: no\n  Alex O. Holcombe:\n    name: Alex O. Holcombe\n    affiliation: '7'\n    role:\n      - Data curation\n      - Funding acquisition\n      - Investigation\n    corresponding: no\n  Peter Pan:\n    name: Peter Pan\n    affiliation: '8'\n    role: Conceptualization\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n  - id: 7\n    institution: The University of Sydney\n  - id: 8\n    institution: Neverland\n"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "author:\n  John M. Smith:\n    name: John M. Smith\n    affiliation: '1,2,3'\n    role:\n      - Funding acquisition\n      - Resources\n    corresponding: yes\n    email: some@email.com\n    address: Enter postal address here\n  Marton Kovacs:\n    name: Marton Kovacs\n    affiliation: '1,4,5'\n    role:\n      - Conceptualization\n      - Funding acquisition\n      - Methodology\n      - Supervision\n    corresponding: no\n  Lex W. Luthor:\n    name: Lex W. Luthor\n    affiliation: '2,6'\n    role:\n      - Data curation\n      - Project administration\n      - Resources\n      - Writing - original draft\n      - Writing - review &amp; editing\n    corresponding: no\n\naffiliation:\n  - id: 1\n    institution: Institute of Psychology, ELTE Eotvos Lorand University, Budapest,\n      Hungary, Doctoral School of Psychology\n  - id: 2\n    institution: LexCorp, Smallville, Kansas, US\n  - id: 3\n    institution: Institute for Interstellar Relations, Oxbridge University, UK\n  - id: 4\n    institution: Department of Psychology\n  - id: 5\n    institution: tenzing.club\n  - id: 6\n    institution: Metropolis University\n"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-funding-acknowledgements-section">Create funding acknowledgements section<a class="anchor" aria-label="anchor" href="#create-funding-acknowledgements-section"></a>
@@ -343,7 +349,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>initials</code> argument <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_funding.html">print_funding</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "A.O.H. was supported by Australian Fund; J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "J.M.S. and L.W.L. were supported by Important Fund; M.K. was supported by National Funding Agency."</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-a-conflict-of-interest-statement">Create a conflict of interest statement<a class="anchor" aria-label="anchor" href="#create-a-conflict-of-interest-statement"></a>
@@ -352,7 +358,7 @@ information<a class="anchor" aria-label="anchor" href="#create-a-jats-formatted-
 <code>initials</code> argument <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_conflict_statement.html">print_conflict_statement</a></span><span class="op">(</span>contributors_table <span class="op">=</span> <span class="va">my_contributors_table</span>, initials <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "John M. Smith, Marton Kovacs, Lex W. Luthor, Alex O. Holcombe, and Peter Pan declare no competing interest."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "John M. Smith, Marton Kovacs, and Lex W. Luthor declare no competing interest."</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

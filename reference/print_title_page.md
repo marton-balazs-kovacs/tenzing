@@ -76,9 +76,9 @@ contributors_table = system.file("extdata",
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 print_title_page(contributors_table = example_contributors_table)
-#> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^, Alex O. Holcombe ^7^, Peter Pan ^8^
+#> John M. Smith ^1,2,3\*†^, Marton Kovacs ^1,4,5\*^, Lex W. Luthor ^2,6^
 #>    
-#> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University, ^7^The University of Sydney, ^8^Neverland                       
+#> ^1^Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary, Doctoral School of Psychology, ^2^LexCorp, Smallville, Kansas, US, ^3^Institute for Interstellar Relations, Oxbridge University, UK, ^4^Department of Psychology, ^5^tenzing.club, ^6^Metropolis University                       
 #>    
 #> *John M. Smith and Marton Kovacs are shared first authors. ^†^ Correspondence should be addressed to John M. Smith; E-mail: some@email.com.
 ```

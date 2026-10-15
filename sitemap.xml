@@ -22,8 +22,6 @@
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/add_js_libraries.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_affiliation.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_affiliation_consistency.html</loc></url>
-<url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_missing.html</loc></url>
-<url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_author_acknowledgee_values.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_coi_column_rename.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_corresponding_non_author.html</loc></url>
@@ -31,7 +29,7 @@
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_initials.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_names.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_duplicate_order.html</loc></url>
-<url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_author_acknowledgee.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_excluded_unclear_author_status.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_corresponding.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_email.html</loc></url>
 <url><loc>https://marton-balazs-kovacs.github.io/tenzing/reference/check_missing_firstname.html</loc></url>
