@@ -61,7 +61,6 @@ Imports:
     shinyjs,
     later,
     markdown
-RoxygenNote: 7.3.3
 Suggests: 
     testthat,
     knitr,
@@ -72,3 +71,4 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 3.5)
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0

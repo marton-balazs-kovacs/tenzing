@@ -4,11 +4,6 @@
 \alias{ValidateOutput}
 \title{ValidateOutput Class for Contributors Table Validation}
 \description{
-ValidateOutput Class for Contributors Table Validation
-
-ValidateOutput Class for Contributors Table Validation
-}
-\details{
 The \code{ValidateOutput} class runs both \strong{column-based validation} (ensuring
 required columns exist) and \strong{data-based validation} (checking correctness of
 values) for a contributors table.
@@ -127,89 +122,92 @@ results_ctx <- validate_output$run_validations(contributors_table, context = ctx
 \code{\link{ColumnValidator}}, \code{\link{Validator}}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{validator}}{Instance of the \code{Validator} class for data validation.}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{validator}}{Instance of the \code{Validator} class for data validation.}
 
-\item{\code{column_validator}}{Instance of the \code{ColumnValidator} class for column validation.}
+    \item{\code{column_validator}}{Instance of the \code{ColumnValidator} class for column validation.}
 
-\item{\code{config}}{Stores the combined YAML validation configuration.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{config}}{Stores the combined YAML validation configuration.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ValidateOutput-new}{\code{ValidateOutput$new()}}
-\item \href{#method-ValidateOutput-run_validations}{\code{ValidateOutput$run_validations()}}
-\item \href{#method-ValidateOutput-clone}{\code{ValidateOutput$clone()}}
-}
+  \itemize{
+    \item \href{#method-ValidateOutput-initialize}{\code{ValidateOutput$new()}}
+    \item \href{#method-ValidateOutput-run_validations}{\code{ValidateOutput$run_validations()}}
+    \item \href{#method-ValidateOutput-clone}{\code{ValidateOutput$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ValidateOutput-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ValidateOutput-new}{}}}
-\subsection{Method \code{new()}}{
-Initializes the \code{ValidateOutput} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$new(config_path, use_base_config = TRUE, validate_schema = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ValidateOutput-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ValidateOutput-initialize}{}}}
+\subsection{\code{ValidateOutput$new()}}{
+  Initializes the \code{ValidateOutput} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ValidateOutput$new(config_path, use_base_config = TRUE, validate_schema = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{config_path}}{Path to the YAML configuration file.}
+      \item{\code{use_base_config}}{Whether to merge with base configuration (default: TRUE).}
+      \item{\code{validate_schema}}{Whether to validate the configuration schema (default: TRUE).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{config_path}}{Path to the YAML configuration file.}
-
-\item{\code{use_base_config}}{Whether to merge with base configuration (default: TRUE).}
-
-\item{\code{validate_schema}}{Whether to validate the configuration schema (default: TRUE).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ValidateOutput-run_validations"></a>}}
 \if{latex}{\out{\hypertarget{method-ValidateOutput-run_validations}{}}}
-\subsection{Method \code{run_validations()}}{
-Runs both column and data validation on a contributors table.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$run_validations(contributors_table, context = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{contributors_table}}{A dataframe containing contributor data.}
-
-\item{\code{context}}{Optional named list providing contextual information
+\subsection{\code{ValidateOutput$run_validations()}}{
+  Runs both column and data validation on a contributors table.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ValidateOutput$run_validations(contributors_table, context = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{contributors_table}}{A dataframe containing contributor data.}
+      \item{\code{context}}{Optional named list providing contextual information
 for validations (e.g., \code{list(include = "author", order_by = "role", pub_order = "asc")}).
 This is made available to validations via the \code{Validator} and can be used in
 YAML \code{dependencies} as \code{context$...}.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A named list of validation results. Each element is a list with:
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A named list of validation results. Each element is a list with:
 \itemize{
 \item \code{type}: \code{"error"}, \code{"warning"}, or \code{"success"}.
 \item \code{message}: A descriptive validation message.
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ValidateOutput-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ValidateOutput-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ValidateOutput$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ValidateOutput$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ValidateOutput$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

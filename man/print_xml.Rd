@@ -60,11 +60,11 @@ print_xml(contributors_table = example_contributors_table, include_orcid = FALSE
 
 }
 \seealso{
-Other output functions: 
-\code{\link{print_conflict_statement}()},
-\code{\link{print_credit_roles}()},
-\code{\link{print_funding}()},
-\code{\link{print_title_page}()},
-\code{\link{print_yaml}()}
+Other output functions:
+\code{\link[=print_conflict_statement]{print_conflict_statement()}},
+\code{\link[=print_credit_roles]{print_credit_roles()}},
+\code{\link[=print_funding]{print_funding()}},
+\code{\link[=print_title_page]{print_title_page()}},
+\code{\link[=print_yaml]{print_yaml()}}
 }
 \concept{output functions}

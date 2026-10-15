@@ -4,11 +4,6 @@
 \alias{Validator}
 \title{Validator Class for Contributors Table}
 \description{
-Validator Class for Contributors Table
-
-Validator Class for Contributors Table
-}
-\details{
 The \code{Validator} class runs a set of user-defined validation functions on
 a contributors table. It allows for configuring which validations should
 be executed, handling dependencies between validations, evaluating
@@ -111,152 +106,163 @@ print(results)
 }
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{validations}}{A list of validation functions explicitly loaded from \code{validate_helpers.R} or custom functions.}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{validations}}{A list of validation functions explicitly loaded from \code{validate_helpers.R} or custom functions.}
 
-\item{\code{dependencies}}{A list of validation dependencies.}
+    \item{\code{dependencies}}{A list of validation dependencies.}
 
-\item{\code{results}}{Stores the results of executed validations.}
+    \item{\code{results}}{Stores the results of executed validations.}
 
-\item{\code{specified_validations}}{The subset of validations to execute, defined in the YAML config.}
+    \item{\code{specified_validations}}{The subset of validations to execute, defined in the YAML config.}
 
-\item{\code{context}}{hold runtime context parameters (UI/state toggles etc.)}
-}
-\if{html}{\out{</div>}}
+    \item{\code{context}}{hold runtime context parameters (UI/state toggles etc.)}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Validator-new}{\code{Validator$new()}}
-\item \href{#method-Validator-load_validation_functions}{\code{Validator$load_validation_functions()}}
-\item \href{#method-Validator-add_dependency}{\code{Validator$add_dependency()}}
-\item \href{#method-Validator-setup_validator}{\code{Validator$setup_validator()}}
-\item \href{#method-Validator-run_validations}{\code{Validator$run_validations()}}
-\item \href{#method-Validator-should_run}{\code{Validator$should_run()}}
-\item \href{#method-Validator-clone}{\code{Validator$clone()}}
-}
+  \itemize{
+    \item \href{#method-Validator-initialize}{\code{Validator$new()}}
+    \item \href{#method-Validator-load_validation_functions}{\code{Validator$load_validation_functions()}}
+    \item \href{#method-Validator-add_dependency}{\code{Validator$add_dependency()}}
+    \item \href{#method-Validator-setup_validator}{\code{Validator$setup_validator()}}
+    \item \href{#method-Validator-run_validations}{\code{Validator$run_validations()}}
+    \item \href{#method-Validator-should_run}{\code{Validator$should_run()}}
+    \item \href{#method-Validator-clone}{\code{Validator$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Validator-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Validator-new}{}}}
-\subsection{Method \code{new()}}{
-Initializes the \code{Validator} class.
+\if{html}{\out{<a id="method-Validator-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Validator-initialize}{}}}
+\subsection{\code{Validator$new()}}{
+  Initializes the \code{Validator} class.
 Loads validation functions explicitly from \code{validate_helpers.R} and allows for adding custom validations.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$new()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-load_validation_functions"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-load_validation_functions}{}}}
-\subsection{Method \code{load_validation_functions()}}{
-Loads validation functions explicitly.
+\subsection{\code{Validator$load_validation_functions()}}{
+  Loads validation functions explicitly.
 This ensures all validation functions are available in all environments.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$load_validation_functions()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$load_validation_functions()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of validation functions
+  }
 }
 
-\subsection{Returns}{
-A list of validation functions
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-add_dependency"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-add_dependency}{}}}
-\subsection{Method \code{add_dependency()}}{
-Adds dependencies for a validation.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$add_dependency(validation_name, conditions)}\if{html}{\out{</div>}}
+\subsection{\code{Validator$add_dependency()}}{
+  Adds dependencies for a validation.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$add_dependency(validation_name, conditions)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{validation_name}}{The name of the validation.}
+      \item{\code{conditions}}{A list of conditions that must be met before running the validation.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{validation_name}}{The name of the validation.}
-
-\item{\code{conditions}}{A list of conditions that must be met before running the validation.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-setup_validator"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-setup_validator}{}}}
-\subsection{Method \code{setup_validator()}}{
-Configures the validator with the subset of validations to execute.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$setup_validator(validation_config)}\if{html}{\out{</div>}}
+\subsection{\code{Validator$setup_validator()}}{
+  Configures the validator with the subset of validations to execute.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$setup_validator(validation_config)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{validation_config}}{A list defining which validations to run and their dependencies.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{validation_config}}{A list defining which validations to run and their dependencies.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-run_validations"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-run_validations}{}}}
-\subsection{Method \code{run_validations()}}{
-Runs the specified validations on the provided contributors table.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$run_validations(contributors_table, context = NULL)}\if{html}{\out{</div>}}
+\subsection{\code{Validator$run_validations()}}{
+  Runs the specified validations on the provided contributors table.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$run_validations(contributors_table, context = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{contributors_table}}{A dataframe containing contributor data.}
+      \item{\code{context}}{Optional context parameters for dynamic validation.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of validation results.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{contributors_table}}{A dataframe containing contributor data.}
-
-\item{\code{context}}{Optional context parameters for dynamic validation.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list of validation results.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-should_run"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-should_run}{}}}
-\subsection{Method \code{should_run()}}{
-Determines whether a validation should be executed based on dependencies.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$should_run(validation_name, contributors_table)}\if{html}{\out{</div>}}
+\subsection{\code{Validator$should_run()}}{
+  Determines whether a validation should be executed based on dependencies.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$should_run(validation_name, contributors_table)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{validation_name}}{The validation function name.}
+      \item{\code{contributors_table}}{The dataframe containing contributor data.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    TRUE if the validation should run, FALSE otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{validation_name}}{The validation function name.}
-
-\item{\code{contributors_table}}{The dataframe containing contributor data.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-TRUE if the validation should run, FALSE otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Validator-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Validator-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Validator$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Validator$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Validator$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

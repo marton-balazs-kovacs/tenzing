@@ -58,31 +58,41 @@ import(markdown)
 import(shiny)
 importFrom(config,get)
 importFrom(glue,glue)
-importFrom(golem,invoke_js)
-importFrom(golem,with_golem_options)
-importFrom(htmltools,HTML)
-importFrom(htmltools,tagAppendAttributes)
-importFrom(htmltools,tagList)
-importFrom(htmltools,tags)
+importFrom(golem,
+  invoke_js,
+  with_golem_options
+)
+importFrom(htmltools,
+  HTML,
+  tagAppendAttributes,
+  tagList,
+  tags
+)
 importFrom(lifecycle,deprecated)
 importFrom(magrittr,"%>%")
 importFrom(rlang,.data)
-importFrom(shiny,HTML)
-importFrom(shiny,NS)
-importFrom(shiny,addResourcePath)
-importFrom(shiny,column)
-importFrom(shiny,div)
-importFrom(shiny,h1)
-importFrom(shiny,h3)
-importFrom(shiny,shinyApp)
-importFrom(shiny,tagList)
-importFrom(shiny,tags)
-importFrom(shiny,wellPanel)
+importFrom(shiny,
+  HTML,
+  NS,
+  addResourcePath,
+  column,
+  div,
+  h1,
+  h3,
+  shinyApp,
+  tagList,
+  tags,
+  wellPanel
+)
 importFrom(shinyWidgets,materialSwitch)
 importFrom(shinyjs,useShinyjs)
 importFrom(stats,na.omit)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_locate)
-importFrom(stringr,str_sub)
-importFrom(utils,data)
-importFrom(utils,globalVariables)
+importFrom(stringr,
+  str_detect,
+  str_locate,
+  str_sub
+)
+importFrom(utils,
+  data,
+  globalVariables
+)

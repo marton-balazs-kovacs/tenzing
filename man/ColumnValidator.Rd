@@ -4,11 +4,6 @@
 \alias{ColumnValidator}
 \title{ColumnValidator Class for Contributors Table}
 \description{
-ColumnValidator Class for Contributors Table
-
-ColumnValidator Class for Contributors Table
-}
-\details{
 The \code{ColumnValidator} class performs column-level validation for a contributors table.
 It ensures that required columns exist, applying logical validation rules such as:
 \itemize{
@@ -89,101 +84,107 @@ results <- column_validator$validate_columns(contributors_table)
 \code{\link{ValidateOutput}} which integrates this class for validation.
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{config}}{Stores the column validation rules loaded from the YAML file.}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{config}}{Stores the column validation rules loaded from the YAML file.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ColumnValidator-new}{\code{ColumnValidator$new()}}
-\item \href{#method-ColumnValidator-validate_columns}{\code{ColumnValidator$validate_columns()}}
-\item \href{#method-ColumnValidator-check_rule}{\code{ColumnValidator$check_rule()}}
-\item \href{#method-ColumnValidator-clone}{\code{ColumnValidator$clone()}}
-}
+  \itemize{
+    \item \href{#method-ColumnValidator-initialize}{\code{ColumnValidator$new()}}
+    \item \href{#method-ColumnValidator-validate_columns}{\code{ColumnValidator$validate_columns()}}
+    \item \href{#method-ColumnValidator-check_rule}{\code{ColumnValidator$check_rule()}}
+    \item \href{#method-ColumnValidator-clone}{\code{ColumnValidator$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ColumnValidator-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ColumnValidator-new}{}}}
-\subsection{Method \code{new()}}{
-Initializes the \code{ColumnValidator} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ColumnValidator$new(config_input)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ColumnValidator-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ColumnValidator-initialize}{}}}
+\subsection{\code{ColumnValidator$new()}}{
+  Initializes the \code{ColumnValidator} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ColumnValidator$new(config_input)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{config_input}}{A parsed YAML configuration containing column validation rules.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{config_input}}{A parsed YAML configuration containing column validation rules.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ColumnValidator-validate_columns"></a>}}
 \if{latex}{\out{\hypertarget{method-ColumnValidator-validate_columns}{}}}
-\subsection{Method \code{validate_columns()}}{
-Validates columns in the provided contributors table.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ColumnValidator$validate_columns(contributors_table)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{contributors_table}}{A dataframe containing contributor data.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A list of validation results, each containing:
+\subsection{\code{ColumnValidator$validate_columns()}}{
+  Validates columns in the provided contributors table.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ColumnValidator$validate_columns(contributors_table)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{contributors_table}}{A dataframe containing contributor data.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A list of validation results, each containing:
 \itemize{
 \item \code{type}: \code{"error"}, \code{"warning"}, or \code{"success"}.
 \item \code{message}: A descriptive validation message.
 }
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ColumnValidator-check_rule"></a>}}
 \if{latex}{\out{\hypertarget{method-ColumnValidator-check_rule}{}}}
-\subsection{Method \code{check_rule()}}{
-Checks whether the contributors table satisfies a specific validation rule.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ColumnValidator$check_rule(contributors_table, rule, rule_name)}\if{html}{\out{</div>}}
+\subsection{\code{ColumnValidator$check_rule()}}{
+  Checks whether the contributors table satisfies a specific validation rule.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ColumnValidator$check_rule(contributors_table, rule, rule_name)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{contributors_table}}{A dataframe containing contributor data.}
+      \item{\code{rule}}{A validation rule from the YAML configuration.}
+      \item{\code{rule_name}}{The name of the validation rule.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A validation result indicating whether the rule passed or failed.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{contributors_table}}{A dataframe containing contributor data.}
-
-\item{\code{rule}}{A validation rule from the YAML configuration.}
-
-\item{\code{rule_name}}{The name of the validation rule.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A validation result indicating whether the rule passed or failed.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ColumnValidator-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ColumnValidator-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ColumnValidator$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ColumnValidator$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ColumnValidator$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
